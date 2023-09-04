@@ -1,0 +1,8 @@
+#out_01_button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 30px;
+}
