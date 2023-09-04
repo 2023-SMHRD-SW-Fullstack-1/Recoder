@@ -1,17 +1,11 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Sidebar from './components/Sidebar'
-import './App.css'
+import Nav_test from './components/Nav_test';
+import Out_01 from './components/Out_01'
 
 const App = () => {
   return (
-    <div className='main-box'>
-      <Sidebar className='main-item' />
-      <div className='main-item'>
-        <Routes>
-          <Route />
-        </Routes>
-      </div>
+    <div>
+     <Nav_test/>
+     <div>aweawefawefhpqaowihegaowrg</div>
     </div>
   )
 }
