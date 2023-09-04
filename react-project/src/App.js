@@ -1,9 +1,9 @@
-import out_01 from "./components/out_01";
+import Out_01 from "./components/Out_01";
 
 function App() {
   return (
     <div>
-      <out_01/>
+      <Out_01/>
     </div>
   )
 }
