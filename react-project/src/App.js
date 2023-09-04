@@ -1,9 +1,11 @@
+import Nav_test from './components/Nav_test';
 import Out_01 from './components/Out_01'
 
 function App() {
   return (
     <div>
-      <Out_01/>
+     <Nav_test/>
+     <div>aweawefawefhpqaowihegaowrg</div>
     </div>
   )
 }
