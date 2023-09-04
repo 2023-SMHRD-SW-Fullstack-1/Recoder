@@ -1,11 +1,13 @@
-import Nav_test from './components/Nav_test';
-import Out_01 from './components/Out_01'
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Sidebar from './components/Sidebar'
+import Main from './components/Main'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   return (
     <div>
-     <Nav_test/>
-     <div>aweawefawefhpqaowihegaowrg</div>
+        <Main />
     </div>
   )
 }

@@ -1,0 +1,60 @@
+.sidebar-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.sidebar-up {    
+    text-align: center;
+}
+
+.sidebar-up > ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0;
+}
+
+.sidebar-up > ul > a > li {
+    list-style: none;
+}
+
+.sidebar-up > ul > a {
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.sidebar-up > ul > a:hover {
+    background-color: lightgray;
+}
+
+.sidebar-up > ul > a > li > button > p {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.sidebar-down {
+
+}
+
+.sidebar-down > a {
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.sidebar-down > a:hover {
+    background-color: lightgray;
+}
+
+.sidebar-down > a > button > p {
+    margin: 0;
+    white-space: nowrap;
+}
