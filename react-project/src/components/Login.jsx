@@ -36,7 +36,7 @@ const Login = () => {
   // 회원가입 버튼을 눌렀을 때 동작할 함수
   const handleJoin = (e) => {
     e.preventDefault();
-    window.location.href = '/Join'; // 회원가입 페이지로 이동
+    window.location.href = '/join'; // 회원가입 페이지로 이동
   };
 
   const handleLogin = async (e) => {
