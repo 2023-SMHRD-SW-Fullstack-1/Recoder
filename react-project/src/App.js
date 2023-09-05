@@ -20,6 +20,7 @@ const App = () => {
       <Routes>
         <Route path="/Join" element={<Join />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="/Out" element={<Out_01/>} />
       </Routes>
 
     </div>

@@ -5,6 +5,7 @@ import Collapse from 'react-bootstrap/Collapse';
 import '../Sidebar.css'
 import '../App.css'
 
+import {Link} from 'react-router-dom'
 
 const Main = () => {
 
@@ -75,7 +76,7 @@ const Main = () => {
                 <Collapse in={outButtonOpen}>
                   <div id="collapse-text2">
                     <ul>
-                      <li>출고 등록</li>
+                    <Link to="/Out" style={{ textDecoration: "none", color: "black" }}> <li>출고 등록</li> </Link>
                       <li>출고 이력</li>
                       <li>배송지 관리</li>
                     </ul>

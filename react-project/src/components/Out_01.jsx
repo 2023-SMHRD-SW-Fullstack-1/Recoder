@@ -18,7 +18,6 @@ function Out_01() {
     <div>
 <div>
 <h3 id="out_title">출고</h3>
-<h3></h3>
 <select id="out_filter">filter</select>
 <input id="out_input" />
 <FontAwesomeIcon id="out_input_icon" icon={faMagnifyingGlass} />
@@ -29,7 +28,7 @@ function Out_01() {
   <table>
     <thead>
       <tr>
-        <th>Column 1</th>
+        <th >Column 1</th>
         <th>Column 2</th>
         <th>Column 3</th>
         <th>Column 4</th>
@@ -37,14 +36,15 @@ function Out_01() {
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr  className={`view ${isOpen ? 'open' : ''}`} onClick={handleRowClick}>
         <td>Cell 1</td>
         <td>Cell 2</td>
         <td>Cell 3</td>
         <td>Cell 4</td>
         <td>Cell 5</td>
       </tr>
-      <tr>
+      <tr className={`fold ${isOpen ? 'open' : ''}`}>
+          {/* Your folded content here */}
         <td>Cell 1</td>
         <td>Cell 2</td>
         <td>Cell 3</td>
