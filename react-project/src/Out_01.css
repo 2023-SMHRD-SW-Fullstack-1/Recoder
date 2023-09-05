@@ -45,12 +45,13 @@ margin-left: 20px;
 #out_input_container #out_input_icon{
 height: 100%;
 color: darkgray;
-
+margin-left: 5px;
 }
 
 #out_input {
   width: 150px;
   height: 100%;
+  font-size: small;
 }
 
 

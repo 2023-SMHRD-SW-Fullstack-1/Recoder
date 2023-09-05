@@ -23,7 +23,7 @@ function Out_01() {
 <span id="out_title">출고</span>
 
 <div id="out_input_container">
-<input id="out_input" />
+<input id="out_input" placeholder="제품코드 또는 제품명을 입력하세요"/>
 <FontAwesomeIcon id="out_input_icon" icon={faMagnifyingGlass} />
 <select id="out_filter">filter</select>
 </div>
