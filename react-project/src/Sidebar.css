@@ -9,6 +9,11 @@
     font-family: "Pretendard-Regular";
 }
 
+.tdnone {
+    text-decoration: none;
+    color: rgb(140, 140, 140);
+}
+
 .sidebar-box {
     display: flex;
     justify-content: space-between;
@@ -55,6 +60,13 @@ li {
 
 .sidebar-up > ul > a:hover {
     background-color: lightgray;
+}
+
+.sidebar-up > ul > li > a > p {
+    margin: 0;
+}
+.my-button > p {
+    margin: 0;
 }
 
 .sidebar-up > ul > li > button > p {
