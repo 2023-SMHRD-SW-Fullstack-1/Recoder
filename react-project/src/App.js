@@ -13,6 +13,8 @@ import In from './components/In'
 import OutSelect from './components/OutSelect'
 import OutDestination from './components/OutDestination'
 import WareManage from './components/WareManage'
+import Mypage from './components/Mypage';
+import './App.css'
 
 const App = () => {
   return (
@@ -31,7 +33,7 @@ const App = () => {
         <Route path='/stock/select' element={ <StockSelect />} />
         <Route path='/stock/manage' element={ <StockManage /> } />
         <Route path='/ware/manage' element={ <WareManage /> } />
-
+        <Route path='/mypage' element={ <Mypage /> } />
       </Routes>
     </div>
   )
