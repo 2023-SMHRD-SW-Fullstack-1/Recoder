@@ -7,16 +7,21 @@ import Header from './components/Header';
 
 import Login from './components/Login';
 import Join from './components/Join';
+import Out_01 from './components/Out_01'
+
+
 
 const App = () => {
   return (
     <div>
+
       <Header />
       <Main />
       <Routes>
         <Route path="/Join" element={<Join />} />
         <Route path="/Login" element={<Login />} />
       </Routes>
+
     </div>
   )
 }
