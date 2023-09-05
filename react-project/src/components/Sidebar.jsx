@@ -94,7 +94,7 @@ const Sidebar = () => {
             </ul>
           </div>
           <div className='sidebar-down'>
-            <a><button className='my-button'><img src='/icon/profile.svg'></img><p></p></button></a>
+            <a href='/mypage'><button className='my-button'><img src='/icon/profile.svg'></img><p></p></button></a>
             <a><button className='my-button'><img src='/icon/logout.svg'></img><p></p></button></a>
           </div>
         </Offcanvas.Body>
