@@ -1,3 +1,14 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: "Pretendard-Regular";
+}
+
 .sidebar-box {
     display: flex;
     justify-content: space-between;
@@ -5,8 +16,14 @@
     flex-direction: column;
 }
 
+/* .my-button {
+    display: flex;
+    align-items: center;
+} */
+
 .sidebar-up {    
     text-align: center;
+    width: 110px;
 }
 
 .sidebar-up > ul {
@@ -15,9 +32,16 @@
     align-items: center;
     flex-direction: column;
     padding: 0;
+    margin: 0;
 }
 
-.sidebar-up > ul > a > li {
+.sidebar-up > ul > li {
+    padding: 5%;
+    width: 100%;
+    margin-top: 10%;
+}
+
+li {
     list-style: none;
 }
 
@@ -33,9 +57,21 @@
     background-color: lightgray;
 }
 
-.sidebar-up > ul > a > li > button > p {
+.sidebar-up > ul > li > button > p {
     margin: 0;
-    white-space: nowrap;
+}
+
+#collapse-text1 > ul {
+    padding: 0;
+}
+#collapse-text1 > ul > li {
+    color: rgb(140, 140, 140);
+}
+#collapse-text2 > ul {
+    padding: 0;
+}
+#collapse-text2 > ul > li {
+    color: rgb(140, 140, 140);
 }
 
 .sidebar-down {
@@ -48,11 +84,14 @@
     border-radius: 10px;
     text-decoration: none;
     transition: background-color 0.2s;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-.sidebar-down > a:hover {
+/* .sidebar-down > a:hover {
     background-color: lightgray;
-}
+} */
 
 .sidebar-down > a > button > p {
     margin: 0;
