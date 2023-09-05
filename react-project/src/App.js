@@ -20,6 +20,7 @@ const App = () => {
       <Header />
       <Sidebar />
       <Routes>
+
         <Route path='/' element={ <Main /> } /> 
         <Route path="/Join" element={ <Join /> } />
         <Route path="/Login" element={ <Login /> } />
@@ -30,6 +31,7 @@ const App = () => {
         <Route path='/stock/select' element={ <StockSelect />} />
         <Route path='/stock/manage' element={ <StockManage /> } />
         <Route path='/ware/manage' element={ <WareManage /> } />
+
       </Routes>
     </div>
   )
