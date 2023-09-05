@@ -8,8 +8,8 @@ const App = () => {
   return (
     <div>
         <Main />
-    </div>
-  )
+        </div>
+          )
 }
 
 export default App
