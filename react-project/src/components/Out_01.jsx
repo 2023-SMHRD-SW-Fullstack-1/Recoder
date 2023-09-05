@@ -5,30 +5,37 @@ import {useState} from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
-
 function Out_01() {
 
+  // 테이블 클릭시 추가 화면 렌더링 함수
     const [isOpen, setIsOpen] = useState(false);
 
     const handleRowClick = () => {
       setIsOpen(!isOpen);
     };
+
+
+   const rowData = 1
   
   return (
-    <div>
-<div>
-<h3 id="out_title">출고</h3>
-<select id="out_filter">filter</select>
+    <div id = 'out_all'>
+<div id='out_top'>
+<span id="out_title">출고</span>
+
+<div id="out_input_container">
 <input id="out_input" />
 <FontAwesomeIcon id="out_input_icon" icon={faMagnifyingGlass} />
+<select id="out_filter">filter</select>
+</div>
+
 </div>
 
     {/* 테이블 */}
     <div className="out_table">
-  <table>
+  <table className='out_table_containor'>
     <thead>
       <tr>
-        <th >Column 1</th>
+        <th>Column 1</th>
         <th>Column 2</th>
         <th>Column 3</th>
         <th>Column 4</th>
@@ -74,6 +81,8 @@ function Out_01() {
       </tr>
     </tbody>
   </table>
+
+
 </div>
     </div>
   )
