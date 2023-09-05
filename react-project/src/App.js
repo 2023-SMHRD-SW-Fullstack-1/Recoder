@@ -22,7 +22,6 @@ const App = () => {
       <Header />
       <Sidebar />
       <Routes>
-
         <Route path='/' element={ <Main /> } /> 
         <Route path="/Join" element={ <Join /> } />
         <Route path="/Login" element={ <Login /> } />
