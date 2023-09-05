@@ -87,7 +87,7 @@ const Sidebar = () => {
                   </div>
                 </Collapse>
               <li>
-                <a href='ware/manage'><button className='my-button'>
+                <a href='/ware/manage'><button className='my-button'>
                   <img src='/icon/warehouse.svg'></img><p>창고 관리</p>
                 </button></a>
               </li>
