@@ -37,7 +37,18 @@ const Header = () => {
 
   return (
     <div className='header-container'>
-      
+      <div className="header-main">
+        {/* 로그인/마이페이지 */}
+        <div className="menu-item">
+          {isLoggedIn ? (
+            <>
+              <Link to="/MyPage">회원정보수정</Link>
+            </>
+          ) : (
+            <Link to="/login">로그인</Link>
+          )}
+        </div>
+      </div>
 
       {/* 다크모드 & 로그인 버튼 */}
 

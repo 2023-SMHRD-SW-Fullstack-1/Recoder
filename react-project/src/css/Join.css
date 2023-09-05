@@ -44,9 +44,9 @@
   }
   
   /* 아이디 중복체크 버튼 */
-  .Join-container .email-check {
+  .Join-container .id-check {
     margin-top: 5px;
-    width: 90px;
+    width: 120px;
     height: 50px;
     border: 1px solid whitesmoke;
     font-size: 13px;

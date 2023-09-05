@@ -96,6 +96,7 @@ const Join = () => {
                                         placeholder='아이디를 입력해주세요.'
                                         autoFocus
                                     />
+                                    <div className="id-check-button">
                                     <button
                                         type="button"
                                         onClick={checkDuplicate}
@@ -103,6 +104,7 @@ const Join = () => {
                                     >
                                         아이디 중복체크
                                     </button>
+                                    </div>
                                 </div>
                                 <span className="duplicate-message">{duplicateMessage}</span>
 
