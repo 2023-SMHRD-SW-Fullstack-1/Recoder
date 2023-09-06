@@ -1,6 +1,7 @@
 import React from 'react'
 import '../Out_01.css'
-import {useState} from 'react'
+import { useState, useEffect } from 'react'
+import axios from'axios'
 // 폰트어썸
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
@@ -8,82 +9,182 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 function Out_01() {
 
   // 테이블 클릭시 추가 화면 렌더링 함수
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-    const handleRowClick = () => {
-      setIsOpen(!isOpen);
-    };
+  const handleRowClick = () => {
+    console.log('클릭이벤트 발동');
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
+
+  // 출고될 리스트 출력 함수
+  const outStockList = async()=>{
+try{
+  // const response = await axios.post('/gocamping/mycomment', { user_email: loginuserEmail -- 보내줄 데이터})
+
+  if (response.status === 200) {
+    console.log('리스트 출력 성공');
+
+    console.log(response.data);
+    console.log(response.data[0]);
 
 
-   const rowData = 1
-  
+
+    setMyCommenList(response.data);
+  }
+} catch (error) {
+  if (error.response && error.response.status === 401) {
+    alert("데이터 출력 실패")
+
+  }
+}
+
+
+}
+useEffect(() => {
+userCommentList(); 
+}, []);
+
+
   return (
-    <div id = 'out_all'>
-<div id='out_top'>
-<span id="out_title">출고</span>
+    <div id='out_all'>
+      <div id='out_top'>
+        <span id="out_title">출고</span>
 
-<div id="out_input_container">
-<input id="out_input" placeholder="제품코드 또는 제품명을 입력하세요"/>
-<FontAwesomeIcon id="out_input_icon" icon={faMagnifyingGlass} />
-<select id="out_filter">filter</select>
-</div>
+        <div id="out_input_container">
+          <input id="out_input" placeholder="제품코드 또는 제품명을" />
+          <FontAwesomeIcon id="out_input_icon" icon={faMagnifyingGlass} />
+          <select id="out_filter">filter</select>
+        </div>
 
-</div>
+      </div>
 
-    {/* 테이블 */}
-    <div className="out_table">
-  <table className='out_table_containor'>
-    <thead>
-      <tr>
-        <th>Column 1</th>
-        <th>Column 2</th>
-        <th>Column 3</th>
-        <th>Column 4</th>
-        <th>Column 5</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr  className={`view ${isOpen ? 'open' : ''}`} onClick={handleRowClick}>
-        <td>Cell 1</td>
-        <td>Cell 2</td>
-        <td>Cell 3</td>
-        <td>Cell 4</td>
-        <td>Cell 5</td>
-      </tr>
-      <tr className={`fold ${isOpen ? 'open' : ''}`}>
-          {/* Your folded content here */}
-        <td>Cell 1</td>
-        <td>Cell 2</td>
-        <td>Cell 3</td>
-        <td>Cell 4</td>
-        <td>Cell 5</td>
-      </tr>
-      <tr>
-        <td>Cell 1</td>
-        <td>Cell 2</td>
-        <td>Cell 3</td>
-        <td>Cell 4</td>
-        <td>Cell 5</td>
-      </tr>
-      <tr>
-        <td>Cell 1</td>
-        <td>Cell 2</td>
-        <td>Cell 3</td>
-        <td>Cell 4</td>
-        <td>Cell 5</td>
-      </tr>
-      <tr>
-        <td>Cell 1</td>
-        <td>Cell 2</td>
-        <td>Cell 3</td>
-        <td>Cell 4</td>
-        <td>Cell 5</td>
-      </tr>
-    </tbody>
-  </table>
+      {/* 테이블 */}
+      <div className="out_table">
+
+        <table className="container">
+          <thead>
+            <tr>
+
+              <th><h1>제품ID</h1></th>
+              <th><h1>입고일</h1></th>
+              <th><h1>유통기한</h1></th>
+              <th><h1>수량</h1></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className={`out_table_id ${isOpen ? 'open' : ''}`}
+                onClick={handleRowClick} >A001</td>
+              <td>2023-07-01</td>
+              <td>2023-12-25</td>
+              <td>24</td>
+            </tr>
+            {isOpen && (
+              <div className="out_table_fold">
+                
+                  <span>출고일자</span>
+                  <span>출고수량</span>
+                  <span>배송지</span>
+                  <select id="out_filter"/>
+                  <button class="custom-btn btn-1">출고</button>
+                
+              </div>
+            )}
+            <tr>
+            <td className={`out_table_id ${isOpen ? 'open' : ''}`}
+                onClick={handleRowClick} >A002</td>
+              <td>2023-07-01</td>
+              <td>2023-12-25</td>
+              <td>24</td>
+            </tr>
+            {isOpen && (
+              <div className="out_table_fold">
+                
+                  <span>출고일자</span>
+                  <span>출고수량</span>
+                  <span>배송지</span>
+                  <select id="out_filter"/>
+                  <button>출고</button>
+                
+              </div>
+            )}
+            <tr>
+            <td className={`out_table_id ${isOpen ? 'open' : ''}`}
+                onClick={handleRowClick} >A003</td>
+              <td>2023-07-01</td>
+              <td>2023-12-25</td>
+              <td>24</td>
+            </tr>
+            {isOpen && (
+              <div className="out_table_fold">
+                
+                  <span>출고일자</span>
+                  <span>출고수량</span>
+                  <span>배송지</span>
+                  <select id="out_filter"/>
+                  <button>출고</button>
+                
+              </div>
+            )}
+            <tr>
+            <td className={`out_table_id ${isOpen ? 'open' : ''}`}
+                onClick={handleRowClick} >A004</td>
+              <td>2023-07-01</td>
+              <td>2023-12-25</td>
+              <td>24</td>
+            </tr>
+            {isOpen && (
+              <div className="out_table_fold">
+                
+                  <span>출고일자</span>
+                  <span>출고수량</span>
+                  <span>배송지</span>
+                  <select id="out_filter"/>
+                  <button>출고</button>
+                
+              </div>
+            )}
+            <tr>
+            <td className={`out_table_id ${isOpen ? 'open' : ''}`}
+                onClick={handleRowClick} >A005</td>
+              <td>2023-07-01</td>
+              <td>2023-12-25</td>
+              <td>24</td>
+            </tr>
+            {isOpen && (
+              <div className="out_table_fold">
+                
+                  <span>출고일자</span>
+                  <span>출고수량</span>
+                  <span>배송지</span>
+                  <select id="out_filter"/>
+                  <button>출고</button>
+                
+              </div>
+            )}
+            <tr>
+            <td className={`out_table_id ${isOpen ? 'open' : ''}`}
+                onClick={handleRowClick} >A006</td>
+              <td>2023-07-01</td>
+              <td>2023-12-25</td>
+              <td>24</td>
+            </tr>
+            {isOpen && (
+              <div className="out_table_fold">
+                
+                  <span>출고일자</span>
+                  <span>출고수량</span>
+                  <span>배송지</span>
+                  <select id="out_filter"/>
+                  <button>출고</button>
+                
+              </div>
+            )}
+          </tbody>
+        </table>
 
 
-</div>
+      </div>
     </div>
   )
 }
