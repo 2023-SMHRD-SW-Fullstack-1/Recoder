@@ -97,7 +97,7 @@ export default class App {
         const geometry = new THREE.BoxGeometry(100, 0.09, 100);
 
         // const fillMaterial = new THREE.MeshPhongMaterial({ color: 0x357755, shininess: 100 });
-        const fillMaterial = new THREE.MeshStandardMaterial({ color: 0x357755, roughness: 1000 });
+        const fillMaterial = new THREE.MeshStandardMaterial({ color: 0x357755, roughness: 1000 , metalness: 1});
 
         const cube = new THREE.Mesh(geometry, fillMaterial);
         cube.position.y -= 0.045;
