@@ -34,7 +34,7 @@ function Out_01() {
   //   }
   // }
 
-  // 테이블 테스트 데이터 -> 서버 연결 되면 axios로 데이터 받아서 활용
+  // 테스트 데이터 -> 서버 연결 되면 axios로 데이터 받아서 활용
   const testData = [
     {
       sotckID: "A0001",
@@ -59,7 +59,10 @@ function Out_01() {
     }
   ];
 
-    // 테이블 클릭시 추가 화면 렌더링 함수
+  // 배송지 필터 데이터
+  const testData2 = ["이마트", "홈플러스", "카카오스토어", "다이소"];
+
+  // 테이블 클릭시 추가 화면 렌더링 함수
   const [rowOutTable, setRowOutTable] = useState(Array(testData.length).fill(false));
 
   const handleRowClick = (index) => {
@@ -67,6 +70,33 @@ function Out_01() {
     newRowOutTable[index] = !newRowOutTable[index];
     setRowOutTable(newRowOutTable);
   };
+
+  // 출고 추가정보 데이터 관리
+
+  const [outLoading, setOutLoading] = useState({
+    loaing_cnt: '',
+    created_at: ''
+  })
+
+  const outLoadingHandler = (e) => {
+    if (e.target.name == 'created_at') {
+      console.log(e.target.value)
+      setOutLoading({ [created_at]: e.target.value })
+    }
+    else {
+      console.log(e.target.value)
+      setOutLoading({ [loading_cnt]: e.target.value })
+    }
+
+    const { loading_cnt, created_at } = e.target
+    setOutLoading({
+      ...outLoading,
+      [loading_cnt]: e.target.value,
+      [created_at]: e.target.value
+    })
+  };
+
+  const { loading_cnt, created_at } = outLoading;
 
   // 출고 버튼 클릭 이벤트
   // const out_stock =  async()=>{
@@ -94,7 +124,7 @@ function Out_01() {
         <span id="out_title">출고</span>
 
         <div id="out_input_container">
-          <input id="out_input" placeholder="제품코드 또는 제품명을" />
+          <input id="out_input" placeholder="제품ID 제품명 검색" />
           <FontAwesomeIcon id="out_input_icon" icon={faMagnifyingGlass} />
           <select id="out_filter">filter</select>
         </div>
@@ -137,10 +167,18 @@ function Out_01() {
                   <tr >
                     <td id='out_table_fold' colSpan={4} >
                       <span>출고일자</span>
-                      <input type='date'/><br />
-                      <span>출고수량</span><br />
+                      <input type='date' name='created_at' onChange={outLoadingHandler} /><br />
+                      <span>출고수량</span><input name='loading_cnt' type='text' onChange={outLoadingHandler} /><br />
                       <span>배송지</span>
-                      <select id="out_filter" /><br />
+                      <select id="out_filter" >
+                        {testData2.map((item, index) =>
+                          <option key={index} value={item}>{item}
+                          </option>)}
+                        <option value="직접입력" name=''>
+                          직접입력
+                        </option>
+                      </select>
+                      <br />
                       <button className="custom-btn btn-1">출고</button>
                     </td>
                   </tr>

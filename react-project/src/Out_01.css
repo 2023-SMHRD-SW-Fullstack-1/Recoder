@@ -67,14 +67,33 @@
   
 }
 
-/* 버튼  */
+/*  버튼  */
 h1 {
   position: relative;
   text-align: center;
   color: #353535;
   font-size: 50px;
-
 }
+
+/*  input  */
+#out_table_fold input {
+
+  font-family: 'Pretendard-Regular';
+  color: lightslategray;
+ width: 200px;
+ margin: 20px;
+}
+#out_filter{
+
+  font-family: 'Pretendard-Regular';
+  color: lightslategray;
+ width: 200px;
+}
+#out_input{
+  width: 200px;
+}
+
+
 
 p {
   font-weight: 300;
@@ -132,6 +151,7 @@ button {
 
 #out_table_fold span {
 margin: 30px 20px;
+color:#b791fd;
 }
 
 .out_table{
@@ -214,7 +234,9 @@ h1 {
 .container td:first-child {
   color: #b791fd;
 }
-
+.container td:first-child:hover{
+  color: white
+}
 .container tr:hover {
   background-color: #e8defb;
   -webkit-box-shadow: 0 6px 6px -6px #0E1119;
