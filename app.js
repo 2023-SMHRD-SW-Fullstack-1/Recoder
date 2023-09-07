@@ -7,6 +7,9 @@ const nunjucks = require('nunjucks')
 const dotenv = require('dotenv')
 const cors = require('cors')
 
+//혜주작성
+const outRouter = require('./routes/out')
+
 // .env 파일 관련
 dotenv.config()
 
@@ -52,7 +55,8 @@ app.use((err, req, res, next) => {
     res.render('error')
 })
 
-
+// 혜주 작성
+app.use('/out/create',outRouter)
 
 
 

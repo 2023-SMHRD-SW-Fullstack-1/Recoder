@@ -81,11 +81,11 @@ function Out_01() {
   const outLoadingHandler = (e) => {
     if (e.target.name == 'created_at') {
       console.log(e.target.value)
-      setOutLoading({ [created_at]: e.target.value })
+      // setOutLoading({ [created_at]: e.target.value })
     }
     else {
       console.log(e.target.value)
-      setOutLoading({ [loading_cnt]: e.target.value })
+      // setOutLoading({ [loading_cnt]: e.target.value })
     }
 
     const { loading_cnt, created_at } = e.target
@@ -121,7 +121,7 @@ function Out_01() {
   // 직접선택 추가 핸들러
   const [showInput,setShowInput] = useState(false);
   const handleInputPluse = (e)=>{
-    console.log("직접입력 클릭");
+    console.log("배송지 선택 클릭");
     console.log(e.target.value);
     if(e.target.value =="직접입력"){
     setShowInput(true) }
@@ -179,7 +179,7 @@ function Out_01() {
                     <td id='out_table_fold' colSpan={4}>
                       <span>출고일자</span>
                       <input type='date' name='created_at' onChange={outLoadingHandler} /><br />
-                      <span>출고수량</span><input name='loading_cnt' type='text' onChange={outLoadingHandler} /><br />
+                      <span>출고수량</span><input name='loading_cnt' type='number' onChange={outLoadingHandler} /><br />
                       <span>배송지</span>
                       <select id="out_filter"  onClick={handleInputPluse}>
                         {testData2.map((item, index) =>
