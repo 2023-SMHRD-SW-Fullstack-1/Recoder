@@ -34,14 +34,14 @@
 }
       /* 버튼 */
       .login-button {
-        background-color: rgba(255, 166, 0, 0.864);
-        border: 1px solid orange;
+        background-color: rgba(89,31,217, 0.864);
+        border: 1px solid rgba(89,31,217, 0.864);
         color : whitesmoke;
       }
 
       /* 입력 */
       .login-container input:focus {
-        outline: 1px solid orange;
+        outline: 1px solid rgba(89,31,217, 0.864);
       } 
 
     
@@ -58,7 +58,7 @@
 }
 
 .login-button:hover{
-  background-color: rgb(255, 166, 0);
+  background-color: rgba(89,31,217, 0.864);
   color: black;
   font-weight: bold;
 }

@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import Button from 'react-bootstrap/Button';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import Collapse from 'react-bootstrap/Collapse';
 import '../Sidebar.css'
 import '../App.css'
-
-import {Link} from 'react-router-dom'
+import App from '../three/02-geometry'
+import '../three/02-geometry.css'
 
 const Main = () => {
 
-  return (
-    <div>      
+  useEffect(() => {
+    new App();
+  }, []);
 
-    </div>
-  )
+  return (
+    <div id="webgl-container"></div>
+  );
 }
 
 export default Main
