@@ -174,7 +174,7 @@ function Out_01() {
                         {testData2.map((item, index) =>
                           <option key={index} value={item}>{item}
                           </option>)}
-                        <option value="직접입력" name=''>
+                        <option value="직접입력" onClick={(e)=>{}}>
                           직접입력
                         </option>
                       </select>
