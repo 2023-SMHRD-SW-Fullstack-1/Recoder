@@ -118,6 +118,17 @@ function Out_01() {
   //   }
   // }
 
+  // 직접선택 추가 핸들러
+  const [showInput,setShowInput] = useState(false);
+  const handleInputPluse = (e)=>{
+    console.log("직접입력 클릭");
+    console.log(e.target.value);
+    if(e.target.value =="직접입력"){
+    setShowInput(true) }
+    else{
+      setShowInput(false)
+    }
+  }
   return (
     <div id='out_all'>
       <div id='out_top'>
@@ -165,20 +176,22 @@ function Out_01() {
                 </tr>
                 {rowOutTable[index] && (
                   <tr >
-                    <td id='out_table_fold' colSpan={4} >
+                    <td id='out_table_fold' colSpan={4}>
                       <span>출고일자</span>
                       <input type='date' name='created_at' onChange={outLoadingHandler} /><br />
                       <span>출고수량</span><input name='loading_cnt' type='text' onChange={outLoadingHandler} /><br />
                       <span>배송지</span>
-                      <select id="out_filter" >
+                      <select id="out_filter"  onClick={handleInputPluse}>
                         {testData2.map((item, index) =>
                           <option key={index} value={item}>{item}
                           </option>)}
-                        <option value="직접입력" onClick={(e)=>{}}>
+                        <option value="직접입력">
                           직접입력
                         </option>
                       </select>
-                      <br />
+                      {showInput &&(
+                        <input type='text' placeholder='배송지 입력'/>
+                      )}
                       <button className="custom-btn btn-1">출고</button>
                     </td>
                   </tr>
