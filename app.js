@@ -10,6 +10,9 @@ const cors = require('cors')
 // .env 파일 관련
 dotenv.config()
 
+// sequelize 연결
+const { sequelize } = require('./models')
+
 const app = express()
 app.set('port', process.env.PORT || 8000)
 // 템플릿 엔진 설정
@@ -17,6 +20,13 @@ app.set('view engine', 'html')
 nunjucks.configure('views', {
     express: app,
     watch: true,
+})
+sequelize.sync({ force: false })
+.then(() => {
+    console.log('데이터베이스 연결 성공');
+})
+.catch((err) => {
+    console.error(err);
 })
 
 // 요청과 응답에 대한 정보 출력
