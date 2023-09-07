@@ -1,43 +1,49 @@
-'use strict';
+const Sequelize = require('sequelize')
+const User = require('./user')
+const Company = require('./company')
+const Client = require('./client')
+const Warehouse = require('./warehouse')
+const Rack = require('./rack')
+const Loading = require('./loading')
+const Notice = require('./notice')
+const Stock = require('./stock')
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
+const env = process.env.NODE_ENV || 'development'
+const config = require('../config/config')[env]
+const db = {}
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+const sequelize = new Sequelize(config.database, config.username, config.password, config)
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
+db.sequelize = sequelize
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+db.User = User
+db.Company = Company
+db.Client = Client
+db.Warehouse = Warehouse
+db.Rack = Rack
+db.Loading = Loading
+db.Notice = Notice
+db.Stock = Stock
+db.Client = Client
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+User.initiate(sequelize)
+Company.initiate(sequelize)
+Client.initiate(sequelize)
+Warehouse.initiate(sequelize)
+Rack.initiate(sequelize)
+Loading.initiate(sequelize)
+Notice.initiate(sequelize)
+Stock.initiate(sequelize)
+Client.initiate(sequelize)
 
-module.exports = db;
+User.associate(db)
+Company.associate(db)
+Client.associate(db)
+Warehouse.associate(db)
+Rack.associate(db)
+Loading.associate(db)
+Notice.associate(db)
+Stock.associate(db)
+Client.associate(db)
+
+module.exports = db
