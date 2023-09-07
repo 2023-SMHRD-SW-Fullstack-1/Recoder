@@ -42,7 +42,7 @@ class Warehouse extends Sequelize.Model {
     }
 
     static associate(db) {
-        db.Warehouse.belongsTo(db.User, { foreignKey: 'user_seq', targetKey: 'user_seq' })
+        db.Warehouse.belongsTo(db.Company, { foreignKey: 'com_seq', targetKey: 'com_seq' })
         db.Warehouse.hasMany(db.Rack, { foreignKey: 'wh_seq', sourceKey: 'wh_seq' })
     }
 }
