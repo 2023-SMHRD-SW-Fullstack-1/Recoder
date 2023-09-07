@@ -8,6 +8,9 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 function Out_01() {
 
+  // 출고 될 제품 리스트 담을 배열
+  const [outStockList,setOutStockList] = useState([]);
+
   // 테이블 클릭시 추가 화면 렌더링 함수
   const [isOpen, setIsOpen] = useState(false);
 
@@ -16,10 +19,24 @@ function Out_01() {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
+  // 각 행의 상태를 저장할 배열
+  const [rowOutTable,setRowOutTable] = useState([]);
+
+  // 행 클릭시 해당 행의 상태 토글
+  const handleRowClick2 = (index) =>{
+    const newRowOutTable = [...rowOutTable];
+    newRowOutTable[index] = !newRowOutTable[index];
+    setRowOutTable(newRowOutTable);
+  };
+
+
+
+
+
   // 출고될 리스트 출력 함수
-  const outStockList = async()=>{
+  const getOutStockList = async()=>{
 try{
-  // const response = await axios.post('/gocamping/mycomment', { user_email: loginuserEmail -- 보내줄 데이터})
+  const response = await axios.post('/out/create')
 
   if (response.status === 200) {
     console.log('리스트 출력 성공');
@@ -29,7 +46,7 @@ try{
 
 
 
-    setMyCommenList(response.data);
+    setOutStockList(response.data);
   }
 } catch (error) {
   if (error.response && error.response.status === 401) {
@@ -41,7 +58,7 @@ try{
 
 }
 useEffect(() => {
-userCommentList(); 
+  getOutStockList(); 
 }, []);
 
 
@@ -71,6 +88,8 @@ userCommentList();
               <th><h1>수량</h1></th>
             </tr>
           </thead>
+          {/* row토글 ver */}
+          
           <tbody>
             <tr>
               <td className={`out_table_id ${isOpen ? 'open' : ''}`}
