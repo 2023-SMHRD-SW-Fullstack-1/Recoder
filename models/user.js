@@ -39,7 +39,6 @@ class User extends Sequelize.Model {
 
     static associate(db) {
         db.User.belongsTo(db.Company, { foreignKey: 'com_seq', targetKey: 'com_seq' })
-        db.User.hasMany(db.Warehouse, { foreignKey: 'user_seq', sourceKey: 'user_seq' })
         db.User.hasMany(db.Notice, { foreignKey: 'user_seq', sourceKey: 'user_seq' })
     }
 }
