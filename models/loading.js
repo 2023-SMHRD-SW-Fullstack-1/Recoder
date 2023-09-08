@@ -59,6 +59,7 @@ class Loading extends Sequelize.Model {
     static associate(db) {
         db.Loading.belongsTo(db.Rack, { foreignKey: 'rack_seq', targetKey: 'rack_seq' })
         db.Loading.belongsTo(db.Stock, { foreignKey: 'stock_seq', targetKey: 'stock_seq' })
+        db.Loading.belongsTo(db.Company, { foreignKey: 'com_seq', targetKey: 'com_seq' })
     }
 }
 
