@@ -42,13 +42,14 @@ export default class App {
             0.1,
             100
         );
-        camera.position.z = 2;
+        camera.position.z = 5;
+        camera.position.y = 2;
         this._camera = camera;
     }
 
     _setupLight() {
         const color = 0xffffff;
-        const intensity = 1;
+        const intensity = 10;
         const light = new THREE.DirectionalLight(color, intensity);
         light.position.set(-1, 2, 4);
         this._scene.add(light);
@@ -78,21 +79,21 @@ export default class App {
         // console.log(group.position)
         // console.log(group2.position)
 
-        const loader = new GLTFLoader();
+        // const loader = new GLTFLoader();
 
-        loader.load(fork, (gltf) => {
+        // loader.load(fork, (gltf) => {
 
-            console.log(gltf);
+        //     console.log(gltf);
 
-            gltf.scene.scale.set(0.2, 0.2, 0.2)
+        //     gltf.scene.scale.set(0.2, 0.2, 0.2)
 
-            this._scene.add(gltf.scene);
+        //     this._scene.add(gltf.scene);
 
-        }, undefined, (error) => {
+        // }, undefined, (error) => {
 
-            console.error(error);
+        //     console.error(error);
 
-        } );
+        // });
 
         const geometry = new THREE.BoxGeometry(100, 0.09, 100);
 
@@ -103,6 +104,15 @@ export default class App {
         cube.position.y -= 0.045;
 
         this._scene.add(cube);
+
+        const geometry2 = new THREE.BoxGeometry(0.05, 10, 0.05, 1, 1, 1);
+
+        const fillMaterial2 = new THREE.MeshStandardMaterial({ color: 0xFFFFFF })
+
+        const cube2 = new THREE.Mesh(geometry2, fillMaterial2);
+        cube2.position.y += 5;
+
+        this._scene.add(cube2);
     }
 
     resize() {
