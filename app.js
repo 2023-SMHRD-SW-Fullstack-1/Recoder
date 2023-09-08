@@ -64,13 +64,7 @@ app.use((err, req, res, next) => {
     res.render('error')
 })
 
-
-
-
-
-
-
-// 되도록 이 줄 위로 코드 작성해주세요
+// 되도록 이 위로 코드 작성해주세요
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번 포트에서 대기 중');
 })

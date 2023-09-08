@@ -53,6 +53,10 @@ export default class App {
         const light = new THREE.DirectionalLight(color, intensity);
         light.position.set(-1, 2, 4);
         this._scene.add(light);
+
+        // const light2 = new THREE.DirectionalLight(color, intensity);
+        // light.position.set(1, 2, -4);
+        // this._scene.add(light2);
     }
 
     _setupModel() {
@@ -87,6 +91,8 @@ export default class App {
 
         //     gltf.scene.scale.set(0.2, 0.2, 0.2)
 
+        //     gltf.scene.rotation.y = Math.PI;
+
         //     this._scene.add(gltf.scene);
 
         // }, undefined, (error) => {
@@ -95,24 +101,110 @@ export default class App {
 
         // });
 
-        const geometry = new THREE.BoxGeometry(100, 0.09, 100);
+        // 바닥 시작
+        const geometry = new THREE.BoxGeometry(100, 0.01, 100);
 
         // const fillMaterial = new THREE.MeshPhongMaterial({ color: 0x357755, shininess: 100 });
         const fillMaterial = new THREE.MeshStandardMaterial({ color: 0x357755, roughness: 1000 , metalness: 1});
 
         const cube = new THREE.Mesh(geometry, fillMaterial);
-        cube.position.y -= 0.045;
+        // cube.position.y -= 0.045;
 
         this._scene.add(cube);
+        // 바닥 끝
 
-        const geometry2 = new THREE.BoxGeometry(0.05, 10, 0.05, 1, 1, 1);
+        // 선반 시작
+        // 기둥 시작
+        const geometry2 = new THREE.BoxGeometry(0.05, 3, 0.05, 1, 1, 1);
 
         const fillMaterial2 = new THREE.MeshStandardMaterial({ color: 0xFFFFFF })
 
         const cube2 = new THREE.Mesh(geometry2, fillMaterial2);
-        cube2.position.y += 5;
+        const cube3 = new THREE.Mesh(geometry2, fillMaterial2);
+        const cube4 = new THREE.Mesh(geometry2, fillMaterial2);
+        const cube5 = new THREE.Mesh(geometry2, fillMaterial2);
+        const cube6 = new THREE.Mesh(geometry2, fillMaterial2);
+        const cube7 = new THREE.Mesh(geometry2, fillMaterial2);
+        const cube8 = new THREE.Mesh(geometry2, fillMaterial2);
+        const cube9 = new THREE.Mesh(geometry2, fillMaterial2);
+        
+        // cube2.position.y += 5;
 
-        this._scene.add(cube2);
+        cube2.position.set(0.1, 0, 0)
+        cube3.position.set(0.1, 0, 0.2)
+        cube4.position.set(0.4, 0, 0)
+        cube5.position.set(0.4, 0, 0.2)
+        cube8.position.set(0.7, 0, 0)
+        cube9.position.set(0.7, 0, 0.2)
+
+        // this._scene.add(cube2,cube3,cube4,cube5,cube8, cube9);
+        // 기둥 끝
+
+
+                    
+        // 판자 시작
+        // 판자 저장 배열
+        let boards = []
+        let rackes = []
+        const board = new THREE.BoxGeometry(1, 0.02, 2, 1, 1, 1);
+
+        const fillMaterial3 = new THREE.MeshStandardMaterial({ color: 0xFFFFFF })
+
+        const boardCube = new THREE.Mesh(board, fillMaterial3);
+
+        boardCube.position.set(0.4, 0.1, 0.1)
+
+        // this._scene.add(boardCube);
+
+        const tempCube = this._createRack(1, 5, "11", 1) 
+        console.log(typeof tempCube)
+        tempCube.position.x += 1
+
+        
+    }
+
+    // _createBoard(sizeX, sizeZ) {
+    //     const board = new THREE.BoxGeometry(sizeX, 0.02, sizeZ, 0, 1, 0);
+
+    //     boards.push(board);
+    // }
+
+    // 랙 가로, 세로, 선반 이름, 선반 높이, 몇 층
+    _createRack(sizeX, sizeZ, name, sizeY, floor) {
+        const board = new THREE.BoxGeometry(sizeX, 0.02, sizeZ, 1, 1, 1);
+        const pilar = new THREE.BoxGeometry(0.05, sizeY, 0.05)
+        const fillMaterial3 = new THREE.MeshStandardMaterial({ color: 0xFFFFFF })       
+        
+        const boardMesh = new THREE.Mesh(board, fillMaterial3);
+        const pilarMesh1 = new THREE.Mesh(pilar, fillMaterial3);
+        const pilarMesh2 = new THREE.Mesh(pilar, fillMaterial3);
+        const pilarMesh3 = new THREE.Mesh(pilar, fillMaterial3);
+        const pilarMesh4 = new THREE.Mesh(pilar, fillMaterial3);
+
+        const group = new THREE.Group()
+
+        boardMesh.position.set(0, 0, 0);
+        pilarMesh1.position.set(0, 0, 0);
+        pilarMesh2.position.set(0, 0, 0);
+        pilarMesh3.position.set(0, 0, 0);
+        pilarMesh4.position.set(0, 0, 0);
+        console.log(boardMesh.position)
+        
+        boardMesh.position.y = 1
+        const box = new THREE.Box3().setFromObject(boardMesh);
+        const box1 = new THREE.Box3().setFromObject(pilarMesh1);
+
+        pilarMesh1.position.set(box.min.x, box.min.y + (box1.max.y - box1.min.y)/2- (box1.max.y - box1.min.y)*0.2, box.min.z);
+        pilarMesh2.position.set(box.max.x, box.min.y + (box1.max.y - box1.min.y)/2- (box1.max.y - box1.min.y)*0.2 , box.min.z);
+        pilarMesh3.position.set(box.max.x, box.min.y + (box1.max.y - box1.min.y)/2- (box1.max.y - box1.min.y)*0.2 , box.max.z);
+        pilarMesh4.position.set(box.min.x, box.min.y + (box1.max.y - box1.min.y)/2- (box1.max.y - box1.min.y)*0.2 , box.max.z);
+
+        boardMesh.name = name;
+
+        
+        group.add(boardMesh, pilarMesh1, pilarMesh2, pilarMesh3, pilarMesh4)
+        this._scene.add(group)
+        return group
     }
 
     resize() {
