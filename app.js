@@ -6,6 +6,7 @@ const session = require('express-session')
 const nunjucks = require('nunjucks')
 const dotenv = require('dotenv')
 const cors = require('cors')
+const testRouter = require('./routes/test')
 
 // .env 파일 관련
 dotenv.config()
@@ -39,6 +40,17 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 // 리액트-노드 통신
 app.use(cors())
+
+// 시퀄라이즈 테스트 라우터
+app.use('/test', testRouter)
+
+
+
+
+
+
+
+
 // 없는 경로로 요청할 경우
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`)
@@ -52,13 +64,7 @@ app.use((err, req, res, next) => {
     res.render('error')
 })
 
-
-
-
-
-
-
-// 되도록 이 줄 위로 코드 작성해주세요
+// 되도록 이 위로 코드 작성해주세요
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번 포트에서 대기 중');
 })
