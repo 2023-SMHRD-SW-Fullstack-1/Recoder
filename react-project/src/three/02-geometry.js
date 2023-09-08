@@ -156,7 +156,7 @@ export default class App {
 
         // this._scene.add(boardCube);
 
-        const tempCube = this._createRack(3, 2, "11", 3) 
+        const tempCube = this._createRack(1, 5, "11", 1) 
         console.log(typeof tempCube)
         tempCube.position.x += 1
 
