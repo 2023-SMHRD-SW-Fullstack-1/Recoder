@@ -43,7 +43,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cors())
 
 // 혜주 작성
-app.use('/out',outRouter)
+app.use('/out/create',outRouter)
 
 
 
