@@ -212,8 +212,8 @@ function Out_01() {
                   </td>
                   <td>{loadingItem.Stock.stock_name}</td>
                   <td>{loadingItem.loading_cnt}</td>
-                  <td>{loadingItem.created_at}</td>
-                  <td>{loadingItem.Stock.stock_expired}</td>
+                  <td>{loadingItem.created_at.substring(0, 10)}</td>
+                  <td>{loadingItem.Stock.stock_expired.substring(0, 10)}</td>
                   <td>{warehouseItem.wh_name}</td>
                   <td>{rackItem.rack_seq}</td>
                   <td>{loadingItem.Stock.stock_barcode}</td>
