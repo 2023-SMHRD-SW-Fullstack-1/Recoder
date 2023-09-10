@@ -4,17 +4,18 @@ const passport = require('passport');
 
 const { User, Company, Warehouse, Rack } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares');
-const { login, join, logout } = require('../controllers/auth');
+const { login, join, logout, checkId } = require('../controllers/auth');
 
 const router = express.Router()
 
+// 로그인한 상태에서 사용자 정보 불러오기 (로그인 안하면 null 리턴)
 router.get('/', async (req, res, next) => { // GET /user
   try {
     if (req.user) {
       const fullUserWithoutPassword = await User.findOne({
-        where: { id: req.user.id },
+        where: { user_id: req.user.user_id },
         attributes: {
-          exclude: ['pw']
+          exclude: ['user_pw']
         },
         include: [{
           model: Company,
@@ -41,5 +42,8 @@ router.post('/login', isNotLoggedIn, login);
 router.post('/', isNotLoggedIn, join);
 
 router.post('/logout', isLoggedIn, logout);
+
+// 아이디 중복체크
+router.post('/checkid', checkId)
 
 module.exports = router

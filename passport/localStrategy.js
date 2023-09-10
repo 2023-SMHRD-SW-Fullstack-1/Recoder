@@ -6,17 +6,17 @@ const User = require('../models/user')
 
 module.exports = () => {
   passport.use(new LocalStrategy({
-    usernameField: 'id',
-    passwordField: 'pw'
-  }, async (id, pw, done) => {
+    usernameField: 'user_id',
+    passwordField: 'user_pw'
+  }, async (user_id, user_pw, done) => {
     try {
       const user = await User.findOne({
-        where: { id }
+        where: { user_id }
       });
       if (!user) {
         return done(null, false, { reason: '존재하지 않는 아이디입니다!' });
       }
-      const result = await bcrypt.compare(pw, user.pw);
+      const result = await bcrypt.compare(user_pw, user.user_pw);
       if (result) {
         return done(null, user);
       }

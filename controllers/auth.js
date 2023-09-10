@@ -3,19 +3,22 @@ const passport = require('passport')
 const { User, Company } = require('../models')
 
 exports.join = async (req, res, next) => {
+  let { user_id, user_pw, user_nick } = req.body
   try {
     const exUser = await User.findOne({
       where: {
-        id: req.body.id,
+        user_id: user_id,
       }
     });
     if (exUser) {
       return res.status(403).send('이미 사용 중인 아이디입니다.');
     }
-    const hashedPassword = await bcrypt.hash(req.body.pw, 12);
+    const hashedPassword = await bcrypt.hash(user_pw, 12);
     await User.create({
-      id: req.body.id,
-      pw: hashedPassword,
+      user_id: user_id,
+      user_pw: hashedPassword,
+      user_nick: user_nick,
+      user_authority: 'U'
     });
     res.status(201).send('ok');
   } catch (error) {
@@ -39,9 +42,9 @@ exports.login = (req, res, next) => {
         return next(loginErr);
       }
       const fullUserWithoutPassword = await User.findOne({
-        where: { id: user.id },
+        where: { user_id: user.user_id },
         attributes: {
-          exclude: ['pw']
+          exclude: ['user_pw']
         },
         include: [{
           model: Company
@@ -57,4 +60,19 @@ exports.logout = (req, res) => {
     req.session.destroy();
     res.send('ok');
   });
+}
+
+exports.checkId = async (req, res) => {
+  try {
+    const checkId = await User.findOne({
+      where: { user_id: req.body.id } 
+    })
+    if (checkId === null) {
+      res.send('회원가입 가능')
+    } else {
+      res.send('아이디 중복')
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }
