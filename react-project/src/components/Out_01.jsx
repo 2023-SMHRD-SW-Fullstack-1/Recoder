@@ -226,9 +226,10 @@ function Out_01() {
                       <span>출고수량</span><input name='loading_cnt' type='number' onChange={outLoadingHandler} /><br />
                       <span>배송지</span>
                       <select id="out_filter" onClick={handleInputPluse}>
-                        {rackItem.Loadings.map((load, loadIndex) => (
-                          <option key={loadIndex} value={load.Stock.stock_shipping_des}>
-                            {load.Stock.stock_shipping_des}
+                        
+                      {rackItem.Loadings.map((loadingItem, loadingIndex)=> (
+                          <option key={loadingIndex} value={loadingItem.stock_shipping_des}>
+                            {loadingItem.stock_shipping_des}
                           </option>
                         ))}
                         <option value="직접입력">직접입력</option>
