@@ -31,14 +31,15 @@ function Out_01() {
       if (response.status === 200) {
         console.log('출고예정 리스트 가져오기 성공');
         // console.log(response.data);
-        console.log(response.data[0].Company);
+        console.log(response.data)
+        console.log(response.data[0].Company.Warehouses[0].Racks[0].Loadings);
         
         // 값 추출용 
-        console.log(response.data[0].Company.Loadings[0].Rack.Warehouse);
-        setOutStockList1(response.data.Company);
-        setOutStockList2(response.data.Company.Loadings);
-        setOutStockList3(response.data.Company.Loadings.Rack);
-        setOutStockList(`${outStockList1}`,`${outStockList2}`,`${outStockList3}`)
+        // console.log(response.data[0].Company.Loadings[0].Rack.Warehouse);
+        setOutStockList1(response.data);
+      //   setOutStockList2(response.data.Company.Loadings);
+      //   setOutStockList3(response.data.Company.Loadings.Rack);
+      //   setOutStockList(`${outStockList1}`,`${outStockList2}`,`${outStockList3}`)
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -171,47 +172,69 @@ function Out_01() {
                 <h1>제품ID</h1>
               </th>
               <th>
+                <h1>제품명</h1>
+              </th>
+              <th>
+                <h1>수량</h1>
+              </th>
+              <th>
                 <h1>입고일</h1>
               </th>
               <th>
                 <h1>유통기한</h1>
               </th>
               <th>
-                <h1>수량</h1>
+                <h1>적재창고</h1>
+              </th>
+              <th>
+                <h1>적재위치</h1>
+              </th>
+              <th>
+                <h1>코드번호</h1>
               </th>
             </tr>
           </thead>
           <tbody>
-            {outStockList.map((item, index) => (
-              <React.Fragment key={index}>
+          {outStockList1.map((companyItem, companyIndex) => (
+  <React.Fragment key={companyIndex}>
+    {companyItem.Company.Warehouses.map((warehouseItem, warehouseIndex) => (
+      <React.Fragment key={warehouseIndex}>
+        {warehouseItem.Racks.map((rackItem, rackIndex) => (
+          <React.Fragment key={rackIndex}>
+            {rackItem.Loadings.map((loadingItem, loadingIndex) => (
+              <React.Fragment key={loadingIndex}>
                 <tr
-                  onClick={() => handleRowClick(index)}
-                  className={rowOutTable[index] ? 'selected' : ''}
+                  onClick={() => handleRowClick(loadingIndex)}
+                  className={rowOutTable[loadingIndex] ? 'selected' : ''}
                 >
-                  <td className={`out_table_id ${rowOutTable[index] ? 'open' : ''}`}>
-                    {item.outStockList1}
+                  <td className={`out_table_id ${rowOutTable[loadingIndex] ? 'open' : ''}`}>
+                    {loadingItem.loading_seq}
                   </td>
-                  <td> {item.outStockList1}</td>
-                  <td> {item.outStockList1}</td>
-                  <td> {item.outStockList1}</td>
+                  <td>{loadingItem.Stock.stock_name}</td>
+                  <td>{loadingItem.loading_cnt}</td>
+                  <td>{loadingItem.created_at}</td>
+                  <td>{loadingItem.Stock.stock_expired}</td>
+                  <td>{warehouseItem.wh_name}</td>
+                  <td>{rackItem.rack_seq}</td>
+                  <td>{loadingItem.Stock.stock_barcode}</td>
                 </tr>
-                {rowOutTable[index] && (
-                  <tr >
-                    <td id='out_table_fold' colSpan={4}>
+                {rowOutTable[loadingIndex] && (
+                  <tr>
+                    <td id='out_table_fold' colSpan={8}>
                       <span>출고일자</span>
                       <input type='date' name='created_at' onChange={outLoadingHandler} /><br />
                       <span>출고수량</span><input name='loading_cnt' type='number' onChange={outLoadingHandler} /><br />
                       <span>배송지</span>
-                      <select id="out_filter"  onClick={handleInputPluse}>
-                        {testData2.map((item, index) =>
-                          <option key={index} value={item}>{item}
-                          </option>)}
-                        <option value="직접입력">
-                          직접입력
-                        </option>
+                      <select id="out_filter" onClick={handleInputPluse}>
+                        {rackItem.Loadings.map((load, loadIndex) => (
+                          <option key={loadIndex} value={load.Stock.stock_shipping_des}>
+                            {load.Stock.stock_shipping_des}
+                          </option>
+                        ))}
+                        <option value="직접입력">직접입력</option>
                       </select>
-                      {showInput &&(
-                        <input type='text' placeholder='배송지 입력'/>
+                      {showInput && (
+                        <input type='text' placeholder='배송지 입력' />
                       )}
                       <button className="custom-btn btn-1">출고</button>
                     </td>
@@ -219,6 +242,12 @@ function Out_01() {
                 )}
               </React.Fragment>
             ))}
+          </React.Fragment>
+        ))}
+      </React.Fragment>
+    ))}
+  </React.Fragment>
+))}
           </tbody>
         </table>
       </div>
