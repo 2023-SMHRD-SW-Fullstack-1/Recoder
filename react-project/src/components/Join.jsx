@@ -13,18 +13,17 @@ const [formData, setFormData] = useState({
     user_id: '',
     user_pw: '',
     user_pw_confirm: '',
-    user_name: '',
+    user_nick: '',
     user_cname: '',
 });
 
 // 이메일 중복확인
 const checkDuplicate = async () => {
     try {
-        const response = await axios.post('http://localhost:3000/checkId', {
-            user_id: formData.user_id,
+        const response = await axios.post('http://localhost:8000/user/checkid', {
+            id: formData.user_id,
         });
-
-        if (response.data.success) {
+        if (response.data === '회원가입 가능') {
             setDuplicateMessage('사용 가능한 아이디입니다.');
             setCheckMbId(true);
         } else {
@@ -54,17 +53,14 @@ const onSubmit = async (e) => {
     }
 
     try {
-        const response = await axios.post('http://localhost:3000/register', {
+        const response = await axios.post('http://localhost:8000/user', {
             user_id: formData.user_id,
             user_pw: formData.user_pw,
-            user_name: formData.user_name,
-            user_cname: formData.user_cname,
+            user_nick: formData.user_nick,
         });
-        console.log(response);
-
-        if (response.data.success) {
+        if (response.data === 'ok') {
             alert(response.data.message || "회원가입되었습니다!");
-            navigate("/Login");
+            navigate("/");
         } else {
             alert(response.data.message || "회원가입에 실패하였습니다.");
         }
@@ -139,15 +135,15 @@ return (
                             <div className="name-input-container">
                                 <input
                                     type="text"
-                                    name="user_name"
-                                    value={formData.user_name}
+                                    name="user_nick"
+                                    value={formData.user_nick}
                                     onChange={onChange}
-                                    placeholder='이름을 입력해주세요.'
+                                    placeholder='닉네임을 입력해주세요.'
                                 />
                             </div>
 
                             {/* 회사명 */}
-                            <label htmlFor="user_cname"></label>
+                            {/* <label htmlFor="user_cname"></label>
                             <div className="cname-input-container">
                                 <input
                                     type="text"
@@ -156,7 +152,7 @@ return (
                                     onChange={onChange}
                                     placeholder='회사명을 입력해주세요.'
                                 />
-                            </div>
+                            </div> */}
 
                             {/* 가입완료 버튼 */}
                             <div className="submit-button">
