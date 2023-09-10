@@ -12,27 +12,41 @@ import 'react-calendar/dist/Calendar.css';
 function Out_01() {
 
   // 출고 될 제품 리스트 담을 배열
-  // const [outStockList, setOutStockList] = useState([]);
+ 
+  const [outStockList1, setOutStockList1] = useState([]);
+  const [outStockList2, setOutStockList2] = useState([]);
+  const [outStockList3, setOutStockList3] = useState([]);
+  // const [outStockList, setOutStockList] = useState([`${outStockList1}`,`${outStockList2}`,`${outStockList3}`])
+  const [outStockList, setOutStockList] = useState([{outStockList1},{outStockList2},{outStockList3}])
 
-  // 출고 될 제품 리스트 정보 불러오기
-  // const getOutStock = async()=>{
-  //   try {
-  //     const response = await axios.post('/')
+  //출고 될 제품 리스트 정보 불러오기
+  const getOutStock = async()=>{
 
-  //     if (response.status === 200) {
-  //       console.log('출고예정 리스트 가져오기 성공');
-  //       console.log(response.data);
-  //       console.log(response.data[0]);
+    const userData = {
+      id: "user_id 001"
+    }
+    try {
+      const response = await axios.post('http://localhost:8000/out/create',userData)
 
-  //       setOutStockList(response.data);
-  //     }
-  //   } catch (error) {
-  //     if (error.response && error.response.status === 401) {
-  //       alert("데이터 출력 실패")
+      if (response.status === 200) {
+        console.log('출고예정 리스트 가져오기 성공');
+        // console.log(response.data);
+        console.log(response.data[0].Company);
+        
+        // 값 추출용 
+        console.log(response.data[0].Company.Loadings[0].Rack.Warehouse);
+        setOutStockList1(response.data.Company);
+        setOutStockList2(response.data.Company.Loadings);
+        setOutStockList3(response.data.Company.Loadings.Rack);
+        setOutStockList(`${outStockList1}`,`${outStockList2}`,`${outStockList3}`)
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert("데이터 출력 실패")
 
-  //     }
-  //   }
-  // }
+      }
+    }
+  }
 
   // 테스트 데이터 -> 서버 연결 되면 axios로 데이터 받아서 활용
   const testData = [
@@ -129,6 +143,13 @@ function Out_01() {
       setShowInput(false)
     }
   }
+
+
+  useEffect(() => {
+
+    getOutStock();
+  }, [])
+
   return (
     <div id='out_all'>
       <div id='out_top'>
@@ -161,18 +182,18 @@ function Out_01() {
             </tr>
           </thead>
           <tbody>
-            {testData.map((item, index) => (
+            {outStockList.map((item, index) => (
               <React.Fragment key={index}>
                 <tr
                   onClick={() => handleRowClick(index)}
                   className={rowOutTable[index] ? 'selected' : ''}
                 >
                   <td className={`out_table_id ${rowOutTable[index] ? 'open' : ''}`}>
-                    {item.sotckID}
+                    {item.outStockList1}
                   </td>
-                  <td>{item.date}</td>
-                  <td>{item.expirationDate}</td>
-                  <td>{item.num}</td>
+                  <td> {item.outStockList1}</td>
+                  <td> {item.outStockList1}</td>
+                  <td> {item.outStockList1}</td>
                 </tr>
                 {rowOutTable[index] && (
                   <tr >
