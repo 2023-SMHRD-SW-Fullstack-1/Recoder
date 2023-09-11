@@ -26,7 +26,7 @@ const Login = () => {
     if (userData.user_id !== undefined) {
       axios.post('http://localhost:8000/user/login', userData)
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         if (res.data.user_id) {
           nav('/main')
         }
@@ -53,7 +53,7 @@ const Login = () => {
                   <input
                     type="text"
                     placeholder=" 아이디를 입력해주세요."
-                    maxLength="10"
+                    maxLength="15"
                     autoFocus
                     ref={idRef}
                   />
