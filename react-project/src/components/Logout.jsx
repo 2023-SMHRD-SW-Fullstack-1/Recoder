@@ -11,7 +11,7 @@ const Logout = () => {
         .then((res) => {
             console.log(res);
             if (res.data === 'ok') {
-                nav('/')
+                window.location.href='http://localhost:3000/login'
             }
         })
         .catch((err) => {

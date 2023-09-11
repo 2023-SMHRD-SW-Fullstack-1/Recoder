@@ -30,7 +30,7 @@ const Sidebar = () => {
     <div>
       <button className='my-button'>
         <img 
-          src='/img/hambergur button.png'
+          src='/img/hambergur_button.png'
           alt='side-button'
           width='40px'
           onClick={handleShow}

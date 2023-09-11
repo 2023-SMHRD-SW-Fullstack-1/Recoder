@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../css/Login.css';
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 
 const Login = () => {
   
@@ -28,7 +28,7 @@ const Login = () => {
       .then((res) => {
         // console.log(res);
         if (res.data.user_id) {
-          nav('/main')
+          window.location.href='http://localhost:3000/main'
         }
       })
       .catch((err) => {
