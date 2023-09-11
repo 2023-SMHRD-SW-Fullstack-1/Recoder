@@ -20,6 +20,11 @@ class User extends Sequelize.Model {
                 allowNull: false,
                 comment: "사용자 로그인 패스워드"
             },
+            user_nick: {
+                type: Sequelize.STRING(50),
+                allowNull: false,
+                comment: '사용자 닉네임'
+            },
             user_authority: {
                 type: Sequelize.CHAR(1),
                 allowNull: false,
@@ -39,7 +44,6 @@ class User extends Sequelize.Model {
 
     static associate(db) {
         db.User.belongsTo(db.Company, { foreignKey: 'com_seq', targetKey: 'com_seq' })
-        db.User.hasMany(db.Warehouse, { foreignKey: 'user_seq', sourceKey: 'user_seq' })
         db.User.hasMany(db.Notice, { foreignKey: 'user_seq', sourceKey: 'user_seq' })
     }
 }

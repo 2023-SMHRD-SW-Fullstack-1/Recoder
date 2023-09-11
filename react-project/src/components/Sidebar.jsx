@@ -45,7 +45,7 @@ const Sidebar = () => {
           <div className='sidebar-up'>
             <ul>            
               <li>
-                <a href='/' className='tdnone'>
+                <a href='/main' className='tdnone'>
                   <button className='my-button'>
                     <img src='/icon/home.svg'></img></button><p style={{ color: 'black' }}>홈</p>
                 </a>
@@ -95,7 +95,7 @@ const Sidebar = () => {
           </div>
           <div className='sidebar-down'>
             <a href='/mypage'><button className='my-button'><img src='/icon/profile.svg'></img><p></p></button></a>
-            <a><button className='my-button'><img src='/icon/logout.svg'></img><p></p></button></a>
+            <a href='/logout'><button className='my-button'><img src='/icon/logout.svg'></img><p></p></button></a>
           </div>
         </Offcanvas.Body>
       </Offcanvas>
