@@ -16,6 +16,7 @@ import Mypage from './components/Mypage';
 import './App.css'
 import axios from 'axios';
 import Logout from './components/Logout';
+import Testcom from './components/Testcom';
 
 const App = () => {
 
@@ -50,6 +51,7 @@ const App = () => {
           <Route path='/ware/manage' element={ <WareManage /> } />
           <Route path='/mypage' element={ <Mypage /> } />
           <Route path='/logout' element={ <Logout /> } />
+          <Route path='/test' element={ <Testcom /> } />
         </Routes> 
     </div> 
   )

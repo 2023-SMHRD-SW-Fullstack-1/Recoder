@@ -8,6 +8,14 @@ const { login, join, logout, checkId } = require('../controllers/auth');
 
 const router = express.Router()
 
+router.get('/test', async (req, res, next) => {
+  try {
+    console.log(req.user);
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 // 로그인한 상태에서 사용자 정보 불러오기 (로그인 안하면 null 리턴)
 router.get('/', async (req, res, next) => { // GET /user
   try {
