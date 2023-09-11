@@ -36,7 +36,7 @@ function Out_01() {
 
 
         setOutStockList1(response.data);
-
+        
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -45,10 +45,10 @@ function Out_01() {
       }
     }
   }
-  // 테스트 데이터 -> 서버 연결 되면 axios로 데이터 받아서 활용
+ 
 
-  // 배송지 필터 데이터
-  const testData2 = ["이마트", "홈플러스", "카카오스토어", "다이소"];
+
+
 
   // 테이블 클릭시 추가 화면 렌더링 함수
   const [rowOutTable, setRowOutTable] = useState(Array(outStockList1.length).fill(false));
@@ -64,18 +64,18 @@ function Out_01() {
 
 
 
- 
+ // 출고 추가 데이터 담을 객체
 const [outLoading, setOutLoading] = useState({
     loading_seq: '',
     created_at: '',
     loading_cnt: '',
-    stock_shipping_des: ''
+    stock_shipping_des: '',
+    loading_manager :''
   })
 
 
+  // 출고 추가 데이터 담을 함수
   const outLoadingHandler = (e) => {
-
-
     
      if (e.target.name == 'created_at') {
       // console.log(e.target.value)

@@ -81,7 +81,7 @@ const Sidebar = () => {
                   <div id="collapse-text2">
                     <ul>
                       <li><a href='/out/create' className='tdnone'>출고 등록</a></li>
-                      <li><a href='/out/select' className='tdnone'>출고 이력</a></li>
+                      <li><a href='/out/controll' className='tdnone'>출고 이력</a></li>
                       <li><a href='/out/des' className='tdnone'>배송지 관리</a></li>
                     </ul>
                   </div>
