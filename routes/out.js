@@ -5,6 +5,7 @@ const { User, Warehouse, Rack, Loading, Stock, Company } = require('../models');
 
 
 
+
 // 출고 메인 페이지 => 출고될 리스트 조회
 router.post('/', async (req, res) => {
     let { id } = req.body;
@@ -43,4 +44,33 @@ router.post('/', async (req, res) => {
     }
 
 })
+
+
+router.post('/loading',async(req, res)=>{
+
+try {
+    console.log("===============================================================");
+    console.log(req.body);
+    const outLoading = await Loading.update(
+        {
+            loading_type: 'O',
+            created_at: req.body.created_at,
+            loading_cnt : req.body.loading_cnt,
+            stock_shipping_des: req.body.stock_shipping_des,
+          },
+          {
+            where: {
+                loading_seq: req.body.loading_seq
+            }
+
+    })
+    console.log(outLoading);
+    res.json(outLoading)
+} catch (error) {
+    console.log(error);
+}
+})
+
+
+
 module.exports = router
