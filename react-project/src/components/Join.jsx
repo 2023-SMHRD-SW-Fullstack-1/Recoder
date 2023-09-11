@@ -76,7 +76,9 @@ return (
             <tbody>
                 <tr>
                     <td className="content1">
-                        <div className='join-title'><h1>회원가입</h1></div>
+                        <div className='join-title'>
+                            <h1>회원가입</h1>
+                        </div>
 
                         <form onSubmit={onSubmit} className="Join_content1">
 

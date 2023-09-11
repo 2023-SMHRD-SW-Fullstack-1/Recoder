@@ -3,249 +3,145 @@
     src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
     font-weight: 400;
     font-style: normal;
-  }
-  
-  #ware_manage_all {
+}
+
+#ware_manage_all {
     padding: 5%;
     position: relative;
     width: 100%;
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     flex-direction: column;
-  
-  }
-  
-  #ware_manage_top {
+
+}
+
+#ware_manage_top {
     height: 100px;
-    box-sizing: border-box;
-    position: relative;
-    display: block;
+    /* box-sizing: border-box; */
+    /* position: relative; */
+    /* display: block; */
     background: #FFFFFF;
-    /* border: 1px solid rgba(107, 107, 107, 0.1);
-    border-radius: 2px; */
-    align-content: space-around;
-  
-  }
-  
-  #out_title {
-    font-family: "Pretendard-Regular";
-    display: block;
-    margin: 20px;
-    font-size: large;
-  }
-  
-  
-  #out_input_container {
-    width: 100%;
-    height: 23px;
+    /* align-content: space-around; */
+
     display: flex;
-    margin-left: 20px;
-  }
-  
-  
-  #out_filter {
-    width: 150px;
-    margin-left: 20px;
-  }
-  
-  
-  #out_input_container #out_input_icon {
-    height: 100%;
-    color: darkgray;
-    margin-left: 5px;
-  }
-  
-  #out_input {
-    width: 150px;
-    height: 100%;
-    font-size: small;
-    
-  }
-  
-  /*  버튼  */
-  h1 {
-    position: relative;
-    text-align: center;
-    color: #353535;
-    font-size: 50px;
-  }
-  
-  /*  input  */
-  #out_table_fold input {
-  
-    font-family: 'Pretendard-Regular';
-    color: lightslategray;
-   width: 200px;
-   margin: 20px;
-  }
-  #out_filter{
-  
-    font-family: 'Pretendard-Regular';
-    color: lightslategray;
-   width: 200px;
-  }
-  #out_input{
-    width: 200px;
-  }
-  
-  
-  
-  p {
-    font-weight: 300;
-    text-align: center;
-    font-size: 18px;
-    color: #676767;
-  }
-  
-  .frame {
-    width: 90%;
-    margin: 40px auto;
-    text-align: center;
-  }
-  
-  button {
-    margin: 20px;
-    outline: none;
-  }
-  
-  .custom-btn {
-    width: 70px;
-    height: 35px;
-    padding: 5px 10px;
-    border: 2px solid #898989;
-    border-radius : 2px;
-    font-weight: 500;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* 1 */
-  .btn-1 {
-    transition: all 0.3s ease;
-  }
-  
-  .btn-1:hover {
-    box-shadow:
-      -7px -7px 20px 0px #fff9,
-      -4px -4px 5px 0px #fff9,
-      7px 7px 20px 0px #0002,
-      4px 4px 5px 0px #0001;
-  }
-  
-  /* 테이블 css */
-  #out_table_fold {
-  
-    background-color: rgb(255, 255, 255);
-    padding:20px;
-  
-    /* border-radius: 10px; */
-  }
-  
-  #out_table_fold span {
-  margin: 30px 20px;
-  color:#b791fd;
-  }
-  
-  .ware_manage_table{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.ware_manage_table {
     height: 80%;
     padding: 20px;
-  }
-  
-  .out_table::-webkit-scrollbar {
-    display: none; /* 크롬, 사파리, 오페라, 엣지 */
-  }
-  
-  body {
-      font-weight: 300;
-    line-height: 1.42em;
-    color: #A7A1AE;
-  
-  }
-  
-  h1 {
-    font-size: 3em;
-    font-weight: 300;
-    line-height: 1em;
-    text-align: center;
-    color: #000000;
-  }
-  
-  
-  
-  .container th h1 {
-    font-family: "Pretendard-Regular";
+    /* background-color: aqua; */
+}
+
+.ware_manage_title {
+    overflow: hidden;
+}
+
+.ware_manage_title h1 {
+    overflow: hidden;
+}
+
+
+
+/* 창고 생성 버튼 */
+.ware_button_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ware_manage_table button {
+    /* background-color: rgba(89, 31, 217, 0.864);
+    border: 1px solid rgba(89, 31, 217, 0.864);
+    border-radius: 5px;
+    color: whitesmoke; */
+
+    background-color: #b791fd;
+    border: none; /* Remove the border */
+    border-radius: 5px;
+    color: whitesmoke;
+    padding: 10px 20px; /* Add some padding */
+    font-size: 16px; /* Increase font size */
+    font-weight: bold; /* Make the text bold */
+    cursor: pointer; /* Change cursor on hover */
+}
+
+.ware_manage_table button:hover {
+    background-color: #b791fd;
+    color: black;
     font-weight: bold;
-    font-size: 1em;
-    text-align: left;
-    color: #ffffff;
-  }
-  
-  .container td {
-    font-family: "Pretendard-Regular";
-    font-weight: normal;
-    font-size: 1em;
-    -webkit-box-shadow: 0 2px 2px -2px #0E1119;
-    -moz-box-shadow: 0 2px 2px -2px #0E1119;
-    box-shadow: 0 2px 2px -2px #0E1119;
-  }
-  
-  .container {
+}
+/* 창고 생성 버튼 끝 */
+
+
+
+/* container 관련 css */
+.ware_container {
     text-align: left;
     overflow: hidden;
     width: 100%;
     margin: 0 auto;
     display: table;
     padding: 0 0 8em 0;
-  }
-  
-  .container td,
-  .container th {
+}
+
+.ware_container th h1 {
+    font-family: "Pretendard-Regular";
+    font-weight: bold;
+    font-size: 1em;
+    text-align: left;
+    color: #ffffff;
+}
+
+.ware_container td {
+    font-family: "Pretendard-Regular";
+    font-weight: normal;
+    font-size: 1em;
+    -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+    -moz-box-shadow: 0 2px 2px -2px #0E1119;
+    box-shadow: 0 2px 2px -2px #0E1119;
+}
+
+.ware_container th,
+.ware_container td {
+    color: black;
     padding-bottom: 2%;
     padding-top: 2%;
     padding-left: 2%;
-  }
-  
-  /* Background-color of the odd rows */
-  .container tr:nth-child(odd) {
+}
+
+.ware_container tr:nth-child(odd) {
     background-color: #ffffff;
-  }
-  
-  /* Background-color of the even rows */
-  .container tr:nth-child(even) {
+}
+
+.ware_container tr:nth-child(even) {
     background-color: #ffffff;
-  }
-  
-  .container th {
+}
+
+.ware_container th {
     background-color: #b791fd;
-  }
-  
-  .container td:first-child {
+}
+
+.ware_container td:first-child {
     color: #b791fd;
-  }
-  .container td:first-child:hover{
+}
+
+.ware_container td:first-child:hover {
     color: white
-  }
-  .container tr:hover {
+}
+
+.ware_container tr:hover {
     background-color: #e8defb;
     -webkit-box-shadow: 0 6px 6px -6px #0E1119;
     -moz-box-shadow: 0 6px 6px -6px #0E1119;
     box-shadow: 0 6px 6px -6px #0E1119;
-  }
-  
-  .out_table_id:hover {
-    background-color: #ceb4ff;
-    color: #403E10;
-    font-weight: bold;
-    font-family: "Pretendard-Regular";
-    box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
-    transform: translate3d(6px, -6px, 0);
-  
-    transition-delay: 0s;
-    transition-duration: 0.4s;
-    transition-property: all;
-    transition-timing-function: line;
-  
-  }
+}
+
+.ware_container h1 {
+    overflow: hidden;
+}
+/* container 관련 css 끝 */
