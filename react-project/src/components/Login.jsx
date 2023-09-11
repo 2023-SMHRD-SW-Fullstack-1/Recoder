@@ -1,48 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../css/Login.css';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
-  const [userId, setUserId] = useState('');
-  const [password, setPassword] = useState('');
+  
+  const nav = useNavigate()
 
-  // 수정된 loginUser 함수
-  const loginUser = async () => {
-    try {
-      const response = await axios.post(
-        'http://localhost:3000/login',
-        { mb_id: userId, mb_pw: password },
-        { withCredentials: true } // 쿠키를 전송하도록 설정
-      );
-      console.log(response);
-      if (response.status === 200) {
-        console.log(response.data);
+  const idRef = useRef()
+  const pwRef = useRef()
 
-        // memberId를 로컬 스토리지에 저장 (API 응답에 따라 적절한 key로 변경해야 함)
-        const memberId = response.data.memberId;
-        localStorage.setItem('memberId', memberId);
+  const [userData, setUserData] = useState({})
 
-        window.location.href = '/';
-      } else {
-        alert('로그인에 실패하였습니다.');
-      }
-    } catch (error) {
-      alert('로그인에 실패하였습니다.');
-      console.error(error);
+  const handleLogin = (e) => {
+
+    e.preventDefault()
+
+    setUserData({
+      user_id : idRef.current.value,
+      user_pw : pwRef.current.value
+    })
+  }
+
+  useEffect(() => {
+    if (userData.user_id !== undefined) {
+      axios.post('http://localhost:8000/user/login', userData)
+      .then((res) => {
+        console.log(res);
+        if (res.data.user_id) {
+          nav('/main')
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
     }
-  };
+  }, [userData])
 
-  // 회원가입 버튼을 눌렀을 때 동작할 함수
-  const handleJoin = (e) => {
-    e.preventDefault();
-    window.location.href = '/join'; // 회원가입 페이지로 이동
-  };
+  const handleJoin = () => {
+    nav('/join')
+  }
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    await loginUser();
-  };
   return (
     <div className="login-container">
       <table>
@@ -54,20 +52,20 @@ const Login = () => {
                 <form onSubmit={handleLogin}>
                   <input
                     type="text"
-                    placeholder="  이메일을 입력해주세요."
-                    maxLength="10"
+                    placeholder=" 아이디를 입력해주세요."
+                    maxLength="15"
                     autoFocus
-                    onChange={(e) => setUserId(e.target.value)}
+                    ref={idRef}
                   />
 
                   <input
                     type="password"
                     placeholder="  비밀번호를 입력해주세요."
                     maxLength="15"
-                    onChange={(e) => setPassword(e.target.value)}
+                    ref={pwRef}
                   />
 
-                  <button className="login-button" type="submit" onClick={handleLogin}>
+                  <button className="login-button" type="submit">
                     로그인
                   </button>
 

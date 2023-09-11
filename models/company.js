@@ -49,6 +49,7 @@ class Company extends Sequelize.Model {
     static associate(db) {
         db.Company.hasMany(db.User, { foreignKey: 'com_seq', sourceKey: 'com_seq' })
         db.Company.hasMany(db.Warehouse, { foreignKey: 'com_seq', sourceKey: 'com_seq' })
+        db.Company.hasMany(db.Loading, { foreignKey: 'com_seq', sourceKey: 'com_seq' })
     }
 }
 

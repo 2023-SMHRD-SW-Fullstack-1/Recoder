@@ -1,22 +1,46 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../models/user');
+// const User = require('../models/user');
+const { User, Warehouse, Rack, Loading, Stock, Company } = require('../models'); // 모델들을 import
+
 
 
 // 출고 메인 페이지 => 출고될 리스트 조회
-router.get('/create',(req,res)=>{
+router.post('/', async (req, res) => {
+    let { id } = req.body;
+    try {
+        const outList = await User.findAll({
+            attributes: ['com_seq'],
+            where: {
+                user_id: id
+            },
+            include: [{
+                model: Company,
+                include: [{
+                    model: Warehouse,
+                    attributes: ['wh_seq', 'wh_name']
+                    ,
+                    include: [{
+                        model: Rack,
 
+                        include: [{
+                            model: Loading,
 
-    const result = User.create({ // 생성된 쿼리 결과를 얻는다.
-    
-        user_id: '23',
-        user_pw: "123",
-        user_authority:"U"
+                            include: [{
+                                model: Stock,
 
-    });
+                            }]
+                        }]
+                    }]
+                }]
 
-    res.send('성공!')
+            }]
+        });
+        console.log(outList);
+        res.json(outList)
+    } catch (error) {
+        console.error(error);
+    }
 
 })
-
 module.exports = router
