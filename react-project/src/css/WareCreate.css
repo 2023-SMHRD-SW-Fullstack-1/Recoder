@@ -1,0 +1,84 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+#ware_create_all {
+    padding: 5%;
+    position: relative;
+    width: 100%;
+    /* height: 100vh; */
+    display: flex;
+    flex-direction: column;
+}
+
+#ware_create_title {
+    height: 200px;
+    background: #FFFFFF;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 창고 생성 버튼 */
+.ware_create_submit_button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ware_create_submit_button button {
+    background-color: #b791fd;
+    border: none; /* Remove the border */
+    border-radius: 5px;
+    color: whitesmoke;
+    padding: 10px 20px; /* Add some padding */
+    font-size: 16px; /* Increase font size */
+    font-weight: bold; /* Make the text bold */
+    cursor: pointer; /* Change cursor on hover */
+}
+
+.ware_create_submit_button button :hover {
+    background-color: #b791fd;
+    color: black;
+    font-weight: bold;
+}
+/* 창고 생성 버튼 끝 */
+
+/* container 관련 css */
+.ware_create_container {
+    text-align: left;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    display: table;
+    padding: 0 0 8em 0;
+}
+
+.ware_create_container td {
+    font-family: "Pretendard-Regular";
+    font-weight: normal;
+    font-size: 1em;
+    -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+    -moz-box-shadow: 0 2px 2px -2px #0E1119;
+    box-shadow: 0 2px 2px -2px #0E1119;
+}
+
+.ware_create_container td {
+    color: black;
+    padding-bottom: 2%;
+    padding-top: 2%;
+    padding-left: 2%;
+}
+
+.ware_create_container th {
+    background-color: #b791fd;
+}
+
+
+/* container 관련 css 끝 */

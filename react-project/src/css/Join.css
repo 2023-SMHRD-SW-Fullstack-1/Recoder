@@ -21,6 +21,9 @@
 
     color: black;
   }
+  .join-title h1 {
+    overflow: hidden;
+  }
   
   /* 입력부분 전부 */
   .Join-container input,

@@ -48,7 +48,9 @@ const Login = () => {
           <tr>
             <td>
               <div className='content'>
-                <div className='login-title'><h1>로그인</h1></div>
+                {/* <div className='login-title'> */}
+                  <h1>로그인</h1>
+                {/* </div> */}
                 <form onSubmit={handleLogin}>
                   <input
                     type="text"
