@@ -11,7 +11,7 @@ function Out_02() {
 
     const outControllList = async()=>{
         const userData = {
-            id: "user_id 001"
+            id: "qwer"
           }
           try {
             const response = await axios.post('http://localhost:8000/out/controll', userData)
@@ -102,7 +102,7 @@ function Out_02() {
                               <td>{loadingItem.loading_seq}</td>
                               <td>{loadingItem.Stock.stock_name}</td>
                               <td>{loadingItem.loading_cnt}</td>
-                              <td>{loadingItem.created_at.substring(0, 10)}</td>
+                              <td>{loadingItem.out_created_at.substring(0, 10)}</td>
                               <td>{loadingItem.Stock.stock_expired.substring(0, 10)}</td>
                               <td>{warehouseItem.wh_name}</td>
                               <td>{rackItem.rack_seq}</td>

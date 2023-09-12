@@ -24,7 +24,7 @@ router.post('/create', async (req, res) => {
                         include: [{
                             model: Loading,
                             where: {
-                                loading_type: { [Op.ne]: 'O' }
+                                loading_type: 'I' 
                             },
                             include: [{
                                 model: Stock
@@ -38,6 +38,7 @@ router.post('/create', async (req, res) => {
     } catch (error) {
         console.error(error);
     }
+
 })
 
 
@@ -49,10 +50,12 @@ router.post('/create/loading', async (req, res) => {
         const outLoading = await Loading.update(
             {
                 loading_type: 'O',
-                created_at: req.body.created_at,
+                out_created_at: req.body.created_at,
                 loading_cnt: req.body.loading_cnt,
                 stock_shipping_des: req.body.stock_shipping_des,
-                loading_manager: req.body.loading_manager
+                loading_manager: req.body.loading_manager,
+                loading_floor:null,
+                loading_position:null,
             },
             {
                 where: {
@@ -60,6 +63,7 @@ router.post('/create/loading', async (req, res) => {
                 }
 
             })
+            
         console.log(outLoading);
         res.json(outLoading)
     } catch (error) {
@@ -90,6 +94,9 @@ router.post('/controll', async (req, res) => {
 
                         include: [{
                             model: Loading,
+                             where: {
+                                loading_type: 'O' 
+                            },
 
                             include: [{
                                 model: Stock,
@@ -110,4 +117,26 @@ router.post('/controll', async (req, res) => {
 
 })
 
+// 배송지 관리 페이지
+router.post('/des/detail', async (req, res) => {
+
+    let { com_seq } = req.body;
+    try {
+        const desDetail = await Stock.findAll({
+            include: [
+                {
+                  model: Loading,
+                  where: {
+                    loading_type: 'O',
+                    com_seq: com_seq,
+                  },
+                },
+              ],
+            })
+        console.log(desDetail);
+        res.json(desDetail)
+    } catch (error) {
+        console.error(error);
+    }
+})
 module.exports = router

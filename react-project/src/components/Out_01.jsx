@@ -18,13 +18,13 @@ function Out_01() {
   // 출고 될 제품 리스트 담을 배열
 
   const [outStockList1, setOutStockList1] = useState([]);
-  const [outStockList, setOutStockList] = useState([]);
 
+const id = 'qwer'
   //출고 될 제품 리스트 정보 불러오기
   const getOutStock = async () => {
 
     const userData = {
-      id: "user_id 001"
+      id: id
     }
     try {
       const response = await axios.post('http://localhost:8000/out/create', userData)
@@ -51,18 +51,18 @@ function Out_01() {
 
 
   // 테이블 클릭시 추가 화면 렌더링 함수
-  const [rowOutTable, setRowOutTable] = useState(Array(outStockList1.length).fill(false));
 
-  const handleRowClick = (index) => {
-    const newRowOutTable = [...rowOutTable];
-    newRowOutTable[index] = !newRowOutTable[index];
-    setRowOutTable(newRowOutTable);
+  const [rowOutTable, setRowOutTable] = useState([].fill(false));
+
+  const handleRowClick = (loadingIndex) => {
+    console.log('클릭  인덱스', loadingIndex);
+    setRowOutTable((prevRowOutTable) => {
+      const newRowOutTable = [...prevRowOutTable];
+      newRowOutTable[loadingIndex] = !newRowOutTable[loadingIndex];
+      return newRowOutTable;
+    });
   };
-
-
-  // 출고 추가정보 데이터 관리
-
-
+ 
 
  // 출고 추가 데이터 담을 객체
 const [outLoading, setOutLoading] = useState({
@@ -70,7 +70,7 @@ const [outLoading, setOutLoading] = useState({
     created_at: '',
     loading_cnt: '',
     stock_shipping_des: '',
-    loading_manager :''
+    loading_manager :id
   })
 
 
@@ -83,8 +83,11 @@ const [outLoading, setOutLoading] = useState({
     }
     else if (e.target.name == 'loading_cnt') {
       // console.log(e.target.value)
+      if(  e.target.value> e.target.getAttribute('name') == 'td_loading_cnt'.value){
+        alert('출고 수량 초과입니다')
+      } else{
       setOutLoading({ ...outLoading, loading_cnt: e.target.value })
-
+      }
     }else if (e.target.getAttribute('name') == 'loading_seq' ) {
       // console.log(e.target.value)
       setOutLoading({ ...outLoading, loading_seq: e.target.innerText })
@@ -134,6 +137,7 @@ const [outLoading, setOutLoading] = useState({
       setShowInput(false)
     }
   }
+
 
 
 
@@ -207,7 +211,7 @@ const [outLoading, setOutLoading] = useState({
                                 {loadingItem.loading_seq}
                               </td>
                               <td>{loadingItem.Stock.stock_name}</td>
-                              <td>{loadingItem.loading_cnt}</td>
+                              <td onChange={outLoadingHandler} name = 'td_loading_cnt' value={loadingItem.loading_cnt}>{loadingItem.loading_cnt}</td>
                               <td>{loadingItem.created_at.substring(0, 10)}</td>
                               <td>{loadingItem.Stock.stock_expired.substring(0, 10)}</td>
                               <td>{warehouseItem.wh_name}</td>
