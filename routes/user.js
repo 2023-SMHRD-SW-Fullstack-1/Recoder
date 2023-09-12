@@ -10,7 +10,7 @@ const router = express.Router()
 
 router.get('/test', async (req, res, next) => {
   try {
-    console.log(req.user);
+    res.send('ok')
   } catch (error) {
     console.error(error);
   }
