@@ -60,7 +60,10 @@ const App = () => {
           </Routes> 
         </div>
       ) : (
-        <Login />
+        <Routes>
+          <Route path='/' element={ <Login /> } />
+          <Route path='/join' element={ <Join /> } />
+        </Routes>
       )}
     </div> 
   )
