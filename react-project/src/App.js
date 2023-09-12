@@ -12,6 +12,7 @@ import In from './components/In'
 import OutSelect from './components/OutSelect'
 import OutDestination from './components/OutDestination'
 import WareManage from './components/WareManage'
+import WareCreate from './components/WareCreate'
 import Mypage from './components/Mypage';
 import './App.css'
 import axios from 'axios';
@@ -49,6 +50,7 @@ const App = () => {
           <Route path='/stock/select' element={ <StockSelect />} />
           <Route path='/stock/manage' element={ <StockManage /> } />
           <Route path='/ware/manage' element={ <WareManage /> } />
+          <Route path='/ware/create' element={ <WareCreate /> } />
           <Route path='/mypage' element={ <Mypage /> } />
           <Route path='/logout' element={ <Logout /> } />
           <Route path='/test' element={ <Testcom /> } />

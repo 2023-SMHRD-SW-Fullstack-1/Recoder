@@ -1,8 +1,12 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+
 
 import '../css/WareManage.css'
 
 const WareManage = () => {
+
+  const nav = useNavigate()
 
   const testData = [
     {
@@ -27,6 +31,11 @@ const WareManage = () => {
       createdAt: "2023-01-01"
     }
   ];
+
+
+  const handleWareCreate = () => {
+    nav('/ware/create')
+  }
 
   return (
     <div id='ware_manage_all'>
@@ -74,7 +83,7 @@ const WareManage = () => {
           </tbody>
         </table>
         <div className="ware_button_container">
-          <button>창고 생성</button>
+          <button onClick={handleWareCreate}>창고 생성</button>
         </div>
       </div>
     </div>
