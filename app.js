@@ -62,7 +62,7 @@ app.use(passport.session())
 
 app.use('/user', userRouter)
 // 혜주 작성
-app.use('/out/create',outRouter)
+app.use('/out',outRouter)
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번 포트에서 대기 중');
