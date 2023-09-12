@@ -1,8 +1,59 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../css/Mypage.css'
 import '../css/Join.css'
+import axios from 'axios'
 
 const Mypage = () => {
+
+    const [uid, setUid] = useState('')
+    const [nick, setNick] = useState('')
+    const [putUserData, setPutUserData] = useState({})
+    const pwRef = useRef()
+    const checkPwRef = useRef()
+    const nickRef = useRef()
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/user')
+        .then((res) => {
+            console.log(res);
+            setUid(res.data.user_id)
+            setNick(res.data.user_nick)
+        })
+        .catch((err) => {
+            console.error(err);
+        })
+    }, [])
+
+    const handleUserData = (e) => {
+        e.preventDefault()
+
+        if (pwRef.current.value !== checkPwRef.current.value) {
+            alert('비밀번호가 일치하지 않습니다!')
+        } else {
+            if (pwRef.current.value && nickRef.current.value) {
+                setPutUserData({
+                    user_pw: pwRef.current.value,
+                    user_nick: nickRef.current.value
+                })
+            } else {
+                alert('정보를 모두 입력해주세요!')
+            }
+        }
+    }
+    
+    useEffect(() => {
+        axios.patch('http://localhost:8000/user', putUserData)
+        .then((res) => {
+            console.log(res);
+            if (res.data === 'ok') {
+                window.location.href = 'http://localhost:3000/main'
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        })        
+    }, [putUserData])
+
   return (
     <div className="Join-container">
         <table>
@@ -13,7 +64,10 @@ const Mypage = () => {
                             <h1>마이페이지</h1>
                         </div>
 
-                        <form className="Join_content1">
+                        <form
+                            className="Join_content1"
+                            onSubmit={handleUserData}
+                        >
 
                             <div className='id_input_container'>
                                 {/* 아이디 */}
@@ -21,7 +75,7 @@ const Mypage = () => {
                                 <input
                                     type="text"
                                     name="user_id"
-                                    value='로그인한 사용자 아이디'
+                                    value={uid}
                                     disabled
                                 />
                             </div>
@@ -35,6 +89,7 @@ const Mypage = () => {
                                     type="password"
                                     name="user_pw"
                                     placeholder='비밀번호를 입력하세요.'
+                                    ref={pwRef}
                                 />
                             </div>
 
@@ -45,6 +100,7 @@ const Mypage = () => {
                                     type="password"
                                     name="user_pw_confirm"
                                     placeholder='비밀번호를 다시 입력해주세요.'
+                                    ref={checkPwRef}
                                 />
                             {/* </div> */}
 
@@ -54,7 +110,8 @@ const Mypage = () => {
                                 <input
                                     type="text"
                                     name="user_name"
-                                    placeholder='로그인한 사용자 이름'
+                                    placeholder={nick}
+                                    ref={nickRef}
                                 />
                             {/* </div> */}
 
