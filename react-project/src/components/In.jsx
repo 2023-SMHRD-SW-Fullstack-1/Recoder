@@ -125,6 +125,46 @@ const In = () => {
 			price: 105000,
 			quantity: "50",
 			expirationDate: "2023-12-25",
+		}, {
+			stockName: "A0004",
+			type: "beverage",
+			imgPath: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80",
+			pos: {"x": "0", "y": "0", "z": "5"},
+			price: 105000,
+			quantity: "50",
+			expirationDate: "2023-12-25",
+		}, {
+			stockName: "A0004",
+			type: "beverage",
+			imgPath: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80",
+			pos: {"x": "0", "y": "0", "z": "5"},
+			price: 105000,
+			quantity: "50",
+			expirationDate: "2023-12-25",
+		}, {
+			stockName: "A0004",
+			type: "beverage",
+			imgPath: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80",
+			pos: {"x": "0", "y": "0", "z": "5"},
+			price: 105000,
+			quantity: "50",
+			expirationDate: "2023-12-25",
+		}, {
+			stockName: "A0099",
+			type: "beverage",
+			imgPath: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80",
+			pos: {"x": "0", "y": "0", "z": "5"},
+			price: 105000,
+			quantity: "50",
+			expirationDate: "2023-12-25",
+		}, {
+			stockName: "A0099",
+			type: "beverage",
+			imgPath: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80",
+			pos: {"x": "0", "y": "0", "z": "5"},
+			price: 105000,
+			quantity: "50",
+			expirationDate: "2023-12-25",
 		}
 	];
 	const [testDatas, setTestDatas] = useState(Array.from(testData));

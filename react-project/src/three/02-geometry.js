@@ -124,7 +124,7 @@ export default class App {
         const tempCube = this._createRack( "11", 1, 3,1, 7)
         // gui에서 객체 속성
         gui.add(tempCube.position, 'x', -1, 10, 0.1);
-        gui.add(tempCube.position, 'y', -1, 10, 0.1);
+        gui.add(tempCube.position, 'y', 0, 10, 0.1);
         gui.add(tempCube.position, 'z', -1, 10, 0.1);
         // gui를 html에 추가하는 코드
         document.body.appendChild(gui.domElement);
