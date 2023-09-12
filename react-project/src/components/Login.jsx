@@ -28,7 +28,7 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         if (res.data.user_id) {
-          nav('/main')
+          window.location.href = 'http://localhost:3000/main'
         }
       })
       .catch((err) => {

@@ -76,3 +76,22 @@ exports.checkId = async (req, res) => {
     console.error(error);
   }
 }
+
+exports.patch = async (req, res) => {  
+  let {user_pw, user_nick} = req.body
+  try {
+    const hashedPassword = await bcrypt.hash(user_pw, 12);
+
+    await User.update({
+      user_pw: hashedPassword,
+      user_nick: user_nick
+    }, {
+      where: {
+        user_id: req.user.user_id
+      }
+    })
+    res.send('ok')
+  } catch (error) {
+    console.error(error);
+  }
+}
