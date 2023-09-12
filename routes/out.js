@@ -1,51 +1,113 @@
 const express = require('express')
 const router = express.Router()
 // const User = require('../models/user');
-const { User, Warehouse, Rack, Loading, Stock } = require('../models'); // 모델들을 import
-
+const { User, Warehouse, Rack, Loading, Stock, Company } = require('../models'); // 모델들을 import
+const { Op } = require('sequelize');
 
 
 // 출고 메인 페이지 => 출고될 리스트 조회
-router.post('/main',async(req,res)=>{
+router.post('/create', async (req, res) => {
+    let id = req.body.id
 
- 
-try {
-    const result = await User.findOne({
-      where: { user_id: 'user_id 001' },
-      include: [
-        {
-          model: Warehouse,
-          include: [
-            {
-              model: Rack,
-              include: [
-                {
-                  model: Loading,
-                  include: [
-                    {
-                      model: Stock,
-                    },
-                  ],
-                },
-              ],
+    try {
+        const result = await User.findAll({
+            where: {
+                user_id: id
             },
-          ],
-        },
-      ],
-    });
-  
-    if (result) {
-      // 결과를 클라이언트에 응답으로 보내줍니다.
-      console.log('결과', result);
-      res.json(result);
-    } else {
-      // 데이터가 없을 경우, 적절한 응답을 보내줍니다.
-      console.log('데이터가 없습니다.');
-      res.status(404).json({ error: '데이터가 없습니다.' });
+            include: [{
+                model: Company,
+                include: [{
+                    model: Warehouse,
+                    attributes: ['wh_seq', 'wh_name'],
+                    include: [{
+                        model: Rack,
+                        include: [{
+                            model: Loading,
+                            where: {
+                                loading_type: { [Op.ne]: 'O' }
+                            },
+                            include: [{
+                                model: Stock
+                            }]
+                        }]
+                    }]
+                }]
+            }]
+        })
+        res.json(result)
+    } catch (error) {
+        console.error(error);
     }
-  } catch (err) {
-    console.log('/main 에러', err);
-    res.status(500).json({ error: '서버 오류 발생' });
-  }
 })
+
+
+// 출고버튼 클릭(출고 등록)
+router.post('/create/loading', async (req, res) => {
+
+    try {
+        console.log(req.body);
+        const outLoading = await Loading.update(
+            {
+                loading_type: 'O',
+                created_at: req.body.created_at,
+                loading_cnt: req.body.loading_cnt,
+                stock_shipping_des: req.body.stock_shipping_des,
+                loading_manager: req.body.loading_manager
+            },
+            {
+                where: {
+                    loading_seq: req.body.loading_seq
+                }
+
+            })
+        console.log(outLoading);
+        res.json(outLoading)
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+
+
+// 출고이력 페이지 - 모든 출고 리스트 조회
+router.post('/controll', async (req, res) => {
+
+    let { id } = req.body;
+    try {
+        const outControllList = await User.findAll({
+            attributes: ['com_seq'],
+            where: {
+                user_id: id
+            },
+            include: [{
+                model: Company,
+                include: [{
+                    model: Warehouse,
+                    attributes: ['wh_seq', 'wh_name']
+                    ,
+                    include: [{
+                        model: Rack,
+
+                        include: [{
+                            model: Loading,
+
+                            include: [{
+                                model: Stock,
+
+                            }]
+                        }]
+                    }]
+                }]
+
+            }]
+        });
+        console.log(outControllList);
+        res.json(outControllList)
+    } catch (error) {
+        console.error(error);
+    }
+
+
+})
+
 module.exports = router

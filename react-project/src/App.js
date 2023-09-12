@@ -12,10 +12,13 @@ import In from './components/In'
 import OutSelect from './components/OutSelect'
 import OutDestination from './components/OutDestination'
 import WareManage from './components/WareManage'
+import WareCreate from './components/WareCreate'
 import Mypage from './components/Mypage';
 import './App.css'
 import axios from 'axios';
 import Logout from './components/Logout';
+import Testcom from './components/Testcom';
+import Out_02 from './components/Out_02';
 
 const App = () => {
 
@@ -36,21 +39,29 @@ const App = () => {
 
   return (
     <div>
-        { uid && <Sidebar /> }   
-        <Routes>          
-          <Route path='/' element={ <Login /> } />
-          <Route path='/join' element={ <Join /> } />
-          <Route path='/main' element={ <Main /> } />
-          <Route path='/out/create' element={ <Out_01 /> } />
-          <Route path='/out/select' element={ <OutSelect /> } />
-          <Route path='/out/des' element={ <OutDestination /> } />
-          <Route path='/in/create' element={ <In /> } />
-          <Route path='/stock/select' element={ <StockSelect />} />
-          <Route path='/stock/manage' element={ <StockManage /> } />
-          <Route path='/ware/manage' element={ <WareManage /> } />
-          <Route path='/mypage' element={ <Mypage /> } />
-          <Route path='/logout' element={ <Logout /> } />
-        </Routes> 
+      { uid ? (
+        <div>
+          <Sidebar />
+          <Routes>
+            <Route path='/' element={ <Login /> } />
+            <Route path='/join' element={ <Join /> } />
+            <Route path='/main' element={ <Main /> } />
+            <Route path='/out/create' element={ <Out_01 /> } />
+            <Route path='/out/select' element={ <OutSelect /> } />
+            <Route path='/out/des' element={ <OutDestination /> } />
+            <Route path='/in/create' element={ <In /> } />
+            <Route path='/stock/select' element={ <StockSelect />} />
+            <Route path='/stock/manage' element={ <StockManage /> } />
+            <Route path='/ware/manage' element={ <WareManage /> } />
+            <Route path='/mypage' element={ <Mypage /> } />
+            <Route path='/logout' element={ <Logout /> } />
+            <Route path='/test' element={ <Testcom /> } />
+            <Route path='/out/controll' element={ <Out_02 /> } />
+          </Routes> 
+        </div>
+      ) : (
+        <Login />
+      )}
     </div> 
   )
 }

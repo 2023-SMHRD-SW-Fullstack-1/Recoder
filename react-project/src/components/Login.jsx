@@ -26,9 +26,9 @@ const Login = () => {
     if (userData.user_id !== undefined) {
       axios.post('http://localhost:8000/user/login', userData)
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         if (res.data.user_id) {
-          nav('/main')
+          window.location.href = 'http://localhost:3000/main'
         }
       })
       .catch((err) => {
@@ -48,12 +48,14 @@ const Login = () => {
           <tr>
             <td>
               <div className='content'>
-                <div className='login-title'><h1>로그인</h1></div>
+                {/* <div className='login-title'> */}
+                  <h1>로그인</h1>
+                {/* </div> */}
                 <form onSubmit={handleLogin}>
                   <input
                     type="text"
                     placeholder=" 아이디를 입력해주세요."
-                    maxLength="10"
+                    maxLength="15"
                     autoFocus
                     ref={idRef}
                   />
