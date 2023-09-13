@@ -86,7 +86,10 @@ const Join = () => {
             console.log(res);
             if (res.data[0]) {
                 setComName(res.data[0].com_name)
-                console.log(comName);
+                alert('완료')
+            } else {
+                alert('등록된 회사가 없습니다. 회사 등록으로 이동합니다')
+                navigate('/register/company')
             }
         })
         .catch((err) => {

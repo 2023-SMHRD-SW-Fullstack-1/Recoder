@@ -20,6 +20,7 @@ import axios from 'axios';
 import Logout from './components/Logout';
 import Testcom from './components/Testcom';
 import Out_02 from './components/Out_02';
+import RegisterCompany from './components/RegisterCompany';
 
 const App = () => {
 
@@ -61,13 +62,14 @@ const App = () => {
             <Route path='/mypage' element={ <Mypage /> } />
             <Route path='/logout' element={ <Logout /> } />
             <Route path='/test' element={ <Testcom /> } />
-            <Route path='/out/controll' element={ <Out_02 /> } />
+            <Route path='/out/controll' element={ <Out_02 /> } />            
           </Routes> 
         </div>
       ) : (
         <Routes>
           <Route path='*' element={ <Login /> } />
           <Route path='/join' element={ <Join /> } />
+          <Route path='/register/company' element={ <RegisterCompany /> } />
         </Routes>
       )}
     </div> 
