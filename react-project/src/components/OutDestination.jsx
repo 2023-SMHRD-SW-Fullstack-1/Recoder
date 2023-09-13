@@ -4,8 +4,8 @@ import ReactApexChart from 'react-apexcharts'
 
 function OutDestination() {
 
-  const com_seq = "1004"
-
+  const com_seq = 1004
+const wh_seq = 1004
 
   const [desDetailList, setDesDetailList] = ([]);
   const [desData, setDesData] = useState()
@@ -13,7 +13,9 @@ function OutDestination() {
 
   const desDetail = async () => {
     const userData = {
-      com_seq: com_seq
+      com_seq: com_seq,
+      wh_seq:wh_seq
+      
     }
     try {
       const response = await axios.post('http://localhost:8000/out/des/detail', userData)
@@ -24,21 +26,11 @@ function OutDestination() {
         console.log(response.data)
 
 
-        // setDesDetailList(response.data);
 
 
        // 지피티코드  
 
-       setDesDetailList (response.data.map(item => ({
-        stock_name: item.stock_name,
-        loading_cnt: item.Loading.loading_cnt,
-        stock_shipping_des: item.Loading.stock_shipping_des
-      })));
       
-      
-
-        // const flatData = response.data.flat();
-        // setDesData(flatData);
 
 
       }
@@ -54,16 +46,6 @@ function OutDestination() {
   
 
   
-  // const detailMap = desDetailList.map((stockItem, s) => {
-  //   const nameDetail = stockItem.stock_name;
-  //   const desAll = desDetailList[s].Loading.map((loadingItem, l) => ({
-  //     stock_name: nameDetail,
-  //     loading_cnt: loadingItem.loading_cnt,
-  //     stock_shipping_des: loadingItem.stock_shipping_des
-  //   }));
-  //   return desAll;
-  // });
-
 
 
 

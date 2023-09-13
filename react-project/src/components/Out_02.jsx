@@ -6,12 +6,18 @@ import axios from 'axios';
 
 function Out_02() {
 
+
+  const id = 'qwer'
+  const wh_seq = 1004
+
     // 출고리스트 담을 배열
     const [outLoadingList,setOutLoadingList] = useState([]);
 
     const outControllList = async()=>{
         const userData = {
-            id: "qwer"
+            id: id,
+            wh_seq:wh_seq
+
           }
           try {
             const response = await axios.post('http://localhost:8000/out/controll', userData)
