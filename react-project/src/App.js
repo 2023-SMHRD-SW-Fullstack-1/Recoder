@@ -24,6 +24,7 @@ import Out_02 from './components/Out_02';
 const App = () => {
 
   const [uid, setUid] = useState(false)
+  const [comSeq, setComSeq] = useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:8000/user')
@@ -31,6 +32,7 @@ const App = () => {
       console.log(res);
       if (res.data) {
         setUid(true)
+        setComSeq(res.data.com_seq)
       }
     })
     .catch((err) => {
@@ -52,8 +54,8 @@ const App = () => {
           <Route path='/stock/select' element={ <StockSelect />} />
           <Route path='/stock/manage' element={ <StockManage /> } />
           <Route path='/ware/manage' element={ <WareManage /> } />
-          <Route path='/ware/create' element={ <WareCreate /> } />
-          <Route path='/ware/createwarehouse' element={ <CreateWarehouse /> } />
+          <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} /> } />
+          <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq}/> } />
           <Route path='/mypage' element={ <Mypage /> } />
           <Route path='/logout' element={ <Logout /> } />
           <Route path='/test' element={ <Testcom /> } />

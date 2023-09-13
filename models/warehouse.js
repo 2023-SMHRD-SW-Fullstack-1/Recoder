@@ -14,11 +14,6 @@ class Warehouse extends Sequelize.Model {
                 allowNull: false,
                 comment: "창고 이름"
             },
-            wh_loc: {
-                type: Sequelize.STRING(255),
-                allowNull: false,
-                comment: "창고 주소"
-            },
             wh_width: {
                 type: Sequelize.DECIMAL(18, 4),
                 allowNull: false,

@@ -33,13 +33,13 @@ const WareManage = () => {
   ];
 
 
-  // const handleWareCreate = () => {
-  //   nav('/ware/create')
-  // }
-
   const handleWareCreate = () => {
-    nav('/ware/createwarehouse')
+    nav('/ware/create')
   }
+
+  // const handleWareCreate = () => {
+  //   nav('/ware/createwarehouse')
+  // }
 
   return (
     <div id='ware_manage_all'>

@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 export default class App {
-    constructor() {
+    constructor(width, length) {
         const divContainer = document.querySelector('#webgl-container');
         this._divContainer = divContainer;
 
@@ -14,6 +14,9 @@ export default class App {
         const scene = new THREE.Scene(); // scene 객체
         this._scene = scene;
         scene.background = new THREE.Color(0xFFFFFF);
+
+        this.width = width
+        this.length = length
 
         this._setupCamera();
         this._setupLight();
@@ -44,7 +47,7 @@ export default class App {
         );
 
         camera.position.y = 10;
-        camera.position.z = 5;
+        camera.position.z = 10;
         this._camera = camera;
     }
 
@@ -63,8 +66,7 @@ export default class App {
 
     _createBoard(){
         const wareHouse = new THREE.Object3D();
-        // const planeGeometry = new THREE.PlaneGeometry(warehouse_width,warehouse_length,warehouse_width,warehouse_length)
-        const planeGeometry = new THREE.PlaneGeometry(10,10,10,10)
+        const planeGeometry = new THREE.PlaneGeometry(this.width, this.length, this.width, this.length)
     
         const wareHouseMaterial = new THREE.MeshPhongMaterial({
             emissive:0x888888, 
