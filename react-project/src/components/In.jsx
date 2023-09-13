@@ -95,7 +95,7 @@ const In = () => {
 		{
 			stockName: "A0001",
 			type: "beverage",
-			imgPath: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80",
+			imgPath: "https://m.drice.co.kr/web/product/big/20200320/a6154c8b39c47e629e59e8008a39ef06.jpg",
 			pos: {x: "0", y: "0", z: "0"},
 			// {"x": "0", "y": "0", "z": "0"}
 			price: 10000,
@@ -104,7 +104,7 @@ const In = () => {
 		}, {
 			stockName: "A0002",
 			type: "beverage",
-			imgPath: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80",
+			imgPath: "https://m.drice.co.kr/web/product/big/20200320/a6154c8b39c47e629e59e8008a39ef06.jpg",
 			pos: {"x": "1", "y": "1", "z": "0"},
 			price: 5000,
 			quantity: "24",
@@ -112,7 +112,7 @@ const In = () => {
 		}, {
 			stockName: "A0003",
 			type: "beverage",
-			imgPath: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80",
+			imgPath: "https://m.drice.co.kr/web/product/big/20200320/a6154c8b39c47e629e59e8008a39ef06.jpg",
 			pos: {"x": "0", "y": "3", "z": "0"},
 			price: 5000,
 			quantity: "37",
@@ -120,7 +120,7 @@ const In = () => {
 		}, {
 			stockName: "A0004",
 			type: "beverage",
-			imgPath: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80",
+			imgPath: "https://m.drice.co.kr/web/product/big/20200320/a6154c8b39c47e629e59e8008a39ef06.jpg",
 			pos: {"x": "0", "y": "0", "z": "5"},
 			price: 105000,
 			quantity: "50",

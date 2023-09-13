@@ -18,10 +18,12 @@ export default class App {
         this._scene = scene;
         scene.background = new THREE.Color(0xFFFFFF);
 
+
         this._setupCamera();
         this._setupLight();
         this._setupModel();
         this._setupControls();
+        this._setupEvents();
         // _로 시작하는 이유 app 클래스 내부에서만 호출
 
         window.onresize = this.resize.bind(this); // 창 크기가 변경될 떄마다 변경
@@ -33,6 +35,55 @@ export default class App {
     _setupControls() {
         new OrbitControls(this._camera, this._divContainer);
     }
+
+    _setupEvents() {
+        this._raycaster = new THREE.Raycaster();
+        this._raycaster._clickedPosition = new THREE.Vector2();
+        this._raycaster._selectedMesh = null;
+        this._isUp = false;
+        
+        window.addEventListener("click", (e) => {
+            this._raycaster._clickedPosition.x = (e.clientX / window.innerWidth) * 2 - 1;
+            this._raycaster._clickedPosition.y = -(e.clientY / window.innerHeight) * 2 + 1;
+            this._raycaster.setFromCamera(this._raycaster._clickedPosition, this._camera)
+            const found = this._raycaster.intersectObjects(this._scene.children, true);
+            
+            if(found.length > 0) { // 물체를 선택했을 경우
+                // found.map(item => {
+				// 	console.log(item.object.name)d
+				// })
+                if(found[0].object.parent && found[0].object.parent.parent) {
+                    // console.log("1 found[0].point", found[0].point.x)
+                    // console.log("2 클릭 메쉬 이름", found[0].object.parent.parent.name); // super 그룹 객체  --> supergroup > group * n개 > mesh, 기둥4개
+                    // console.log("3 클릭 메쉬 포지션", found[0].object.parent.parent.position);
+                    this._raycaster._selectedMesh = found[0].object.parent.parent;
+                }
+
+                // this._raycaster._selectedMesh.position.y += (this.isUP) ? -0.5 : -0.5;
+                if(this._raycaster._selectedMesh) { // _selectedMesh가 있을 경우에
+                    if(!this._isUp) { // isUP -> false
+                        this._raycaster._selectedMesh.position.y += 1;
+                        this._isUp = true
+                        console.log("선택됨")
+                    } else { // 물체가 올라가 있는 경우 isUP -> true
+                        // console.log(found[0].point)
+                        let _x = found[0].point.x
+                        let _z = found[0].point.z
+                        this._raycaster._selectedMesh.position.set(_x, this._raycaster._selectedMesh.position.y, _z);
+                        setTimeout(() => {
+                            this._raycaster._selectedMesh.position.y -= 1;
+                            this._isUp = false
+                            this._raycaster._selectedMesh = null
+                            console.log('선택 끝, 객체 null')
+                        }, 500); // 1초후 실행
+                    }
+                } else {
+                    console.log("_selectedMesh -> null 없음")
+                }
+            }
+
+        })
+    } // _setupEvents() 끝
 
     _setupCamera() {
         const width = this._divContainer.clientWidth;
@@ -121,7 +172,7 @@ export default class App {
         
         const gui = new dat.GUI();
         
-        const tempCube = this._createRack( "11", 1, 3,1, 7)
+        const tempCube = this._createRack("첫번째 선반", 3, 1, 1, 7)
         // gui에서 객체 속성
         gui.add(tempCube.position, 'x', -1, 10, 0.1);
         gui.add(tempCube.position, 'y', 0, 10, 0.1);
@@ -129,15 +180,13 @@ export default class App {
         // gui를 html에 추가하는 코드
         document.body.appendChild(gui.domElement);
 
-        const tempCub2e = this._createRack( "11", 1, 3,1, 7)
+        // const tempCub2e = this._createRack( "11", 1, 3,1, 7)
 
-        tempCub2e.position.x = 10
+        // tempCub2e.position.x = 10
         
     }
     
-   
-        
-    // 랙 가로, 세로, 선반 이름, 선반 높이, 몇 층
+    /** 랙 이름, 랙의 가로, 랙의 두께, 랙의 높이, 몇층 */   
     _createRack(name, sizeX, sizeZ, sizeY, floor) {
         const superGroup = new THREE.Group()
         let group = new THREE.Group()
@@ -148,6 +197,7 @@ export default class App {
         const fillMaterial3 = new THREE.MeshStandardMaterial({ color: 0xFFFFFF })       
         
         const boardMesh = new THREE.Mesh(board, fillMaterial3);
+        boardMesh.name = "1층"
         const pilarMesh1 = new THREE.Mesh(pilar, fillMaterial3);
         const pilarMesh2 = new THREE.Mesh(pilar, fillMaterial3);
         const pilarMesh3 = new THREE.Mesh(pilar, fillMaterial3);
@@ -179,7 +229,7 @@ export default class App {
             group = group1.clone();
         }
             
-        superGroup.name = name;        
+        superGroup.name = name;
         this._scene.add(superGroup)
             
                 

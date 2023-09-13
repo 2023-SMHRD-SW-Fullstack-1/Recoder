@@ -137,6 +137,7 @@ tbody {
 		position: relative;
 		color: black; /* 글씨 색깔*/
 		border-right: solid 1px #000;
+		border-bottom: solid 1px #000;
 		text-align: center;
 		& input {
 			width: 100%;
@@ -146,7 +147,7 @@ tbody {
 		position: absolute;
 		height: 100%;
 		top: 0;
-		margin: auto;
+		/* margin: auto; */
 	}
 	& tr :nth-child(5) span{
 		display: flex;
