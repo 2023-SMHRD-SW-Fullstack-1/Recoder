@@ -48,7 +48,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 
   useEffect(() => {
     if (warehouseWidth !== null && warehouseLength !== null) {
-      new App(warehouseWidth, warehouseLength);
+      new App(warehouseWidth, warehouseLength, 2, 1);
     }
   }, [warehouseWidth, warehouseLength])
 

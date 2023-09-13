@@ -50,6 +50,7 @@ const App = () => {
           <Routes>
             <Route path='/' element={ <Login /> } />
             <Route path='/join' element={ <Join /> } />
+            <Route path='/register/company' element={ <RegisterCompany /> } />
             <Route path='/main' element={ <Main /> } />
             <Route path='/out/create' element={ <Out_01 /> } />
             <Route path='/out/select' element={ <OutSelect /> } />
