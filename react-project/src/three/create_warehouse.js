@@ -17,6 +17,7 @@ export default class App {
 
         this.width = width
         this.length = length
+        this.cellSize = 1; // 각 격자 칸의 크기를 클래스 멤버로 정의
 
         this._setupCamera();
         this._setupLight();
@@ -72,8 +73,18 @@ export default class App {
 
     _createBoard(){
         const wareHouse = new THREE.Object3D();
-        const planeGeometry = new THREE.PlaneGeometry(this.width, this.length, this.width, this.length)
-    
+
+        // gpt
+        const cellSize = this.cellSize; // 각 격자 칸의 크기
+        const numCellsX = this.width; // 가로 방향 격자 수
+        const numCellsY = this.length; // 세로 방향 격자 수
+        const planeGeometry = new THREE.PlaneGeometry(
+            cellSize * numCellsX,
+            cellSize * numCellsY,
+            numCellsX,
+            numCellsY
+        );
+        // gpt
         const wareHouseMaterial = new THREE.MeshPhongMaterial({
             emissive:0x888888, 
             flatShading:true,
@@ -119,20 +130,35 @@ export default class App {
             const intersects = this.raycaster.intersectObject(this._warehouse);
 
             if (intersects.length > 0) {
+                const intersection = intersects[0];
                 if (!this.rectangleMesh) {
                     const rectangleMaterial = new THREE.MeshPhongMaterial({
                         emissive: 0xff0000,
                         flatShading: true,
                         side: THREE.DoubleSide,
                     });
-                    const rectangleGeometry = new THREE.PlaneGeometry(2, 0.5,1);
+                    const rectangleGeometry = new THREE.PlaneGeometry(this.cellSize, this.cellSize, 1);
                     this.rectangleMesh = new THREE.Mesh(rectangleGeometry, rectangleMaterial);
-                    this.rectangleMesh.rotateX = THREE.MathUtils.degToRad(-90);
+                    this.rectangleMesh.rotation.x = THREE.MathUtils.degToRad(-90);
                     this._scene.add(this.rectangleMesh);
                 }
 
-                const intersection = intersects[0];
-                this.rectangleMesh.position.copy(intersection.point);
+                // 계산된 intersection.point를 격자 칸에 맞게 조정
+                const cellX = Math.floor((intersection.point.x + this.width / 2) / this.cellSize);
+                const cellY = Math.floor((intersection.point.z + this.length / 2) / this.cellSize);
+
+                // 정확한 X, Y 위치 계산 (직사각형의 중심이 칸의 중심과 일치하도록)
+                const newPosX = cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
+                const newPosY = 0.001; // 판 위에 놓이도록 약간 위로 띄움
+                const newPosZ = cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
+
+                // 현재 위치로부터 새로운 위치까지 직접 이동 (초기화)
+                if (this.rectangleMesh) {
+                    this.rectangleMesh.position.x = newPosX;
+                    this.rectangleMesh.position.z = newPosZ;
+                    this.rectangleMesh.position.y = newPosY;
+                }
+
                 this.rectangleMesh.visible = true;
             } else {
                 if (this.rectangleMesh) {
