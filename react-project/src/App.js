@@ -40,24 +40,32 @@ const App = () => {
 
   return (
     <div>
-        { uid && <Sidebar /> }   
-        <Routes>          
+      { uid ? (
+        <div>
+          <Sidebar />
+          <Routes>
+            <Route path='/' element={ <Login /> } />
+            <Route path='/join' element={ <Join /> } />
+            <Route path='/main' element={ <Main /> } />
+            <Route path='/out/create' element={ <Out_01 /> } />
+            <Route path='/out/select' element={ <OutSelect /> } />
+            <Route path='/out/des' element={ <OutDestination /> } />
+            <Route path='/in/create' element={ <In /> } />
+            <Route path='/stock/select' element={ <StockSelect />} />
+            <Route path='/stock/manage' element={ <StockManage /> } />
+            <Route path='/ware/manage' element={ <WareManage /> } />
+            <Route path='/mypage' element={ <Mypage /> } />
+            <Route path='/logout' element={ <Logout /> } />
+            <Route path='/test' element={ <Testcom /> } />
+            <Route path='/out/controll' element={ <Out_02 /> } />
+          </Routes> 
+        </div>
+      ) : (
+        <Routes>
           <Route path='/' element={ <Login /> } />
           <Route path='/join' element={ <Join /> } />
-          <Route path='/main' element={ <Main /> } />
-          <Route path='/out/create' element={ <Out_01 /> } />
-          <Route path='/out/select' element={ <OutSelect /> } />
-          <Route path='/out/des' element={ <OutDestination /> } />
-          <Route path='/in/create' element={ <In /> } />
-          <Route path='/stock/select' element={ <StockSelect />} />
-          <Route path='/stock/manage' element={ <StockManage /> } />
-          <Route path='/ware/manage' element={ <WareManage /> } />
-          <Route path='/ware/create' element={ <WareCreate /> } />
-          <Route path='/mypage' element={ <Mypage /> } />
-          <Route path='/logout' element={ <Logout /> } />
-          <Route path='/test' element={ <Testcom /> } />
-          <Route path='/out/controll' element={ <Out_02 /> } />
-        </Routes> 
+        </Routes>
+      )}
     </div> 
   )
 }

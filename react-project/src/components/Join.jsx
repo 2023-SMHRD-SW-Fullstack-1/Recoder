@@ -1,74 +1,98 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/Join.css';
 
 const Join = () => {
+    const navigate = useNavigate();
+    const [duplicateMessage, setDuplicateMessage] = useState('');
+    const [checkMbId, setCheckMbId] = useState(false);
 
-const navigate = useNavigate();
-const [duplicateMessage, setDuplicateMessage] = useState('');
-const [checkMbId, setCheckMbId] = useState(false);
+    const [formData, setFormData] = useState({
+        user_id: '',
+        user_pw: '',
+        user_pw_confirm: '',
+        user_nick: '',
+        user_cname: '',
+    });
 
-const [formData, setFormData] = useState({
-    user_id: '',
-    user_pw: '',
-    user_pw_confirm: '',
-    user_nick: '',
-    user_cname: '',
-});
+    const [comNum, setComNum] = useState('')
+    const comNumRef = useRef()
+    const [comName, setComName] = useState('')
 
-// 이메일 중복확인
-const checkDuplicate = async () => {
-    try {
-        const response = await axios.post('http://localhost:8000/user/checkid', {
-            id: formData.user_id,
-        });
-        if (response.data === '회원가입 가능') {
-            setDuplicateMessage('사용 가능한 아이디입니다.');
-            setCheckMbId(true);
-        } else {
+    // 이메일 중복확인
+    const checkDuplicate = async () => {
+        try {
+            const response = await axios.post('http://localhost:8000/user/checkid', {
+                id: formData.user_id,
+            });
+            if (response.data === '회원가입 가능') {
+                setDuplicateMessage('사용 가능한 아이디입니다.');
+                setCheckMbId(true);
+            } else {
+                setDuplicateMessage('중복된 아이디입니다.');
+                setCheckMbId(false);
+            }
+        } catch (error) {
             setDuplicateMessage('중복된 아이디입니다.');
             setCheckMbId(false);
         }
-    } catch (error) {
-        setDuplicateMessage('중복된 아이디입니다.');
-        setCheckMbId(false);
-    }
-};
+    };
 
 
-// 가입
-const onChange = (e) => {
-    setFormData({
-        ...formData,
-        [e.target.name]: e.target.value,
-    });
-};
-
-const onSubmit = async (e) => {
-    e.preventDefault();
-    if (formData.user_pw !== formData.user_pw_confirm) {
-        alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요.');
-        return;
-    }
-
-    try {
-        const response = await axios.post('http://localhost:8000/user', {
-            user_id: formData.user_id,
-            user_pw: formData.user_pw,
-            user_nick: formData.user_nick,
+    // 가입
+    const onChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
         });
-        if (response.data === 'ok') {
-            alert(response.data.message || "회원가입되었습니다!");
-            navigate("/");
-        } else {
-            alert(response.data.message || "회원가입에 실패하였습니다.");
+    };
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        if (formData.user_pw !== formData.user_pw_confirm) {
+            alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요.');
+            return;
         }
-    } catch (error) {
-        console.error(error);
-        alert('회원가입 도중 오류가 발생했습니다. 다시 시도해주세요.');
+
+        try {
+            const response = await axios.post('http://localhost:8000/user', {
+                user_id: formData.user_id,
+                user_pw: formData.user_pw,
+                user_nick: formData.user_nick,
+            });
+            if (response.data === 'ok') {
+                alert(response.data.message || "회원가입되었습니다!");
+                navigate("/");
+            } else {
+                alert(response.data.message || "회원가입에 실패하였습니다.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert('회원가입 도중 오류가 발생했습니다. 다시 시도해주세요.');
+        }
+    };
+
+    const searchCompany = () => {
+        console.log('검색버튼');
+        setComNum(comNumRef.current.value)
+        console.log(comNum);
     }
-};
+
+    useEffect(() => {
+        console.log('회사정보 요청');
+        axios.get(`http://localhost:8000/company/${comNum}`)
+        .then((res) => {
+            console.log(res);
+            if (res.data[0]) {
+                setComName(res.data[0].com_name)
+                console.log(comName);
+            }
+        })
+        .catch((err) => {
+            console.error(err);    
+        })
+    }, [comNum])
 
 return (
     <div className="Join-container">
@@ -145,16 +169,25 @@ return (
                             </div>
 
                             {/* 회사명 */}
-                            {/* <label htmlFor="user_cname"></label>
+                            <label htmlFor="user_cname"></label>
                             <div className="cname-input-container">
                                 <input
                                     type="text"
                                     name="user_cname"
                                     value={formData.user_cname}
                                     onChange={onChange}
-                                    placeholder='회사명을 입력해주세요.'
+                                    placeholder='사업자등록번호를 입력해주세요.'
+                                    ref={comNumRef}
                                 />
-                            </div> */}
+                                <button 
+                                    className="join-button"
+                                    type='button' 
+                                    style={{ backgroundColor: 'lightgray'}}
+                                    onClick={searchCompany}
+                                >
+                                    검색
+                                </button>
+                            </div>
 
                             {/* 가입완료 버튼 */}
                             <div className="submit-button">
