@@ -17,7 +17,6 @@
 #ware_create_title {
     height: 200px;
     background: #FFFFFF;
-
     display: flex;
     flex-direction: column;
     align-items: center;
