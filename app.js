@@ -13,6 +13,7 @@ dotenv.config()
 const outRouter = require('./routes/out')
 const userRouter = require('./routes/user')
 const comRouter = require('./routes/company')
+const wareRouter = require('./routes/ware')
 // sequelize 연결
 const { sequelize } = require('./models')
 const passportConfig = require('./passport')
@@ -65,6 +66,7 @@ app.use('/user', userRouter)
 // 혜주 작성
 app.use('/out',outRouter)
 app.use('/company', comRouter)
+app.use('/ware', wareRouter)
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번 포트에서 대기 중');

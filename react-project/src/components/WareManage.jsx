@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
 
 
 import '../css/WareManage.css'
@@ -36,6 +37,11 @@ const WareManage = () => {
   const handleWareCreate = () => {
     nav('/ware/create')
   }
+
+  useEffect(() => {
+    axios.get('/ware/manage')
+    .then(res => console.log(res))
+  })
 
   return (
     <div id='ware_manage_all'>

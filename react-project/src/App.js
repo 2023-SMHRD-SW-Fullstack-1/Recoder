@@ -13,29 +13,34 @@ import OutSelect from './components/OutSelect'
 import OutDestination from './components/OutDestination'
 import WareManage from './components/WareManage'
 import WareCreate from './components/WareCreate'
+import CreateWarehouse from './components/CreateWarehouse'
 import Mypage from './components/Mypage';
 import './App.css'
 import axios from 'axios';
 import Logout from './components/Logout';
 import Testcom from './components/Testcom';
 import Out_02 from './components/Out_02';
+import RegisterCompany from './components/RegisterCompany';
 
 const App = () => {
 
-  const [uid, setUid] = useState(false)
+  const [uid, setUid] = useState('qwer')
+  const [comSeq, setComSeq] = useState(1004);
+  const [newWareData, setNewWareData] = useState({})
 
-  useEffect(() => {
-    axios.get('http://localhost:8000/user')
-    .then((res) => {
-      console.log(res);
-      if (res.data) {
-        setUid(true)
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-  }, [])
+  // useEffect(() => {
+  //   axios.get('http://localhost:8000/user')
+  //   .then((res) => {
+  //     console.log(res);
+  //     if (res.data) {
+  //       setUid(true)
+  //       setComSeq(res.data.com_seq)
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   })
+  // }, [])
 
   return (
     <div>
@@ -53,16 +58,19 @@ const App = () => {
             <Route path='/stock/select' element={ <StockSelect />} />
             <Route path='/stock/manage' element={ <StockManage /> } />
             <Route path='/ware/manage' element={ <WareManage /> } />
+            <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
+            <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
             <Route path='/mypage' element={ <Mypage /> } />
             <Route path='/logout' element={ <Logout /> } />
             <Route path='/test' element={ <Testcom /> } />
-            <Route path='/out/controll' element={ <Out_02 /> } />
+            <Route path='/out/controll' element={ <Out_02 /> } />            
           </Routes> 
         </div>
       ) : (
         <Routes>
-          <Route path='/' element={ <Login /> } />
+          <Route path='*' element={ <Login /> } />
           <Route path='/join' element={ <Join /> } />
+          <Route path='/register/company' element={ <RegisterCompany /> } />
         </Routes>
       )}
     </div> 

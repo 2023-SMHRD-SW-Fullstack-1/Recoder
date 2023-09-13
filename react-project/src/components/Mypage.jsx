@@ -46,7 +46,7 @@ const Mypage = () => {
         .then((res) => {
             console.log(res);
             if (res.data === 'ok') {
-                window.location.href = 'http://localhost:3000/main'
+                window.location.href = 'http://localhost:3000/mypage'
             }
         })
         .catch((err) => {
