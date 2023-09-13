@@ -37,6 +37,10 @@ const WareManage = () => {
     nav('/ware/create')
   }
 
+  // const handleWareCreate = () => {
+  //   nav('/ware/createwarehouse')
+  // }
+
   return (
     <div id='ware_manage_all'>
       <div id='ware_manage_top'>
