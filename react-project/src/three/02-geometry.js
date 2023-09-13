@@ -41,6 +41,7 @@ export default class App {
         this._raycaster._clickedPosition = new THREE.Vector2();
         this._raycaster._selectedMesh = null;
         this._isUp = false;
+        this._canMove = true;
         
         window.addEventListener("click", (e) => {
             this._raycaster._clickedPosition.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -67,15 +68,20 @@ export default class App {
                         console.log("선택됨")
                     } else { // 물체가 올라가 있는 경우 isUP -> true
                         // console.log(found[0].point)
-                        let _x = found[0].point.x
-                        let _z = found[0].point.z
-                        this._raycaster._selectedMesh.position.set(_x, this._raycaster._selectedMesh.position.y, _z);
-                        setTimeout(() => {
-                            this._raycaster._selectedMesh.position.y -= 1;
-                            this._isUp = false
-                            this._raycaster._selectedMesh = null
-                            console.log('선택 끝, 객체 null')
-                        }, 500); // 1초후 실행
+
+                        if(this._canMove) {
+                            this._canMove = false;
+                            let _x = found[0].point.x
+                            let _z = found[0].point.z
+                            this._raycaster._selectedMesh.position.set(_x, this._raycaster._selectedMesh.position.y, _z);
+                            setTimeout(() => {
+                                this._raycaster._selectedMesh.position.y -= 1;
+                                this._raycaster._selectedMesh = null
+                                console.log('선택 끝, 객체 null')
+                                this._canMove = true;
+                                this._isUp = false
+                            }, 10); // 1초후 실행
+                        }
                     }
                 } else {
                     console.log("_selectedMesh -> null 없음")
@@ -102,7 +108,8 @@ export default class App {
     _setupLight() {
         const color = 0xffffff;
         const intensity = 10;
-        const light = new THREE.DirectionalLight(color, intensity);
+        // const light = new THREE.DirectionalLight(color, intensity);
+        const light = new THREE.AmbientLight(0xffffff);
         light.position.set(-1, 2, 4);
         this._scene.add(light);
 
@@ -157,7 +164,12 @@ export default class App {
         const geometry = new THREE.BoxGeometry(100, 0.01, 100);
         
         // const fillMaterial = new THREE.MeshPhongMaterial({ color: 0x357755, shininess: 100 });
-        const fillMaterial = new THREE.MeshStandardMaterial({ color: 0x357755, roughness: 1000 , metalness: 1});
+        // const fillMaterial = new THREE.MeshStandardMaterial({ color: 0x357755, roughness: 1000 , metalness: 1});
+        const fillMaterial = new THREE.MeshStandardMaterial({
+            color: 0x357755,
+            roughness: 0.2, // 매끄러운 표면
+            metalness: 0 // 비금속적인 표면
+        });
         
         const cube = new THREE.Mesh(geometry, fillMaterial);
         // cube.position.y -= 0.045;
@@ -194,7 +206,12 @@ export default class App {
         
         const board = new THREE.BoxGeometry(sizeX, 0.02, sizeZ, 1, 1, 1);
         const pilar = new THREE.BoxGeometry(0.05, sizeY, 0.05)
-        const fillMaterial3 = new THREE.MeshStandardMaterial({ color: 0xFFFFFF })       
+        // const fillMaterial3 = new THREE.MeshStandardMaterial({
+        //     color: 0xffff00,
+        //     emissive: 0xf5f5f5, 
+        //     emissiveIntensity: 1 // 빛의 강도
+        // })
+        const fillMaterial3 = new THREE.MeshBasicMaterial({ color: 0xffffff, })
         
         const boardMesh = new THREE.Mesh(board, fillMaterial3);
         boardMesh.name = "1층"
