@@ -57,7 +57,6 @@ const App = () => {
           <Route path='/logout' element={ <Logout /> } />
           <Route path='/test' element={ <Testcom /> } />
           <Route path='/out/controll' element={ <Out_02 /> } />
-
         </Routes> 
     </div> 
   )

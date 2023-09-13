@@ -7,141 +7,152 @@ function OutDestination() {
   const com_seq = "1004"
 
 
-const [desDetailList,setDesDetailList] =([]);
+  const [desDetailList, setDesDetailList] = ([]);
+  const [desData, setDesData] = useState()
+  // 배송지 디테일 정보 불러오기
 
-// 배송지 디테일 정보 불러오기
+  const desDetail = async () => {
+    const userData = {
+      com_seq: com_seq
+    }
+    try {
+      const response = await axios.post('http://localhost:8000/out/des/detail', userData)
 
-const desDetail = async()=>{
-  const userData = {
-    com_seq: com_seq
-  }
-  try {
-    const response = await axios.post('http://localhost:8000/out/des/detail', userData)
+      if (response.status === 200) {
+        console.log('배송지 디테일 정보 가져오기 성공');
 
-    if (response.status === 200) {
-      console.log('배송지 디테일 정보 가져오기 성공');
-
-      console.log(response.data)
+        console.log(response.data)
 
 
-      setDesDetailList(response.data);
+        // setDesDetailList(response.data);
+
+
+       // 지피티코드  
+
+       setDesDetailList (response.data.map(item => ({
+        stock_name: item.stock_name,
+        loading_cnt: item.Loading.loading_cnt,
+        stock_shipping_des: item.Loading.stock_shipping_des
+      })));
       
-    }
-  } catch (error) {
-    if (error.response && error.response.status === 401) {
-      alert("데이터 출력 실패")
+      
 
+        // const flatData = response.data.flat();
+        // setDesData(flatData);
+
+
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert("데이터 출력 실패")
+
+      }
     }
   }
-}
 
 
-const [desData,setDesData] = useState([{
-  stock_name:'',
-  loading_cnt:'',
-  stock_shipping_des:''
-}])
+  
 
-
-const detailMap = desDetailList.map((stockItem, s) => {
-  const nameDetail = stockItem.stock_name;
-  const desAll = desDetailList[s].Loading.map((loadingItem, l) => ({
-    stock_name: nameDetail,
-    loading_cnt: loadingItem.loading_cnt,
-    stock_shipping_des: loadingItem.stock_shipping_des
-  }));
-  return desAll;
-});
+  
+  // const detailMap = desDetailList.map((stockItem, s) => {
+  //   const nameDetail = stockItem.stock_name;
+  //   const desAll = desDetailList[s].Loading.map((loadingItem, l) => ({
+  //     stock_name: nameDetail,
+  //     loading_cnt: loadingItem.loading_cnt,
+  //     stock_shipping_des: loadingItem.stock_shipping_des
+  //   }));
+  //   return desAll;
+  // });
 
 
 
 
-useEffect(() => {
+  useEffect(() => {
 
- desDetail();
-}, [])
+    desDetail();
+  }, [])
 
-    // 도넛 차트
-    const donutData = {
-        series: [50,40,30,10,0],
-        options: {
-          chart: {
-            type: 'donut',
-          },
-          legend: {
-            position: 'bottom'
-          },
-          responsive: [{
-            breakpoint: 480,
-          }],
-          plotOptions: {
-            pie: {
-              donut: {
-                labels: {
-                  show: true,
-                  total: {
-                    showAlways: true,
-                    show: true,
-                    label: 'ALARM',
-                    fontSize: '12px',
-                    color: 'red'
-                  },
-                  value: {
-                    fontSize: '22px',
-                    show: true,
-                    color: 'blue',
-                  },
-                },
-              }
-            }
-          },
-          labels: ["침입", "배회", "쓰러짐", "화재", "안전모"],
-          title: {
-            text: '배송지별 통계',
-            align: 'center'
-          },
-        },
-      }
+  // 도넛 차트
+  const donutData = {
+    series: [50, 40, 30, 10, 0],
+    options: {
+      chart: {
+        type: 'donut',
+      },
+      legend: {
+        position: 'bottom'
+      },
+      responsive: [{
+        breakpoint: 480,
+      }],
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+              total: {
+                showAlways: true,
+                show: true,
+                label: 'ALARM',
+                fontSize: '12px',
+                color: 'red'
+              },
+              value: {
+                fontSize: '22px',
+                show: true,
+                color: 'blue',
+              },
+            },
+          }
+        }
+      },
+      labels: ["침입", "배회", "쓰러짐", "화재", "안전모"],
+      title: {
+        text: '배송지별 통계',
+        align: 'center'
+      },
+    },
+  }
 
 
 
   return (
     <div className="out_table">
-    <table className="container">
-      <thead>
-        <tr>
-          <th>
-            <h1>제품ID</h1>
-          </th>
-          <th>
-            <h1>제품명</h1>
-          </th> 
-          <th>
-            <h1>마지막 출고일</h1>
-          </th>
-    
-        </tr>
-      </thead>
-      <tbody>
-         
+      <table className="container">
+        <thead>
+          <tr>
+            <th>
+              <h1>제품ID</h1>
+            </th>
+            <th>
+              <h1>제품명</h1>
+            </th>
+            <th>
+              <h1>마지막 출고일</h1>
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
+
         </tbody>
         <div id="chart">
-        <ReactApexChart 
+          <ReactApexChart
             options={donutData.options}
             series={donutData.series}
-            type="donut" 
+            type="donut"
             width="500"
-        />
+          />
+        </div>
+
+
+      </table>
+      <div>
+{desDetailList.map((item,index)=>(<span key={index}>{item.stock_name} {item.loading_cnt} {item.stock_shipping_des}</span>))}
+
+
+</div>
     </div>
-
-  
-    </table>
-    <div>
-{desData.map((item,index)=>(<span key={index}>{item.stock_name} {item.loading_cnt} {item.stock_shipping_des}</span>))}
-
-
-</div>
-</div>
   )
 }
 
