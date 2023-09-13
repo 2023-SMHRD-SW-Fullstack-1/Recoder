@@ -18,15 +18,16 @@
     height: 200px;
     background: #FFFFFF;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
     justify-content: center;
+    /* margin-bottom: 0px; */
 }
 
 /* 창고 생성 버튼 */
 .ware_create_submit_button {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
     justify-content: center;
 }
@@ -50,7 +51,27 @@
 /* 창고 생성 버튼 끝 */
 
 /* container 관련 css */
-.ware_create_container {
+table{
+    margin: auto;
+    width: 50%;
+    /* height: 700px; */
+}
+
+input[type=text], input[type=number] {  
+    width :100% ;  
+    box-sizing:border-box ;  
+    margin-bottom :30px ;
+    margin-top :30px ;     
+    padding-left :10px ;
+ 
+ }  
+ 
+ .ware_name_input_container, .width_input_container, .length_input_container{   
+        width :70% ;
+        margin:auto;/* 중앙정렬*/   
+ }
+
+/* .ware_create_container {
     text-align: left;
     overflow: hidden;
     width: 100%;
@@ -77,7 +98,7 @@
 
 .ware_create_container th {
     background-color: #b791fd;
-}
+} */
 
 
 /* container 관련 css 끝 */

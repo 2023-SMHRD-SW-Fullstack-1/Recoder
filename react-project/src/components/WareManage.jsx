@@ -1,47 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 
 import '../css/WareManage.css'
 
-const WareManage = () => {
+const WareManage = ({ comSeq }) => {
 
   const nav = useNavigate()
-
-  const testData = [
-    {
-      warehouseID: "A0001",
-      loadCnt: "4/12",
-      loadRate: "30%",
-      createdAt: "2023-01-01"
-    }, {
-      warehouseID: "A0002",
-      loadCnt: "3/20",
-      loadRate: "15%",
-      createdAt: "2023-01-01"
-    }, {
-      warehouseID: "A0003",
-      loadCnt: "8/12",
-      loadRate: "60%",
-      createdAt: "2023-01-01"
-    }, {
-      warehouseID: "A0004",
-      loadCnt: "32/40",
-      loadRate: "80%",
-      createdAt: "2023-01-01"
-    }
-  ];
-
+  const [warehouseList, setWarehouseList] = useState([]);
 
   const handleWareCreate = () => {
     nav('/ware/create')
   }
 
   useEffect(() => {
-    axios.get('/ware/manage')
-    .then(res => console.log(res))
-  })
+    axios.get(`http://localhost:8000/ware/manage/${comSeq}`)
+      .then(res => {
+        setWarehouseList(res.data);
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+  }, []);
 
   return (
     <div id='ware_manage_all'>
@@ -53,44 +35,58 @@ const WareManage = () => {
 
       {/* 테이블 */}
       <div className="ware_manage_table">
-        <table className="ware_container">
-          <thead>
-            <tr>
-              <th>
-                <h1>창고 ID</h1>
-              </th>
-              <th>
-                <h1>적재량</h1>
-              </th>
-              <th>
-                <h1>적재율</h1>
-              </th>
-              <th>
-                <h1>생성일</h1>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {testData.map((item, index) => (
-              <React.Fragment key={index}>
-                {/* <tr onClick={() => handleRowClick(index)} className={rowOutTable[index] ? 'selected' : ''}> */}
-                <tr>
-                  {/* <td? className={`out_table_id ${rowOutTable[index] ? 'open' : ''}`}> */}
-                  <td>
-                    {item.warehouseID}
-                  </td>
-                  <td>{item.loadCnt}</td>
-                  <td>{item.loadRate}</td>
-                  <td>{item.createdAt}</td>
-                </tr>
+        <div className='ware_manage_header'>
 
-              </React.Fragment>
-            ))}
-          </tbody>
-        </table>
-        <div className="ware_button_container">
-          <button onClick={handleWareCreate}>창고 생성</button>
+          <table className="ware_container">
+            <thead>
+              <tr>
+                <th>
+                  <h1>창고 ID</h1>
+                </th>
+                <th>
+                  <h1>적재량</h1>
+                </th>
+                <th>
+                  <h1>적재율</h1>
+                </th>
+                <th>
+                  <h1>생성일</h1>
+                </th>
+              </tr>
+            </thead>
+          </table>
         </div>
+
+        <div className='ware_manage_content'>
+
+          <table className="ware_container">
+            <tbody>
+              {warehouseList.length > 0 ? (
+                warehouseList.map((item, index) => (
+                  //     <React.Fragment key={index}>
+                  <tr key={index}>
+                    <td>
+                      {item.wh_name}
+                    </td>
+                    {/* <td>{item.loadCnt}</td> */}
+                    <td>10</td>
+                    {/* <td>{item.loadRate}</td> */}
+                    <td>20</td>
+                    <td>{item.createdAt}</td>
+                  </tr>
+                  //     </React.Fragment>
+                ))
+              ) : (
+                console.log("창고가 없습니다.")
+              )}
+            </tbody>
+
+          </table>
+        </div>
+
+      </div>
+      <div className="ware_button_container">
+        <button onClick={handleWareCreate}>창고 생성</button>
       </div>
     </div>
   );
