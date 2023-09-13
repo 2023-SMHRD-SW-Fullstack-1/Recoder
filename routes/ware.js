@@ -18,4 +18,14 @@ router.post('/', async (req, res, next) => {
     }
 })
 
+router.post('/wareList', async(req, res) => {
+    let {wareId} = req.body;
+    try{
+        const warehouseList = await Warehouse.findAll({
+            
+        })
+    } catch (error) {
+        console.error(error);
+    }
+})
 module.exports = router

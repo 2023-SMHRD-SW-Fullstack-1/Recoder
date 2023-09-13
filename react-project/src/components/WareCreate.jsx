@@ -38,7 +38,7 @@ const WareCreate = ({ comSeq }) => {
                     <tr>
                         <td className="ware_create_container">
                             <form onSubmit={handleSubmit}>
-                                <div className='ware_name-input_container'>
+                                <div className='ware_name_input_container'>
                                     {/* 아이디 */}
                                     <input
                                         type="text"
@@ -51,7 +51,7 @@ const WareCreate = ({ comSeq }) => {
                                 </div>
 
                                 {/* 가로 */}
-                                <div className="width-input_container">
+                                <div className="width_input_container">
                                     <input
                                         type="number"
                                         placeholder='가로 길이를 입력해주세요.'
@@ -61,7 +61,7 @@ const WareCreate = ({ comSeq }) => {
                                 </div>
 
                                 {/* 세로 */}
-                                <div className="length-input_container">
+                                <div className="length_input_container">
                                     <input
                                         type="number"
                                         placeholder='세로 길이를 입력해주세요.'
