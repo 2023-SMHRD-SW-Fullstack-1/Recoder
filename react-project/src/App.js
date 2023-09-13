@@ -24,22 +24,23 @@ import RegisterCompany from './components/RegisterCompany';
 
 const App = () => {
 
-  const [uid, setUid] = useState(false)
-  const [comSeq, setComSeq] = useState(null);
+  const [uid, setUid] = useState('qwer')
+  const [comSeq, setComSeq] = useState(1004);
+  const [newWareData, setNewWareData] = useState({})
 
-  useEffect(() => {
-    axios.get('http://localhost:8000/user')
-    .then((res) => {
-      console.log(res);
-      if (res.data) {
-        setUid(true)
-        setComSeq(res.data.com_seq)
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-  }, [])
+  // useEffect(() => {
+  //   axios.get('http://localhost:8000/user')
+  //   .then((res) => {
+  //     console.log(res);
+  //     if (res.data) {
+  //       setUid(true)
+  //       setComSeq(res.data.com_seq)
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   })
+  // }, [])
 
   return (
     <div>
@@ -57,8 +58,8 @@ const App = () => {
             <Route path='/stock/select' element={ <StockSelect />} />
             <Route path='/stock/manage' element={ <StockManage /> } />
             <Route path='/ware/manage' element={ <WareManage /> } />
-            <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} /> } />
-            <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq}/> } />
+            <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
+            <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
             <Route path='/mypage' element={ <Mypage /> } />
             <Route path='/logout' element={ <Logout /> } />
             <Route path='/test' element={ <Testcom /> } />

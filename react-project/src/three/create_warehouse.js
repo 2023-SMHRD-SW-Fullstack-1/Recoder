@@ -24,10 +24,16 @@ export default class App {
         this._setupControls();
         // _로 시작하는 이유 app 클래스 내부에서만 호출
 
-        window.onresize = this.resize.bind(this); // 창 크기가 변경될 떄마다 변경
+        // gpt
+        window.addEventListener('resize', this.resize.bind(this));
         this.resize();
 
+        this.mouse = new THREE.Vector2();
+        this.raycaster = new THREE.Raycaster();
+        this.setupMouseEvents();
+
         requestAnimationFrame(this.render.bind(this));
+        // gpt
     }
 
      _setupControls(){
@@ -97,7 +103,51 @@ export default class App {
          wareHouseMesh.name = 'ground'
 
          this._warehouse = wareHouse
+
+        // gpt    
+         this.rectangleMesh = null;
+        // gpt
     }
+
+    //gpt
+    setupMouseEvents() {
+        this._divContainer.addEventListener('mousemove', (event) => {
+            this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            this.raycaster.setFromCamera(this.mouse, this._camera);
+
+            const intersects = this.raycaster.intersectObject(this._warehouse);
+
+            if (intersects.length > 0) {
+                if (!this.rectangleMesh) {
+                    const rectangleMaterial = new THREE.MeshPhongMaterial({
+                        emissive: 0xff0000,
+                        flatShading: true,
+                        side: THREE.DoubleSide,
+                    });
+                    const rectangleGeometry = new THREE.PlaneGeometry(2, 0.5,1);
+                    this.rectangleMesh = new THREE.Mesh(rectangleGeometry, rectangleMaterial);
+                    this.rectangleMesh.rotateX = THREE.MathUtils.degToRad(-90);
+                    this._scene.add(this.rectangleMesh);
+                }
+
+                const intersection = intersects[0];
+                this.rectangleMesh.position.copy(intersection.point);
+                this.rectangleMesh.visible = true;
+            } else {
+                if (this.rectangleMesh) {
+                    this.rectangleMesh.visible = false;
+                }
+            }
+        });
+
+        this._divContainer.addEventListener('mouseout', () => {
+            if (this.rectangleMesh) {
+                this.rectangleMesh.visible = false;
+            }
+        });
+    }
+    //gpt
 
     // 창의 크기가 변경될때 발생하는 이벤트
     resize(){

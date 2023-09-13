@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 // import App from './CreateWarehouse';
 
-const WareCreate = ({ comSeq }) => {
+const WareCreate = ({ comSeq, setNewWareData }) => {
 
     const [name, setName] = useState('');
     const [width, setWidth] = useState(null);
@@ -20,6 +20,7 @@ const WareCreate = ({ comSeq }) => {
             .then((res) => {
                 console.log( "2번째로 넘겨줄 데이터", res.data);
                 // localStorage.setItem('warehouse', Json.stringify(res.data));
+                setNewWareData(res.data)
                 nav('/ware/createwarehouse')
             })
             .catch((error) => {
