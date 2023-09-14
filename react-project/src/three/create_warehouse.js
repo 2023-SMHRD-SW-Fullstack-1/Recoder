@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default class App {
-  constructor(width, length, rectangleWidth, rectangleHeight) {
+  constructor(width, length, rectangleWidth = 1, rectangleHeight = 1) {
     const divContainer = document.querySelector("#webgl-container");
     this._divContainer = divContainer;
 
@@ -18,8 +18,8 @@ export default class App {
     this.width = width;
     this.length = length;
     this.cellSize = 1; // 각 격자 칸의 크기를 클래스 멤버로 정의
-    this.rectangleWidth = rectangleWidth
-    this.rectangleHeight = rectangleHeight
+    this.rectangleWidth = rectangleWidth;
+    this.rectangleHeight = rectangleHeight;
 
     this._setupCamera();
     this._setupLight();
@@ -27,16 +27,13 @@ export default class App {
     this._setupControls();
     // _로 시작하는 이유 app 클래스 내부에서만 호출
 
-    // gpt
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
 
     this.mouse = new THREE.Vector2();
     this.raycaster = new THREE.Raycaster();
-    this.setupMouseEvents();
 
     requestAnimationFrame(this.render.bind(this));
-    // gpt
   }
 
   _setupControls() {
@@ -71,7 +68,6 @@ export default class App {
   _createBoard() {
     const wareHouse = new THREE.Object3D();
 
-    // gpt
     const cellSize = this.cellSize; // 각 격자 칸의 크기
     const numCellsX = this.width; // 가로 방향 격자 수
     const numCellsY = this.length; // 세로 방향 격자 수
@@ -81,7 +77,6 @@ export default class App {
       numCellsX,
       numCellsY
     );
-    // gpt
     const wareHouseMaterial = new THREE.MeshPhongMaterial({
       emissive: 0x888888,
       flatShading: true,
@@ -114,13 +109,10 @@ export default class App {
 
     this._warehouse = wareHouse;
 
-    // gpt
     this.rectangleMesh = null;
-    // gpt
   }
 
-  //gpt
-  setupMouseEvents() {
+  setupMouseEvents(rectangleWidth, rectangleHeight) {
     this._divContainer.addEventListener("mousemove", (event) => {
       this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -137,8 +129,8 @@ export default class App {
             side: THREE.DoubleSide,
           });
           const rectangleGeometry = new THREE.PlaneGeometry(
-            this.rectangleWidth,
-            this.rectangleHeight, // 직사각형의 가로와 세로 크기를 사용
+            rectangleWidth,
+            rectangleHeight, // 직사각형의 가로와 세로 크기를 사용
             1
           );
           this.rectangleMesh = new THREE.Mesh(
@@ -147,24 +139,54 @@ export default class App {
           );
           this.rectangleMesh.rotation.x = THREE.MathUtils.degToRad(-90);
           this._scene.add(this.rectangleMesh);
+        } else {
+          // 이미 직사각형 객체가 존재한다면 크기만 업데이트
+          this.rectangleMesh.geometry.dispose(); // 기존 geometry 메모리 해제
+
+          const updatedRectangleGeometry = new THREE.PlaneGeometry(
+            rectangleWidth,
+            rectangleHeight
+          );
+
+          this.rectangleMesh.geometry = updatedRectangleGeometry;
         }
 
         // 계산된 intersection.point를 격자 칸에 맞게 조정
         const cellX = Math.floor(
           (intersection.point.x + this.width / 2) / this.cellSize
         );
-        console.log("pointer", intersection.point.x);
-        console.log("cellX", cellX)
+        // console.log("pointer", intersection.point.x);
+        // console.log("cellX", cellX)
         const cellY = Math.floor(
           (intersection.point.z + this.length / 2) / this.cellSize
         );
 
+        let newPosX;
+        let newPosZ;
+        let newPosY;
+
         // 정확한 X, Y 위치 계산 (직사각형의 중심이 칸의 중심과 일치하도록)
-        const newPosX =
-          cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
-        const newPosY = 0.001; // 판 위에 놓이도록 약간 위로 띄움
-        const newPosZ =
-          cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
+        if (rectangleWidth % 2 === 0 && rectangleHeight % 2 === 1) {
+          newPosX =
+            cellX * this.cellSize - this.width / 2 + this.cellSize / 2 + 0.5;
+          newPosY = 0.001; // 판 위에 놓이도록 약간 위로 띄움
+          newPosZ = cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
+        } else if (rectangleWidth % 2 === 0 && rectangleHeight % 2 === 0) {
+          newPosX =
+            cellX * this.cellSize - this.width / 2 + this.cellSize / 2 + 0.5;
+          newPosY = 0.001; // 판 위에 놓이도록 약간 위로 띄움
+          newPosZ =
+            cellY * this.cellSize - this.length / 2 + this.cellSize / 2 + 0.5;
+        } else if (rectangleWidth % 2 === 1 && rectangleHeight % 2 === 0) {
+          newPosX = cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
+          newPosY = 0.001; // 판 위에 놓이도록 약간 위로 띄움
+          newPosZ =
+            cellY * this.cellSize - this.length / 2 + this.cellSize / 2 + 0.5;
+        } else {
+          newPosX = cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
+          newPosY = 0.001; // 판 위에 놓이도록 약간 위로 띄움
+          newPosZ = cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
+        }
 
         // 현재 위치로부터 새로운 위치까지 직접 이동 (초기화)
         if (this.rectangleMesh) {
@@ -186,8 +208,30 @@ export default class App {
         this.rectangleMesh.visible = false;
       }
     });
+
+    this._divContainer.addEventListener("click", (event) => {
+      this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      this.raycaster.setFromCamera(this.mouse, this._camera);
+
+      const intersects = this.raycaster.intersectObject(this._warehouse);
+
+      if (intersects.length > 0) {
+        const intersection = intersects[0];
+
+        // 계산된 intersection.point를 격자 칸에 맞게 조정
+        const cellX = Math.floor(
+          (intersection.point.x + this.width / 2) / this.cellSize
+        );
+        const cellY = Math.floor(
+          (intersection.point.z + this.length / 2) / this.cellSize
+        );
+
+        console.log("Clicked at cell:", cellX, cellY+1);
+      }
+    });
   }
-  //gpt
 
   // 창의 크기가 변경될때 발생하는 이벤트
   resize() {

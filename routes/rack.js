@@ -7,7 +7,7 @@ router.post('/', async (req, res, next) => {
     try {
         const result = await Rack.create({
             rack_id: rackName,
-            rack_position: null,
+            rack_position: '1234',
             rack_width: rackWidth,
             rack_length: rackLength,
             rack_floor: rackFloor,
@@ -15,7 +15,6 @@ router.post('/', async (req, res, next) => {
             rack_z: rackZ,
             rack_rotate_yn: rackRotateYN
         })
-        console.log("처음에 넘겨줄 데이터", result.toJSON());
         res.json(result.toJSON())
     } catch (error) {
         console.error(error);
