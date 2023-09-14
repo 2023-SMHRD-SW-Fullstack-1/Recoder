@@ -18,4 +18,22 @@ router.post('/', async (req, res, next) => {
     }
 })
 
+router.get('/manage/:com_seq', async (req, res) => {
+    console.log("asd");
+    let com_seq = req.params.com_seq
+    try {
+        const warehouseList = await Warehouse.findAll({
+            attributes: ['wh_name', 'createdAt'],
+            where: {
+                com_seq : com_seq
+            },
+
+        });
+        console.log('warehouseList 가져오기',warehouseList);
+        res.json(warehouseList);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
 module.exports = router
