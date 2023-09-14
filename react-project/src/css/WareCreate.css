@@ -51,7 +51,7 @@
 /* 창고 생성 버튼 끝 */
 
 /* container 관련 css */
-table{
+.rack_create_all table{
     margin: auto;
     width: 50%;
     /* height: 700px; */
