@@ -75,6 +75,10 @@ function OutDestination() {
 
   // 클릭한 품목 데이터 저장 함수
   const [sNameList, setSnameList] = useState([])
+
+
+
+  // 항목 클릭 이벤트 작동
   const handleRowClick = (idx, item) => {
     console.log('클릭  인덱스', idx);
     setRowOutTable((prevRowOutTable) => {
@@ -99,21 +103,13 @@ function OutDestination() {
 
           console.log(response.data)
 
-          setSnameList(response.data.Racks.Loadings.stock_shipping_des)
-
-          // const stockNames = response.data.reduce((reStockName, warehouse) => {
-          //   warehouse.Racks.forEach((rack) => {
-          //     rack.Loadings.forEach((loading) => {
-          //       reStockName.push(loading.Stock.stock_name);
-          //     });
-          //   });
-          //   return reStockName;
-          // }, []);
-
-
-
-
-        }
+          // 배송지 정보 배열에 저장
+          setSnameList(response.data.flatMap(warehouse =>
+            warehouse.Racks.flatMap(rack =>
+              rack.Loadings.map(loading => loading.stock_shipping_des)
+            )
+          ))
+        };
       } catch (error) {
         if (error.response && error.response.status === 401) {
           alert("데이터 출력 실패")
@@ -122,7 +118,23 @@ function OutDestination() {
       }
     }
     stockNameData();
+    chartDataKey();
+
   };
+
+      // 품목 배송지 중복 제거
+      const oneSnameList =[...new Set(sNameList)]
+    
+
+const [chartData, setChartData] = useState( {});
+
+const chartDataKey = ()=>{
+  const newChartData = { ...chartData };
+  for (let i = 0; i < oneSnameList.length; i++) {
+    newChartData[oneSnameList[i]] = 0;
+  }
+  setChartData(newChartData);
+};
 
 
   const [dateData, setDateData] = useState({
@@ -151,7 +163,7 @@ function OutDestination() {
   const percents = [10, 20, 30, 50]
 
   const data = {
-    labels: ['Red', 'Orange', 'Yellow', 'Green'],
+    labels: oneSnameList,
     datasets: [
       {
         labels: ['Red', 'Orange', 'Yellow', 'Green'],
@@ -201,9 +213,10 @@ function OutDestination() {
 
   return (
     <div id='out_all'>
-      <span id="out_title">품목 관리</span>
-      <div id='_top'>
 
+      <div id='des_top'>
+        <span id="des_title">품목 관리</span>
+        <br />
         <span >기간 설정</span>
         <br />
 
@@ -218,13 +231,13 @@ function OutDestination() {
           <thead>
             <tr>
               <th>
-                <h1>제품ID</h1>
-              </th>
-              <th>
                 <h1>제품명</h1>
               </th>
               <th>
-                <h1>마지막 출고일</h1>
+                <h1>데이터</h1>
+              </th>
+              <th>
+                <h1>데이터2</h1>
               </th>
             </tr>
           </thead>
@@ -249,8 +262,7 @@ function OutDestination() {
 
                         <span>추가할 데이터</span>
                         <span>추가할 데이터</span>
-
-
+                        {sNameList.map((item, idx) => (<span key={idx}>{item}</span>))}
                       </div>
                     </div>
                   </td>

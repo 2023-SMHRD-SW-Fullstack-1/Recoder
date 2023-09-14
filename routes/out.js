@@ -206,4 +206,31 @@ router.post('/des/name', async (req, res) => {
         console.error(error);
     }
 })
+
+
+router.post('/des/count', async (req, res) => {
+
+    let { wh_seq,stock_name } = req.body;
+    try {
+        const count = await Loading.count({
+            where: {
+              loading_type: 'O',
+            },
+            include: [
+              {
+                model: Stock,
+                where: {
+                  stock_name: stock_name,
+                },
+              },
+            ],
+            group: ['stock_shipping_des'],
+            attributes: ['stock_shipping_des', [sequelize.fn('COUNT', sequelize.col('stock_shipping_des')), 'count']],
+          });
+        console.log( count);
+        res.json(count)
+    } catch (error) {
+        console.error(error);
+    }
+})
 module.exports = router

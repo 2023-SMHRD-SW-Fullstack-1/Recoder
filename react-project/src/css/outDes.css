@@ -1,8 +1,11 @@
 #des_top{
-    padding: 3%
+    padding: 3%;
 }
 
-
+#des_title{
+    font-size : 20px;
+    padding-bottom: 50px;
+}
 
 #doughnut_div {
 display: flex;
