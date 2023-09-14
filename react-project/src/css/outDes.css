@@ -1,5 +1,39 @@
-#doughnut {
-    width: 250px;
-    display: flex;
-    margin: 20%;
+#des_top{
+    padding: 3%
 }
+
+
+
+#doughnut_div {
+display: flex;
+flex-direction: row;
+
+}
+
+#doughnut {
+    width: 300px;
+    margin: 5%;
+
+  
+}
+
+
+#doughnut_2{
+    width: 30%;
+    margin: 5%;
+}
+
+#des_td:hover {
+    background-color: #ceb4ff;
+    color: #ffffff;
+    font-weight: bold;
+    font-family: "Pretendard-Regular";
+    box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+  
+    transition-delay: 0s;
+    transition-duration: 0.4s;
+    transition-property: all;
+    transition-timing-function: line;
+  
+  }
