@@ -132,11 +132,11 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
                     <td className="rack_create_container">
                       <form onSubmit={createRack}>
 
-                        <div className='ware_name_input_container'>
+                        <div className='rack_name_input_container'>
                           {/* 아이디 */}
                           <input
                             type="text"
-                            placeholder='창고 이름을 입력해주세요.'
+                            placeholder='선반 이름을 입력해주세요.'
                             autoFocus
                             value={rackName}
                             onChange={(e) => setRackName(e.target.value)}
