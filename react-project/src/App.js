@@ -58,7 +58,7 @@ const App = () => {
             <Route path='/in/create' element={ <In /> } />
             <Route path='/stock/select' element={ <StockSelect />} />
             <Route path='/stock/manage' element={ <StockManage /> } />
-            <Route path='/ware/manage' element={ <WareManage /> } />
+            <Route path='/ware/manage' element={ <WareManage comSeq={comSeq}/> } />
             <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
             <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
             <Route path='/mypage' element={ <Mypage /> } />
