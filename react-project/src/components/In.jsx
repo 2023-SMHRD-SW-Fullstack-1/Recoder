@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import swal from 'sweetalert';
-
-
 import '../css/In.css'
+
+
 // 폰트어썸
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
@@ -306,7 +306,10 @@ const In = () => {
 							<td></td>
 							<td><input type='text'/></td>
 							<td><input type='text'/></td>
-							<td><input type='file'/></td>
+							<td>
+								<label htmlFor='ex_file'>이미지 업로드</label>
+								<input type='file' id='ex_file'/>
+							</td>
 							<td >
 								<span>
 									<input type='number' placeholder='x' />
