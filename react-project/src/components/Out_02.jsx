@@ -6,12 +6,18 @@ import axios from 'axios';
 
 function Out_02() {
 
+
+  const id = 'qwer'
+  const wh_seq = 1004
+
     // 출고리스트 담을 배열
     const [outLoadingList,setOutLoadingList] = useState([]);
 
     const outControllList = async()=>{
         const userData = {
-            id: "user_id 001"
+            id: id,
+            wh_seq:wh_seq
+
           }
           try {
             const response = await axios.post('http://localhost:8000/out/controll', userData)
@@ -102,7 +108,7 @@ function Out_02() {
                               <td>{loadingItem.loading_seq}</td>
                               <td>{loadingItem.Stock.stock_name}</td>
                               <td>{loadingItem.loading_cnt}</td>
-                              <td>{loadingItem.created_at.substring(0, 10)}</td>
+                              <td>{loadingItem.out_created_at.substring(0, 10)}</td>
                               <td>{loadingItem.Stock.stock_expired.substring(0, 10)}</td>
                               <td>{warehouseItem.wh_name}</td>
                               <td>{rackItem.rack_seq}</td>

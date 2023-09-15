@@ -43,6 +43,11 @@ class Loading extends Sequelize.Model {
                 type: Sequelize.STRING(45),
                 allowNull: true,
                 comment: '입출고 담당자'
+            },
+            out_created_at: {
+                type: Sequelize.DATE,
+                allowNull: false,
+                comment:'출고일'
             }
         }, {
             sequelize,

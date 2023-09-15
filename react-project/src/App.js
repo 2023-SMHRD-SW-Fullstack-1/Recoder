@@ -22,6 +22,7 @@ import Testcom from './components/Testcom';
 import Out_02 from './components/Out_02';
 import RegisterCompany from './components/RegisterCompany';
 
+
 const App = () => {
 
   const [uid, setUid] = useState('qwer')

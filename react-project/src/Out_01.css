@@ -216,6 +216,8 @@ h1 {
   margin: 0 auto;
   display: table;
   padding: 0 0 8em 0;
+
+  
 }
 
 .container td,
@@ -240,6 +242,9 @@ h1 {
 }
 
 .container td:first-child {
+  color: #b791fd;
+}
+.container td {
   color: #b791fd;
 }
 .container td:first-child:hover{
