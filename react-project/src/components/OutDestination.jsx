@@ -50,11 +50,7 @@ function OutDestination() {
           return reStockName;
         }, []);
 
-
-
         setSname(stockNames);
-
-
 
       }
     } catch (error) {
@@ -74,41 +70,35 @@ function OutDestination() {
   const [rowOutTable, setRowOutTable] = useState([].fill(false));
 
   // 클릭한 품목 데이터 저장 함수
-  const [sNameList, setSnameList] = useState([])
+  const [charData, setCharData] = useState([])
 
 
 
-  // 항목 클릭 이벤트 작동
-  const handleRowClick = (idx, item) => {
-    console.log('클릭  인덱스', idx);
-    setRowOutTable((prevRowOutTable) => {
-      const newRowOutTable = [...prevRowOutTable];
-      newRowOutTable[idx] = !newRowOutTable[idx];
-      return newRowOutTable;
-    });
-    console.log('클릭한 항목', item);
-    let stock_name = {
-      wh_seq: wh_seq,
-      stock_name: item
-    }
+  // 차트항목 클릭 이벤트 작동
+const handleRowClick = (idx, item) => {
+            console.log('클릭  인덱스', idx);
+            setRowOutTable((prevRowOutTable) => {
+              const newRowOutTable = [...prevRowOutTable];
+              newRowOutTable[idx] = !newRowOutTable[idx];
+              return newRowOutTable;
+            });
+            console.log('클릭한 항목', item);
+            let stock_name = {
+              wh_seq: wh_seq,
+              stock_name: item
+            }
 
     // 항목에 대한 데이터 다시 불러오기
     const stockNameData = async () => {
 
       try {
-        const response = await axios.post('http://localhost:8000/out/des/name', stock_name)
+        const response = await axios.post('http://localhost:8000/out/des/count', stock_name)
 
         if (response.status === 200) {
-          console.log('출고품 정보 가져오기 성공');
 
-          console.log(response.data)
-
-          // 배송지 정보 배열에 저장
-          setSnameList(response.data.flatMap(warehouse =>
-            warehouse.Racks.flatMap(rack =>
-              rack.Loadings.map(loading => loading.stock_shipping_des)
-            )
-          ))
+          console.log("특정제품 데이터",response.data)
+          setCharData(response.data)
+     
         };
       } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -118,23 +108,11 @@ function OutDestination() {
       }
     }
     stockNameData();
-    chartDataKey();
+
 
   };
 
-      // 품목 배송지 중복 제거
-      const oneSnameList =[...new Set(sNameList)]
-    
-
-const [chartData, setChartData] = useState( {});
-
-const chartDataKey = ()=>{
-  const newChartData = { ...chartData };
-  for (let i = 0; i < oneSnameList.length; i++) {
-    newChartData[oneSnameList[i]] = 0;
-  }
-  setChartData(newChartData);
-};
+  
 
 
   const [dateData, setDateData] = useState({
@@ -155,19 +133,24 @@ const chartDataKey = ()=>{
 
   // 기간 조회 버튼 클릭
   const reSdate = () => {
-    console.log('조회기간', dateData);
+  console.log('조회기간', dateData);
   }
 
+  const labels = charData.map(item => item.Loading.stock_shipping_des);
+  const cntData = charData.map(item => item.total_loading_cnt);
+  const total = cntData.reduce((acc, value) => acc + value, 0); // 데이터 배열의 합계 계산
+  const percentageData = cntData.map(value => ((value / total) * 100).toFixed(2)); // 각 데이터 항목의 퍼센트 계산
+  
   // 차트 데이터
   Chart.register(ArcElement, Tooltip, Legend);
-  const percents = [10, 20, 30, 50]
+
 
   const data = {
-    labels: oneSnameList,
+    labels:  labels,
     datasets: [
       {
-        labels: ['Red', 'Orange', 'Yellow', 'Green'],
-        data: percents,
+        labels: labels,
+        data: percentageData,
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(255, 159, 64)',
@@ -262,7 +245,7 @@ const chartDataKey = ()=>{
 
                         <span>추가할 데이터</span>
                         <span>추가할 데이터</span>
-                        {sNameList.map((item, idx) => (<span key={idx}>{item}</span>))}
+                        {/* {sNameList.map((item, idx) => (<span key={idx}>{item}</span>))} */}
                       </div>
                     </div>
                   </td>

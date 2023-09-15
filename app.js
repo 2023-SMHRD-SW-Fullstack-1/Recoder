@@ -14,6 +14,7 @@ const outRouter = require('./routes/out')
 const userRouter = require('./routes/user')
 const comRouter = require('./routes/company')
 const rackRouter = require('./routes/rack')
+const inRouter = require('./routes/in')
 
 const wareRouter = require('./routes/ware')
 // sequelize 연결
@@ -68,6 +69,7 @@ app.use('/user', userRouter)
 // 혜주 작성
 app.use('/out',outRouter)
 app.use('/company', comRouter)
+app.use('/in',inRouter)
 
 app.use('/ware', wareRouter)
 app.use('/rack', rackRouter)

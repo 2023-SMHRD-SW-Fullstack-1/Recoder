@@ -46,7 +46,7 @@ class Loading extends Sequelize.Model {
             },
             out_created_at: {
                 type: Sequelize.DATE,
-                allowNull: false,
+                allowNull: true,
                 comment:'출고일'
             }
         }, {

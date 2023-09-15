@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
 // const User = require('../models/user');
-const { User, Warehouse, Rack, Loading, Stock, Company } = require('../models'); // 모델들을 import
-const { Op } = require('sequelize');
+const { User, Warehouse, Rack, Loading, Stock, Company, sequelize } = require('../models'); // 모델들을 import
+const { Op, fn, col } = require('sequelize');
 
 
 // 출고 메인 페이지 => 출고될 리스트 조회
 router.post('/create', async (req, res) => {
-
+//    let user_id = req.user.user_id
     let wh_seq = (req.body.wh_seq)
     console.log('req', wh_seq);
 
@@ -205,32 +205,50 @@ router.post('/des/name', async (req, res) => {
     } catch (error) {
         console.error(error);
     }
+
+
+
 })
 
 
 router.post('/des/count', async (req, res) => {
+  
 
-    let { wh_seq,stock_name } = req.body;
+    let { wh_seq, stock_name } = req.body;
+
     try {
-        const count = await Loading.count({
-            where: {
-              loading_type: 'O',
-            },
-            include: [
-              {
-                model: Stock,
-                where: {
-                  stock_name: stock_name,
-                },
-              },
-            ],
-            group: ['stock_shipping_des'],
-            attributes: ['stock_shipping_des', [sequelize.fn('COUNT', sequelize.col('stock_shipping_des')), 'count']],
-          });
-        console.log( count);
-        res.json(count)
+      const result = await Stock.findAll({
+        attributes: [
+          [fn('SUM', col('loading_cnt')), 'total_loading_cnt']
+        ],
+        where: {
+          stock_name: stock_name
+        },
+        include: [{
+          model: Loading,
+          attributes: ['stock_shipping_des', 'loading_cnt'],
+          where: {
+            loading_type: 'O'
+          },
+          include: [{
+            model: Rack,
+            attributes: [],
+            include: [{
+              model: Warehouse,
+              where: {
+                wh_seq: wh_seq
+              }
+            }]
+          }],
+        }],
+        group: 'stock_shipping_des'
+      });
+      res.json(result);
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-})
+  });
+
+
+
 module.exports = router
