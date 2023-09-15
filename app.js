@@ -14,7 +14,7 @@ const outRouter = require('./routes/out')
 const userRouter = require('./routes/user')
 const comRouter = require('./routes/company')
 const rackRouter = require('./routes/rack')
-
+const stockRouter = require('./routes/stock')
 const wareRouter = require('./routes/ware')
 // sequelize 연결
 const { sequelize } = require('./models')
@@ -71,6 +71,7 @@ app.use('/company', comRouter)
 
 app.use('/ware', wareRouter)
 app.use('/rack', rackRouter)
+app.use('/stock', stockRouter)
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번 포트에서 대기 중');
