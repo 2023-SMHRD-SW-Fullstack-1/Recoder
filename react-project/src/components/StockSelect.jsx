@@ -52,6 +52,17 @@ const StockSelect = () => {
     }
   }
 
+  useEffect(() => {
+    axios.get(`http://localhost:8000/stock/${order}`)
+    .then((res) => {
+      console.log(res.data);
+      setStockList(res.data);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [order])
+
   return (
     <div id="out_all">
       <div id="out_top">

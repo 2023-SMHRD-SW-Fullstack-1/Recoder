@@ -34,4 +34,35 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/:order', async (req, res, next) => {
+  let order = req.params.order
+
+  let com_seq = 1004
+
+  try {
+    const result = await Warehouse.findAll({
+      attributes: ['wh_seq'],
+      where: {
+        com_seq: com_seq
+      },
+      include: [{
+        model: Rack,
+        attributes: ['rack_seq'],
+        include: [{
+          model: Loading,          
+          where: {
+            out_created_at: null
+          },
+          include: [{
+            model: Stock,
+          }]
+        }]
+      }],      
+    })
+    res.json(result)
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 module.exports = router
