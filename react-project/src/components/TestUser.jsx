@@ -23,15 +23,13 @@ import {
   TablePagination,
 } from '@mui/material';
 // components
-// import Label from '../components/label';
-// import Iconify from '../components/iconify';
-// import Scrollbar from '../components/scrollbar';
+import Label from './Label';
+import Iconify from './Iconify';
+import Scrollbar from './Scrollbar';
 // sections
-// import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
+import { UserListHead, UserListToolbar } from '../sections/user';
 // mock
-// import USERLIST from '../_mock/user';
-
-const USERLIST = []
+import USERLIST from '../_mock/user';
 
 // ----------------------------------------------------------------------
 
@@ -75,7 +73,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function UserPage() {
+export default function TestUser() {
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
@@ -150,25 +148,21 @@ export default function UserPage() {
 
   return (
     <>
-      <Helmet>
-        <title> User | Minimal UI </title>
-      </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             User
           </Typography>
-          {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}> */}
-          <Button variant="contained">
+          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
             New User
           </Button>
         </Stack>
 
         <Card>
-          {/* <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} /> */}
+          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
-          {/* <Scrollbar>
+          <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
@@ -250,7 +244,7 @@ export default function UserPage() {
                 )}
               </Table>
             </TableContainer>
-          </Scrollbar> */}
+          </Scrollbar>
 
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
@@ -283,12 +277,12 @@ export default function UserPage() {
         }}
       >
         <MenuItem>
-          {/* <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} /> */}
+          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
         <MenuItem sx={{ color: 'error.main' }}>
-          {/* <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} /> */}
+          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
           Delete
         </MenuItem>
       </Popover>

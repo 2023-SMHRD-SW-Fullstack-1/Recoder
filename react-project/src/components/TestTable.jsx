@@ -44,7 +44,7 @@ const TestTable = () => {
                   <img className='sidebar1-2-box-img' />
                 </div>              
                 <div className='sidebar1-2-box-text'>
-                  <h6 className='sidebar1-2-box-text-name'>ShinYoung Kim</h6>
+                  <h6 className='sidebar1-2-box-text-name'>김신영</h6>
                   <p className='sidebar1-2-box-text-p'></p>
                 </div>
               </div>
@@ -86,8 +86,11 @@ const TestTable = () => {
           </div>
         </div>
       </div>
-        {/* 사이드바 끝 */}
+      <div style={{
+        padding: '50px 0'
+      }}>
         <TestUser />
+      </div>
     </div>
   )
 }
