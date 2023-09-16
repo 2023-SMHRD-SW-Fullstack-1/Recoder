@@ -73,7 +73,7 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
 
                                 {/* 생성완료 버튼 */}
                                 <div className="ware_create_submit_button">
-                                    <button type="submit" className="create-button">
+                                    <button type="submit">
                                         생성하기
                                     </button>
                                 </div>
