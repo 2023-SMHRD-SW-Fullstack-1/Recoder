@@ -114,9 +114,16 @@ export default class App {
 
   setupMouseEvents(rectangleWidth, rectangleHeight) {
     this._divContainer.addEventListener("mousemove", (event) => {
-      this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      // // 수정해본 코드 *폐기*
+      const rect = this._divContainer.getBoundingClientRect();
+      this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
       this.raycaster.setFromCamera(this.mouse, this._camera);
+
+      // 원래 코드
+      // this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      // this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      // this.raycaster.setFromCamera(this.mouse, this._camera);
 
       const intersects = this.raycaster.intersectObject(this._warehouse);
 
