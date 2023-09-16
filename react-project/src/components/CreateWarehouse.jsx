@@ -127,12 +127,16 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
           <div className={"modal-content"}>
             <div className="rack_create_all">
               <div className="rack_create_title">
-                <h1>창고생성</h1>
+                <h1>선반생성</h1>
                 <button
                   className={"modal-close-btn"}
-                  onClick={() => setModalOpen(false)}
-                >
-                  X
+                  onClick={() => setModalOpen(false)}>
+                  <img
+                    src='/img/X_icon.png'
+                    // alt='side-button'
+                    width='20px'
+                    height='23px'
+                  ></img>
                 </button>
               </div>
               <table>
