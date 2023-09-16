@@ -21,6 +21,7 @@ import Logout from './components/Logout';
 import Testcom from './components/Testcom';
 import Out_02 from './components/Out_02';
 import RegisterCompany from './components/RegisterCompany';
+import TestTable from './components/TestTable';
 
 
 const App = () => {
@@ -47,12 +48,12 @@ const App = () => {
     <div>
       { uid ? (
         <div>
-          <Sidebar />
+          {/* <Sidebar /> */}
           <Routes>
             <Route path='/' element={ <Login /> } />
             <Route path='/join' element={ <Join /> } />
             <Route path='/register/company' element={ <RegisterCompany /> } />
-            <Route path='/main' element={ <Main /> } />
+            <Route path='/main' element={ <TestTable /> } />
             <Route path='/out/create' element={ <Out_01 /> } />
             <Route path='/out/select' element={ <OutSelect /> } />
             <Route path='/out/des' element={ <OutDestination /> } />
