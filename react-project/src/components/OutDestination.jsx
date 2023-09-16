@@ -75,18 +75,18 @@ function OutDestination() {
 
 
   // 차트항목 클릭 이벤트 작동
-const handleRowClick = (idx, item) => {
-            console.log('클릭  인덱스', idx);
-            setRowOutTable((prevRowOutTable) => {
-              const newRowOutTable = [...prevRowOutTable];
-              newRowOutTable[idx] = !newRowOutTable[idx];
-              return newRowOutTable;
-            });
-            console.log('클릭한 항목', item);
-            let stock_name = {
-              wh_seq: wh_seq,
-              stock_name: item
-            }
+  const handleRowClick = (idx, item) => {
+    console.log('클릭  인덱스', idx);
+    setRowOutTable((prevRowOutTable) => {
+      const newRowOutTable = [...prevRowOutTable];
+      newRowOutTable[idx] = !newRowOutTable[idx];
+      return newRowOutTable;
+    });
+    console.log('클릭한 항목', item);
+    let stock_name = {
+      wh_seq: wh_seq,
+      stock_name: item
+    }
 
     // 항목에 대한 데이터 다시 불러오기
     const stockNameData = async () => {
@@ -96,9 +96,9 @@ const handleRowClick = (idx, item) => {
 
         if (response.status === 200) {
 
-          console.log("특정제품 데이터",response.data)
+          console.log("특정제품 데이터", response.data)
           setCharData(response.data)
-     
+
         };
       } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -112,7 +112,7 @@ const handleRowClick = (idx, item) => {
 
   };
 
-  
+
 
 
   const [dateData, setDateData] = useState({
@@ -133,24 +133,24 @@ const handleRowClick = (idx, item) => {
 
   // 기간 조회 버튼 클릭
   const reSdate = () => {
-  console.log('조회기간', dateData);
+    console.log('조회기간', dateData);
   }
 
   const labels = charData.map(item => item.Loading.stock_shipping_des);
   const cntData = charData.map(item => item.total_loading_cnt);
   const total = cntData.reduce((acc, value) => acc + value, 0); // 데이터 배열의 합계 계산
-  const percentageData = cntData.map(value => ((value / total) * 100).toFixed(2)); // 각 데이터 항목의 퍼센트 계산
-  
+  const percentData = cntData.map(value => ((value / total) * 100).toFixed(2)); // 각 데이터 항목의 퍼센트 계산
+
   // 차트 데이터
   Chart.register(ArcElement, Tooltip, Legend);
 
 
   const data = {
-    labels:  labels,
+    labels: labels,
     datasets: [
       {
         labels: labels,
-        data: percentageData,
+        data: percentData,
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(255, 159, 64)',
@@ -168,7 +168,7 @@ const handleRowClick = (idx, item) => {
     plugins: {
       legend: {
         display: true, // 라벨 표시 활성화
-        position: 'top', // 라벨 위치 설정 (top, bottom, left, right 등)
+        position: 'right', // 라벨 위치 설정 (top, bottom, left, right 등)
       },
       datalabels: {
         display: true, // 라벨 표시 활성화
@@ -217,7 +217,7 @@ const handleRowClick = (idx, item) => {
                 <h1>제품명</h1>
               </th>
               <th>
-                <h1>데이터</h1>
+                <h1>출고량</h1>
               </th>
               <th>
                 <h1>데이터2</h1>
@@ -231,25 +231,37 @@ const handleRowClick = (idx, item) => {
                 <tr>
                   <td id='des_td' onClick={() => handleRowClick(idx, item)}
                     className={rowOutTable[idx] ? 'selected' : ''} >{item}</td>
-                  <td>test</td>
+                  <td></td>
                   <td>test</td>
                 </tr>
               </tbody>
               {rowOutTable[idx] && (
+                <tr id='doughnut_tr'>
+                  <td id='doughnut_td' colSpan={3}>
+                    <div id='des_table_fold' >
+                      <div id='doughnut1'>
+                        <div id='doughnut_1'> <Doughnut data={data} options={options} /></div>
+                      </div>
+                      <div id='des_div'>
+                        <table id='des_table'>
+                          <tr>
+                            <td>배송지</td>
+                            <td>판매량</td>
+                          </tr>
+                            {charData.map((item, idx) => (
+                              <tr key={idx} >
+                              <td >{item.Loading.stock_shipping_des}</td>
+                              <td >{item.total_loading_cnt}</td>
+                              </tr>
+                            ))}
 
-                <tr>
-                  <td id='out_table_fold' colSpan={3}>
-                    <div id='doughnut_div'>
-                      <div id='doughnut'>  <Doughnut data={data} options={options} /></div>
-                      <div id='doughnut_2'>
-
-                        <span>추가할 데이터</span>
-                        <span>추가할 데이터</span>
-                        {/* {sNameList.map((item, idx) => (<span key={idx}>{item}</span>))} */}
+                        </table>
                       </div>
                     </div>
                   </td>
+
                 </tr>
+
 
 
 

@@ -7,23 +7,56 @@
     padding-bottom: 50px;
 }
 
-#doughnut_div {
-display: flex;
-flex-direction: row;
-
+    
+#doughnut_tr{
+    width: 100%
 }
 
-#doughnut {
-    width: 300px;
-    margin: 5%;
+#doughnut_td{
+    background-color: rgb(236, 232, 240);
+}
+#des_table_fold {
+display: flex;
+width: 100%;
+justify-content: center;
+}
 
+
+#doughnut1 {
+    width: 50%;
+    height: 100%;
+    margin: 5%;
+    justify-content: center;
   
 }
 
+#doughnut2 {
+    width: 300px;
+    margin: 5%;
+    justify-content: center;
+}
+
+#doughnut_2{
+    width: 100%;
+    margin: 5%;
+}
 
 #doughnut_2{
     width: 30%;
     margin: 5%;
+}
+
+#des_div{
+    width: 40%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    display: flex;
+    justify-content: center;
+}
+#des_table{
+    width: 100%;
+    color: #ffffff;
+   
 }
 
 #des_td:hover {
