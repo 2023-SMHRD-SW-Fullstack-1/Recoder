@@ -115,6 +115,7 @@ export default class App {
 		// 바닥을 group1에 추가
 		wareHouseMesh.rotation.x = THREE.MathUtils.degToRad(-90);
 		group1.add(wareHouseMesh);
+		this.groundBound = new THREE.Box3().setFromObject(wareHouseMesh);
 
 		// 선 이름 설정
 		line.name = "선!"
@@ -137,9 +138,16 @@ export default class App {
 		// this._warehouse = wareHouse;
 
 		this.rectangleMesh = null;
+		this.groundBoundPos = {
+			minX : Math.round(this.groundBound.min.x*10)/10,
+			maxX : Math.round(this.groundBound.max.x*10)/10,
+			minZ : Math.round(this.groundBound.min.z*10)/10,
+			maxZ : Math.round(this.groundBound.max.z*10)/10
+		}
+		// console.log(this.groundBoundPos);
 	}
 
-	setupMouseEvents(rectangleWidth, rectangleHeight, rackFloor) {
+	setupMouseEvents(rectangleWidth, rectangleHeight, rackFloor = 1) {
 		this.rectangleWidth = rectangleWidth
 		this.rectangleHeight = rectangleHeight
 		this.rackFloor = rackFloor
@@ -297,7 +305,7 @@ export default class App {
 
 		this._divContainer.addEventListener('mouseup', (e)=>{
 			let 클릭됨 = this.preventDragClick.mouseUpFunc(e);
-			console.log("마우스 눌렀어? :", 클릭됨 ? "응" : "아니")
+			// console.log("마우스 드래그 했어? :", 클릭됨 ? "응" : "아니")
 			if (!클릭됨) {
 				this.raycaster.setFromCamera(this.mouse, this._camera);
 				const intersects = this.raycaster.intersectObject(this._warehouse);
@@ -313,12 +321,6 @@ export default class App {
 
 
 	addShelf() {
-
-		// let rectangleWidth = recWidth;
-		// let rectangleHeight = recHeight;
-		// let rackFloor = rFloor;
-		console.log("addShelf()함수 : ", this.rectangleMesh == null ? "mesh없음" : "mesh 있음")
-		console.log("dd")
 		// 선반 만들기
 		if(this.rectangleMesh) {
 
@@ -329,6 +331,34 @@ export default class App {
 			}
 			console.log("현재 선반의 층수는?", this.rackFloor)
 			let rackGroup = createRack(this.rectangleWidth, this.rectangleHeight, this.rackFloor, rackPos)
+			let mesh = new THREE.Box3().setFromObject(rackGroup)
+
+			let aa = {
+				minX : Math.round(mesh.min.x*10)/10,
+				maxX : Math.round(mesh.max.x*10)/10,
+				minZ : Math.round(mesh.min.z*10)/10,
+				maxZ : Math.round(mesh.max.z*10)/10
+			}
+			console.log("바닥", this.groundBoundPos);
+			console.log("선반", aa);
+
+			if(aa.minX < this.groundBoundPos.minX) {
+				console.log(`선반의 x 값이 더 작아! 선반 : ${aa.minX}, 바닥 : ${this.groundBoundPos.minX}`)
+				return;
+			}
+			if(aa.maxX > this.groundBoundPos.maxX) {
+				console.log("선반의 x 값이 더 커!")
+				return;
+			}
+			if(aa.minZ < this.groundBoundPos.minZ) {
+				console.log("선반의 z 값이 더 작아!")
+				return;
+			}
+			if( aa.maxZ > this.groundBoundPos.maxZ) {
+				console.log("선반의 z 값이 더 커!!")
+				return;
+			}
+			
 			this._scene.add(rackGroup);
 		} else {
 			console.log("this.rectangleMesh 없음")
