@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import createRack from './createRackModule';
+import { PreventDragClick } from './PreventDragClick';
 
 export default class App {
 	constructor(width, length, rectangleWidth = 1, rectangleHeight = 1) {
@@ -31,6 +32,8 @@ export default class App {
 		this._setupControls();
 		this.setupMouseEvents();
 		// _로 시작하는 이유 app 클래스 내부에서만 호출
+
+		this.preventDragClick = new PreventDragClick(this._divContainer);
 
 		window.addEventListener("resize", this.resize.bind(this));
 		this.resize();
@@ -249,6 +252,7 @@ export default class App {
 					// rectangleMesh를 보이지 않게 설정
 					this.rectangleMesh.visible = false;
 				}
+				return;
 			}
 
 		});
@@ -285,9 +289,26 @@ export default class App {
 			
 		});
 
-		// this._divContainer.removeEventListener('click', () => this.addShelf());
-		this._divContainer.addEventListener('click', ()=> this.addShelf());
+		this._divContainer.removeEventListener('click', () => this.addShelf());
+		
+		this._divContainer.addEventListener('mousedown', (e)=>{
+			this.preventDragClick.mouseDownFunc(e);
+		})
 
+		this._divContainer.addEventListener('mouseup', (e)=>{
+			let 클릭됨 = this.preventDragClick.mouseUpFunc(e);
+			console.log("마우스 눌렀어? :", 클릭됨 ? "응" : "아니")
+			if (!클릭됨) {
+				this.raycaster.setFromCamera(this.mouse, this._camera);
+				const intersects = this.raycaster.intersectObject(this._warehouse);
+
+				// raycaster가 창고 밖에면 
+				if (intersects.length <= 0) {
+					return
+				}
+				this.addShelf()
+			}
+		})
 	}
 
 

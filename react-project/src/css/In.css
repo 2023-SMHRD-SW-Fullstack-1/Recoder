@@ -139,9 +139,7 @@ tbody {
 		border-right: solid 1px #000;
 		border-bottom: solid 1px #000;
 		text-align: center;
-		& input {
-			width: 100%;
-		}
+		
 	}
 	& img {
 		position: absolute;
@@ -156,8 +154,23 @@ tbody {
 	
 	& tr :nth-child(5) span{
 		display: flex;
-		/*align-items: center; /* 세로 중앙 정렬 */
-		/* align-items: stretch; */
+		& input {
+			width: 100%;
+			/* overflow: hidden; */
+		}
+		& input:focus {
+			overflow: hidden;
+		}
+		& input:hover {
+			overflow: hidden;
+		}
+		/* & input[type='number']::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			
+		} */
+		& input[type='number']::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+		}
 	}
 
 	/* td태그 */
@@ -191,9 +204,4 @@ tbody {
 			position: absolute;
 		}
 	}
-	
-
-
-	
-
 }
