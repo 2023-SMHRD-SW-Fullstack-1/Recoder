@@ -6,8 +6,7 @@ import * as THREE from 'three';
  * rackFloor => 선반의 층수
  * rackPos => 선반 위치
 */
-export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
-	
+export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {	
 
 	const board = new THREE.BoxGeometry(sizeX, 0.02, sizeZ, 1, 1, 1);
 	// const pilar = new THREE.BoxGeometry(0.05, sizeY, 0.05);
