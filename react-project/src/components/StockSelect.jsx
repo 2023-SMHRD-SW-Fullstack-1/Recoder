@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios";
 
 const StockSelect = () => {
@@ -8,11 +9,18 @@ const StockSelect = () => {
   const [rowOutTable, setRowOutTable] = useState({});
   const [showInput, setShowInput] = useState(false);
   const [order, SetOrder] = useState('asc')
+  const [warehouseList, setWarehouseList] = useState([]);
+
+  const nav = useNavigate()
 
   useEffect(() => {
     axios
       .get("http://localhost:8000/stock")
       .then((res) => {
+        console.log("몬가 처음에 가져오는거...", res.data);
+        const whSeq = res.data.map(item => item.wh_seq);
+        console.log("창고번호 목록", whSeq);
+
         setStockList(res.data);
       })
       .catch((err) => {
@@ -52,15 +60,19 @@ const StockSelect = () => {
     }
   }
 
+  const moveToWarehouse = () => {
+    nav("/ware/warehouse")
+  }
+
   useEffect(() => {
     axios.get(`http://localhost:8000/stock/${order}`)
-    .then((res) => {
-      console.log(res.data);
-      setStockList(res.data);
-    })
-    .catch((err) => {
-      console.error(err);
-    })
+      .then((res) => {
+        console.log("밑에서 가져오는데이터", res.data);
+        // setStockList(res.data); // 얘땜에 창고 이름이 안떠서 일단 주석처리 했어요...
+      })
+      .catch((err) => {
+        console.error(err);
+      })
   }, [order])
 
   return (
@@ -88,18 +100,18 @@ const StockSelect = () => {
               <th>
                 <h1>수량</h1>
               </th>
-              <th 
+              <th
                 onClick={handleInDateOrder}
                 style={{
-                  cursor: 'pointer'                  
+                  cursor: 'pointer'
                 }}
               >
                 <h1>입고일</h1>
               </th>
-              <th 
+              <th
                 onClick={handleExpireDateOrder}
                 style={{
-                  cursor: 'pointer'                  
+                  cursor: 'pointer'
                 }}
               >
                 <h1>유통기한</h1>
@@ -112,6 +124,9 @@ const StockSelect = () => {
               </th>
               <th>
                 <h1>코드번호</h1>
+              </th>
+              <th>
+                <h1>창고이동</h1>
               </th>
             </tr>
           </thead>
@@ -150,9 +165,20 @@ const StockSelect = () => {
                           <td>
                             {loadingItem.Stock.stock_expired.substring(0, 10)}
                           </td>
-                          <td>{warehouseItem.wh_seq}</td>
+                          <td>{warehouseItem.wh_name}</td>
                           <td>{loadingItem.rack_seq}</td>
                           <td>{loadingItem.Stock.stock_barcode}</td>
+                          <td>
+                            <Link to={`/warehouse/${warehouseItem.wh_seq}`}>
+                              <button>
+                                <img
+                                  src='/img/warehouse-48.png'
+                                  width='30px'
+                                  height='30px'
+                                ></img>
+                              </button>
+                            </Link>
+                          </td>
                         </tr>
                         {rowOutTable[rackIndex]?.[loadingIndex] && (
                           <tr>
