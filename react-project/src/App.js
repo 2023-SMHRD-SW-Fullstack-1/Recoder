@@ -21,6 +21,8 @@ import Logout from './components/Logout';
 import Testcom from './components/Testcom';
 import Out_02 from './components/Out_02';
 import RegisterCompany from './components/RegisterCompany';
+import Barcode from './components/Barcode';
+import In_01 from './components/In_01';
 
 
 const App = () => {
@@ -28,6 +30,14 @@ const App = () => {
   const [uid, setUid] = useState('qwer')
   const [comSeq, setComSeq] = useState(1004);
   const [newWareData, setNewWareData] = useState({})
+
+  //혜주 추가 - 바코드 값 관리
+  const [inputItem, setInputItem] = useState([
+    {
+        id: '',
+        title: '',
+    },
+]);
 
   // useEffect(() => {
   //   axios.get('http://localhost:8000/user')
@@ -56,7 +66,7 @@ const App = () => {
             <Route path='/out/create' element={ <Out_01 /> } />
             <Route path='/out/select' element={ <OutSelect /> } />
             <Route path='/out/des' element={ <OutDestination /> } />
-            <Route path='/in/create' element={ <In /> } />
+            {/* <Route path='/in/create' element={ <In inputItem={inputItem}/> } /> */}
             <Route path='/stock/select' element={ <StockSelect />} />
             <Route path='/stock/manage' element={ <StockManage /> } />
             <Route path='/ware/manage' element={ <WareManage comSeq={comSeq}/> } />
@@ -65,7 +75,9 @@ const App = () => {
             <Route path='/mypage' element={ <Mypage /> } />
             <Route path='/logout' element={ <Logout /> } />
             <Route path='/test' element={ <Testcom /> } />
-            <Route path='/out/controll' element={ <Out_02 /> } />            
+            <Route path='/out/controll' element={ <Out_02 /> } />    
+            <Route path='/barcode' element={<Barcode inputItem = {inputItem} setInputItem={setInputItem}/>}  />      
+            <Route path='/in/create' element={ <In_01 inputItem={inputItem} setInputItem={setInputItem}/> } />
           </Routes> 
         </div>
       ) : (
