@@ -13,6 +13,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
   const [warehouseWidth, setWarehouseWidth] = useState(null);
   const [warehouseLength, setWarehouseLength] = useState(null);
 
+
   // 원래 코드
   // useEffect(() => {
   //   axios.get('http://localhost:8000/user')
@@ -40,11 +41,15 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
   const [rackFloor, setRackFloor] = useState(null);
 
   const appInstance = useRef(null);
+	const rackInstance = useRef(null);
 
   const [rackX, setRackX] = useState(0);
   const [rackZ, setRackZ] = useState(0);
 
   const [rackRotateYN, setRackRotateYN] = useState("N");
+
+	
+	
 
   useEffect(() => {
     console.log("여기", newWareData);
@@ -56,13 +61,21 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
     // const warehouseLength = parseInt(lastWarehouse.wh_length);
     // console.log("창고 가로 길이:", warehouseWidth);
     // console.log("창고 세로 길이:", warehouseLength);
-    setWarehouseWidth(parseInt(newWareData.wh_width));
-    setWarehouseLength(parseInt(newWareData.wh_length));
+    
+
+
+    // 창고의 크기 설정 (가로, 세로)
+    // setWarehouseWidth(parseInt(newWareData.wh_width));
+    // setWarehouseLength(parseInt(newWareData.wh_length));
+
+    setWarehouseWidth(15); // 임시 데이터
+    setWarehouseLength(15);
   }, []);
 
   useEffect(() => {
     if (warehouseWidth !== null && warehouseLength !== null) {
       console.log("지금!");
+			
       appInstance.current = new App(
         warehouseWidth,
         warehouseLength,
@@ -72,36 +85,52 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
     }
   }, [warehouseWidth, warehouseLength]);
 
-  const createRack = (e) => {
-    setModalOpen(false);
-    e.preventDefault();
-    const rack_info = {
-      rackName: rackName,
-      rackWidth: rackWidth,
-      rackLength: rackLength,
-      rackFloor: rackFloor,
-      rackX: rackX,
-      rackZ: rackZ,
-      rackRotateYN: rackRotateYN,
-    };
+	
+	/** 모달창에서 버튼을 누르면 선반을 만들어주는 함수 */
+	const createRack = (e) => {
+		setModalOpen(false);
+		e.preventDefault();
 
-    let url = "http://localhost:8000/rack";
+		const rack_info = {
+			rackName: rackName,
+			rackWidth: rackWidth,
+			rackLength: rackLength,
+			rackFloor: rackFloor,
+			rackX: rackX,
+			rackZ: rackZ,
+			rackRotateYN: rackRotateYN,
+		};
+		// 로컬 스토리지에 rackFloor값 저장
+		localStorage.setItem('rackFloor', rackFloor);
 
-    axios
-      .post(url, rack_info)
-      .then((res) => {
-        console.log(res);
-        if (appInstance.current) {
-          appInstance.current.setupMouseEvents(
-            res.data.rack_width,
-            res.data.rack_length
-          );
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+		let url = "http://localhost:8000/rack";
+
+		axios
+		.post(url, rack_info)
+		.then((res) => {
+			console.log(res);
+
+			// 이전에 만들어진 선반이 있다면 제거
+			// if(rackInstance.current) {
+			// 	appInstance.current.remove(rackInstance.current);
+			// }
+
+			if (appInstance.current) {
+				// appInstance.current.remove();
+				
+
+
+				appInstance.current.setupMouseEvents(
+					res.data.rack_width,
+					res.data.rack_length,
+					parseInt(localStorage.getItem('rackFloor')) // 로컬 스토리지에서 rackFloor값 불러오기!
+				);
+			}
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+	};
 
   return (
     <div>
