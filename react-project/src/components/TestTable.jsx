@@ -86,9 +86,7 @@ const TestTable = () => {
           </div>
         </div>
       </div>
-      <div style={{
-        padding: '50px 0'
-      }}>
+      <div className='main-content'>
         <TestUser />
       </div>
     </div>
