@@ -18,7 +18,6 @@ export class PreventDragClick {
 		const yGap = Math.abs(e.clientY - this.clickStartY); 
 		// console.log(xGap, yGap)
 		const timeGap = Date.now() - this.clickStartTime;
-		console.log("쿨릭")
 
 		if( xGap > 3 || yGap > 3 || timeGap > 1000) {
 			this.mouseMoved = true;
