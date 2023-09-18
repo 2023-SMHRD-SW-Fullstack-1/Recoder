@@ -2,9 +2,12 @@
   box-sizing: border-box;
 }
 
+p {
+  margin: 0;
+}
+
 .main-container {
   display: flex;
-  min-height: 100%;
   overflow: hidden;
 }
 
@@ -234,7 +237,11 @@ img {
 
 .main-content {
   flex: 1;
-  padding: 50px 0;
+  padding-top: 100px;
+  padding-bottom: 24px;
+  
+  padding-left: 48px;
+  padding-right: 48px;
 }
 
 .content {

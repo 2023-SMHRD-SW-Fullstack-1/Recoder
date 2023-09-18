@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState } from 'react';
@@ -34,11 +33,14 @@ import USERLIST from '../_mock/user';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'name', label: '제품ID', alignRight: false },
+  { id: 'company', label: '제품명', alignRight: false },
+  { id: 'role', label: '수량', alignRight: false },
+  { id: 'isVerified', label: '입고일', alignRight: false },
+  { id: 'status', label: '유통기한', alignRight: false },
+  { id: 'status1', label: '적재창고', alignRight: false },
+  { id: 'status2', label: '적재위치', alignRight: false },
+  { id: 'status3', label: '코드번호', alignRight: false },
   { id: '' },
 ];
 
@@ -149,13 +151,13 @@ export default function TestUser() {
   return (
     <>
 
-      <Container>
+      <Container style={{ maxWidth: '100%' }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            출고
           </Typography>
           <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
+            출고완료
           </Button>
         </Stack>
 
@@ -176,7 +178,7 @@ export default function TestUser() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                    const { id, name, role, status, status1, status2, status3, company, avatarUrl, isVerified } = row;
                     const selectedUser = selected.indexOf(name) !== -1;
 
                     return (
@@ -202,6 +204,15 @@ export default function TestUser() {
 
                         <TableCell align="left">
                           <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
+                        </TableCell>
+                        <TableCell align="left">
+                          <Label color={(status1 === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
+                        </TableCell>
+                        <TableCell align="left">
+                          <Label color={(status2 === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
+                        </TableCell>
+                        <TableCell align="left">
+                          <Label color={(status3 === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
                         </TableCell>
 
                         <TableCell align="right">

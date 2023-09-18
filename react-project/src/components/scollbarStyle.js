@@ -23,6 +23,9 @@ export const StyledScrollbar = styled(SimpleBar)(({ theme }) => ({
   '& .simplebar-track.simplebar-vertical': {
     width: 10,
   },
+  '& .simplebar-placeholder': {
+    display: 'none',
+  },
   '& .simplebar-track.simplebar-horizontal .simplebar-scrollbar': {
     height: 6,
   },
