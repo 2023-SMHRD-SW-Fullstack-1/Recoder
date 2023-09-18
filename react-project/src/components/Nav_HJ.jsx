@@ -1,8 +1,10 @@
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, MailOutlined, SettingOutlined,InboxOutlined,LoadingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useState } from 'react';
 import Board_HJ from './Board_HJ';
 import '../css/nav_hj.css'
+import {Link,useNavigate} from 'react-router-dom'
+
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -15,35 +17,34 @@ function getItem(label, key, icon, children, type) {
 
 
 const items = [
-  getItem('Main', 'sub1', <MailOutlined />, [
-    getItem('Option 1', '1'),
-    getItem('Option 2', '2'),
-    getItem('Option 3', '3'),
-    getItem('Option 4', '4'),
+  getItem('홈', 'sub1', <MailOutlined />,
+  ),
+  getItem('재고', 'sub2', <AppstoreOutlined />, [
+    getItem('재고 조회', '2'),
+    getItem('재고 관리', '3'),
   ]),
-  getItem('입고', 'sub2', <AppstoreOutlined />, [
-    getItem('입고예정', '5'),
-    getItem('입고', '6'),
-    getItem('입고완료'),
+  getItem('입고', 'sub3', <InboxOutlined />, [
+    getItem('입고 예정', '4'),
+    getItem('입고 등록', '5'),
+    getItem('입고 관리', '6')
   ]),
-  getItem('재고', 'sub3', <SettingOutlined />, [
-    getItem('재고조회', '7'),
-    getItem('재고관리', '8'),
-    getItem('재고알림', '9')
-  ]),
-  getItem('출고', 'sub4', <SettingOutlined />, [
-    getItem('출고등록', '10'),
-    getItem('출고이력', '11'),
-    getItem('출고관리', '12'),
+  getItem('출고', 'sub4', <InboxOutlined />, [
+    getItem('출고 등록', '7'),
+    getItem('출고 이력', '8'),
+    getItem('출고품 관리', '9'),
 
   ]),
   getItem('창고', 'sub5', <SettingOutlined />, [
-    getItem('창고관리', '13'),
+    getItem('창고관리', '10'),
   ]),
+  getItem('MyPage', 'sub6', <SettingOutlined />, [
+    getItem('MyPage', '11'),
+    getItem('LogOut', '12'),
+  ])
 ];
 
 // submenu keys of first level
-const rootSubmenuKeys = ['sub1', 'sub2','sub3', 'sub4','sub5'];
+const rootSubmenuKeys = ['sub1', 'sub2','sub3', 'sub4','sub5','sub6'];
 const App = () => {
   const [openKeys, setOpenKeys] = useState(['sub1']);
   const onOpenChange = (keys) => {
@@ -55,9 +56,38 @@ const App = () => {
     }
   };
 
-  const handleNav = (keys)=>{
+  const nav = useNavigate();
 
+  const handleNav = (item)=>{
+  const key = item.key
+  if(key === 'sub1'){
+    nav('/main')
+  }else if (key === '2'){
+    nav('/stock/select')
+  }else if (key === '3'){
+    nav('/stock/manage')
+  }else if (key === '4'){
+    nav('/in/create')
+  }else if (key === '5'){
+    nav('/in/create')
+  }else if (key === '6'){
+    nav('/in/create')
+  }else if (key === '7'){
+    nav('/out/create')
+  }else if (key === '8'){
+    nav('/out/controll')
+  }else if (key === '9'){
+    nav('/out/des')
+  }else if (key === '10'){
+    nav('/ware/manage')
+  }else if (key === '11'){
+    nav('/mypage')
+  }else if (key === '12'){
+    nav('/logout')
   }
+  }
+
+  
   return (
     <div id='menu_div'>
     <Menu 
@@ -71,7 +101,7 @@ const App = () => {
       }}
       items={items}
     />
-    <Board_HJ/>
+
     </div>
   );
 };
