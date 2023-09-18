@@ -11,6 +11,16 @@ html, body {
   display: flex;
 }
 
+#menu_div {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #efefef;
+}
+
+.sidebar-top {
+  padding: 24px;
+}
+
 .dashboard {
   flex: 1;
   display: flex;
@@ -33,5 +43,12 @@ html, body {
   height: 500px;
   margin: 12px;
   flex: 1;
-  border: 1px solid #efefef;
+  /* border: 1px solid #efefef; */
+  
+}
+
+#in01_tb_div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }

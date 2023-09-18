@@ -88,7 +88,10 @@ const App = () => {
 
   
   return (
-      <div id='menu_div'>
+    <div id='menu_div'>
+      <div className='sidebar-top'>
+        빈 공간  
+      </div>        
       <Menu 
         mode="inline"
         openKeys={openKeys}
@@ -96,10 +99,19 @@ const App = () => {
         onOpenChange={onOpenChange}
         style={{
           width: 256,
-          height: '100vh'
+          height: '100vh',
+          borderColor: 'white'
         }}
         items={items}
-      />
+      >
+      </Menu>
+      {/* <Menu
+        mode="inline"
+        defaultSelectedKeys={['1']}
+        defaultOpenKeys={['sub1']}
+        style={{ height: '100%', borderRight: 0 }}
+        items={items}
+      /> */}
     </div>
   );
 };

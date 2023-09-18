@@ -23,6 +23,7 @@ import Testcom from './components/Testcom';
 import Out_02 from './components/Out_02';
 import RegisterCompany from './components/RegisterCompany';
 import Layout from './components/Layout'
+import Table_HJ from './components/Table_HJ';
 
 
 const App = () => {
