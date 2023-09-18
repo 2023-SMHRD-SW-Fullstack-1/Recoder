@@ -137,6 +137,10 @@ export default class App {
 	}
 
 	setupMouseEvents(rectangleWidth, rectangleHeight, rackFloor) {
+		this.rectangleWidth = rectangleWidth
+		this.rectangleHeight = rectangleHeight
+		this.rackFloor = rackFloor
+
 		let isCreateRack = false
 
 		let newPosX;
@@ -239,12 +243,14 @@ export default class App {
 				// this.rectangleMesh.position.y = 0.001; // 판 위에 띄우려면 적절한 Y 위치를 설정 
 
 				this.rectangleMesh.visible = true;
+
 			} else { // raycaster에 맞은 객체가 없을 때
 				if (this.rectangleMesh) {
 					// rectangleMesh를 보이지 않게 설정
 					this.rectangleMesh.visible = false;
 				}
 			}
+
 		});
 
 		// 마우스가 mouseout 했을 때
@@ -279,32 +285,32 @@ export default class App {
 			
 		});
 
-		this._divContainer.addEventListener('mousedown', this.addShelf);
-		// this._divContainer.removeEventListener('mouseup', this.addShelf);
+		// this._divContainer.removeEventListener('click', () => this.addShelf());
+		this._divContainer.addEventListener('click', ()=> this.addShelf());
+
 	}
 
 
 	addShelf() {
+
+		// let rectangleWidth = recWidth;
+		// let rectangleHeight = recHeight;
+		// let rackFloor = rFloor;
+		console.log("addShelf()함수 : ", this.rectangleMesh == null ? "mesh없음" : "mesh 있음")
 		console.log("dd")
-		let mesh = this.rectangleMesh
 		// 선반 만들기
-		if(mesh) {
-			console.log("this.rectangleMesh 있음")
-			//console.log(this.rectangleMesh, rectangleHeight, rackFloor, rackPos);
-			let rackFloor = 5;
-			let rectangleWidth = 3;
-			let rectangleHeight = 4;
+		if(this.rectangleMesh) {
+
 			let rackPos = {
 				x: this.rectangleMesh.position.x,
 				y: 0.2,
 				z: this.rectangleMesh.position.z
 			}
-			console.log("현재 선반의 층수는?", rackFloor)
-			let rackGroup = createRack(rectangleWidth, rectangleHeight, rackFloor, rackPos)
+			console.log("현재 선반의 층수는?", this.rackFloor)
+			let rackGroup = createRack(this.rectangleWidth, this.rectangleHeight, this.rackFloor, rackPos)
 			this._scene.add(rackGroup);
 		} else {
 			console.log("this.rectangleMesh 없음")
-			console.log(this.rectangleMesh.position.x);
 		}
 		// console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
 		
