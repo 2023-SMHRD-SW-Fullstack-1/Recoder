@@ -43,6 +43,10 @@ class Stock extends Sequelize.Model {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 comment: '적정 재고량'
+            }, update_at: {
+                type: Sequelize.DATE,
+                allowNull: true,
+                defaultValue: null
             }
         }, {
             sequelize,

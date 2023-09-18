@@ -1,0 +1,19 @@
+#bc_container{
+    display: flex;
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#bc_top {
+height: 20%;
+}
+
+#bc_bottom {
+    
+}
+
+#bc_bottom input {
+    width: 200px;
+}
