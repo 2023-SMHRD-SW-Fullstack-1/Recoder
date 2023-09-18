@@ -1,8 +1,6 @@
 import { AppstoreOutlined, MailOutlined, SettingOutlined,InboxOutlined,LoadingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useState } from 'react';
-import Board_HJ from './Board_HJ';
-import '../css/nav_hj.css'
 import {Link,useNavigate} from 'react-router-dom'
 
 function getItem(label, key, icon, children, type) {
@@ -97,7 +95,8 @@ const App = () => {
       onOpenChange={onOpenChange}
       style={{
         width: 256,
-        height:800
+        height:800,
+        borderColor:'white'
       }}
       items={items}
     />

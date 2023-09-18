@@ -23,8 +23,9 @@ import Out_02 from './components/Out_02';
 import RegisterCompany from './components/RegisterCompany';
 import Barcode from './components/Barcode';
 import In_01 from './components/In_01';
-import Dash_HJ from './components/Dash_HJ';
 import Nav_HJ from './components/Nav_HJ';
+import In_HJ from './components/In_HJ';
+import Dash_HJ from './components/Dash_HJ';
 
 const App = () => {
 
@@ -78,9 +79,10 @@ const App = () => {
             <Route path='/test' element={ <Testcom /> } />
             <Route path='/out/controll' element={ <Out_02 /> } />    
             <Route path='/barcode' element={<Barcode inputItem = {inputItem} setInputItem={setInputItem}/>}  />      
-            <Route path='/in/create' element={ <In_01 inputItem={inputItem} setInputItem={setInputItem}/> } />
-            <Route path = '/dash' element={<Dash_HJ/>}/>
+            {/* <Route path='/in/create' element={ <In_01 inputItem={inputItem} setInputItem={setInputItem}/> } /> */}
             <Route path = '/dash/nav' element={<Nav_HJ/>}/>
+            <Route path='/in/create' element={ <In_HJ inputItem={inputItem} setInputItem={setInputItem}/> } /> 
+            <Route path='/dash' element={ <Dash_HJ /> } /> 
           </Routes> 
         </div>
       ) : (
