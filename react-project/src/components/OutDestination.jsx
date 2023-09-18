@@ -20,38 +20,23 @@ function OutDestination() {
 
   const [desData, setDesData] = useState([])
 
-  // 출고품 이름 담을 변수
-  const [sName, setSname] = useState([])
 
-
-  // 출고품 리스트 정보 불러오기
-  const desDetail = async () => {
+  //  💥출고품 리스트 정보 가져오기
+  const desDetailTest = async () => {
     const userData = {
       com_seq: com_seq,
       wh_seq: wh_seq
 
     }
     try {
-      const response = await axios.post('http://localhost:8000/out/des', userData)
+      const response = await axios.post('http://localhost:8000/out/des/name', userData)
 
       if (response.status === 200) {
         console.log('출고품 정보 가져오기 성공');
 
-        console.log(response.data)
+        console.log("out/des/test", response.data)
 
         setDesData(response.data)
-
-        const stockNames = response.data.reduce((reStockName, warehouse) => {
-          warehouse.Racks.forEach((rack) => {
-            rack.Loadings.forEach((loading) => {
-              reStockName.push(loading.Stock.stock_name);
-            });
-          });
-          return reStockName;
-        }, []);
-
-        setSname(stockNames);
-
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -61,9 +46,8 @@ function OutDestination() {
     }
   }
 
-  // sName 배열의 중복 제거
-  const oneSname = [...new Set(sName)]
-  console.log("중복제거?", oneSname);
+
+
 
 
   // 테이블 클릭 이벤트
@@ -139,6 +123,7 @@ function OutDestination() {
   const labels = charData.map(item => item.Loading.stock_shipping_des);
   const cntData = charData.map(item => item.total_loading_cnt);
   const total = cntData.reduce((acc, value) => acc + value, 0); // 데이터 배열의 합계 계산
+
   const percentData = cntData.map(value => ((value / total) * 100).toFixed(2)); // 각 데이터 항목의 퍼센트 계산
 
   // 차트 데이터
@@ -168,7 +153,7 @@ function OutDestination() {
     plugins: {
       legend: {
         display: true, // 라벨 표시 활성화
-        position: 'right', // 라벨 위치 설정 (top, bottom, left, right 등)
+        position: 'top', // 라벨 위치 설정 (top, bottom, left, right 등)
       },
       datalabels: {
         display: true, // 라벨 표시 활성화
@@ -188,7 +173,8 @@ function OutDestination() {
 
   useEffect(() => {
 
-    desDetail();
+    // desDetail();
+    desDetailTest();
   }, [])
 
 
@@ -217,58 +203,61 @@ function OutDestination() {
                 <h1>제품명</h1>
               </th>
               <th>
-                <h1>출고량</h1>
+                <h1>총 출고량</h1>
               </th>
               <th>
-                <h1>데이터2</h1>
+                <h1>마지막 출고일</h1>
               </th>
             </tr>
           </thead>
+          {desData.map((whItem, whIdx) => (
+            <React.Fragment key={whIdx}>
+              {whItem.Racks.map((rackItem, rackIndex) => (
+                <React.Fragment key={rackIndex}>
+                  {rackItem.Loadings.map((item, idx) => (
+                    <React.Fragment key={idx}>
 
-          {oneSname.map((item, idx) => (
-            <React.Fragment key={idx}>
-              <tbody>
-                <tr>
-                  <td id='des_td' onClick={() => handleRowClick(idx, item)}
-                    className={rowOutTable[idx] ? 'selected' : ''} >{item}</td>
-                  <td></td>
-                  <td>test</td>
-                </tr>
-              </tbody>
-              {rowOutTable[idx] && (
-                <tr id='doughnut_tr'>
-                  <td id='doughnut_td' colSpan={3}>
-                    <div id='des_table_fold' >
-                      <div id='doughnut1'>
-                        <div id='doughnut_1'> <Doughnut data={data} options={options} /></div>
-                      </div>
-                      <div id='des_div'>
-                        <table id='des_table'>
-                          <tr>
-                            <td>배송지</td>
-                            <td>판매량</td>
-                          </tr>
-                            {charData.map((item, idx) => (
-                              <tr key={idx} >
-                              <td >{item.Loading.stock_shipping_des}</td>
-                              <td >{item.total_loading_cnt}</td>
-                              </tr>
-                            ))}
+                      <tbody>
+                        <tr>
+                          <td id='des_td' onClick={() => handleRowClick(idx, item.Stock.stock_name)}
+                            className={rowOutTable[idx] ? 'selected' : ''} >{item.Stock.stock_name}</td>
 
-                        </table>
-                      </div>
-                    </div>
-                  </td>
+                          <td>{item.total_loading_cnt}</td>
+                          <td>{item.out_created_at.substring(0, 10)}</td>
+                        </tr>
+                      </tbody>
+                      {rowOutTable[idx] && (
+                        <tr id='doughnut_tr'>
+                          <td id='doughnut_td' colSpan={3}>
+                            <div id='des_table_fold' >
+                              <div id='doughnut1'>
+                                <div id='doughnut_1'> <Doughnut data={data} options={options} /></div>
+                              </div>
+                              <div id='des_div'>
+                                <table id='des_table'>
+                                  <tr>
+                                    <td>배송지</td>
+                                    <td>판매량</td>
+                                  </tr>
+                                  {charData.map((item, idx) => (
+                                    <tr key={idx} >
+                                      <td >{item.Loading.stock_shipping_des}</td>
+                                      <td >{item.total_loading_cnt}</td>
+                                    </tr>
+                                  ))}
 
-                </tr>
-
-
-
-
-              )}
+                                </table>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </React.Fragment>
+              ))}
             </React.Fragment>
           ))}
-
         </table>
 
       </div>

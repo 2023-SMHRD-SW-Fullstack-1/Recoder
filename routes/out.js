@@ -138,8 +138,8 @@ router.post('/des', async (req, res) => {
                             model: Loading,
                             where: { loading_type: 'O' },
                             attributes : 
-                                ['stock_shipping_des']
-                               ,
+                                ['stock_shipping_des','out_created_at']
+                               , 
                             include: [
                                 {
                                     model: Stock,
@@ -163,43 +163,47 @@ router.post('/des', async (req, res) => {
 })
 
 
-// 출고품 하나의 정보 관리 des/name
+// 💥 stock_name 당 정보 가져오기 
 router.post('/des/name', async (req, res) => {
 
     let { wh_seq,stock_name } = req.body;
     try {
         const sNameList = await Warehouse.findAll({
-            where: {
-                wh_seq: wh_seq,
-            },
-            attributes :['wh_name'],
-            include: [
+            attributes:
+               []
+              ,
+              include: [
                 {
-                    model: Rack,
-                    attributes: ['rack_seq'],
-                    include: [
+                  model: Rack,
+                 
+                  where: {
+                    wh_seq: 1004,
+                  },
+                  include: [
+                    {
+                      model: Loading,
+                      attributes:[ 
+                        [fn('SUM',col('loading_cnt')), 'total_loading_cnt'],'out_created_at']
+                      ,
+                      where: {
+                        loading_type: 'O',
+                  
+
+                      },
+                      include: [
                         {
-                            model: Loading,
-                            where: { loading_type: 'O' },
-                            attributes : 
-                                ['stock_shipping_des']
-                               ,
-                            include: [
-                                {
-                                    model: Stock,
-                                    where:{stock_name:stock_name},
-                                   attributes :[ 
-                                    'stock_name','stock_kind'
-                                   ]
-                                }
-                            ]
-                        }
-                    ]
-
-                }
-
-            ],
-        })
+                          model: Stock,
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              group: ['stock_name'],
+              order: [
+                [col('out_created_at'), 'DESC'],
+              ],
+            });
         console.log( sNameList);
         res.json( sNameList)
     } catch (error) {
