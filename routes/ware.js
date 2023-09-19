@@ -23,7 +23,7 @@ router.get('/manage/:com_seq', async (req, res) => {
     let com_seq = req.params.com_seq
     try {
         const warehouseList = await Warehouse.findAll({
-            attributes: ['wh_name', 'createdAt'],
+            attributes: ['wh_name', 'createdAt', 'wh_seq'],
             where: {
                 com_seq : com_seq
             },
