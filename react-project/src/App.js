@@ -59,12 +59,7 @@ const App = () => {
     <div>
       { uid ? (
         <div>
-
-
-
-            <Nav_HJ/>
-          <Routes>
-            
+          <Routes>            
             <Route element={ <Layout /> } >
               {/* 개발 끝나면 지워주세요 */}
               <Route index element={ <Login /> } />
@@ -87,9 +82,8 @@ const App = () => {
               <Route path='/barcode' element={<Barcode inputItem = {inputItem} setInputItem={setInputItem}/>}  />      
               <Route path='/in/create' element={ <In_HJ inputItem={inputItem} setInputItem={setInputItem}/> } /> 
               <Route path='/dash' element={ <Dash_HJ /> } /> 
-            <Route path='/in/inloading' element={ <In_02 /> } /> 
-            </Route>          
-
+              <Route path='/in/inloading' element={ <In_02 /> } /> 
+            </Route>
           </Routes> 
         </div>
       ) : (

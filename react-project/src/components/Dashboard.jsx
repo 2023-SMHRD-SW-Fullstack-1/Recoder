@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ShortInList from "./Dashboard/ShortInList";
 import ShortStockList from "./Dashboard/ShortStockList";
 import ShortOutList from "./Dashboard/ShortOutList";
@@ -8,21 +8,34 @@ import Calendar from "./Calendar";
 import { Link } from "react-router-dom";
 import axios from 'axios'
 
-const Dashboard = ({ comSeq }) => {
-  
+const Dashboard = ({ comSeq }) => {  
+
+  const [inList, setInList] = useState([]);
+  const [stockList, setStockList] = useState([]);
+  const [outList, setOutList] = useState([]);
+
   useEffect(() => {
     const getInData = () => {
-      return axios.get(`http://localhost:8000/in/${comSeq}`)
-    }
-    
-    Promise.all([getInData()])
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.error(err);
-    })
+      return axios.get(`http://localhost:8000/in/${comSeq}/B`);
+    };
+    const getStockData = () => {
+      return axios.get(`http://localhost:8000/in/${comSeq}/I`);
+    };
+    const getOutData = () => {
+      return axios.get(`http://localhost:8000/in/${comSeq}/O`);
+    };
+  
+    Promise.all([getInData(), getStockData(), getOutData()])
+      .then((res) => {
+        setInList(res[0].data);
+        setStockList(res[1].data);
+        setOutList(res[2].data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, [])
+
 
   return (
     <div className="dashboard">
@@ -61,7 +74,7 @@ const Dashboard = ({ comSeq }) => {
                 <OpenInNewIcon />
               </div>
             </div>
-            <ShortInList />
+            <ShortInList inList={ inList } />
           </div>
         </div>
         <div className="dashboard-body2">
@@ -73,7 +86,7 @@ const Dashboard = ({ comSeq }) => {
                 <OpenInNewIcon />
               </div>
             </div>
-            <ShortStockList />
+            <ShortStockList stockList={ stockList } />
           </div>
           <div className="dashboard-item4">
             <div className="dashboard-item-header">
@@ -83,7 +96,7 @@ const Dashboard = ({ comSeq }) => {
                 <OpenInNewIcon />
               </div>
             </div>
-            <ShortOutList />
+            <ShortOutList outList={ outList } />
           </div>
         </div>
       </div>
