@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../css/Login.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+// import {Ionicons} from "@expo/vector-icons";
 
 const Login = () => {
-  
+
   const nav = useNavigate()
 
   const idRef = useRef()
@@ -17,23 +18,23 @@ const Login = () => {
     e.preventDefault()
 
     setUserData({
-      user_id : idRef.current.value,
-      user_pw : pwRef.current.value
+      user_id: idRef.current.value,
+      user_pw: pwRef.current.value
     })
   }
 
   useEffect(() => {
     if (userData.user_id !== undefined) {
       axios.post('http://localhost:8000/user/login', userData)
-      .then((res) => {
-        console.log(res);
-        if (res.data.user_id) {
-          window.location.href = 'http://localhost:3000/main'
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+        .then((res) => {
+          console.log(res);
+          if (res.data.user_id) {
+            window.location.href = 'http://localhost:3000/main'
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        })
     }
   }, [userData])
 
@@ -42,42 +43,33 @@ const Login = () => {
   }
 
   return (
-    <div className="login-container">
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              <div className='content'>
-                {/* <div className='login-title'> */}
-                  <h1>로그인</h1>
-                {/* </div> */}
+    <div className='login_main'>
+        <body>
+          <section>
+            <div className="form_box">
+              <div className="form_value">
                 <form onSubmit={handleLogin}>
-                  <input
-                    type="text"
-                    placeholder=" 아이디를 입력해주세요."
-                    maxLength="15"
-                    autoFocus
-                    ref={idRef}
-                  />
 
-                  <input
-                    type="password"
-                    placeholder="  비밀번호를 입력해주세요."
-                    maxLength="15"
-                    ref={pwRef}
-                  />
+                  <h2>로그인</h2>
 
-                  <button className="login-button" type="submit">
-                    로그인
-                  </button>
+                  <div className="inputbox">
+                    <input type='text' ref={idRef} required />
+                    <label htmlFor="">ID</label>
+                  </div>
 
-                  <button className="join-button" onClick={handleJoin}>회원가입</button>
+                  <div className="inputbox">
+                    <input type='password' ref={pwRef} required />
+                    <label htmlFor="">Password</label>
+                  </div>
+
+                  <button type='submit' className='login_button'>로그인</button>
+                  <button onClick={handleJoin} className='login_join_button'>회원가입</button>
+
                 </form>
               </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </section>
+        </body>
     </div>
   );
 };
