@@ -15,10 +15,10 @@ router.post('/create', async (req, res) => {
                 stock_barcode: {
                     [Op.in]: barCodes // $in 연산자 사용      
                 },
-                update_at : null
+                update_at: null
             }
         });
-
+        console.log('stock바코드 조회', result);
         res.json(result);
     } catch (error) {
         console.error(error);
@@ -27,15 +27,15 @@ router.post('/create', async (req, res) => {
 
 // 입고 에정 페이지 : 바코드 등록하고 입고 페이지로 넘기기  => 입고 추가정보 등록 후 입고처리
 router.post('/send/loading', async (req, res) => {
-   
-    let {stock_barcode} = (req.body)
+
+    let { stock_barcode } = (req.body)
     console.log('update_at 업데이트', req.body.stock_barcode);
     try {
         const result = await Stock.update(
             { update_at: fn('NOW') },
             {
-                where : {
-                    stock_barcode:stock_barcode
+                where: {
+                    stock_barcode: stock_barcode
                 }
             }
         )
@@ -44,24 +44,24 @@ router.post('/send/loading', async (req, res) => {
     } catch (error) {
         console.error(error);
     }
-  
+
 })
 
 // 입고 메인 페이지 : 추가정보 입력 후 입고등록
-router.post('/loading', async (req,res)=>{
-    let {rack_seq,stock_seq,loading_floor,loading_position,loading_manager,com_seq,stock_barcode} = (req.body)
+router.post('/loading', async (req, res) => {
+    let { rack_seq, stock_seq, loading_floor, loading_position, loading_manager, com_seq, stock_barcode } = (req.body)
 
     try {
-        console.log('loading',req.body);
+        console.log('loading', req.body);
         const result = await Loading.create({
             rack_seq: rack_seq,
-            loading_type : "I",
+            loading_type: "I",
             stock_seq: stock_seq,
             loading_floor: loading_floor,
             loading_position: loading_position,
-            loading_manager:loading_manager,
+            loading_manager: loading_manager,
             com_seq: com_seq
-          })
+        })
 
         res.json(result)
     } catch (error) {

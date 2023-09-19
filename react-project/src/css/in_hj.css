@@ -3,4 +3,10 @@
     margin-right : 10%;
     width: 80%;
     height: max-content;
+  
+}
+
+:where(.css-dev-only-do-not-override-i0102m).ant-table-wrapper .ant-table-pagination.ant-pagination {
+    margin: 16px 0;
+    display: none;
 }
