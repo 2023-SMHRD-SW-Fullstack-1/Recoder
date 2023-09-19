@@ -2,8 +2,6 @@ import React from 'react'
 import '../css/layout.css'
 import NewSidebar from './NewSidebar'
 // import Table from './Table_HJ'
-import Table from './In_HJ'
-import ShortTable from './ShortTable'
 
 const Layout = () => {
   return (
@@ -16,7 +14,6 @@ const Layout = () => {
             <div>
               <p>재고 현황</p>
             </div>
-            <ShortTable />
           </div>
           <div className='dashboard-item2'>아이템2</div>
         </div>
