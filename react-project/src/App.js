@@ -64,7 +64,7 @@ const App = () => {
               <Route path='/join' element={ <Join /> } />
               <Route path='/register/company' element={ <RegisterCompany /> } />
               {/* 개발 끝나면 지워주세요 */}
-              <Route path='/main' element={ <Dashboard /> } />
+              <Route path='/main' element={ <Dashboard comSeq={ comSeq } /> } />
               <Route path='/out/create' element={ <Out_01 /> } />
               <Route path='/out/select' element={ <OutSelect /> } />
               <Route path='/out/des' element={ <OutDestination /> } />

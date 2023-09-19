@@ -3,6 +3,22 @@ const router = express.Router()
 const { User, Warehouse, Rack, Loading, Stock, Company, sequelize } = require('../models'); // 모델들을 import
 const { Op, fn, col, NOW } = require('sequelize');
 
+// com_seq로 loading 조회
+router.get('/:com_seq', async (req, res, next) => {
+
+    let com_seq = req.params.com_seq
+
+    try {
+        const result = await Loading.findAll({
+            where: {
+                com_seq: com_seq
+            }
+        })
+        res.json(result)
+    } catch (error) {
+        console.error(error);
+    }
+})
 
 // 입고 예정 페이지 => 입고될 리스트 조회 : 바코드 찍힌 모든 제품 가져오기
 router.post('/create', async (req, res) => {
@@ -68,4 +84,5 @@ router.post('/loading', async (req, res) => {
         console.error(error);
     }
 })
+
 module.exports = router

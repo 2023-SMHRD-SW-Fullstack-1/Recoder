@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ShortInList from "./Dashboard/ShortInList";
 import ShortStockList from "./Dashboard/ShortStockList";
 import ShortOutList from "./Dashboard/ShortOutList";
@@ -6,8 +6,24 @@ import CachedIcon from "@mui/icons-material/Cached";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import Calendar from "./Calendar";
 import { Link } from "react-router-dom";
+import axios from 'axios'
 
-const Dashboard = () => {
+const Dashboard = ({ comSeq }) => {
+  
+  useEffect(() => {
+    const getInData = () => {
+      return axios.get(`http://localhost:8000/in/${comSeq}`)
+    }
+    
+    Promise.all([getInData()])
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [])
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">헤더</div>
