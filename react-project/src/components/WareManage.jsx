@@ -18,7 +18,7 @@ const WareManage = ({ comSeq }) => {
     axios.get(`http://localhost:8000/ware/manage/${comSeq}`)
       .then(res => {
         setWarehouseList(res.data);
-        console.log(res.data);
+        console.log("가져오는 데이터",res.data);
       })
       .catch((error) => {
         console.error(error);

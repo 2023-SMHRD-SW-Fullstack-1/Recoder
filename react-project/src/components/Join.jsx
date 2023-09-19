@@ -49,17 +49,30 @@ const Join = () => {
     };
 
     const onSubmit = async (e) => {
+
         e.preventDefault();
+
+        console.log('하이', formData);
         if (formData.user_pw !== formData.user_pw_confirm) {
             alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요.');
             return;
         }
 
         try {
+
+            axios.get('http://localhost:8000/user/test')
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
             const response = await axios.post('http://localhost:8000/user', {
                 user_id: formData.user_id,
                 user_pw: formData.user_pw,
                 user_nick: formData.user_nick,
+                user_cname: formData.user_cname,
+
             });
             if (response.data === 'ok') {
                 alert(response.data.message || "회원가입되었습니다!");
@@ -82,129 +95,92 @@ const Join = () => {
     useEffect(() => {
         console.log('회사정보 요청');
         axios.get(`http://localhost:8000/company/${comNum}`)
-        .then((res) => {
-            console.log(res);
-            if (res.data[0]) {
-                setComName(res.data[0].com_name)
-                alert('완료')
-            } else {
-                alert('등록된 회사가 없습니다. 회사 등록으로 이동합니다')
-                navigate('/register/company')
-            }
-        })
-        .catch((err) => {
-            console.error(err);    
-        })
+            .then((res) => {
+                console.log(res);
+                if (res.data[0]) {
+                    setComName(res.data[0].com_name)
+                    alert('완료')
+                } else {
+                    alert('등록된 회사가 없습니다. 회사 등록으로 이동합니다')
+                    navigate('/register/company')
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            })
     }, [comNum])
 
-return (
-    <div className="Join-container">
-        <table>
-            <tbody>
-                <tr>
-                    <td className="content1">
-                        <div className='join-title'>
-                            <h1>회원가입</h1>
-                        </div>
+    return (
+        <div className='join_main'>
+            <body>
+                <div className="join_container">
+                    <div className="join_form_box">
 
                         <form onSubmit={onSubmit} className="Join_content1">
+                            <h2>
+                                회원가입
+                            </h2>
 
-                            <div className='id-input-container'>
-                                {/* 아이디 */}
-                                <label htmlFor="user_id"></label>
-                                <input
-                                    type="text"
-                                    name="user_id"
-                                    value={formData.user_id}
-                                    onChange={onChange}
-                                    placeholder='아이디를 입력해주세요.'
-                                    autoFocus
-                                />
-                                <div>
+                            <div className='input_box'>
+                                <input type='text' name='user_id' value={formData.user_id} onChange={onChange} required />
+                                <label htmlFor=''>ID</label>
+                            </div>
+                            <div>
                                 <button
                                     type="button"
                                     onClick={checkDuplicate}
                                     className="id-check"
                                 >
-                                    아이디 중복체크
+                                    중복 확인
                                 </button>
-                                </div>
-                                
                             </div>
                             <span className="duplicate-message">{duplicateMessage}</span>
 
-
-
-                            {/* 비밀번호 */}
-                            <label htmlFor="user_pw"></label>
-                            <div className="pw-input-container">
-                                <input
-                                    type="password"
-                                    name="user_pw"
-                                    value={formData.user_pw}
-                                    onChange={onChange}
-                                    placeholder='비밀번호를 입력하세요.'
-                                />
+                            <div className='input_box'>
+                                <input type='text' name='user_nick' value={formData.user_nick} onChange={onChange} required />
+                                <label htmlFor=''>Nick Name</label>
                             </div>
 
-                            {/* 비밀번호 확인 */}
-                            <label htmlFor="user_pw_confirm"></label>
-                            <div className="pw-confirm-input-container">
-                                <input
-                                    type="password"
-                                    name="user_pw_confirm"
-                                    value={formData.user_pw_confirm}
-                                    onChange={onChange}
-                                    placeholder='비밀번호를 다시 입력해주세요.'
-                                />
+                            <div className='input_box'>
+                                <input type='password' name='user_pw' value={formData.user_pw} onChange={onChange} required />
+                                <label htmlFor=''>Password</label>
                             </div>
 
-                            {/* 이름 */}
-                            <label htmlFor="user_name"></label>
-                            <div className="name-input-container">
-                                <input
-                                    type="text"
-                                    name="user_nick"
-                                    value={formData.user_nick}
-                                    onChange={onChange}
-                                    placeholder='닉네임을 입력해주세요.'
-                                />
+                            <div className='input_box'>
+                                <input type='password' name='user_pw_confirm' value={formData.user_pw_confirm} onChange={onChange} required />
+                                <label htmlFor=''>Confirm Password</label>
                             </div>
 
-                            {/* 회사명 */}
-                            <label htmlFor="user_cname"></label>
-                            <div className="cname-input-container">
-                                <input
-                                    type="text"
-                                    name="user_cname"
-                                    value={formData.user_cname}
-                                    onChange={onChange}
-                                    placeholder='사업자등록번호를 입력해주세요.'
-                                    ref={comNumRef}
-                                />
-                                <button 
+                            <div className='input_box'>
+                                <input type='text' name='user_cname' value={formData.user_cname} onChange={onChange} required />
+                                <label htmlFor=''>Company Num</label>
+                            </div>
+
+                            {/* <div>
+                                <button
                                     className="join-button"
-                                    type='button' 
-                                    style={{ backgroundColor: 'lightgray'}}
+                                    type='button'
+                                    style={{ backgroundColor: 'lightgray' }}
                                     onClick={searchCompany}
                                 >
                                     검색
                                 </button>
-                            </div>
+                            </div> */}
 
-                            {/* 가입완료 버튼 */}
-                            <div className="submit-button">
-                                <button type="submit" className="join-button">
-                                    가입하기
-                                </button>
+                            <div className='submit_button'>
+                                <input type='submit' className='join_button' value='가입하기'></input>
                             </div>
                         </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-);
+                    </div>
+                    {/* <div className='popup' id='popup'>
+                        <h2>Thank you!</h2>
+                        <p>회원가입이 완료되었습니다</p>
+                        <button>확인</button>
+                    </div> */}
+                </div>
+            </body>
+        </div>
+    );
 }
 
 export default Join;
