@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
 
   try {
     const result = await Warehouse.findAll({
-      attributes: ['wh_seq'],
+      attributes: ['wh_seq', 'wh_name'],
       where: {
         com_seq: com_seq
       },

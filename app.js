@@ -18,6 +18,8 @@ const inRouter = require('./routes/in')
 
 const stockRouter = require('./routes/stock')
 const wareRouter = require('./routes/ware')
+const warehouseRouter = require('./routes/warehouse')
+
 // sequelize 연결
 const { sequelize } = require('./models')
 const passportConfig = require('./passport')
@@ -72,8 +74,11 @@ app.use('/out',outRouter)
 app.use('/company', comRouter)
 app.use('/in',inRouter)
 
+// 윤영현 著
 app.use('/ware', wareRouter)
 app.use('/rack', rackRouter)
+app.use('/warehouse', warehouseRouter)
+
 app.use('/stock', stockRouter)
 
 app.listen(app.get('port'), () => {

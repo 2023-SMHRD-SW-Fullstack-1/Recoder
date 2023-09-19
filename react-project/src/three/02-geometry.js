@@ -234,10 +234,10 @@ export default class App {
         pilarMesh3.position.set(box.max.x, box.min.y + (box1.max.y - box1.min.y)/2- (box1.max.y - box1.min.y)*0.2, box.max.z);
         pilarMesh4.position.set(box.min.x, box.min.y + (box1.max.y - box1.min.y)/2- (box1.max.y - box1.min.y)*0.2, box.max.z);
         console.log(box1.min.y)
-            
+        
         
         group.add(boardMesh, pilarMesh1, pilarMesh2, pilarMesh3, pilarMesh4)
-            
+        
         superGroup.add(group);
         for(let i = 0; i < floor - 1; i++){
             let group1 =  group.clone();
@@ -245,11 +245,11 @@ export default class App {
             superGroup.add(group1);
             group = group1.clone();
         }
-            
+        
         superGroup.name = name;
         this._scene.add(superGroup)
-            
-                
+
+
         return superGroup
     }
     

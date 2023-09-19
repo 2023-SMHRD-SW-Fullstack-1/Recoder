@@ -14,6 +14,7 @@ import OutDestination from './components/OutDestination'
 import WareManage from './components/WareManage'
 import WareCreate from './components/WareCreate'
 import CreateWarehouse from './components/CreateWarehouse'
+import Warehouse from './components/Warehouse'
 import Mypage from './components/Mypage';
 import './App.css'
 import axios from 'axios';
@@ -74,6 +75,8 @@ const App = () => {
             <Route path='/ware/manage' element={ <WareManage comSeq={comSeq}/> } />
             <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
             <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
+            <Route path='/warehouse/:wh_seq' element={ <Warehouse comSeq={comSeq} /> } />
+
             <Route path='/mypage' element={ <Mypage /> } />
             <Route path='/logout' element={ <Logout /> } />
             <Route path='/test' element={ <Testcom /> } />
