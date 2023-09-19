@@ -27,6 +27,7 @@ import In_01 from './components/In_01';
 import Nav_HJ from './components/Nav_HJ';
 import In_HJ from './components/In_HJ';
 import Dash_HJ from './components/Dash_HJ';
+import In_02 from './components/In_02';
 
 const App = () => {
 
@@ -60,7 +61,8 @@ const App = () => {
     <div>
       { uid ? (
         <div>
-          <Sidebar />
+          <Nav_HJ/>
+          {/* <Sidebar /> */}
           <Routes>
             <Route path='/' element={ <Login /> } />
             <Route path='/join' element={ <Join /> } />
@@ -86,6 +88,7 @@ const App = () => {
             <Route path = '/dash/nav' element={<Nav_HJ/>}/>
             <Route path='/in/create' element={ <In_HJ inputItem={inputItem} setInputItem={setInputItem}/> } /> 
             <Route path='/dash' element={ <Dash_HJ /> } /> 
+            <Route path='/in/inloading' element={ <In_02 /> } /> 
           </Routes> 
         </div>
       ) : (

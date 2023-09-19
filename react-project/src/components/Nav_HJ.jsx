@@ -67,7 +67,7 @@ const App = () => {
   }else if (key === '4'){
     nav('/in/create')
   }else if (key === '5'){
-    nav('/in/create')
+    nav('/in/inloading')
   }else if (key === '6'){
     nav('/in/create')
   }else if (key === '7'){
@@ -87,7 +87,7 @@ const App = () => {
 
   
   return (
-    <div id='menu_div'>
+    <div id='menu_div' style={{width:200}}>
     <Menu 
       mode="inline"
       openKeys={openKeys}
