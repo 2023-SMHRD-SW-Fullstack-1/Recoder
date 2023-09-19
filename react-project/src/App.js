@@ -23,7 +23,9 @@ import Barcode from './components/Barcode';
 import Nav_HJ from './components/Nav_HJ';
 import In_HJ from './components/In_HJ';
 import Dash_HJ from './components/Dash_HJ';
+import In_02 from './components/In_02';
 import Dashboard from './components/Dashboard'
+
 
 const App = () => {
 
@@ -57,7 +59,12 @@ const App = () => {
     <div>
       { uid ? (
         <div>
+
+
+
+            <Nav_HJ/>
           <Routes>
+            
             <Route element={ <Layout /> } >
               {/* 개발 끝나면 지워주세요 */}
               <Route index element={ <Login /> } />
@@ -79,7 +86,10 @@ const App = () => {
               <Route path='/out/controll' element={ <Out_02 /> } />    
               <Route path='/barcode' element={<Barcode inputItem = {inputItem} setInputItem={setInputItem}/>}  />      
               <Route path='/in/create' element={ <In_HJ inputItem={inputItem} setInputItem={setInputItem}/> } /> 
+              <Route path='/dash' element={ <Dash_HJ /> } /> 
+            <Route path='/in/inloading' element={ <In_02 /> } /> 
             </Route>          
+
           </Routes> 
         </div>
       ) : (

@@ -11,7 +11,7 @@ class Loading extends Sequelize.Model {
             },
             loading_type: {
                 type: Sequelize.STRING(10),
-                allowNull: false,
+                allowNull: true,
                 comment: '입출고 구분'
             },
             created_at: {
