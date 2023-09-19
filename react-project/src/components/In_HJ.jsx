@@ -3,6 +3,8 @@ import Table_HJ from './Table_HJ';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import '../css/in01.css'
+import TopBoard from './Dashboard/TopBoard';
+
 function In_HJ({ inputItem, setInputItem }) {
 
     const nav = useNavigate()
@@ -113,7 +115,14 @@ function In_HJ({ inputItem, setInputItem }) {
           key: 'in_btn',
           render: (text, record) => (
             <button
-              style={{ color: 'darkgray', backgroundColor: 'white' }}
+            style={{ color: 'black', backgroundColor: 'white',
+            width : 60,
+            fontSize: 13,
+            height: 32,
+            paddingRight: 14,
+            paddingLeft: 14,
+            borderRadius: 6,
+          borderColor : 'darkgray' }}
               onClick={() => handleBarcode(record)} // 여기서 함수를 호출하지 않고 클릭 시 실행되도록 콜백으로 전달합니다.
             >
               등록
@@ -234,9 +243,11 @@ function In_HJ({ inputItem, setInputItem }) {
   
 
     return (
-        <div>
-            <div id='in01_top'>in01_top</div>
+        <div id='in_comtainer'>
+            <div id='in01_top'><TopBoard/></div>
+            <div id='in01_bottom'>
             <Table_HJ columns={columns} data={data} />
+            </div>
         </div>
 
     )

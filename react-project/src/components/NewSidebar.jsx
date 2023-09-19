@@ -68,7 +68,7 @@ const App = () => {
     }else if (key === '4'){
       nav('/in/create')
     }else if (key === '5'){
-      nav('/in/create')
+      nav('/in/loading')
     }else if (key === '6'){
       nav('/in/create')
     }else if (key === '7'){

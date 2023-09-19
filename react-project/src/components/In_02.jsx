@@ -3,6 +3,9 @@ import Table_HJ from './Table_HJ'
 import axios from 'axios';
 import In02Add from './In02Add';
 import { useNavigate } from 'react-router';
+import '../css/in01.css'
+import TopBoard from './Dashboard/TopBoard';
+import { Button} from 'antd';
 
 function In_02() {
 
@@ -102,7 +105,14 @@ const columns = [
       key: 'del_btn',
       render: (text, record) => (
         <button
-          style={{ color: 'darkgray', backgroundColor: 'white' }}
+          style={{ color: 'black', backgroundColor: 'white',
+          width : 60,
+          fontSize: 13,
+          height: 32,
+          paddingRight: 14,
+          paddingLeft: 14,
+          borderRadius: 6,
+        borderColor : 'darkgray' }}
           onClick={() => delHandler(record)} // 여기서 함수를 호출하지 않고 클릭 시 실행되도록 콜백으로 전달합니다.
         >
         취소
@@ -124,7 +134,7 @@ const data = loadingList.map((Litem, Lidx) => ({
     stock_barcode: Litem.Stock.stock_barcode,
     stock_expired: Litem.Stock.stock_expired.substring(0,10),
     stock_bal: Litem.Stock.stock_balance_cnt,
-    in_btn: '입고취소',
+    in_btn:'취소',
     description: <In02Add/>
   }));
 
@@ -133,9 +143,12 @@ const data = loadingList.map((Litem, Lidx) => ({
   },[])
 
   return (
-    <div>
-        <Table_HJ columns={columns} data={data} />
-    </div>
+    <div id='in_comtainer'>
+               <div id='in01_top'><TopBoard/></div>
+            <div id='in01_bottom'>
+            <Table_HJ columns={columns} data={data} />
+            </div>
+        </div>
   )
 }
 

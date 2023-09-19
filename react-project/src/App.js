@@ -60,9 +60,6 @@ const App = () => {
       { uid ? (
         <div>
 
-
-
-            <Nav_HJ/>
           <Routes>
             
             <Route element={ <Layout /> } >
@@ -87,7 +84,7 @@ const App = () => {
               <Route path='/barcode' element={<Barcode inputItem = {inputItem} setInputItem={setInputItem}/>}  />      
               <Route path='/in/create' element={ <In_HJ inputItem={inputItem} setInputItem={setInputItem}/> } /> 
               <Route path='/dash' element={ <Dash_HJ /> } /> 
-            <Route path='/in/inloading' element={ <In_02 /> } /> 
+            <Route path='/in/loading' element={ <In_02 /> } /> 
             </Route>          
 
           </Routes> 

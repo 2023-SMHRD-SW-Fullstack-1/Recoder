@@ -1,4 +1,14 @@
+#in_comtainer{
+    width: 100%;
+}
+
+
 #in01_top{
    
     margin: 10%;
+    width: 80%;
+}
+
+#in01_bottom{
+    width: 1600px;
 }
