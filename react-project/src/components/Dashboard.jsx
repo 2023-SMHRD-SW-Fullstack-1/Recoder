@@ -4,7 +4,6 @@ import ShortStockList from "./Dashboard/ShortStockList";
 import ShortOutList from "./Dashboard/ShortOutList";
 import CachedIcon from "@mui/icons-material/Cached";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import Calendar from "./Calendar";
 import { Link } from "react-router-dom";
 import axios from 'axios'
 
@@ -64,7 +63,7 @@ const Dashboard = ({ comSeq }) => {
                 <Link to="/out/select">30개</Link>
               </div>
             </div>
-            <Calendar />
+            달력
           </div>
           <div id="dashboard-item2">
             <div className="dashboard-item-header">

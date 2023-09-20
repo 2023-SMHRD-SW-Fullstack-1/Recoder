@@ -251,6 +251,8 @@ export default class App {
 					this.rectangleMesh.position.y = newPosY;
 				}
 
+				
+
 				// console.log(`pointerX, pointer %c ${Math.round(intersection.point.x)}//${Math.round(intersection.point.z)}`, "background:blue, color:white")
 				// console.log(`pointer y : ${Math.round(intersection.point.y)}`)
 
@@ -326,6 +328,13 @@ export default class App {
 						}
 						// this.meshes 배열에서도 해당 객체 제거
 						const index = this.meshes.indexOf(this.raycaster.selectedMesh);
+						// const index = this.meshes.indexOf({
+						// 	x: this.rectangleMesh.position.x,
+						// 	y: 0.2,
+						// 	z: this.rectangleMesh.position.z
+						// });
+						// console.log('헤헤', this.meshes);
+						// console.log(this.rectangleMesh.position.x,)
 						if(index !== -1) {
 							this.meshes.splice(index, 1);
 						}
@@ -409,7 +418,12 @@ export default class App {
 				console.log("선반의 z 값이 더 커!!")
 				return;
 			}
-			this.meshes.push(rackGroup);
+			
+			// this.meshes.push(rackGroup);
+			// this.meshes.push({
+			// 	rackpos: rackPos,
+			// });
+			this.meshes.push(rackPos);
 			rackGroup.name = "선반인데요"
 			this._scene.add(rackGroup);
 			// console.log("addShelf", this.meshes)
