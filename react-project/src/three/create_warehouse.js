@@ -152,7 +152,8 @@ export default class App {
 		// console.log(this.groundBoundPos);
 	}
 
-	setupMouseEvents(rectangleWidth, rectangleHeight, rackFloor = 1) {
+	setupMouseEvents(rectangleWidth = 1, rectangleHeight = 1, rackFloor = 1) {
+		console.log(`THREE.JS 선반 - 가로: ${rectangleWidth}/ 세로: ${rectangleHeight}/ ${rackFloor}층`)
 		this.rectangleWidth = rectangleWidth
 		this.rectangleHeight = rectangleHeight
 		this.rackFloor = rackFloor
@@ -369,7 +370,6 @@ export default class App {
 		})
 	}
 
-
 	addShelf() {
 		// 선반 만들기
 		if(this.rectangleMesh) {
@@ -379,6 +379,7 @@ export default class App {
 				z: this.rectangleMesh.position.z
 			}
 			console.log("현재 선반의 층수는?", this.rackFloor)
+
 			let rackGroup = createRack(this.rectangleWidth, this.rectangleHeight, this.rackFloor, rackPos)
 			let mesh = new THREE.Box3().setFromObject(rackGroup)
 

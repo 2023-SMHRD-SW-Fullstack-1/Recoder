@@ -83,6 +83,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	const createRack = (e) => {
 		setModalOpen(false);
 		e.preventDefault();
+		console.log(`선반 이름: ${rackName}/ 가로: ${rackWidth}/ 세로: ${rackLength}/ ${rackFloor}층`)
 
 		const rack_info = {
 			rackName: rackName,
@@ -97,26 +98,24 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 		localStorage.setItem('rackFloor', rackFloor);
 
 		let url = "http://localhost:8000/rack";
-
+		
+		
 		axios
 		.post(url, rack_info)
 		.then((res) => {
 			console.log(res);
-
-
-
+			
 			if (appInstance.current) {
-				// appInstance.current.remove();
-
 				appInstance.current.setupMouseEvents(
 					res.data.rack_width,
 					res.data.rack_length,
 					parseInt(localStorage.getItem('rackFloor')) // 로컬 스토리지에서 rackFloor값 불러오기!
-				);
-			}
+					);
+				}
 		})
 		.catch((error) => {
-			console.error(error);
+			console.log(`axios에러`)
+			// console.error(error);
 		});
 	};
 
