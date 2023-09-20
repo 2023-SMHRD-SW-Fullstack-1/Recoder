@@ -10,8 +10,10 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const modalBackground = useRef();
 
+	const [wh_seq, setWh_seq] = useState(null);
 	const [warehouseWidth, setWarehouseWidth] = useState(null);
 	const [warehouseLength, setWarehouseLength] = useState(null);
+
 
 	// 원래 코드
 	// useEffect(() => {
@@ -48,6 +50,9 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 
 	useEffect(() => {
 		console.log("여기", newWareData);
+		// console.log(newWareData.wh_seq);
+		// setWh_seq(newWareData.wh_seq);
+
 		// const warehouseData = newWareData;
 		// const lastWarehouse = warehouseData[warehouseData.length - 1];
 		// console.log("가장 최근 창고 정보 :", lastWarehouse);
@@ -60,6 +65,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 		// 창고의 크기 설정 (가로, 세로)
 		// setWarehouseWidth(parseInt(newWareData.wh_width));
 		// setWarehouseLength(parseInt(newWareData.wh_length));
+
 
 		setWarehouseWidth(15); // 임시 데이터
 		setWarehouseLength(15);
@@ -93,6 +99,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 			rackX: rackX,
 			rackZ: rackZ,
 			rackRotateYN: rackRotateYN,
+      wh_seq:wh_seq
 		};
 		// 로컬 스토리지에 rackFloor값 저장
 		localStorage.setItem('rackFloor', rackFloor);

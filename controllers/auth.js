@@ -3,7 +3,8 @@ const passport = require('passport')
 const { User, Company } = require('../models')
 
 exports.join = async (req, res, next) => {
-  let { user_id, user_pw, user_nick } = req.body
+  console.log('요청');
+  let { user_id, user_pw, user_nick, user_cname } = req.body
   try {
     const exUser = await User.findOne({
       where: {
@@ -18,6 +19,7 @@ exports.join = async (req, res, next) => {
       user_id: user_id,
       user_pw: hashedPassword,
       user_nick: user_nick,
+      user_cname: user_cname,
       user_authority: 'U'
     });
     res.status(201).send('ok');

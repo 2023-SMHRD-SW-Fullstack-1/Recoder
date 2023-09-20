@@ -3,7 +3,7 @@ const { Rack } = require('../models')
 const router = express.Router()
 
 router.post('/', async (req, res, next) => {
-    let { rackName, rackWidth, rackLength, rackFloor, rackX, rackZ, rackRotateYN } = req.body
+    let { rackName, rackWidth, rackLength, rackFloor, rackX, rackZ, rackRotateYN, wh_seq } = req.body
     try {
         const result = await Rack.create({
             rack_id: rackName,
@@ -13,7 +13,9 @@ router.post('/', async (req, res, next) => {
             rack_floor: rackFloor,
             rack_x: rackX,
             rack_z: rackZ,
-            rack_rotate_yn: rackRotateYN
+            rack_rotate_yn: rackRotateYN,
+            wh_seq: wh_seq
+
         })
         res.json(result.toJSON())
     } catch (error) {

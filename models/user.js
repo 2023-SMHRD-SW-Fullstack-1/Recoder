@@ -25,11 +25,6 @@ class User extends Sequelize.Model {
                 allowNull: false,
                 comment: '사용자 닉네임'
             },
-            user_authority: {
-                type: Sequelize.CHAR(1),
-                allowNull: false,
-                comment: "사용자 권한"
-            }
         }, {
             sequelize,
             timestamps: true,

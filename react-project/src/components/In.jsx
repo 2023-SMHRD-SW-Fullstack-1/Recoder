@@ -7,7 +7,7 @@ import '../css/In.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
-const In = () => {
+const In = ({inputItem}) => {
 	const [selectedCnt, setSelectedCnt] = useState(0);
 	const [enableBtn, setEnableBtn] = useState(false);
 	
@@ -205,8 +205,9 @@ const In = () => {
 	}
 
 	useEffect(()=>{
-		console.log("testDatas ==> ", testDatas)
-	}, [testDatas])
+		console.log("바코드" , inputItem);
+		// console.log("testDatas ==> ", testDatas)
+	}, [inputItem])
 
 
 
