@@ -93,4 +93,14 @@ body {
 .dashboard-item-header {
   display: flex;
   justify-content: space-between;
+  padding: 4px;
+  margin-bottom: 12px;
+}
+
+.dashboard-item-header > span {
+  font-size: 1.2rem;
+}
+
+.dashboard-item-header > div svg:nth-child(1) {
+  margin-right: 10px;
 }
