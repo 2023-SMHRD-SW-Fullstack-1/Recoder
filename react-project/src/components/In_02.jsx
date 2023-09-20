@@ -187,7 +187,10 @@ function In_02() {
   }, [])
 
   return (
-    <div id='in_comtainer'>
+    <div id='in-container'>
+      <div id="in-header">
+        {/* <span>입고 예정</span> */}
+      </div>
       <div id='in01_top'><TopBoard /></div>
       <div id='in01_bottom'>
         <Table_HJ columns={columns} data={data} />
