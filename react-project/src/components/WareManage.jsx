@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 
@@ -18,7 +18,9 @@ const WareManage = ({ comSeq }) => {
     axios.get(`http://localhost:8000/ware/manage/${comSeq}`)
       .then(res => {
         setWarehouseList(res.data);
-        console.log("가져오는 데이터",res.data);
+        console.log("가져오는 데이터", res.data);
+        const whSeq = res.data.map(item => item.wh_seq);
+        console.log("뭘로 뽑아볼까", whSeq);
       })
       .catch((error) => {
         console.error(error);
@@ -65,14 +67,16 @@ const WareManage = ({ comSeq }) => {
                 warehouseList.map((item, index) => (
                   //     <React.Fragment key={index}>
                   <tr key={index}>
-                    <td>
-                      {item.wh_name}
-                    </td>
-                    {/* <td>{item.loadCnt}</td> */}
-                    <td>10</td>
-                    {/* <td>{item.loadRate}</td> */}
-                    <td>20</td>
-                    <td>{item.createdAt}</td>
+                    <Link to={`/warehouse/${item.wh_seq}`}>
+                      <td>
+                        {item.wh_name}
+                      </td>
+                      {/* <td>{item.loadCnt}</td> */}
+                      <td>10</td>
+                      {/* <td>{item.loadRate}</td> */}
+                      <td>20</td>
+                      <td>{item.createdAt}</td>
+                    </Link>
                   </tr>
                   //     </React.Fragment>
                 ))
@@ -80,10 +84,8 @@ const WareManage = ({ comSeq }) => {
                 console.log("창고가 없습니다.")
               )}
             </tbody>
-
           </table>
         </div>
-
       </div>
       <div className="ware_button_container">
         <button onClick={handleWareCreate}>창고 생성</button>
