@@ -89,7 +89,7 @@ const App = () => {
   
   return (
     <div id='menu_div'>
-      <div className='sidebar-top'>
+      <div id='sidebar-top'>
         빈 공간  
       </div>        
       <Menu 
