@@ -14,7 +14,9 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	const [warehouseWidth, setWarehouseWidth] = useState(null);
 	const [warehouseLength, setWarehouseLength] = useState(null);
 
-
+	// 전역 변수
+	let 메쉬배열 = []
+		
 	// 원래 코드
 	// useEffect(() => {
 	//   axios.get('http://localhost:8000/user')
@@ -79,13 +81,14 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 			warehouseWidth,
 			warehouseLength,
 			rackWidth,
-			rackLength
+			rackLength,
+			메쉬배열
 			);
 		}
 	}, [warehouseWidth, warehouseLength]);
 
 	
-	/** 모달창에서 버튼을 누르면 선반을 만들어주는 함수 */
+	/** 선반을 만들어주는 함수 */
 	const createRack = (e) => {
 		setModalOpen(false);
 		e.preventDefault();
@@ -99,14 +102,12 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 			rackX: rackX,
 			rackZ: rackZ,
 			rackRotateYN: rackRotateYN,
-      wh_seq:wh_seq
+			wh_seq:wh_seq
 		};
 		// 로컬 스토리지에 rackFloor값 저장
 		localStorage.setItem('rackFloor', rackFloor);
 
 		let url = "http://localhost:8000/rack";
-		
-		
 		axios
 		.post(url, rack_info)
 		.then((res) => {
@@ -121,10 +122,34 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 				}
 		})
 		.catch((error) => {
-			console.log(`axios에러`)
-			// console.error(error);
+			console.error(error);
 		});
 	};
+
+	/** 선반 정보를 DB에 저장 */
+	// const completeRack = (e) => {
+	// 	let url = "http://localhost:8000/rack";
+	// 	axios
+	// 	.post(url, rack_info)
+	// 	.then((res) => {
+	// 		console.log(res);
+			
+	// 		if (appInstance.current) {
+	// 			appInstance.current.setupMouseEvents(
+	// 				res.data.rack_width,
+	// 				res.data.rack_length,
+	// 				parseInt(localStorage.getItem('rackFloor')) // 로컬 스토리지에서 rackFloor값 불러오기!
+	// 				);
+	// 			}
+	// 	})
+	// 	.catch((error) => {
+	// 		console.error(error);
+	// 	});
+	// }
+
+	function get배열() {
+		console.log("배열 확인", 메쉬배열)
+	}
 
 	return (
 		<div>
@@ -135,6 +160,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 				<button className={"modal-open-btn"} onClick={() => setModalOpen(true)}>
 					선반 생성
 				</button>
+				<button onClick={get배열}>확인</button>
 			</div>
 			{modalOpen && (
 				<div
