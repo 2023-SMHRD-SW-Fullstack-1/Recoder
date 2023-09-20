@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router';
 const WareCreate = ({ comSeq, setNewWareData }) => {
 
     const [name, setName] = useState('');
-    const [width, setWidth] = useState(null);
-    const [length, setLength] = useState(null);
+    const [width, setWidth] = useState(0);
+    const [length, setLength] = useState(0);
     const nav = useNavigate()
 
     const handleSubmit = (e) => {
@@ -45,7 +45,7 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
                                         type="text"
                                         placeholder='창고 이름을 입력해주세요.'
                                         autoFocus
-                                        value={name}
+                                        value={name} 
                                         // onChange={handletext}
                                         onChange={(e) => setName(e.target.value)}
                                     />
@@ -56,7 +56,7 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
                                     <input
                                         type="number"
                                         placeholder='가로 길이를 입력해주세요.'
-                                        value={width}
+                                        value={width}  
                                         onChange={(e) => setWidth(e.target.value)}
                                     />
                                 </div>
@@ -66,7 +66,7 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
                                     <input
                                         type="number"
                                         placeholder='세로 길이를 입력해주세요.'
-                                        value={length}
+                                        value={length}  
                                         onChange={(e) => setLength(e.target.value)}
                                     />
                                 </div>

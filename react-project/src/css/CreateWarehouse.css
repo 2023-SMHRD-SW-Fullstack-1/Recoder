@@ -10,6 +10,10 @@
     display: flex;
     justify-content: center;
     margin-top: 5rem;
+
+    & button {
+        z-index: 1;
+    }
 }
 
 .modal-open-btn {
@@ -21,6 +25,7 @@
     /* Remove the border */
     border-radius: 5px;
     color: whitesmoke;
+    
 }
 
 .modal-close-btn {

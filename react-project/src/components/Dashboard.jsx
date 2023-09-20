@@ -4,7 +4,6 @@ import ShortStockList from "./Dashboard/ShortStockList";
 import ShortOutList from "./Dashboard/ShortOutList";
 import CachedIcon from "@mui/icons-material/Cached";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import Calendar from "./Calendar";
 import { Link } from "react-router-dom";
 import axios from 'axios'
 
@@ -38,16 +37,16 @@ const Dashboard = ({ comSeq }) => {
 
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-header">헤더</div>
+    <div id="dashboard">
+      <div id="dashboard-header">빈 공간</div>
       <div
         style={{
           padding: 24,
         }}
       >
-        <div className="dashboard-body1">
-          <div className="dashboard-item1">
-            <div className="current">
+        <div id="dashboard-body1">
+          <div id="dashboard-item1">
+            <div id="current">
               <div id="current-header">
                 <span>물류현황</span>
               </div>
@@ -64,9 +63,9 @@ const Dashboard = ({ comSeq }) => {
                 <Link to="/out/select">30개</Link>
               </div>
             </div>
-            <Calendar />
+            달력
           </div>
-          <div className="dashboard-item2">
+          <div id="dashboard-item2">
             <div className="dashboard-item-header">
               <span>입고예정</span>
               <div>
@@ -77,8 +76,8 @@ const Dashboard = ({ comSeq }) => {
             <ShortInList inList={ inList } />
           </div>
         </div>
-        <div className="dashboard-body2">
-          <div className="dashboard-item3">
+        <div id="dashboard-body2">
+          <div id="dashboard-item3">
             <div className="dashboard-item-header">
               <span>재고</span>
               <div>
@@ -88,7 +87,7 @@ const Dashboard = ({ comSeq }) => {
             </div>
             <ShortStockList stockList={ stockList } />
           </div>
-          <div className="dashboard-item4">
+          <div id="dashboard-item4">
             <div className="dashboard-item-header">
               <span>출고완료</span>
               <div>

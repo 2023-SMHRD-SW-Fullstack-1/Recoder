@@ -51,8 +51,6 @@ const Join = () => {
     const onSubmit = async (e) => {
 
         e.preventDefault();
-
-        console.log('하이', formData);
         if (formData.user_pw !== formData.user_pw_confirm) {
             alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요.');
             return;

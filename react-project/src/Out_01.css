@@ -6,7 +6,7 @@
 }
 
 
- 
+
 
 
 #out_all {
@@ -68,7 +68,7 @@
 }
 
 /*  버튼  */
-h1 {
+#out_all h1 {
   position: relative;
   text-align: center;
   color: #353535;
@@ -95,7 +95,7 @@ h1 {
 
 
 
-p {
+#out_all p {
   font-weight: 300;
   text-align: center;
   font-size: 18px;
@@ -108,7 +108,7 @@ p {
   text-align: center;
 }
 
-button {
+#out_all button {
   /* margin: 20px; */
   outline: none;
 }
@@ -143,7 +143,7 @@ button {
 }
 
 /* 테이블 css */
-thead {
+#out_all thead {
   position: relative;
   width: 100%;
 }
@@ -175,14 +175,14 @@ color:#b791fd;
   display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
 
-body {
+#out_all body {
     font-weight: 300;
   line-height: 1.42em;
   color: #A7A1AE;
 
 }
 
-h1 {
+#out_all h1 {
   font-size: 3em;
   font-weight: 300;
   /* line-height: 1em; */

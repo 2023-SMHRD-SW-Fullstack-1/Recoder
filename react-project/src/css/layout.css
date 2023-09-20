@@ -8,7 +8,7 @@ body {
   padding: 0;
 }
 
-.layout-container {
+#layout-container {
   display: flex;
 }
 
@@ -18,30 +18,31 @@ body {
   border-right: 1px solid #efefef;
 }
 
-.sidebar-top {
+#sidebar-top {
   padding: 24px;
 }
 
-.dashboard {
+#dashboard {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.dashboard-header {
+#dashboard-header {
   padding: 12px;
-  background-color: #efefef;
+  /* background-color: #efefef; */
+  border-bottom: 1px solid #e3e5e8;
 }
 
-.dashboard-body1,
-.dashboard-body2 {
+#dashboard-body1,
+#dashboard-body2 {
   background-color: white;
   display: flex;
 }
 
-.dashboard-item2,
-.dashboard-item3,
-.dashboard-item4 {
+#dashboard-item2,
+#dashboard-item3,
+#dashboard-item4 {
   width: 500px;
   height: 400px;
   margin: 12px;
@@ -52,7 +53,7 @@ body {
   overflow: hidden;
 }
 
-.dashboard-item1 {
+#dashboard-item1 {
   height: 400px;
   margin: 12px;
   flex: 1;
@@ -64,7 +65,7 @@ body {
   padding: 12px;
 }
 
-.current {
+#current {
   box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
   border-radius: 8px;
   padding: 12px;
@@ -93,4 +94,14 @@ body {
 .dashboard-item-header {
   display: flex;
   justify-content: space-between;
+  padding: 4px;
+  margin-bottom: 12px;
+}
+
+.dashboard-item-header > span {
+  font-size: 1.2rem;
+}
+
+.dashboard-item-header > div svg:nth-child(1) {
+  margin-right: 10px;
 }

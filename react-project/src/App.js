@@ -60,12 +60,12 @@ const App = () => {
       { uid ? (
         <div>
           <Routes>            
+            {/* 개발 끝나면 지워주세요 */}
+            <Route index element={ <Login /> } />
+            <Route path='/join' element={ <Join /> } />
+            <Route path='/register/company' element={ <RegisterCompany /> } />
+            {/* 개발 끝나면 지워주세요 */}
             <Route element={ <Layout /> } >
-              {/* 개발 끝나면 지워주세요 */}
-              <Route index element={ <Login /> } />
-              <Route path='/join' element={ <Join /> } />
-              <Route path='/register/company' element={ <RegisterCompany /> } />
-              {/* 개발 끝나면 지워주세요 */}
               <Route path='/main' element={ <Dashboard comSeq={ comSeq } /> } />
               <Route path='/out/create' element={ <Out_01 /> } />
               <Route path='/out/select' element={ <OutSelect /> } />
@@ -73,8 +73,6 @@ const App = () => {
               <Route path='/stock/select' element={ <StockSelect />} />
               <Route path='/stock/manage' element={ <StockManage /> } />
               <Route path='/ware/manage' element={ <WareManage comSeq={comSeq}/> } />
-              <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
-              <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
               <Route path='/warehouse/:wh_seq' element={ <Warehouse comSeq={comSeq} /> } />
               <Route path='/mypage' element={ <Mypage /> } />
               <Route path='/logout' element={ <Logout /> } />
@@ -82,9 +80,10 @@ const App = () => {
               <Route path='/barcode' element={<Barcode inputItem = {inputItem} setInputItem={setInputItem}/>}  />      
               <Route path='/in/create' element={ <In_HJ inputItem={inputItem} setInputItem={setInputItem}/> } /> 
               <Route path='/dash' element={ <Dash_HJ /> } /> 
-            <Route path='/in/loading' element={ <In_02 /> } /> 
-            </Route>          
-
+              <Route path='/in/loading' element={ <In_02 /> } /> 
+            </Route>    
+            <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
+            <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
           </Routes> 
         </div>
       ) : (

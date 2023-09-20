@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import App from '../three/show_warehouse'
 import axios from 'axios';
@@ -15,6 +15,8 @@ const Warehouse = () => {
     const [rackWidth, setRackWidth] = useState(1);
     const [rackLength, setRackLength] = useState(1);
     const [rackFloor, setRackFloor] = useState(1);
+
+    const appInstance = useRef(null);
 
     // wh_seq를 가지고 해당 창고 정보 불러오기
     useEffect(() => {
@@ -35,14 +37,17 @@ const Warehouse = () => {
 
 
     useEffect(() => {
-        new App(
+        if (warehouseWidth !== null && warehouseLength !== null) {
+          console.log("지금!");
+                
+          appInstance.current = new App(
             warehouseWidth,
             warehouseLength,
             rackWidth,
-            rackLength,
-            rackFloor,
-        );
-    }, [warehouseWidth, warehouseLength]);
+            rackLength
+          );
+        }
+      }, [warehouseWidth, warehouseLength]);
 
     return (
         <div id="webgl-container"></div>

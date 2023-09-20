@@ -89,8 +89,8 @@ const App = () => {
   
   return (
     <div id='menu_div'>
-      <div className='sidebar-top'>
-        빈 공간  
+      <div id='sidebar-top'>
+        스마트 윤영현님 안녕하세요  
       </div>        
       <Menu 
         mode="inline"
