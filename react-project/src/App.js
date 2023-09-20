@@ -73,8 +73,6 @@ const App = () => {
               <Route path='/stock/select' element={ <StockSelect />} />
               <Route path='/stock/manage' element={ <StockManage /> } />
               <Route path='/ware/manage' element={ <WareManage comSeq={comSeq}/> } />
-              <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
-              <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
               <Route path='/warehouse/:wh_seq' element={ <Warehouse comSeq={comSeq} /> } />
               <Route path='/mypage' element={ <Mypage /> } />
               <Route path='/logout' element={ <Logout /> } />
@@ -84,6 +82,8 @@ const App = () => {
               <Route path='/dash' element={ <Dash_HJ /> } /> 
               <Route path='/in/loading' element={ <In_02 /> } /> 
             </Route>    
+            <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
+            <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
           </Routes> 
         </div>
       ) : (
