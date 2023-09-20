@@ -5,6 +5,11 @@
 #stock-header {
   width: 100%;
   height: 84px;
+  padding: 12px 0;
+}
+#stock-header span {
+  font-size: 1.7rem;
+  font-weight: 500;
 }
 #stock-filter {  
   width: 100%;

@@ -30,7 +30,8 @@ body {
 
 #dashboard-header {
   padding: 12px;
-  background-color: #efefef;
+  /* background-color: #efefef; */
+  border-bottom: 1px solid #e3e5e8;
 }
 
 #dashboard-body1,

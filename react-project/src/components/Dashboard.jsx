@@ -38,7 +38,7 @@ const Dashboard = ({ comSeq }) => {
 
   return (
     <div id="dashboard">
-      <div id="dashboard-header">헤더</div>
+      <div id="dashboard-header">빈 공간</div>
       <div
         style={{
           padding: 24,

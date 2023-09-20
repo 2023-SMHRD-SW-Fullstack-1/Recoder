@@ -1,12 +1,14 @@
 import React from 'react'
 import StockDataList from './Stock/StockDataList'
-import DatePicker from './DatePicker'
+import DatePicker from './Stock/DatePicker'
 import StockDropDown from './Stock/StockDropDown'
 
 const StockSelect = () => {
   return (
     <div id='stock-container'>
-      <div id='stock-header'>빈 공간</div>
+      <div id='stock-header'>
+        <span>재고</span>
+      </div>
       <div id='stock-filter'>
         <DatePicker />
         <StockDropDown />
