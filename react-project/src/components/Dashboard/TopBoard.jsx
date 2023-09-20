@@ -26,5 +26,7 @@ const items = [
     children: 'No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China',
   },
 ];
-const TopBoard = () => <Descriptions title="User Info" items={items} />;
+
+const title = "타이틀"
+const TopBoard = () => <Descriptions title={title} items={items} />;
 export default TopBoard;

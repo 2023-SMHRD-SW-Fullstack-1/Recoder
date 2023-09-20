@@ -56,7 +56,8 @@ function In_HJ({ inputItem, setInputItem }) {
     }
 
 
-
+const title = "입고예정"
+const items = []
     //tb 목록
     const columns = [
         {
@@ -244,7 +245,7 @@ function In_HJ({ inputItem, setInputItem }) {
 
     return (
         <div id='in_comtainer'>
-            <div id='in01_top'><TopBoard/></div>
+            <div id='in01_top'><TopBoard title={title} items={items}/></div>
             <div id='in01_bottom'>
             <Table_HJ columns={columns} data={data} />
             </div>
