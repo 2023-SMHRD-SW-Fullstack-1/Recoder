@@ -10,17 +10,18 @@ function In_HJ({ inputItem, setInputItem }) {
     const nav = useNavigate()
 
     // 로그인 데이터 정보
-    const id = 'qwer';
-    const wh_seq = 1004;
-    const com_seq = 1004;
+    const id = 'smart';
+    const wh_seq = 1;
+    const com_seq = 1;
+
 
     const [bcData, setBcData] = useState([])
 
     // 저장한 바코드 리스트 서버로 보내기
     const getBcList = () => {
         console.log('페이지전환', inputItem);
-        // const barCode = inputItem.map(item => item.title);
-        const barCode = ["001", "002", "003"];
+        const barCode = inputItem.map(item => item.title);
+        // const barCode = ["001", "002", "003"];
       
     
         axios.post('http://localhost:8000/in/create', { barCode })
@@ -141,7 +142,7 @@ const items = []
         stock_price: item.stock_price,
         cl_seq: item.cl_seq,
         stock_barcode: item.stock_barcode,
-        stock_expired: item.stock_expired.substring(0,10),
+        stock_expired: item.stock_expired,
         stock_bal: item.stock_balance_cnt,
         in_btn: '등록',
       }));

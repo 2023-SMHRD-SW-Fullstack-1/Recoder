@@ -40,8 +40,9 @@ router.get('/:com_seq/:loading_type', async (req, res, next) => {
     }
 })
 
-// (in_01)입고 예정 페이지 => 입고될 리스트 조회 : 바코드 찍힌 모든 제품 가져오기
-router.post('/create', async (req, res) => {
+
+// 바코드...
+router.post('/barcode', async (req, res) => {
     console.log('바코드', req.body);
     const barCodes = req.body.barCode; // 입력 데이터의 바코드 배열
 
@@ -51,10 +52,34 @@ router.post('/create', async (req, res) => {
                 stock_barcode: {
                     [Op.in]: barCodes // $in 연산자 사용      
                 },
-                update_at: null
+                update_at: NOW
             }
         });
         console.log('stock바코드 조회', result);
+        res.json(result);
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+
+// (in_01)입고 예정 페이지 => 입고될 리스트 조회 : 바코드 찍힌 모든 제품 가져오기
+router.post('/create', async (req, res) => {
+    console.log('바코드', req.body);
+    const barCodes = req.body.barCode; // 입력 데이터의 바코드 배열
+
+    try {
+        const result = await Stock.update(
+            { update_at: fn('NOW') }, // 업데이트할 필드와 값을 설정합니다.
+            {
+                where: {
+                    stock_barcode: {
+                        [Op.in]: barCodes // $in 연산자 사용      
+                    },
+                }
+            }
+        );
+        console.log('업데이트바코드 조회', result);
         res.json(result);
     } catch (error) {
         console.error(error);

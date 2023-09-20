@@ -11,9 +11,9 @@ function In_02() {
 
     const nav = useNavigate()
 
-    const id = 'qwer';
-    const wh_seq = 1004;
-    const com_seq = 1004;
+    const id = 'smart';
+    const wh_seq = 1;
+    const com_seq = 1;
 
     const [loadingList,setLoadingList] = useState([])
 

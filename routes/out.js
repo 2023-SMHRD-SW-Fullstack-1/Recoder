@@ -122,6 +122,7 @@ router.post('/controll', async (req, res) => {
 // 출고품 관리 페이지 -- 창고별
 router.post('/des', async (req, res) => {
 
+    console.log('des 1번 함수',req.body);
     let { com_seq, wh_seq } = req.body;
     try {
         const desDetail = await Warehouse.findAll({
@@ -165,8 +166,8 @@ router.post('/des', async (req, res) => {
 
 // 💥 stock_name 당 정보 가져오기 
 router.post('/des/name', async (req, res) => {
-
-    let { wh_seq,stock_name } = req.body;
+    console.log("1번",req.body);
+    let { wh_seq,com_seq } = req.body;
     try {
         const sNameList = await Warehouse.findAll({
             attributes:
@@ -177,7 +178,7 @@ router.post('/des/name', async (req, res) => {
                   model: Rack,
                  
                   where: {
-                    wh_seq: 1004,
+                    wh_seq: wh_seq,
                   },
                   include: [
                     {

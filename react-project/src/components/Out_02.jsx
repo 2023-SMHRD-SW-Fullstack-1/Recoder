@@ -7,8 +7,10 @@ import axios from 'axios';
 function Out_02() {
 
 
-  const id = 'qwer'
-  const wh_seq = 1004
+  const id = 'smart';
+  const wh_seq = 1;
+  const com_seq = 1;
+
 
     // 출고리스트 담을 배열
     const [outLoadingList,setOutLoadingList] = useState([]);

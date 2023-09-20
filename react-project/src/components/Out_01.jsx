@@ -6,8 +6,10 @@ import 'react-calendar/dist/Calendar.css';
 
 function Out_01() {
   const [outStockList1, setOutStockList1] = useState([]);
-  const id = 'qwer';
-  const wh_seq = 1004;
+  const id = 'smart';
+  const wh_seq = 1;
+  const com_seq = 1;
+
   const [rowOutTable, setRowOutTable] = useState({}); // 초기 값은 빈 객체로 초기화
 
   const getOutStock = async () => {

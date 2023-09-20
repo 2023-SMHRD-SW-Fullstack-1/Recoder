@@ -14,8 +14,10 @@ import 'chartjs-plugin-datalabels'
 
 function OutDestination() {
 
-  const com_seq = 1004
-  const wh_seq = 1004
+  const id = 'smart';
+    const wh_seq = 1;
+    const com_seq = 1;
+
 
 
   const [desData, setDesData] = useState([])
