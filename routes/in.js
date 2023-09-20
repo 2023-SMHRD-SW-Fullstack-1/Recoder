@@ -1,8 +1,44 @@
 const express = require('express')
 const router = express.Router()
-const { User, Warehouse, Rack, Loading, Stock, Company, sequelize } = require('../models'); // 모델들을 import
+const { Loading, Stock, Client } = require('../models'); // 모델들을 import
 const { Op, fn, col, NOW, Model } = require('sequelize');
 
+// com_seq로 loading_type이 'B'인 데이터 5개만 내림차순 조회
+router.get('/:com_seq/:loading_type', async (req, res, next) => {
+
+    let com_seq = req.params.com_seq
+    let loading_type = req.params.loading_type
+    
+    let date = ''
+    if (loading_type === 'O') {
+        // 출고일 경우 out_created_at을 내림차순으로
+        date = 'out_created_at'
+    } else {
+        date = 'created_at'
+    }
+
+    try {
+        const result = await Loading.findAll({
+            where: {
+                com_seq: com_seq,
+                loading_type: loading_type
+            },
+            include: [{
+                model: Stock,
+                include: [{
+                    model: Client
+                }]
+            }],
+            order: [
+                [col(date), 'DESC'],
+            ],
+            limit: 5
+        })
+        res.json(result)
+    } catch (error) {
+        console.error(error);
+    }
+})
 
 // (in_01)입고 예정 페이지 => 입고될 리스트 조회 : 바코드 찍힌 모든 제품 가져오기
 router.post('/create', async (req, res) => {
@@ -124,4 +160,5 @@ router.post('/loading', async (req, res) => {
         console.error(error);
     }
 })
+
 module.exports = router

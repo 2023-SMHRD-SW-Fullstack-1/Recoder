@@ -59,16 +59,14 @@ const App = () => {
     <div>
       { uid ? (
         <div>
-
-          <Routes>
-            
+          <Routes>            
             <Route element={ <Layout /> } >
               {/* 개발 끝나면 지워주세요 */}
               <Route index element={ <Login /> } />
               <Route path='/join' element={ <Join /> } />
               <Route path='/register/company' element={ <RegisterCompany /> } />
               {/* 개발 끝나면 지워주세요 */}
-              <Route path='/main' element={ <Dashboard /> } />
+              <Route path='/main' element={ <Dashboard comSeq={ comSeq } /> } />
               <Route path='/out/create' element={ <Out_01 /> } />
               <Route path='/out/select' element={ <OutSelect /> } />
               <Route path='/out/des' element={ <OutDestination /> } />
