@@ -54,7 +54,7 @@ const Mypage = () => {
         })        
     }, [putUserData])
 
-  return (
+    return (
     <div className="Join-container">
         <table>
             <tbody>
@@ -133,8 +133,6 @@ const Mypage = () => {
                             </div>
                         </form>
                     </td>
-
-
                 </tr>
             </tbody>
         </table>

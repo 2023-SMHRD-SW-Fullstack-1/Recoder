@@ -6,6 +6,10 @@ import { PreventDragClick } from './PreventDragClick';
 export default class App {
 	constructor(width, length, rectangleWidth = 1, rectangleHeight = 1) {
 
+		// 변수
+		this.meshes = []
+		
+
 		const divContainer = document.querySelector("#webgl-container");
 		this._divContainer = divContainer;
 
@@ -40,6 +44,7 @@ export default class App {
 
 		this.mouse = new THREE.Vector2();
 		this.raycaster = new THREE.Raycaster();
+		this.raycaster.selectedMesh = null;
 
 		requestAnimationFrame(this.render.bind(this));
 	}
@@ -118,7 +123,7 @@ export default class App {
 		this.groundBound = new THREE.Box3().setFromObject(wareHouseMesh);
 
 		// 선 이름 설정
-		line.name = "선!"
+		line.name = "선"
 		// group1.add(line);
 		// 선을 씬에 추가
 		this._scene.add(line);
@@ -147,7 +152,8 @@ export default class App {
 		// console.log(this.groundBoundPos);
 	}
 
-	setupMouseEvents(rectangleWidth, rectangleHeight, rackFloor = 1) {
+	setupMouseEvents(rectangleWidth = 1, rectangleHeight = 1, rackFloor = 1) {
+		console.log(`THREE.JS 선반 - 가로: ${rectangleWidth}/ 세로: ${rectangleHeight}/ ${rackFloor}층`)
 		this.rectangleWidth = rectangleWidth
 		this.rectangleHeight = rectangleHeight
 		this.rackFloor = rackFloor
@@ -300,36 +306,80 @@ export default class App {
 		this._divContainer.removeEventListener('click', () => this.addShelf());
 		
 		this._divContainer.addEventListener('mousedown', (e)=>{
-			this.preventDragClick.mouseDownFunc(e);
+			if(e.button == 0) { // 왼쪽 클릭 했을 때
+				this.preventDragClick.mouseDownFunc(e);
+			} else if (e.button == 2) { // 우클릭 
+				this.raycaster.setFromCamera(this.mouse, this._camera);
+				const intersects = this.raycaster.intersectObjects(this._scene.children, true);
+
+				if(intersects.length > 0) {
+					const intersection = intersects[0];
+					if(intersection.object.name == "ground" || intersection.object.name == "선") return;
+
+					//intersects.forEach(item => console.log("mesh이름", item.object.name))
+					if(intersection.object.parent && intersection.object.parent.parent) {
+						
+						this.raycaster.selectedMesh = intersection.object.parent.parent
+						// console.log(this.raycaster.selectedMesh.name); // ex) 선반인데요
+						// scene에서 제거
+						if(this.raycaster.selectedMesh) {
+							this._scene.remove(this.raycaster.selectedMesh)
+						}
+
+						// Mesh를 자원을 해제
+						if(this.raycaster.selectedMesh instanceof THREE.Group) {
+							// console.log("selectedMesh dispose \n\n", this.raycaster.selectedMesh)
+							// this.raycaster.selectedMesh가 Group일 때
+							this.raycaster.selectedMesh.traverse(child => {
+								if(child instanceof THREE.Mesh) {
+									// 자식이  Mesh인 경우 geometry를 dispose
+									child.geometry.dispose();
+									child.material.dispose();
+								}
+							})
+						}
+					}
+					// this.meshes 배열에서도 해당 객체 제거
+					// const index = this.meshes.indexOf(intersection.object);
+					// if(index !== -1) {
+					// 	this.meshes.splice(index, 1);
+					// }
+				}
+			}
 		})
 
-		this._divContainer.addEventListener('mouseup', (e)=>{
-			let 클릭됨 = this.preventDragClick.mouseUpFunc(e);
-			// console.log("마우스 드래그 했어? :", 클릭됨 ? "응" : "아니")
-			if (!클릭됨) {
-				this.raycaster.setFromCamera(this.mouse, this._camera);
-				const intersects = this.raycaster.intersectObject(this._warehouse);
 
-				// raycaster가 창고 밖에면 
-				if (intersects.length <= 0) {
-					return
+		this._divContainer.addEventListener('mouseup', (e)=>{
+			if (e.button == 0) { // 왼쪽 클릭 뗌
+				let 클릭됨 = this.preventDragClick.mouseUpFunc(e);
+				// console.log("마우스 드래그 했어? :", 클릭됨 ? "응" : "아니")
+				if (!클릭됨) {
+					this.raycaster.setFromCamera(this.mouse, this._camera);
+					const intersects = this.raycaster.intersectObject(this._warehouse);
+
+					// raycaster가 창고 밖에면 
+					if (intersects.length <= 0) {
+						return
+					}
+					this.addShelf()
 				}
-				this.addShelf()
+			} // if문 끝
+
+			else if (e.button == 2) { // 우클릭
 			}
 		})
 	}
 
-
 	addShelf() {
 		// 선반 만들기
 		if(this.rectangleMesh) {
-
 			let rackPos = {
 				x: this.rectangleMesh.position.x,
 				y: 0.2,
 				z: this.rectangleMesh.position.z
 			}
 			console.log("현재 선반의 층수는?", this.rackFloor)
+
 			let rackGroup = createRack(this.rectangleWidth, this.rectangleHeight, this.rackFloor, rackPos)
 			let mesh = new THREE.Box3().setFromObject(rackGroup)
 
@@ -339,8 +389,8 @@ export default class App {
 				minZ : Math.round(mesh.min.z*10)/10,
 				maxZ : Math.round(mesh.max.z*10)/10
 			}
-			console.log("바닥", this.groundBoundPos);
-			console.log("선반", aa);
+			// console.log("바닥", this.groundBoundPos);
+			// console.log("선반", aa);
 
 			if(aa.minX < this.groundBoundPos.minX) {
 				console.log(`선반의 x 값이 더 작아! 선반 : ${aa.minX}, 바닥 : ${this.groundBoundPos.minX}`)
@@ -358,13 +408,14 @@ export default class App {
 				console.log("선반의 z 값이 더 커!!")
 				return;
 			}
-			
+			// this.meshes.push(rackGroup);
+			rackGroup.name = "선반인데요"
 			this._scene.add(rackGroup);
+			// console.log("addShelf", this.meshes)
 		} else {
 			console.log("this.rectangleMesh 없음")
 		}
 		// console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
-		
 	}
 
 

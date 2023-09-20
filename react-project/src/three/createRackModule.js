@@ -19,7 +19,7 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 		Math.random()
 	);
 
-	const material = new THREE.MeshBasicMaterial({color:randomColor})
+	const material = new THREE.MeshBasicMaterial({color:0xf1c2ff})
 	
 	const boardMesh = new THREE.Mesh(board, material);
 
@@ -44,6 +44,7 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 	const superGroup = new THREE.Group();
 	let group = new THREE.Group();
 	
+	boardMesh.name = "판11111"
 	group.add(boardMesh, pilar1, pilar2, pilar3, pilar4);
 
 	superGroup.add(group);
