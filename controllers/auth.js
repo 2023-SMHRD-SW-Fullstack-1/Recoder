@@ -20,7 +20,7 @@ exports.join = async (req, res, next) => {
       user_pw: hashedPassword,
       user_nick: user_nick,
       user_cname: user_cname,
-      user_authority: 'U'
+      // user_authority: 'U'
     });
     res.status(201).send('ok');
   } catch (error) {
