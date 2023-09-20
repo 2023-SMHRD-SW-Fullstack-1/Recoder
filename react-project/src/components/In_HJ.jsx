@@ -24,7 +24,7 @@ function In_HJ({ inputItem, setInputItem }) {
         // const barCode = ["001", "002", "003"];
       
     
-        axios.post('http://localhost:8000/in/create', { barCode })
+        axios.post('http://localhost:8000/in/create', barCode )
             .then(response => {
                 console.log('바코드찍힌 리스트 가져오기 성공', response.data);
                 setBcData(response.data)
@@ -42,7 +42,7 @@ function In_HJ({ inputItem, setInputItem }) {
         console.log("클릭", record);
         const pickBc = {barcode : record.stock_barcode , com_seq:com_seq,stock_seq:record.stock_seq }
         try {
-            const response = axios.post('http://localhost:8000/in/send/loading', {pickBc});
+            const response = axios.post('http://localhost:8000/in/send/loading', pickBc);
 
             if (response.status === 200) {
                 console.log('바코드데이터 전송 성공');
