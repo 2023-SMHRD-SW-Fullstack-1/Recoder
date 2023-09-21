@@ -152,6 +152,36 @@ function Out_01() {
     }
   };
 
+const [outPlus,setOutPluse] = useState({
+  loading_seq: '',
+  created_at: '',
+  loading_cnt: '',
+  stock_shipping_des: '',
+  loading_manager: id
+})
+  // 배송지 선택 함수
+  const desHandler = (e)=>{
+console.log();
+if (e.target.name === 'out_date') {
+  console.log(e.target.value);
+  setOutPluse({ ...outPlus, created_at: e.target.value });
+} else if (e.target.name === 'out_cnt') {
+  console.log(e.target.value );
+  setOutPluse({ ...outPlus, loading_cnt: e.target.value });
+} else if (e.target.getAttribute('name') === 'loading_seq') {
+  console.log(e.target.innerText);
+  setOutPluse({ ...outPlus, loading_seq: e.target.innerText });
+} else if (e.target.name === 'out_des_pick') {
+  console.log(e.target.value);
+  setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
+} else if (e.target.name === 'out_des_self') {
+  console.log(e.target.value);
+  setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
+}
+};
+
+  
+
   useEffect(() => {
     getOutStock();
   }, []);
@@ -166,15 +196,15 @@ function Out_01() {
       </div>
       <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <div id='out_modal'>
-          <span>출고일</span><input type='date'></input><br />
-          <span>출고수량</span><input type='text'></input><br />
+          <span>출고일</span><input onClick={desHandler} name='out_date' type='date'></input><br />
+          <span>출고수량</span><input onClick={desHandler} name='out_cnt' type='text'></input><br />
           <select id="out_filter">
             {desList.map((item, idx) => (
-              <option key={idx} value={item.stock_shipping_des} name='choice_des'>
+              <option onClick={desHandler} name='out_des' key={idx} value={item.stock_shipping_des} name='choice_des'>
                 {item.stock_shipping_des}
               </option>
             ))}
-            <option>직접입력</option>
+            <option onClick={desHandler} name = 'out_des_self'>직접입력</option>
           </select>
         </div>
       </Modal>
