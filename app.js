@@ -7,6 +7,7 @@ const nunjucks = require('nunjucks')
 const dotenv = require('dotenv')
 const passport = require('passport')
 const cors = require('cors')
+const multer = require('multer')
 // .env 파일 관련
 dotenv.config()
 //혜주작성
@@ -27,6 +28,19 @@ const passportConfig = require('./passport')
 const app = express()
 passportConfig()
 app.set('port', process.env.PORT || 8000)
+// 이미지 업로드 미들웨어
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, done) {
+            done(null, 'uploads')
+        },
+        filename(req, file, done) {
+            const ext = path.extname(file.originalname)
+            done(null, path.basename(file.originalname, ext) + Date.now() + ext)
+        },
+    }),
+    limits: { fileSize: 5 * 1024 * 1024 },
+})
 // 템플릿 엔진 설정
 app.set('view engine', 'html')
 nunjucks.configure('views', {
@@ -69,6 +83,9 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use('/user', userRouter)
+app.post('/upload', upload.single('file'), (req, res) => {
+    console.log(req.file);
+})
 // 혜주 작성
 app.use('/out',outRouter)
 app.use('/company', comRouter)

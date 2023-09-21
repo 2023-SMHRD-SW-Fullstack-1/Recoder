@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router';
 import '../css/in01.css'
 import TopBoard from './Dashboard/TopBoard';
 import { Button, Modal } from 'antd';
+import { uploadFile } from '../api/fileAPI'
 
 function In_02() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -68,6 +70,13 @@ function In_02() {
     setHandleData(record)
     // 모달 상태관리
     setIsModalOpen(true);
+  }
+
+  const imgUpload = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('file', e.target.file.files[0]);
+    await uploadFile(formData);
   }
 
   //tb 목록
@@ -138,6 +147,17 @@ function In_02() {
         >
           적재
         </button>
+      ),
+    },
+    {
+      title: '이미지 업로드',
+      dataIndex: 'loadin',
+      key: 'loading',
+      render: () => (
+        <form encType='multipart/form-data' onSubmit={imgUpload}>
+          <input type="file" name="file" />
+          <button type="submit">업로드</button>
+        </form>
       ),
     },
     {

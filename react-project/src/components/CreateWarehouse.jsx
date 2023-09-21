@@ -118,8 +118,8 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 					res.data.rack_width,
 					res.data.rack_length,
 					parseInt(localStorage.getItem('rackFloor')) // 로컬 스토리지에서 rackFloor값 불러오기!
-					);
-				}
+				);
+			}
 		})
 		.catch((error) => {
 			console.error(error);
