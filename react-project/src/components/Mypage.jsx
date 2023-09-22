@@ -1,143 +1,70 @@
-import React, { useEffect, useRef, useState } from 'react'
-import '../css/Mypage.css'
-import '../css/Join.css'
-import axios from 'axios'
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import "../css/Mypage.css";
 
-const Mypage = () => {
+function GridComplexExample() {
+  return (
+    <div id="mypage-container">
+      <div id="mypage-header">
+        <span>마이페이지</span>
+      </div>
+      <Form
+        style={{ width: 800 }}
+      >
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridEmail">
+            <Form.Label>Email</Form.Label>
+            <Form.Control type="email" placeholder="Enter email" />
+          </Form.Group>
 
-    const [uid, setUid] = useState('')
-    const [nick, setNick] = useState('')
-    const [putUserData, setPutUserData] = useState({})
-    const pwRef = useRef()
-    const checkPwRef = useRef()
-    const nickRef = useRef()
+          <Form.Group as={Col} controlId="formGridPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" />
+          </Form.Group>
+        </Row>
 
-    useEffect(() => {
-        axios.get('http://localhost:8000/user')
-        .then((res) => {
-            console.log(res);
-            setUid(res.data.user_id)
-            setNick(res.data.user_nick)
-        })
-        .catch((err) => {
-            console.error(err);
-        })
-    }, [])
+        <Form.Group className="mb-3" controlId="formGridAddress1">
+          <Form.Label>Address</Form.Label>
+          <Form.Control placeholder="1234 Main St" />
+        </Form.Group>
 
-    const handleUserData = (e) => {
-        e.preventDefault()
+        <Form.Group className="mb-3" controlId="formGridAddress2">
+          <Form.Label>Address 2</Form.Label>
+          <Form.Control placeholder="Apartment, studio, or floor" />
+        </Form.Group>
 
-        if (pwRef.current.value !== checkPwRef.current.value) {
-            alert('비밀번호가 일치하지 않습니다!')
-        } else {
-            if (pwRef.current.value && nickRef.current.value) {
-                setPutUserData({
-                    user_pw: pwRef.current.value,
-                    user_nick: nickRef.current.value
-                })
-            } else {
-                alert('정보를 모두 입력해주세요!')
-            }
-        }
-    }
-    
-    useEffect(() => {
-        axios.patch('http://localhost:8000/user', putUserData)
-        .then((res) => {
-            console.log(res);
-            if (res.data === 'ok') {
-                window.location.href = 'http://localhost:3000/mypage'
-            }
-        })
-        .catch((err) => {
-            console.error(err);
-        })        
-    }, [putUserData])
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridCity">
+            <Form.Label>City</Form.Label>
+            <Form.Control />
+          </Form.Group>
 
-    return (
-    <div className="Join-container">
-        <table>
-            <tbody>
-                <tr>
-                    <td className="content1">
-                        <div className='join-title'>
-                            <h1>마이페이지</h1>
-                        </div>
+          <Form.Group as={Col} controlId="formGridState">
+            <Form.Label>State</Form.Label>
+            <Form.Select defaultValue="Choose...">
+              <option>Choose...</option>
+              <option>...</option>
+            </Form.Select>
+          </Form.Group>
 
-                        <form
-                            className="Join_content1"
-                            onSubmit={handleUserData}
-                        >
+          <Form.Group as={Col} controlId="formGridZip">
+            <Form.Label>Zip</Form.Label>
+            <Form.Control />
+          </Form.Group>
+        </Row>
 
-                            <div className='id_input_container'>
-                                {/* 아이디 */}
-                                <label htmlFor="user_id"></label>
-                                <input
-                                    type="text"
-                                    name="user_id"
-                                    value={uid}
-                                    disabled
-                                />
-                            </div>
+        <Form.Group className="mb-3" id="formGridCheckbox">
+          <Form.Check type="checkbox" label="Check me out" />
+        </Form.Group>
 
-
-
-                            {/* 비밀번호 */}
-                            <label htmlFor="user_pw"></label>
-                            <div className="pw-input-container">
-                                <input
-                                    type="password"
-                                    name="user_pw"
-                                    placeholder='비밀번호를 입력하세요.'
-                                    ref={pwRef}
-                                />
-                            </div>
-
-                            {/* 비밀번호 확인 */}
-                            <label htmlFor="user_pw_confirm"></label>
-                            {/* <div className="pw-confirm-input-container"> */}
-                                <input
-                                    type="password"
-                                    name="user_pw_confirm"
-                                    placeholder='비밀번호를 다시 입력해주세요.'
-                                    ref={checkPwRef}
-                                />
-                            {/* </div> */}
-
-                            {/* 이름 */}
-                            <label htmlFor="user_name"></label>
-                            {/* <div className="name-input-container"> */}
-                                <input
-                                    type="text"
-                                    name="user_name"
-                                    placeholder={nick}
-                                    ref={nickRef}
-                                />
-                            {/* </div> */}
-
-                            {/* 회사명 */}
-                            <label htmlFor="user_cname"></label>
-                            {/* <div className="cname-input-container"> */}
-                                <input
-                                    type="text"
-                                    name="user_cname"
-                                    placeholder='로그인한 사용자 회사명'
-                                />
-                            {/* </div> */}
-
-                            {/* 가입완료 버튼 */}
-                            <div className="submit-button">
-                                <button type="submit" className="join-button">
-                                    회원정보 수정
-                                </button>
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
     </div>
-  )
+  );
 }
 
-export default Mypage
+export default GridComplexExample;
