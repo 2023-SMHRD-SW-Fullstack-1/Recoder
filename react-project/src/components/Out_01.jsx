@@ -1,77 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
+import Table_HJ from './Table_HJ';
 import axios from 'axios';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import 'react-calendar/dist/Calendar.css';
+import { useNavigate } from 'react-router';
+import TopBoard from './Dashboard/TopBoard';
+import { Button, Modal } from 'antd';
 
 function Out_01() {
-  const [outStockList1, setOutStockList1] = useState([]);
+  const [outStockList, setOutStockList] = useState([]);
   const id = 'smart';
   const wh_seq = 1;
   const com_seq = 1;
 
-  const [rowOutTable, setRowOutTable] = useState({}); // 초기 값은 빈 객체로 초기화
-
-  const getOutStock = async () => {
-    try {
-      const response = await axios.post('http://localhost:8000/out/create', { wh_seq: wh_seq });
-
-      if (response.status === 200) {
-        console.log('출고예정 리스트 가져오기 성공');
-        console.log(response.data);
-        setOutStockList1(response.data);
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        alert("데이터 출력 실패");
-      }
-    }
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOk = () => {
+    setIsModalOpen(false);
+// 엑시오스로 출고 데이터 보내기
+console.log('출고데이터',outPlus);
+sendData()
   }
 
-  const handleRowClick = (rackIndex, loadingIndex) => {
-    console.log('클릭 rackIndex', rackIndex, 'loadingIndex', loadingIndex);
-    setRowOutTable((prevRowOutTable) => ({
-      ...prevRowOutTable,
-      [rackIndex]: {
-        ...prevRowOutTable[rackIndex],
-        [loadingIndex]: !prevRowOutTable[rackIndex]?.[loadingIndex] || false,
-      },
-    }));
-  };
 
-  const [outLoading, setOutLoading] = useState({
-    loading_seq: '',
-    created_at: '',
-    loading_cnt: '',
-    stock_shipping_des: '',
-    loading_manager: id
-  });
-
-  const outLoadingHandler = (e) => {
-    if (e.target.name === 'created_at') {
-      console.log(e.target.value);
-      setOutLoading({ ...outLoading, created_at: e.target.value });
-    } else if (e.target.name === 'td_loading_cnt') {
-      console.log(e.target.value );
-      setOutLoading({ ...outLoading, loading_cnt: e.target.value });
-    } else if (e.target.getAttribute('name') === 'loading_seq') {
-      console.log(e.target.innerText);
-      setOutLoading({ ...outLoading, loading_seq: e.target.innerText });
-    } else if (e.target.name === 'choice_des') {
-      console.log(e.target.value);
-      setOutLoading({ ...outLoading, stock_shipping_des: e.target.value });
-    } else if (e.target.name === 'out_loading_des') {
-      console.log(e.target.value);
-      setOutLoading({ ...outLoading, stock_shipping_des: e.target.value });
-    }
-  };
-
-  const outLoadingHandler2 = async () => {
-    console.log('출고버튼 클릭');
-    console.log('출고데이터 : ', outLoading);
+  const sendData = async()=>{
     try {
-      const response = await axios.post('http://localhost:8000/out/create/loading', outLoading);
-
+      const response = await axios.post('http://localhost:8000/out/create/loading', outPlus);
+    
       if (response.status === 200) {
         console.log('출고데이터 전송 성공');
         console.log(response.data);
@@ -82,7 +34,125 @@ function Out_01() {
         console.log(error);
       }
     }
+    
+    
+      };
+      const handleCancel = () => {
+        setIsModalOpen(false);
+      };
+  
+
+  const [desList, setDesList] = useState([])
+
+  const outData = {
+    wh_seq: wh_seq,
+    com_seq: com_seq
+  }
+  const getOutStock = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/out/create', outData);
+
+      if (response.status === 200) {
+        console.log('출고예정 리스트 가져오기 성공');
+        console.log(response.data);
+        setOutStockList(response.data.result1);
+        setDesList(response.data.result2);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert("데이터 출력 실패");
+      }
+    }
+  }
+
+
+
+  const handleOutLoading = (record) => {
+    console.log('출고버튼클릭 : ', record);
+    setIsModalOpen(true)
+    setOutPluse({ ...outPlus, loading_seq: record.loading_seq });
   };
+
+
+  const title = "입고예정"
+  const items = []
+  //tb 목록
+  const columns = [
+    {
+      title: '적재ID',
+      dataIndex: 'loading_seq',
+      key: 'loading_seq',
+      render: (text, data, idx) => (
+        <span style={{ color: 'darkgray' }}>{text}</span>
+      ),
+    },
+    {
+      title: '제품명',
+      dataIndex: 'stock_name',
+      key: 'stock_name',
+      render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
+    },
+    {
+      title: '수량',
+      dataIndex: 'loading_cnt',
+      key: 'loading_cnt',
+      render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
+    },
+    {
+      title: '유통기한',
+      dataIndex: 'stock_expired',
+      key: 'stock_expired',
+      render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
+    },
+    {
+      title: '적재위치',
+      dataIndex: 'rack_seq',
+      key: 'rack_seq',
+      render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
+    },
+    {
+      title: '출고',
+      dataIndex: 'out_btn',
+      key: 'out_btn',
+      render: (text, record) => (
+
+        <button
+          style={{
+            color: 'black', backgroundColor: 'white',
+            width: 60,
+            fontSize: 13,
+            height: 32,
+            paddingRight: 14,
+            paddingLeft: 14,
+            borderRadius: 6,
+            borderColor: 'darkgray'
+          }}
+          onClick={() => handleOutLoading(record)} // 여기서 함수를 호출하지 않고 클릭 시 실행되도록 콜백으로 전달합니다.
+        >
+          출고
+        </button>
+      ),
+    },
+  ];
+
+
+
+  const data1 = outStockList.map(item => item.Racks);
+  const data2 = data1.map(racks => racks.map(rack => rack.Loadings));
+  const data3 = data2.flat(2); // 이렇게 수정하여 모든 로딩을 하나의 배열로 평탄화합니다.
+
+  const data = data3.map((loading, idx) => ({
+    key: idx + 1,
+    loading_seq: loading.loading_seq,
+    stock_name: loading.Stock.stock_name,
+    loading_cnt: loading.loading_cnt,
+    stock_expired: loading.Stock.stock_expired.substring(0, 10),
+    rack_seq: `${loading.rack_seq}랙 ${loading.loading_floor}층 ${loading.loading_position}`,
+    out_btn: '출고'
+  }));
+
+
+  
 
   const [showInput, setShowInput] = useState(false);
   const handleInputPluse = (e) => {
@@ -95,104 +165,66 @@ function Out_01() {
     }
   };
 
+const [outPlus,setOutPluse] = useState({
+  loading_seq: '',
+  created_at: '',
+  loading_cnt: '',
+  stock_shipping_des: '',
+  loading_manager: id
+})
+  // 배송지 선택 함수
+  const desHandler = (e)=>{
+console.log();
+if (e.target.name === 'out_date') {
+  console.log(e.target.value);
+  setOutPluse({ ...outPlus, created_at: e.target.value });
+} else if (e.target.name === 'out_cnt') {
+  console.log(e.target.value );
+  setOutPluse({ ...outPlus, loading_cnt: e.target.value });
+} else if (e.target.getAttribute('name') === 'loading_seq') {
+  console.log(e.target.innerText);
+  setOutPluse({ ...outPlus, loading_seq: e.target.innerText });
+} else if (e.target.name === 'out_des_choice') {
+  console.log(e.target.value);
+  setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
+} else if (e.target.name === 'out_des_self') {
+  console.log(e.target.value);
+  setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
+}
+};
+
+  
+
   useEffect(() => {
     getOutStock();
   }, []);
 
   return (
     <div id='out_all'>
-      <div id='out_top'>
-        <span id="out_title">출고</span>
-
-        <div id="out_input_container">
-          <input id="out_input" placeholder="제품ID 제품명 검색" />
-          <FontAwesomeIcon id="out_input_icon" icon={faMagnifyingGlass} />
-          <select id="out_filter">filter</select>
+      <div id='in_comtainer'>
+        <div id='in01_top'><TopBoard title={title} items={items} /></div>
+        <div id='in01_bottom'>
+          <Table_HJ columns={columns} data={data} />
         </div>
       </div>
-
-      <div className="out_table">
-        <table className="container">
-          <thead>
-            <tr>
-              <th>
-                <h1>제품ID</h1>
-              </th>
-              <th>
-                <h1>제품명</h1>
-              </th>
-              <th>
-                <h1>수량</h1>
-              </th>
-              <th>
-                <h1>입고일</h1>
-              </th>
-              <th>
-                <h1>유통기한</h1>
-              </th>
-              <th>
-                <h1>적재창고</h1>
-              </th>
-              <th>
-                <h1>적재위치</h1>
-              </th>
-              <th>
-                <h1>코드번호</h1>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {outStockList1.map((warehouseItem, warehouseIndex) => (
-              <React.Fragment key={warehouseIndex}>
-                {warehouseItem.Racks.map((rackItem, rackIndex) => (
-                  <React.Fragment key={rackIndex}>
-                    {rackItem.Loadings.map((loadingItem, loadingIndex) => (
-                      <React.Fragment key={loadingIndex}>
-                        <tr
-                          onClick={() => handleRowClick(rackIndex, loadingIndex)}
-                          className={rowOutTable[rackIndex]?.[loadingIndex] ? 'selected' : ''}
-                        >
-                          <td className='out_table_id' onClick={outLoadingHandler} name='loading_seq'>
-                            {loadingItem.loading_seq}
-                          </td>
-                          <td>{loadingItem.Stock.stock_name}</td>
-                          <td onChange={outLoadingHandler} name='td_loading_cnt'>{loadingItem.loading_cnt}</td>
-                          <td>{loadingItem.created_at.substring(0, 10)}</td>
-                          <td>{loadingItem.Stock.stock_expired.substring(0, 10)}</td>
-                          <td>{warehouseItem.wh_name}</td>
-                          <td>{loadingItem.rack_seq}</td>
-                          <td>{loadingItem.Stock.stock_barcode}</td>
-                        </tr>
-                        {rowOutTable[rackIndex]?.[loadingIndex] && (
-                          <tr>
-                            <td id='out_table_fold' colSpan={8}>
-                              <span>출고일자</span><input type='date' name='created_at' onChange={outLoadingHandler} /><br />
-                              <span>출고수량</span><input name='td_loading_cnt' type='text' onChange={outLoadingHandler} /><br />
-                              <span> 배송지</span>
-                              <select id="out_filter" onClick={handleInputPluse}>
-                                {rackItem.Loadings.map((loadingItem, loadingIndex) => (
-                                  <option key={loadingIndex} value={loadingItem.stock_shipping_des} name='choice_des'>
-                                    {loadingItem.stock_shipping_des}
-                                  </option>
-                                ))}
-                                <option value="직접입력">직접입력</option>
-                              </select>
-                              {showInput && (
-                                <input type='text' placeholder='배송지 입력' name='out_loading_des' onChange={outLoadingHandler} />
-                              )}
-                              <button className="custom-btn btn-1" onClick={outLoadingHandler2}>출고</button>
-                            </td>
-                          </tr>
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </React.Fragment>
-                ))}
-              </React.Fragment>
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <div id='out_modal'>
+          <span>출고일</span><input onChange={desHandler} name='out_date' type='date'></input><br />
+          <span>출고수량</span><input onChange={desHandler} name='out_cnt' type='text'></input><br />
+          <select id="out_filter" onClick={handleInputPluse}>
+            {desList.map((item, idx) => (
+              <option onClick={desHandler} name='out_des_choice' key={idx} value={item.stock_shipping_des}>
+                {item.stock_shipping_des}
+              </option>
             ))}
-          </tbody>
-        </table>
-      </div>
+            <option onClick={desHandler} name = 'out_des_self'>직접입력</option>
+          </select>
+          {showInput && (
+          <input type='text' placeholder='배송지입력' name='out_des_self' onChange={desHandler}/>
+          )}
+
+          </div>
+      </Modal>
     </div>
   );
 }

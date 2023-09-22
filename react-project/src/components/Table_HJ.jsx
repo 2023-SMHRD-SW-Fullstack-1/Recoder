@@ -2,10 +2,11 @@ import React from 'react';
 import { Table } from 'antd';
 import '../css/in_hj.css'
 
-const Table_HJ = ({columns,data}) => (
+const Table_HJ = ({columns,data,onRow}) => (
         <div id = 'in01_tb_div'>
   <Table style={{color:'darkgray'}}
     columns={columns}
+    onRow={onRow}
     expandable={{
       expandedRowRender: (record) => (
         <p
@@ -14,6 +15,7 @@ const Table_HJ = ({columns,data}) => (
           }}
         >
           {record.description}
+        
         </p>
       ),
       rowExpandable: (record) => record.name !== 'Not Expandable',
