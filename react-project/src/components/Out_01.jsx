@@ -14,10 +14,33 @@ function Out_01() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOk = () => {
     setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+// 엑시오스로 출고 데이터 보내기
+console.log('출고데이터',outPlus);
+sendData()
+  }
+
+
+  const sendData = async()=>{
+    try {
+      const response = await axios.post('http://localhost:8000/out/create/loading', outPlus);
+    
+      if (response.status === 200) {
+        console.log('출고데이터 전송 성공');
+        console.log(response.data);
+        window.location.href = 'http://localhost:3000/out/create';
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.log(error);
+      }
+    }
+    
+    
+      };
+      const handleCancel = () => {
+        setIsModalOpen(false);
+      };
+  
 
   const [desList, setDesList] = useState([])
 
@@ -47,20 +70,7 @@ function Out_01() {
   const handleOutLoading = (record) => {
     console.log('출고버튼클릭 : ', record);
     setIsModalOpen(true)
-    const outLoading = record
-    // try {
-    //   const response =  axios.post('http://localhost:8000/out/create/loading', outLoading);
-
-    //   if (response.status === 200) {
-    //     console.log('출고데이터 전송 성공');
-    //     console.log(response.data);
-    //     window.location.href = 'http://localhost:3000/out/create';
-    //   }
-    // } catch (error) {
-    //   if (error.response && error.response.status === 401) {
-    //     console.log(error);
-    //   }
-    // }
+    setOutPluse({ ...outPlus, loading_seq: record.loading_seq });
   };
 
 
@@ -141,6 +151,9 @@ function Out_01() {
     out_btn: '출고'
   }));
 
+
+  
+
   const [showInput, setShowInput] = useState(false);
   const handleInputPluse = (e) => {
     console.log("배송지 선택 클릭");
@@ -171,7 +184,7 @@ if (e.target.name === 'out_date') {
 } else if (e.target.getAttribute('name') === 'loading_seq') {
   console.log(e.target.innerText);
   setOutPluse({ ...outPlus, loading_seq: e.target.innerText });
-} else if (e.target.name === 'out_des_pick') {
+} else if (e.target.name === 'out_des_choice') {
   console.log(e.target.value);
   setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
 } else if (e.target.name === 'out_des_self') {
@@ -196,17 +209,21 @@ if (e.target.name === 'out_date') {
       </div>
       <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <div id='out_modal'>
-          <span>출고일</span><input onClick={desHandler} name='out_date' type='date'></input><br />
-          <span>출고수량</span><input onClick={desHandler} name='out_cnt' type='text'></input><br />
-          <select id="out_filter">
+          <span>출고일</span><input onChange={desHandler} name='out_date' type='date'></input><br />
+          <span>출고수량</span><input onChange={desHandler} name='out_cnt' type='text'></input><br />
+          <select id="out_filter" onClick={handleInputPluse}>
             {desList.map((item, idx) => (
-              <option onClick={desHandler} name='out_des' key={idx} value={item.stock_shipping_des} name='choice_des'>
+              <option onClick={desHandler} name='out_des_choice' key={idx} value={item.stock_shipping_des}>
                 {item.stock_shipping_des}
               </option>
             ))}
             <option onClick={desHandler} name = 'out_des_self'>직접입력</option>
           </select>
-        </div>
+          {showInput && (
+          <input type='text' placeholder='배송지입력' name='out_des_self' onChange={desHandler}/>
+          )}
+
+          </div>
       </Modal>
     </div>
   );
