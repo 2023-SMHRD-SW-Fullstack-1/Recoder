@@ -37,40 +37,10 @@ const desNameList = async ()=>{
   }
 }
 
-// 특정 품목 데이터 관리
-const [charData,setCharData] = useState([])
-
-const [stockName,setStockName] = useState([])
- // 항목에 대한 데이터 다시 불러오기
- const stockNameData = async () => {
-
-  try {
-    const response = await axios.post('http://localhost:8000/out/des/count', {stock_name : stockName})
-
-    if (response.status === 200) {
-
-      console.log("특정제품 데이터", response.data)
-      setCharData(response.data)
-
-    };
-  } catch (error) {
-    if (error.response && error.response.status === 401) {
-      alert("데이터 출력 실패")
-
-    }
-  }
-}
 
 
 
-
-
-const handleRow = (record) => {
-  console.log('클릭된 행 데이터',record);
-  // setCharData(record)
-  setStockName(record.stock_name)
-  stockNameData()
-}
+ 
 
 const labels = '빨강'
 const percentData = 100
@@ -114,10 +84,7 @@ const data = data3.map((loading, idx) => ({
   stock_name: loading.Stock.stock_name,
   total_loading_cnt: loading.total_loading_cnt,
   out_created_at: loading.out_created_at.substring(0,10),
-  description:<OutDesAdd   
-   onRow={(record, rowIdx) => ({
-    onClick: () =>handleRow(record), })} 
- charData={charData} setCharData={setCharData} />
+  description:<OutDesAdd  wSeq={wh_seq} sName={loading.Stock.stock_name} />
 })).flat(1) 
 
 
@@ -132,10 +99,9 @@ useEffect(()=>{
       <div id='in01_top'><TopBoard title={title} items={items} /></div>
       <div id='in01_bottom'>
       <Table_HJ
-            rowKey="stock_name"
-            onRow={(record, rowIdx) => ({
-              onClick: () =>handleRow(record),
-            })}
+            // rowKey="stock_name"
+            // onRow={(record, rowIdx) => ({
+            // })}
             columns={columns}
             data={data}
           />

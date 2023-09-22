@@ -292,11 +292,13 @@ router.post('/des/count', async (req, res) => {
           include: [{
             model: Rack,
             attributes: [],
+            where: {
+                wh_seq: wh_seq
+              },
             include: [{
               model: Warehouse,
-              where: {
-                wh_seq: wh_seq
-              }
+              attributes:['wh_seq'],
+             
             }]
           }],
         }],

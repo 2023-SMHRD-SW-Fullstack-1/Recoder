@@ -3,11 +3,44 @@ import React, { useEffect, useState } from 'react'
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
 import 'chartjs-plugin-datalabels'
+import '../../css/outDes.css'
 
+function OutDesAdd({sName,wSeq}) {
 
-function OutDesAdd({charData, setCharData }) {
+    Chart.register(ArcElement, Tooltip, Legend);
 
-    Chart.register(ArcElement);
+//    const [sName2,setSname2] = useState([])
+//    const [wSeq2,setWseq2] = useState([])
+    
+    const [charData,setCharData] = useState([])
+// 항목에 대한 데이터 다시 불러오기
+const stockNameData = async () => {
+//    setSname2(sName)
+//    setWseq2(wSeq)
+    const stock_name = {
+        stock_name : sName,
+        wh_seq:wSeq
+    }
+
+    console.log('조회할데이터',stock_name);
+    try {
+      const response = await axios.post('http://localhost:8000/out/des/count', stock_name)
+  
+      if (response.status === 200) {
+  
+        console.log("특정제품 데이터", response.data)
+        setCharData(response.data)
+  
+      };
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert("데이터 출력 실패")
+  
+      }
+    }
+  }
+  
+
 
 
     const labels = charData.map(item => item.Loading.stock_shipping_des);
@@ -16,8 +49,7 @@ function OutDesAdd({charData, setCharData }) {
     const percentData = cntData.map(value => ((value / total) * 100).toFixed(2)); // 각 데이터 항목의 퍼센트 계산
 
 
-    labels = labels
-    percentData = total
+
     const data = {
         labels: labels,
         datasets: [
@@ -56,25 +88,29 @@ function OutDesAdd({charData, setCharData }) {
         },
     };
 
-
+useEffect(()=>{
+    stockNameData()
+},[])
 
     return (
-        <div >
+        <div id='out_des_container'>
             <div id='doughnut_1'  style={{height:300}}> <Doughnut data={data} options={options} /></div>
             <div id='des_div'>
                 <table id='des_table'>
+                    <thead>
                     <tr>
                         <td>배송지</td>
                         <td>판매량</td>
                     </tr>
-                    {/* {charData.map((item, idx) => (
+                    </thead>
+                    <tbody>
+                    {charData.map((item, idx) => (
                                     <tr key={idx} >
                                       <td >{item.Loading.stock_shipping_des}</td>
                                       <td >{item.total_loading_cnt}</td>
                                     </tr>
-                                  ))} */}
-                    <td >zz</td>
-                    <td >zz</td>
+                                  ))}
+                 </tbody>
                 </table>
             </div>
 
