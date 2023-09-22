@@ -6,39 +6,93 @@ const { Op, fn, col } = require('sequelize');
 
 
 // 출고 메인 페이지 => 출고될 리스트 조회
+// router.post('/create', async (req, res) => {
+// //    let user_id = req.user.user_id
+//     let wh_seq = (req.body.wh_seq)
+//     console.log('req', wh_seq);
+
+
+//     try {
+//         const result = await Warehouse.findAll({
+//             where: {
+//                 wh_seq: wh_seq
+//             },
+//             attributes: ['wh_seq', 'wh_name'],
+//             include: [{
+//                 model: Rack,
+//                 include: [{
+//                     model: Loading,
+//                     where: {
+//                         loading_type: 'I',
+//                     },
+//                     include: [{
+//                         model: Stock
+//                     }]
+//                 }]
+//             }]
+//         })
+
+//         const result2 = await Loading.findAll({
+        
+//             attributes:[fn('DISTINCT',col('stock_shipping_des')),'stock_shipping_des'],
+//             where:{
+//                 com_seq:com_seq,
+//                 loading_type:'I'
+//             }
+//         })
+
+//         res.json(result)
+//     } catch (error) {
+//         console.error(error);
+//     }
+
+// })
+
+
 router.post('/create', async (req, res) => {
-//    let user_id = req.user.user_id
-    let wh_seq = (req.body.wh_seq)
-    console.log('req', wh_seq);
-
-
-    try {
-        const result = await Warehouse.findAll({
-            where: {
-                wh_seq: wh_seq
-            },
-            attributes: ['wh_seq', 'wh_name'],
-            include: [{
-                model: Rack,
+    //    let user_id = req.user.user_id
+        // let{wh_seq,com_seq }= (req.body.outData)
+        console.log('req', req.body);
+    
+    
+            const q = Warehouse.findAll({
+                where: {
+                    wh_seq: req.body.wh_seq
+                },
+                attributes: ['wh_seq', 'wh_name'],
                 include: [{
-                    model: Loading,
-                    where: {
-                        loading_type: 'I',
-                    },
+                    model: Rack,
                     include: [{
-                        model: Stock
+                        model: Loading,
+                        where: {
+                            loading_type: 'I',
+                        },
+                        include: [{
+                            model: Stock
+                        }]
                     }]
                 }]
-            }]
-        })
+            })
+            const q2 = Loading.findAll({
+            
+                attributes:[fn('DISTINCT',col('stock_shipping_des')),'stock_shipping_des'],
+                where:{
+                    com_seq:req.body.com_seq,
+                    loading_type:'I'
+                }
+            })
+    
+            return Promise.all([q,q2])
+            .then(([result1,result2])=>{
+                res.json({result1,result2})
 
-        res.json(result)
-    } catch (error) {
-        console.error(error);
-    }
+            })
+            .catch(error=>{
+                console.log("에러",error);
+            })
 
-})
-
+    })
+    
 
 // 출고버튼 클릭(출고 등록)
 router.post('/create/loading', async (req, res) => {
