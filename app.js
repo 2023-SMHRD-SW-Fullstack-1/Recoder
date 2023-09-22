@@ -8,6 +8,7 @@ const dotenv = require('dotenv')
 const passport = require('passport')
 const cors = require('cors')
 const multer = require('multer')
+const fs = require('fs')
 // .env 파일 관련
 dotenv.config()
 //혜주작성
@@ -28,19 +29,7 @@ const passportConfig = require('./passport')
 const app = express()
 passportConfig()
 app.set('port', process.env.PORT || 8000)
-// 이미지 업로드 미들웨어
-const upload = multer({
-    storage: multer.diskStorage({
-        destination(req, file, done) {
-            done(null, 'uploads')
-        },
-        filename(req, file, done) {
-            const ext = path.extname(file.originalname)
-            done(null, path.basename(file.originalname, ext) + Date.now() + ext)
-        },
-    }),
-    limits: { fileSize: 5 * 1024 * 1024 },
-})
+
 // 템플릿 엔진 설정
 app.set('view engine', 'html')
 nunjucks.configure('views', {
@@ -62,8 +51,9 @@ app.use(cors({
 // 요청과 응답에 대한 정보 출력
 // 이렇게 생긴 애들이 나옵니다 -> GET / 200 6.044 ms - 644
 app.use(morgan('dev'))
-// 노드 서버에서 리액트 프로젝트 연결(배포할 때 필요)
-app.use(express.static(path.join(__dirname, 'react-project/build')))
+
+app.use(express.static(path.join(__dirname, 'public')))
+app.use('/img', express.static(path.join(__dirname, 'uploads')))
 // json으로 받기
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -83,13 +73,11 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use('/user', userRouter)
-app.post('/upload', upload.single('file'), (req, res) => {
-    console.log(req.file);
-})
+
 // 혜주 작성
-app.use('/out',outRouter)
+app.use('/out', outRouter)
 app.use('/company', comRouter)
-app.use('/in',inRouter)
+app.use('/in', inRouter)
 
 // 윤영현 著
 app.use('/ware', wareRouter)

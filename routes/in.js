@@ -1,7 +1,37 @@
 const express = require('express')
+const multer = require('multer')
+const path = require('path')
+const fs = require('fs')
+
+const { updateStockAfterUploadImg } = require('../controllers/img')
+
 const router = express.Router()
 const { Loading, Stock, Client } = require('../models'); // 모델들을 import
 const { Op, fn, col, NOW, Model } = require('sequelize');
+
+// 이미지 업로드 관련
+// -----------------------------
+try {
+    fs.readdirSync('uploads')
+} catch (error) {
+    fs.mkdirSync('uploads')
+}
+
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, done) {
+            done(null, 'uploads')
+        },
+        filename(req, file, done) {
+            const ext = path.extname(file.originalname)
+            done(null, path.basename(file.originalname, ext) + Date.now() + ext)
+        },
+    }),
+    limits: { fileSize: 5 * 1024 * 1024 },
+})
+
+router.post('/img', upload.single('file'), updateStockAfterUploadImg)
+// --------------------------------------------------------------------------------
 
 // com_seq로 loading_type이 'B'인 데이터 5개만 내림차순 조회
 router.get('/:com_seq/:loading_type', async (req, res, next) => {

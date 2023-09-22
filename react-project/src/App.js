@@ -30,7 +30,7 @@ import Dashboard from './components/Dashboard'
 const App = () => {
 
   const [uid, setUid] = useState('qwer')
-  const [comSeq, setComSeq] = useState(1004);
+  const [comSeq, setComSeq] = useState(1);
   const [newWareData, setNewWareData] = useState({})
 
   //혜주 추가 - 바코드 값 관리

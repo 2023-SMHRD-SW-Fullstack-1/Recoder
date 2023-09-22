@@ -2,8 +2,7 @@ import apiClient from './apiClient'
 
 export const uploadFile = async ( file ) => {
   try {
-    const { data } = await apiClient.post('/upload', file)
-    return data;
+    await apiClient.post('/in/img', file)
   } catch (error) {
     console.error(error);
   }

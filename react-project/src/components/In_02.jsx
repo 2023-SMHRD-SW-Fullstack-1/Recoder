@@ -72,9 +72,10 @@ function In_02() {
     setIsModalOpen(true);
   }
 
-  const imgUpload = async (e) => {
+  const imgUpload = async (record, e) => {
     e.preventDefault();
     const formData = new FormData();
+    formData.append('stock_seq', record);
     formData.append('file', e.target.file.files[0]);
     await uploadFile(formData);
   }
@@ -151,10 +152,10 @@ function In_02() {
     },
     {
       title: '이미지 업로드',
-      dataIndex: 'loadin',
-      key: 'loading',
-      render: () => (
-        <form encType='multipart/form-data' onSubmit={imgUpload}>
+      dataIndex: 'stock_seq',
+      key: 'stock_seq',
+      render: (record) => (
+        <form encType='multipart/form-data' onSubmit={(e) => imgUpload(record, e)}>
           <input type="file" name="file" />
           <button type="submit">업로드</button>
         </form>
@@ -188,7 +189,7 @@ function In_02() {
   // map으로 data 전달
   const data = loadingList.map((Litem, Lidx) => ({
     key: Lidx + 1,
-    stock_seq: Litem.stock_seq,
+    stock_seq: Litem.Stock.stock_seq,
     loading_seq: Litem.loading_seq,
     stock_name: Litem.Stock.stock_name,
     stock_kind: Litem.Stock.stock_kind,
