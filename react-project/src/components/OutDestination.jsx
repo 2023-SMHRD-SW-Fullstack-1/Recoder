@@ -44,12 +44,10 @@ const desNameList = async ()=>{
 
  
 
-const labels = '빨강'
-const percentData = 100
 
-
-const title = "입고예정"
+const title = ""
 const items = []
+
 
 
 

@@ -10,12 +10,12 @@ function Barcode({ inputItem, setInputItem }) {
 
   // input id 관리할 변수
   const nextID = useRef(0);
-
+const com_seq = 1;
   // + 버튼 클릭 시 새로운 input 추가
   const addInput = () => {
     const newInputItem = {
       id: nextID.current,
-      title: '',
+      title: ''
     };
 
     setInputItem([...inputItem, newInputItem]);
@@ -40,7 +40,11 @@ function Barcode({ inputItem, setInputItem }) {
   const sendBarcode = () => {
     console.log('모든 input 값:', inputItem);
     const barCode = inputItem.map(item => item.title);
-    axios.post('http://localhost:8000/in/barcode', barCode)
+    const bData = {
+      barcode : barCode,
+      com_seq : com_seq
+    }
+    axios.post('http://localhost:8000/in/barcode', bData)
       .then(response => {
         console.log('바코드찍힌 리스트 가져오기 성공', response.data);
         nav('/in/create')
