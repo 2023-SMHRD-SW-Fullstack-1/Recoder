@@ -14,10 +14,13 @@
 #ware-create-button {
   display: flex;
   flex-direction: row-reverse;
+  margin-bottom: 24px;
 }
 #ware-item-box {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  column-gap: 20px;
 }
 #ware-cardlist-item {
   width: 300px;
@@ -26,7 +29,7 @@
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  margin-right: 12px;
+  margin-bottom: 24px;
 }
 #ware-cardlist-item:hover {
   box-shadow: 3px 3px 10px #e3e5e8;

@@ -27,7 +27,7 @@ const WareManage = ({ comSeq }) => {
         <span>창고 관리</span>
       </div>
       <div id="ware-create-button">
-        <button>창고 생성</button>
+        <Link to={'/ware/create'}><button>창고 생성</button></Link>
       </div>
       <div id="ware-item-box">
         {warehouseList.length > 0

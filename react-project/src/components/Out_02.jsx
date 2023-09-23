@@ -114,7 +114,8 @@ function Out_02() {
   }, []);
 
   return (
-    <div id="out_all">
+    <div className="out-container">
+      <div className="out-header"></div>
       <div id="in_comtainer">
         <div id="in01_top">
           <TopBoard title={title} items={items} />
