@@ -7,7 +7,7 @@ import OutDesAdd from './Dashboard/OutDesAdd';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
 import 'chartjs-plugin-datalabels'
-
+import {CaretUpOutlined,CaretDownOutlined} from '@ant-design/icons'
 
 function OutDestination() {
 
@@ -49,6 +49,8 @@ const percentData = 100
 const title = "입고예정"
 const items = []
 
+const [isSort, setIsSort] = useState(true)
+
 
 //tb 목록
 const columns = [
@@ -61,10 +63,15 @@ const columns = [
   ),
 },
 {
-  title: '전체 출고량',
+  title:'출고량',
   dataIndex: 'total_loading_cnt',
   key: 'total_loading_cnt',
   render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
+  sorter: (a, b) => (isSort ? a.total_loading_cnt - b.total_loading_cnt : b.total_loading_cnt - a.total_loading_cnt),
+  sortOrder: isSort ? 'ascend' : 'descend',
+  onHeaderCell: () => ({
+    onClick: () => setIsSort(!isSort),
+  }),
 },
 {
   title: '마지막 출고일',
@@ -73,6 +80,8 @@ const columns = [
   render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
 }
 ]
+
+
 
 const data1 = desData.map(item => item.Racks);
 const data2 = data1.map(racks => racks.map(rack => rack.Loadings));
