@@ -19,12 +19,14 @@ Chart.register(ArcElement);
 //  출고품 리스트 관리
 const [desData,setDesData] = useState([])
 
+// 테이블 sort상태 관리
+const [isSort, setIsSort] = useState(true)
 
 // 출고품 리스트 가져와서 페이지 렌더링 하기
 const desNameList = async ()=>{
   const userData = {
     com_seq:com_seq,
-    wh_seq:wh_seq
+    wh_seq:wh_seq,
   }
   try {
     const response = await axios.post('http://localhost:8000/out/des/name', userData)
@@ -49,7 +51,7 @@ const percentData = 100
 const title = "입고예정"
 const items = []
 
-const [isSort, setIsSort] = useState(true)
+
 
 
 //tb 목록
@@ -63,18 +65,18 @@ const columns = [
   ),
 },
 {
-  title:'출고량',
+  title: '출고량',
   dataIndex: 'total_loading_cnt',
   key: 'total_loading_cnt',
   render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
-  sorter: (a, b) => (isSort ? a.total_loading_cnt - b.total_loading_cnt : b.total_loading_cnt - a.total_loading_cnt),
-  sortOrder: isSort ? 'ascend' : 'descend',
+  sorter: (a, b) => (a.total_loading_cnt - b.total_loading_cnt), // 큰 순서대로 정렬
+  sortOrder: isSort ? 'descend' : 'ascend', // isSort 값에 따라 정렬 방향 변경
   onHeaderCell: () => ({
-    onClick: () => setIsSort(!isSort),
+    onClick: () => setIsSort(!isSort), // 클릭 시 정렬 방향 변경
   }),
 },
 {
-  title: '마지막 출고일',
+  title: '최근 출고일',
   dataIndex: 'out_created_at',
   key: 'out_created_at',
   render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
@@ -99,7 +101,7 @@ const data = data3.map((loading, idx) => ({
 
 useEffect(()=>{
   desNameList()
-},[])
+},[isSort])
 
 
   return (
