@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 // const User = require('../models/user');
 const { User, Warehouse, Rack, Loading, Stock, Company, sequelize } = require('../models'); // 모델들을 import
-const { Op, fn, col } = require('sequelize');
+const { Op, fn, col,literal } = require('sequelize');
 
 
 // 출고 메인 페이지 => 출고될 리스트 조회
@@ -222,10 +222,12 @@ router.post('/des', async (req, res) => {
 router.post('/des/name', async (req, res) => {
     console.log("1번",req.body);
     let { wh_seq,com_seq } = req.body;
+  
     try {
         const sNameList = await Warehouse.findAll({
             attributes:
-               []
+               [ 
+               ]
               ,
               include: [
                 {
@@ -257,6 +259,7 @@ router.post('/des/name', async (req, res) => {
               group: ['stock_name'],
               order: [
                 [col('out_created_at'), 'DESC'],
+                // [col('total_loading_cnt'), sort],
               ],
             });
         console.log( sNameList);

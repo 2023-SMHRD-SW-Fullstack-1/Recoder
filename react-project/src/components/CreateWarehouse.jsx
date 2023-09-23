@@ -52,8 +52,8 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 
 	useEffect(() => {
 		console.log("여기", newWareData);
-		// console.log(newWareData.wh_seq);
-		// setWh_seq(newWareData.wh_seq);
+		console.log(newWareData.wh_seq);
+		setWh_seq(newWareData.wh_seq);
 
 		// const warehouseData = newWareData;
 		// const lastWarehouse = warehouseData[warehouseData.length - 1];
@@ -88,7 +88,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	}, [warehouseWidth, warehouseLength]);
 
 	
-	/** 선반을 만들어주는 함수 */
+	/* 버튼을 누르면 선반을 만들어주는 함수 */
 	const createRack = (e) => {
 		setModalOpen(false);
 		e.preventDefault();
@@ -102,7 +102,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 			rackX: rackX,
 			rackZ: rackZ,
 			rackRotateYN: rackRotateYN,
-			wh_seq:wh_seq
+      		wh_seq:wh_seq
 		};
 		// 로컬 스토리지에 rackFloor값 저장
 		localStorage.setItem('rackFloor', rackFloor);
@@ -150,6 +150,47 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	function get배열() {
 		console.log("배열 확인", 메쉬배열)
 	}
+  // 모달 창 끄는 부분
+  const modalClose = (e) => {
+    setModalOpen(false);
+	console.log('wh_seq값좀 봅시다',wh_seq);
+    e.preventDefault();
+		console.log(`선반 이름: ${rackName}/ 가로: ${rackWidth}/ 세로: ${rackLength}/ ${rackFloor}층`)
+
+		const rack_info = {
+			rackName: rackName,
+			rackWidth: rackWidth,
+			rackLength: rackLength,
+			rackFloor: rackFloor,
+			rackX: rackX,
+			rackZ: rackZ,
+			rackRotateYN: rackRotateYN,
+      		wh_seq:wh_seq
+		};
+		// 로컬 스토리지에 rackFloor값 저장
+		localStorage.setItem('rackFloor', rackFloor);
+
+		let url = "http://localhost:8000/rack";
+		
+		
+		axios
+		.post(url, rack_info)
+		.then((res) => {
+			console.log(res);
+			
+			if (appInstance.current) {
+				appInstance.current.setupMouseEvents(
+					res.data.rack_width,
+					res.data.rack_length,
+					parseInt(localStorage.getItem('rackFloor')) // 로컬 스토리지에서 rackFloor값 불러오기!
+					);
+				}
+		})
+		.catch((error) => {
+			console.log(`axios에러`)
+			// console.error(error);
+		});
+  }
 
 	return (
 		<div>
@@ -161,6 +202,10 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 					선반 생성
 				</button>
 				<button onClick={get배열}>확인</button>
+        
+        <button onClick={createRack}>
+          생성 완료
+        </button>
 			</div>
 			{modalOpen && (
 				<div
@@ -192,7 +237,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 								<tbody>
 									<tr>
 										<td className="rack_create_container">
-											<form onSubmit={createRack}>
+											<form onSubmit={modalClose}>
 												<div className='rack_name_input_container'>
 													{/* 아이디 */}
 													<input
