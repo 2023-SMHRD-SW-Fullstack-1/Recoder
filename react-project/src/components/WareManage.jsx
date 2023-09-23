@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../css/warehouse.css";
 import axios from "axios";
 import WareCardItem from "./Warehouse/WareCardItem";
+import AddIcon from '@mui/icons-material/Add';
 
 const WareManage = ({ comSeq }) => {
   const nav = useNavigate();
@@ -27,7 +28,10 @@ const WareManage = ({ comSeq }) => {
         <span>창고 관리</span>
       </div>
       <div id="ware-create-button">
-        <Link to={'/ware/create'}><button>창고 생성</button></Link>
+        <Link to={'/ware/create'}>
+          <AddIcon />
+          <button>창고 생성</button>
+        </Link>
       </div>
       <div id="ware-item-box">
         {warehouseList.length > 0

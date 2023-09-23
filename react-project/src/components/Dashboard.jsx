@@ -7,6 +7,10 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import WareList from "./Dashboard/WareList";
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 
 const Dashboard = ({ comSeq }) => {
   const [inList, setInList] = useState([]);
@@ -37,12 +41,14 @@ const Dashboard = ({ comSeq }) => {
 
   return (
     <div id="dashboard">
-      <div id="dashboard-header"></div>
-      <div
-        style={{
-          padding: 24,
-        }}
-      >
+      <div id="dashboard-header">
+        <Stack direction="row" spacing={1} sx={{ position: 'relative', marginLeft: '24px' }}>
+          <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" sx={{ width: 35, height: 35 }} />      
+        </Stack>      
+        <MailOutlineIcon sx={{ fontSize: 30, marginLeft: '24px' }} />
+        <NotificationsNoneIcon sx={{ fontSize: 30 }} />
+      </div>
+      <div>
         <div id="dashboard-body1">
           <div id="dashboard-item1">
             <div id="current">
