@@ -22,6 +22,7 @@
     /* Remove the border */
     border-radius: 5px;
     color: whitesmoke;
+    z-index: 1;
 }
 
 .modal-close-btn {
