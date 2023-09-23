@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table_HJ from "./Table_HJ";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import TopBoard from "./Dashboard/TopBoard";
+import TopBoard from "./Out/TopBoard";
 
 function Out_02() {
   const id = "smart";

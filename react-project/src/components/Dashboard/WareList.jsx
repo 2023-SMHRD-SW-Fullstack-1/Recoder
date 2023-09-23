@@ -1,5 +1,6 @@
 import React from "react";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import WareTable from "./WareTable";
 
 const WareList = () => {
@@ -30,7 +31,7 @@ const WareList = () => {
             padding: 4,
           }}
         >
-          <OpenInNewIcon />
+          <KeyboardArrowRightIcon />
         </button>
       ),
     },
@@ -56,9 +57,8 @@ const WareList = () => {
 
   return (
     <div id="dashboard-warelist">
-      <div className="dashboard-item-header">
+      <div id="warelist-header" className="dashboard-item-header">
         <span>나의 창고</span>
-        {/* <OpenInNewIcon /> */}
       </div>
       <div>
         <WareTable columns={columns} data={data} />
