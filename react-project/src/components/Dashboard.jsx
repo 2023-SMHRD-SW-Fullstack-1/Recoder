@@ -5,11 +5,10 @@ import ShortOutList from "./Dashboard/ShortOutList";
 import CachedIcon from "@mui/icons-material/Cached";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Link } from "react-router-dom";
-import axios from 'axios'
-import WareList from './Dashboard/WareList'
+import axios from "axios";
+import WareList from "./Dashboard/WareList";
 
-const Dashboard = ({ comSeq }) => {  
-
+const Dashboard = ({ comSeq }) => {
   const [inList, setInList] = useState([]);
   const [stockList, setStockList] = useState([]);
   const [outList, setOutList] = useState([]);
@@ -24,7 +23,7 @@ const Dashboard = ({ comSeq }) => {
     const getOutData = () => {
       return axios.get(`http://localhost:8000/in/${comSeq}/O`);
     };
-  
+
     Promise.all([getInData(), getStockData(), getOutData()])
       .then((res) => {
         setInList(res[0].data);
@@ -34,12 +33,11 @@ const Dashboard = ({ comSeq }) => {
       .catch((err) => {
         console.error(err);
       });
-  }, [])
-
+  }, []);
 
   return (
     <div id="dashboard">
-      <div id="dashboard-header">빈 공간</div>
+      <div id="dashboard-header"></div>
       <div
         style={{
           padding: 24,
@@ -74,7 +72,7 @@ const Dashboard = ({ comSeq }) => {
                 <OpenInNewIcon />
               </div>
             </div>
-            <ShortInList inList={ inList } />
+            <ShortInList inList={inList} />
           </div>
         </div>
         <div id="dashboard-body2">
@@ -86,7 +84,7 @@ const Dashboard = ({ comSeq }) => {
                 <OpenInNewIcon />
               </div>
             </div>
-            <ShortStockList stockList={ stockList } />
+            <ShortStockList stockList={stockList} />
           </div>
           <div id="dashboard-item4">
             <div className="dashboard-item-header">
@@ -96,7 +94,7 @@ const Dashboard = ({ comSeq }) => {
                 <OpenInNewIcon />
               </div>
             </div>
-            <ShortOutList outList={ outList } />
+            <ShortOutList outList={outList} />
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ import WareCardItem from "./Warehouse/WareCardItem";
 const WareManage = ({ comSeq }) => {
   const nav = useNavigate();
   const [warehouseList, setWarehouseList] = useState([]);
-  const [testlist, setTestlist] = useState([])
+  const [testlist, setTestlist] = useState([]);
 
   useEffect(() => {
     axios
@@ -37,9 +37,7 @@ const WareManage = ({ comSeq }) => {
                 wh_name={item.wh_name}
                 wh_seq={item.wh_seq}
                 index={index}
-              >
-                <Link to={`/warehouse/${item.wh_seq}`}></Link>
-              </WareCardItem>
+              ></WareCardItem>
             ))
           : "창고가 없습니다"}
       </div>

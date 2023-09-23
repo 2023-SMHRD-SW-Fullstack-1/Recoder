@@ -26,6 +26,10 @@
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  margin-right: 12px;
+}
+#ware-cardlist-item:hover {
+  box-shadow: 3px 3px 10px #e3e5e8;
 }
 #ware-preview {
   flex: 2;
@@ -39,4 +43,5 @@
 }
 #ware-detail {
   flex: 1;
+  padding: 12px;
 }
