@@ -2,8 +2,8 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default class App {
-  constructor(width, length, rectangleWidth = 1, rectangleHeight = 1) {
-    const divContainer = document.querySelector("#webgl-container");
+  constructor(width, length, rectangleWidth = 1, rectangleHeight = 1, index) {
+    const divContainer = document.querySelector(`#webgl-container-${index}`);
     this._divContainer = divContainer;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true }); // 계단 현상 없이 부드럽게

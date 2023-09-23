@@ -4,7 +4,7 @@ import axios from 'axios';
 import In02Add from './In02Add';
 import { useNavigate } from 'react-router';
 import '../css/in01.css'
-import TopBoard from './Dashboard/TopBoard';
+import TopBoard from './Out/TopBoard';
 import { Button, Modal } from 'antd';
 import { uploadFile } from '../api/fileAPI'
 

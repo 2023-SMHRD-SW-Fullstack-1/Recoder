@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Table_HJ from './Table_HJ';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import TopBoard from './Dashboard/TopBoard';
-import OutDesAdd from './Dashboard/OutDesAdd';
+import TopBoard from './Out/TopBoard';
+import OutDesAdd from './Out/OutDesAdd';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
 import 'chartjs-plugin-datalabels'

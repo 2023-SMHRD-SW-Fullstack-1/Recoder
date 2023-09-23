@@ -25,10 +25,11 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
   getItem("홈", "sub1", <HomeOutlined />),
-  getItem("재고", "sub2", <AppstoreOutlined />, [
-    getItem("재고 조회", "2"),
-    getItem("재고 관리", "3"),
-  ]),
+  getItem("재고", "2", <AppstoreOutlined />),
+  // getItem("재고", "sub2", <AppstoreOutlined />, [
+  //   getItem("재고 조회", "2"),
+  //   getItem("재고 관리", "3"),
+  // ]),
   getItem("입고", "sub3", <InboxOutlined />, [
     getItem("입고 예정", "4"),
     getItem("입고 등록", "5"),
