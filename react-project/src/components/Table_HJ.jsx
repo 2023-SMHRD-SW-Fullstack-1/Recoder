@@ -15,7 +15,6 @@ const Table_HJ = ({columns,data,onRow}) => (
           }}
         >
           {record.description}
-          hi
         </p>
       ),
       rowExpandable: (record) => record.name !== 'Not Expandable',
