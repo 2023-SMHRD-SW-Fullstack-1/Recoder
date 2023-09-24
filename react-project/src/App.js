@@ -24,8 +24,8 @@ import Dashboard from './components/Dashboard'
 
 const App = () => {
 
-  const [uid, setUid] = useState('qwer')
-  const [comSeq, setComSeq] = useState(1004);
+  const [uid, setUid] = useState('smart')
+  const [comSeq, setComSeq] = useState(1);
   const [newWareData, setNewWareData] = useState({})
 
   //혜주 추가 - 바코드 값 관리
@@ -64,7 +64,7 @@ const App = () => {
               {/* 대시보드 */}
               <Route path='/main' element={ <Dashboard comSeq={ comSeq } /> } />
               {/* 재고 */}
-              <Route path='/stock/select' element={ <StockSelect />} />
+              <Route path='/stock/select' element={ <StockSelect comSeq={ comSeq } />} />
               {/* 입고 */}
               <Route path='/in/create' element={ <In_HJ inputItem={inputItem} setInputItem={setInputItem}/> } /> 
               <Route path='/in/loading' element={ <In_02 /> } />

@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import StockDataList from './Stock/StockDataList'
 import DatePicker from './Stock/DatePicker'
 import StockDropDown from './Stock/StockDropDown'
+import axios from 'axios'
 
-const StockSelect = () => {
+const StockSelect = ({ comSeq }) => {
+
+  const [stockList, setStockList] = useState([])
+
+  useEffect(() => {
+    axios.get(`http://localhost:8000/stock/${comSeq}`)
+    .then((res) => {
+      setStockList(res.data)
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [])
+
   return (
     <div id='stock-container'>
       <div id='stock-header'>
@@ -13,7 +27,7 @@ const StockSelect = () => {
         <DatePicker />
         <StockDropDown />
       </div>
-      <StockDataList />
+      <StockDataList stockList={ stockList } />
     </div>
   )
 }

@@ -4,29 +4,23 @@ const { Client, Company, Loading, Notice, Rack, Stock, User, Warehouse } = requi
 
 const router = express.Router()
 
-router.get('/', async (req, res, next) => {
+// loading_type이 I인 데이터 전체 조회
+router.get('/:com_seq', async (req, res, next) => {
 
-  let com_seq = 1004
+  let com_seq = req.params.com_seq
 
   try {
-    const result = await Warehouse.findAll({
-      attributes: ['wh_seq', 'wh_name'],
+    const result = await Loading.findAll({
       where: {
-        com_seq: com_seq
+        com_seq: com_seq,
+        loading_type: 'I',
       },
       include: [{
-        model: Rack,
-        attributes: ['rack_seq'],
+        model: Stock,
         include: [{
-          model: Loading,
-          where: {
-            out_created_at: null
-          },
-          include: [{
-            model: Stock,
-          }]
+          model: Client
         }]
-      }],
+      }]
     })
     res.json(result)
   } catch (error) {
