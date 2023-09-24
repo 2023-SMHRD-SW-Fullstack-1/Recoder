@@ -11,6 +11,7 @@ const StockSelect = ({ comSeq }) => {
   useEffect(() => {
     axios.get(`http://localhost:8000/stock/${comSeq}`)
     .then((res) => {
+      console.log(res);
       setStockList(res.data)
     })
     .catch((err) => {

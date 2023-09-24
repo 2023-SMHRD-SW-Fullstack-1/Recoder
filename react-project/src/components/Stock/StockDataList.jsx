@@ -112,6 +112,7 @@ const StockDataList = ({ stockList }) => {
     stock_expired: item.Stock.stock_expired,
     stock_bal: item.Stock.stock_balance_cnt,
     stock_img: item.Stock.stock_img,
+    cl_name: item.Stock.Client?.cl_name,
   }));
 
   return <StockTable columns={columns} data={data} />;
