@@ -21,7 +21,6 @@ import In_HJ from './components/In_HJ';
 import In_02 from './components/In_02';
 import Dashboard from './components/Dashboard'
 
-
 const App = () => {
 
   const [uid, setUid] = useState('smart')
@@ -29,12 +28,10 @@ const App = () => {
   const [newWareData, setNewWareData] = useState({})
 
   //혜주 추가 - 바코드 값 관리
-  const [inputItem, setInputItem] = useState([
-    {
-        id: '',
-        title: '',
-    },
-]);
+  const [inputItem, setInputItem] = useState([{
+    id: '',
+    title: '',
+  }]);
 
   // useEffect(() => {
   //   axios.get('http://localhost:8000/user')

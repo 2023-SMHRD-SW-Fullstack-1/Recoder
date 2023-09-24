@@ -4,7 +4,8 @@ import WarehouseIcon from '@mui/icons-material/Warehouse';
 import AddAlarmIcon from '@mui/icons-material/AddAlarm';
 import '../../css/stock.css'
 
-const StockDataList = ({ stockList }) => {
+const StockDataList = ({ stockList }) => {  
+
   const columns = [
     {
       title: "제품ID",
@@ -113,7 +114,7 @@ const StockDataList = ({ stockList }) => {
     stock_bal: item.Stock.stock_balance_cnt,
     stock_img: item.Stock.stock_img,
     cl_name: item.Stock.Client?.cl_name,
-  }));
+  }));  
 
   return <StockTable columns={columns} data={data} />;
 };
