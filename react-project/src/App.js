@@ -75,6 +75,8 @@ const App = () => {
               {/* 창고 */}
               <Route path='/ware/manage' element={ <WareManage comSeq={comSeq}/> } />
               <Route path='/warehouse/:wh_seq' element={ <Warehouse comSeq={comSeq} /> } />
+              <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
+              <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
               {/* 마이페이지 */}
               <Route path='/mypage' element={ <Mypage /> } />
               {/* 로그아웃 */}
@@ -82,8 +84,6 @@ const App = () => {
               
               <Route path='/barcode' element={<Barcode inputItem = {inputItem} setInputItem={setInputItem}/>}  />      
             </Route>    
-            <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
-            <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
           </Routes> 
         </div>
       ) : (
