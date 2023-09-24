@@ -33,7 +33,7 @@ const upload = multer({
 router.post('/img', upload.single('file'), updateStockAfterUploadImg)
 // --------------------------------------------------------------------------------
 
-// com_seq로 loading_type이 'B'인 데이터 5개만 내림차순 조회
+// com_seq, loading_type별로 데이터 조회
 router.get('/:com_seq/:loading_type', async (req, res, next) => {
 
     let com_seq = req.params.com_seq
