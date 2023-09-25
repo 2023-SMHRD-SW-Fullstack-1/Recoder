@@ -23,14 +23,20 @@ body {
 }
 
 #dashboard {
+  padding: 0 24px;
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 #dashboard-header {
   padding: 12px;
-  background-color: #efefef;
+  width: 100%;
+  height: 84px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
 }
 
 #dashboard-body1,
@@ -42,28 +48,25 @@ body {
 #dashboard-item2,
 #dashboard-item3,
 #dashboard-item4 {
-  width: 500px;
+  width: 750px;
   height: 400px;
   margin: 12px;
-  flex: 1;
+  /* flex: 1; */
   box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
   border-radius: 8px;
   padding: 12px;
   overflow: hidden;
 }
-
 #dashboard-item1 {
+  width: 750px;
   height: 400px;
   margin: 12px;
-  flex: 1;
-  width: 100px;
+  /* flex: 1; */
   display: flex;
   flex-direction: row;
   align-items: start;
   justify-content: start;
-  padding: 12px;
 }
-
 #current {
   box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
   border-radius: 8px;
@@ -76,7 +79,6 @@ body {
   padding-bottom: 6px;
   margin-bottom: 6px;
 }
-
 .current-item {
   display: flex;
   justify-content: space-between;
@@ -103,4 +105,11 @@ body {
 
 .dashboard-item-header > div svg:nth-child(1) {
   margin-right: 10px;
+}
+#dashboard-warelist {
+  flex: 1;
+  box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
+  border-radius: 8px;
+  margin-left: 24px;
+  padding: 12px;
 }

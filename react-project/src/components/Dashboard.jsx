@@ -4,12 +4,15 @@ import ShortStockList from "./Dashboard/ShortStockList";
 import ShortOutList from "./Dashboard/ShortOutList";
 import CachedIcon from "@mui/icons-material/Cached";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import Calendar from "./Calendar";
 import { Link } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
+import WareList from "./Dashboard/WareList";
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 
-const Dashboard = ({ comSeq }) => {  
-
+const Dashboard = ({ comSeq }) => {
   const [inList, setInList] = useState([]);
   const [stockList, setStockList] = useState([]);
   const [outList, setOutList] = useState([]);
@@ -24,7 +27,7 @@ const Dashboard = ({ comSeq }) => {
     const getOutData = () => {
       return axios.get(`http://localhost:8000/in/${comSeq}/O`);
     };
-  
+
     Promise.all([getInData(), getStockData(), getOutData()])
       .then((res) => {
         setInList(res[0].data);
@@ -34,17 +37,18 @@ const Dashboard = ({ comSeq }) => {
       .catch((err) => {
         console.error(err);
       });
-  }, [])
-
+  }, []);
 
   return (
     <div id="dashboard">
-      <div id="dashboard-header">헤더</div>
-      <div
-        style={{
-          padding: 24,
-        }}
-      >
+      <div id="dashboard-header">
+        <Stack direction="row" spacing={1} sx={{ position: 'relative', marginLeft: '24px' }}>
+          <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" sx={{ width: 35, height: 35 }} />      
+        </Stack>      
+        <MailOutlineIcon sx={{ fontSize: 30, marginLeft: '24px' }} />
+        <NotificationsNoneIcon sx={{ fontSize: 30 }} />
+      </div>
+      <div>
         <div id="dashboard-body1">
           <div id="dashboard-item1">
             <div id="current">
@@ -64,7 +68,7 @@ const Dashboard = ({ comSeq }) => {
                 <Link to="/out/select">30개</Link>
               </div>
             </div>
-            <Calendar />
+            <WareList />
           </div>
           <div id="dashboard-item2">
             <div className="dashboard-item-header">
@@ -74,7 +78,7 @@ const Dashboard = ({ comSeq }) => {
                 <OpenInNewIcon />
               </div>
             </div>
-            <ShortInList inList={ inList } />
+            <ShortInList inList={inList} />
           </div>
         </div>
         <div id="dashboard-body2">
@@ -86,7 +90,7 @@ const Dashboard = ({ comSeq }) => {
                 <OpenInNewIcon />
               </div>
             </div>
-            <ShortStockList stockList={ stockList } />
+            <ShortStockList stockList={stockList} />
           </div>
           <div id="dashboard-item4">
             <div className="dashboard-item-header">
@@ -96,7 +100,7 @@ const Dashboard = ({ comSeq }) => {
                 <OpenInNewIcon />
               </div>
             </div>
-            <ShortOutList outList={ outList } />
+            <ShortOutList outList={outList} />
           </div>
         </div>
       </div>

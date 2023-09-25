@@ -4,29 +4,22 @@ const { Client, Company, Loading, Notice, Rack, Stock, User, Warehouse } = requi
 
 const router = express.Router()
 
-router.get('/', async (req, res, next) => {
-
-  let com_seq = 1004
+// loading_type이 I인 데이터 전체 조회
+router.get('/:com_seq', async (req, res, next) => {
+  let com_seq = req.params.com_seq
 
   try {
-    const result = await Warehouse.findAll({
-      attributes: ['wh_seq', 'wh_name'],
+    const result = await Loading.findAndCountAll({
       where: {
-        com_seq: com_seq
+        com_seq: com_seq,
+        loading_type: 'I',
       },
       include: [{
-        model: Rack,
-        attributes: ['rack_seq'],
+        model: Stock,
         include: [{
-          model: Loading,
-          where: {
-            out_created_at: null
-          },
-          include: [{
-            model: Stock,
-          }]
+          model: Client
         }]
-      }],
+      }]
     })
     res.json(result)
   } catch (error) {
@@ -34,30 +27,28 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:order', async (req, res, next) => {
-  let order = req.params.order
+// 페이지별로 데이터 조회
+router.get('/:com_seq/:limit/:offset', async (req, res, next) => {
+  let com_seq = req.params.com_seq
+  let limit = parseInt(req.params.limit)
+  let offset = parseInt(req.params.offset)
 
-  let com_seq = 1004
+  console.log(limit, offset);
 
   try {
-    const result = await Warehouse.findAll({
-      attributes: ['wh_seq'],
+    const result = await Loading.findAll({
       where: {
-        com_seq: com_seq
+        com_seq: com_seq,
+        loading_type: 'I',
       },
       include: [{
-        model: Rack,
-        attributes: ['rack_seq'],
+        model: Stock,
         include: [{
-          model: Loading,          
-          where: {
-            out_created_at: null
-          },
-          include: [{
-            model: Stock,
-          }]
+          model: Client
         }]
-      }],      
+      }],
+      offset: (offset - 1) * limit,
+      limit: limit,
     })
     res.json(result)
   } catch (error) {

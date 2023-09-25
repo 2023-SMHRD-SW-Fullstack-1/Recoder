@@ -1,14 +1,44 @@
 const express = require('express')
+const multer = require('multer')
+const path = require('path')
+const fs = require('fs')
+
+const { updateStockAfterUploadImg } = require('../controllers/img')
+
 const router = express.Router()
 const { Loading, Stock, Client } = require('../models'); // 모델들을 import
 const { Op, fn, col, NOW, Model } = require('sequelize');
 
-// com_seq로 loading_type이 'B'인 데이터 5개만 내림차순 조회
+// 이미지 업로드 관련
+// -----------------------------
+try {
+    fs.readdirSync('uploads')
+} catch (error) {
+    fs.mkdirSync('uploads')
+}
+
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, done) {
+            done(null, 'uploads')
+        },
+        filename(req, file, done) {
+            const ext = path.extname(file.originalname)
+            done(null, path.basename(file.originalname, ext) + Date.now() + ext)
+        },
+    }),
+    limits: { fileSize: 5 * 1024 * 1024 },
+})
+
+router.post('/img', upload.single('file'), updateStockAfterUploadImg)
+// --------------------------------------------------------------------------------
+
+// com_seq, loading_type별로 데이터 조회
 router.get('/:com_seq/:loading_type', async (req, res, next) => {
 
     let com_seq = req.params.com_seq
     let loading_type = req.params.loading_type
-    
+
     let date = ''
     if (loading_type === 'O') {
         // 출고일 경우 out_created_at을 내림차순으로
@@ -40,10 +70,37 @@ router.get('/:com_seq/:loading_type', async (req, res, next) => {
     }
 })
 
-// (in_01)입고 예정 페이지 => 입고될 리스트 조회 : 바코드 찍힌 모든 제품 가져오기
-router.post('/create', async (req, res) => {
+
+// 바코드...
+router.post('/barcode', async (req, res) => {
     console.log('바코드', req.body);
-    const barCodes = req.body.barCode; // 입력 데이터의 바코드 배열
+    const barCodes = req.body; // 입력 데이터의 바코드 배열
+
+    try {
+        const result = await Stock.update(
+
+            { update_at: fn('NOW') }, // 업데이트할 필드와 값을 설정합니다.
+            {
+                where: {
+                    stock_barcode: {
+                        [Op.in]: barCodes // $in 연산자 사용      
+                    }
+                }
+            }
+        );
+        console.log('업데이트바코드 조회', result);
+        res.json(result);
+    } catch (error) {
+        console.error(error);
+    }
+
+});
+
+
+
+router.post('/create', async (req, res) => {
+    console.log('입고바코드', req.body);
+    const barCodes = req.body; // 입력 데이터의 바코드 배열
 
     try {
         const result = await Stock.findAll({
@@ -51,7 +108,9 @@ router.post('/create', async (req, res) => {
                 stock_barcode: {
                     [Op.in]: barCodes // $in 연산자 사용      
                 },
-                update_at: null
+                update_at: {
+                                            [Op.ne]: null
+                                        }
             }
         });
         console.log('stock바코드 조회', result);
@@ -61,31 +120,94 @@ router.post('/create', async (req, res) => {
     }
 });
 
+// router.post('/create', async (req, res) => {
+//     console.log('바코드', req.body);
+//     const barCodes = req.body.barCode; // 입력 데이터의 바코드 배열
+
+//     try {
+//         const result = await Stock.findAll(
+//             { update_at: fn('NOW') }, // 업데이트할 필드와 값을 설정합니다.
+//             {
+//                 where: {
+//                     stock_barcode: {
+//                         [Op.in]: barCodes // $in 연산자 사용      
+//                     },
+//                     update_at: {
+//                         [Op.ne]: null
+//                     }
+//                 }
+//             }
+//         );
+//         console.log('업데이트바코드 조회', result);
+//         res.json(result);
+//     } catch (error) {
+//         console.error(error);
+//     }
+// });
+
+// (in_01)입고 예정 페이지 => 입고될 리스트 조회 : 바코드 찍힌 모든 제품 가져오기
+// router.post('/create', async (req, res) => {
+//     console.log('바코드', req.body);
+//     const barCodes = req.body.barCode; // 입력 데이터의 바코드 배열
+
+//     try {
+//         const result = await Stock.findAll(
+//             { update_at: fn('NOW') }, // 업데이트할 필드와 값을 설정합니다.
+//             {
+//                 where: {
+//                     stock_barcode: {
+//                         [Op.in]: barCodes // $in 연산자 사용      
+//                     },
+//                     update_at: {
+//                         [Op.ne]: null
+//                     }
+//                 }
+//             }
+//         );
+//         console.log('업데이트바코드 조회', result);
+//         res.json(result);
+//     } catch (error) {
+//         console.error(error);
+//     }
+// });
+
 // (in_01)입고 에정 페이지 : 등록버튼 누르고 입고 페이지로 넘기기  => 이후 입고 페이지에서 추가정보 등록 후 입고처리
 router.post('/send/loading', async (req, res, next) => {
     let { stock_barcode, com_seq, stock_seq } = req.body;
     console.log('update_at 넣을 바코드', req.body);
-    try {
-        const result = await Stock.update(
-            { update_at: fn('NOW') },
-            {
-                where: {
-                    stock_barcode: stock_barcode
-                }
-            }
-        );
-        console.log('loading에 업데이트', req.body);
+    // try {
+    //     const result = await Stock.update(
+    //         { update_at: fn('NOW') },
+    //         {
+    //             where: {
+    //                 stock_barcode: stock_barcode
+    //             }
+    //         }
+    //     );
+    //     console.log('loading에 업데이트', req.body);
+    //     const result2 = await Loading.create({
+    //         stock_seq: stock_seq,
+    //         com_seq: com_seq,
+    //         loading_type: 'B'
+    //     });
+    //     console.log('로딩에 업데이트', result2);
+    //     res.json(result2);
+    // } catch (error) {
+    //     console.error(error);
+    //     next(error); // 에러가 발생하면 에러 핸들러 미들웨어로 전달합니다.
+    // }
+
+    try { // 등록클릭 > 로딩타입 B로 row 생성
         const result2 = await Loading.create({
             stock_seq: stock_seq,
             com_seq: com_seq,
             loading_type: 'B'
         });
-        console.log('로딩에 업데이트', result2);
         res.json(result2);
     } catch (error) {
-        console.error(error);
-        next(error); // 에러가 발생하면 에러 핸들러 미들웨어로 전달합니다.
+        console.log(error);
     }
+
 });
 
 
@@ -120,7 +242,7 @@ router.post('/del/loaing', async (req, res) => {
         console.log('입고취소요', stock_seq)
         const result = await Loading.update(
             {
-                loading_type: 'B',
+                loading_type: null,
             },
             {
                 where: {
@@ -135,7 +257,7 @@ router.post('/del/loaing', async (req, res) => {
         );
         res.json(result)
     } catch (error) {
-console.log('입고취소 에러',error);
+        console.log('입고취소 에러', error);
     }
 })
 

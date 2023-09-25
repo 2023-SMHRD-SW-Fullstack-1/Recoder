@@ -2,43 +2,97 @@ const express = require('express')
 const router = express.Router()
 // const User = require('../models/user');
 const { User, Warehouse, Rack, Loading, Stock, Company, sequelize } = require('../models'); // 모델들을 import
-const { Op, fn, col } = require('sequelize');
+const { Op, fn, col,literal } = require('sequelize');
 
 
 // 출고 메인 페이지 => 출고될 리스트 조회
+// router.post('/create', async (req, res) => {
+// //    let user_id = req.user.user_id
+//     let wh_seq = (req.body.wh_seq)
+//     console.log('req', wh_seq);
+
+
+//     try {
+//         const result = await Warehouse.findAll({
+//             where: {
+//                 wh_seq: wh_seq
+//             },
+//             attributes: ['wh_seq', 'wh_name'],
+//             include: [{
+//                 model: Rack,
+//                 include: [{
+//                     model: Loading,
+//                     where: {
+//                         loading_type: 'I',
+//                     },
+//                     include: [{
+//                         model: Stock
+//                     }]
+//                 }]
+//             }]
+//         })
+
+//         const result2 = await Loading.findAll({
+        
+//             attributes:[fn('DISTINCT',col('stock_shipping_des')),'stock_shipping_des'],
+//             where:{
+//                 com_seq:com_seq,
+//                 loading_type:'I'
+//             }
+//         })
+
+//         res.json(result)
+//     } catch (error) {
+//         console.error(error);
+//     }
+
+// })
+
+
 router.post('/create', async (req, res) => {
-//    let user_id = req.user.user_id
-    let wh_seq = (req.body.wh_seq)
-    console.log('req', wh_seq);
-
-
-    try {
-        const result = await Warehouse.findAll({
-            where: {
-                wh_seq: wh_seq
-            },
-            attributes: ['wh_seq', 'wh_name'],
-            include: [{
-                model: Rack,
+    //    let user_id = req.user.user_id
+        // let{wh_seq,com_seq }= (req.body.outData)
+        console.log('req', req.body);
+    
+    
+            const q = Warehouse.findAll({
+                where: {
+                    wh_seq: req.body.wh_seq
+                },
+                attributes: ['wh_seq', 'wh_name'],
                 include: [{
-                    model: Loading,
-                    where: {
-                        loading_type: 'I',
-                    },
+                    model: Rack,
                     include: [{
-                        model: Stock
+                        model: Loading,
+                        where: {
+                            loading_type: 'I',
+                        },
+                        include: [{
+                            model: Stock
+                        }]
                     }]
                 }]
-            }]
-        })
+            })
+            const q2 = Loading.findAll({
+            
+                attributes:[fn('DISTINCT',col('stock_shipping_des')),'stock_shipping_des'],
+                where:{
+                    com_seq:req.body.com_seq,
+                    loading_type:'I'
+                }
+            })
+    
+            return Promise.all([q,q2])
+            .then(([result1,result2])=>{
+                res.json({result1,result2})
 
-        res.json(result)
-    } catch (error) {
-        console.error(error);
-    }
+            })
+            .catch(error=>{
+                console.log("에러",error);
+            })
 
-})
-
+    })
+    
 
 // 출고버튼 클릭(출고 등록)
 router.post('/create/loading', async (req, res) => {
@@ -122,6 +176,7 @@ router.post('/controll', async (req, res) => {
 // 출고품 관리 페이지 -- 창고별
 router.post('/des', async (req, res) => {
 
+    console.log('des 1번 함수',req.body);
     let { com_seq, wh_seq } = req.body;
     try {
         const desDetail = await Warehouse.findAll({
@@ -165,19 +220,21 @@ router.post('/des', async (req, res) => {
 
 // 💥 stock_name 당 정보 가져오기 
 router.post('/des/name', async (req, res) => {
-
-    let { wh_seq,stock_name } = req.body;
+    console.log("1번",req.body);
+    let { wh_seq,com_seq } = req.body;
+  
     try {
         const sNameList = await Warehouse.findAll({
             attributes:
-               []
+               [ 
+               ]
               ,
               include: [
                 {
                   model: Rack,
                  
                   where: {
-                    wh_seq: 1004,
+                    wh_seq: wh_seq,
                   },
                   include: [
                     {
@@ -202,6 +259,7 @@ router.post('/des/name', async (req, res) => {
               group: ['stock_name'],
               order: [
                 [col('out_created_at'), 'DESC'],
+                // [col('total_loading_cnt'), sort],
               ],
             });
         console.log( sNameList);
@@ -237,11 +295,13 @@ router.post('/des/count', async (req, res) => {
           include: [{
             model: Rack,
             attributes: [],
+            where: {
+                wh_seq: wh_seq
+              },
             include: [{
               model: Warehouse,
-              where: {
-                wh_seq: wh_seq
-              }
+              attributes:['wh_seq'],
+             
             }]
           }],
         }],

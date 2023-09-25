@@ -10,12 +10,12 @@ let meshArr = []
 // const initApp = new App( 1, 1, 1, 1, meshArr);
 
 const CreateWarehouse = ({ com_seq, newWareData }) => {
-	const [modalOpen, setModalOpen] = useState(false);
-	const modalBackground = useRef();
+  const [modalOpen, setModalOpen] = useState(false);
+  const modalBackground = useRef();
 
-	const [wh_seq, setWh_seq] = useState(null);
-	const [warehouseWidth, setWarehouseWidth] = useState(null);
-	const [warehouseLength, setWarehouseLength] = useState(null);
+  const [wh_seq, setWh_seq] = useState(null);
+  const [warehouseWidth, setWarehouseWidth] = useState(null);
+  const [warehouseLength, setWarehouseLength] = useState(null);
 
 	// 전역 변수
 	// let 메쉬배열 = []
@@ -27,12 +27,36 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	const [rackLength, setRackLength] = useState(1);
 	const [rackFloor, setRackFloor] = useState(2);
 
-	const appInstance = useRef(null);
+  // 전역 변수
 
-	const [rackX, setRackX] = useState(0);
-	const [rackZ, setRackZ] = useState(0);
 
-	const [rackRotateYN, setRackRotateYN] = useState("N");
+  // 원래 코드
+  // useEffect(() => {
+  //   axios.get('http://localhost:8000/user')
+  //     .then((res) => {
+  //       console.log("createWarehouse에서 받은 정보", res.data);
+  //       const warehouseData = res.data.Company.Warehouses;
+  //       const lastWarehouse = warehouseData[warehouseData.length - 1];
+  //       console.log("가장 최근 창고 정보 :", lastWarehouse);
+
+  //       // const warehouseWidth = parseInt(lastWarehouse.wh_width);
+  //       // const warehouseLength = parseInt(lastWarehouse.wh_length);
+  //       // console.log("창고 가로 길이:", warehouseWidth);
+  //       // console.log("창고 세로 길이:", warehouseLength);
+  //       setWarehouseWidth(parseInt(lastWarehouse.wh_width));
+  //       setWarehouseLength(parseInt(lastWarehouse.wh_length));
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     })
+  // }, []);
+  // 원래 코드
+
+
+  const appInstance = useRef(null);
+
+  const [rackX, setRackX] = useState(0);
+  const [rackZ, setRackZ] = useState(0);
 
 	/** useEffect 처음 렌더링 실행 */
 	useEffect(() => {
@@ -40,14 +64,17 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 		console.log("useEffect 최초 1회 실행")
 		// setWh_seq(newWareData.wh_seq);
 
-		// const warehouseData = newWareData;
-		// const lastWarehouse = warehouseData[warehouseData.length - 1];
-		// console.log("가장 최근 창고 정보 :", lastWarehouse);
 
-		// const warehouseWidth = parseInt(lastWarehouse.wh_width);
-		// const warehouseLength = parseInt(lastWarehouse.wh_length);
-		// console.log("창고 가로 길이:", warehouseWidth);
-		// console.log("창고 세로 길이:", warehouseLength);
+  const [rackRotateYN, setRackRotateYN] = useState("N");
+
+  useEffect(() => {
+    console.log("여기", newWareData);
+    console.log(newWareData.wh_seq);
+    setWh_seq(newWareData.wh_seq);
+
+    // const warehouseData = newWareData;
+    // const lastWarehouse = warehouseData[warehouseData.length - 1];
+    // console.log("가장 최근 창고 정보 :", lastWarehouse);
 
 		// 창고의 크기 설정 (가로, 세로)
 		// setWarehouseWidth(parseInt(newWareData.wh_width));
@@ -173,6 +200,47 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 
 	const [canAddLoading, setCanAddLoading] = useState(false)
 
+	// 모달 창 끄는 부분
+	const modalClose = (e) => {
+		setModalOpen(false);
+		console.log("wh_seq값좀 봅시다", wh_seq);
+		e.preventDefault();
+		console.log(
+			`선반 이름: ${rackName}/ 가로: ${rackWidth}/ 세로: ${rackLength}/ ${rackFloor}층`
+		);
+
+		const rack_info = {
+			rackName: rackName,
+			rackWidth: rackWidth,
+			rackLength: rackLength,
+			rackFloor: rackFloor,
+			rackX: rackX,
+				rackZ: rackZ,
+			rackRotateYN: rackRotateYN,
+			wh_seq: wh_seq,
+		};
+		// 로컬 스토리지에 rackFloor값 저장
+		localStorage.setItem("rackFloor", rackFloor);
+
+		let url = "http://localhost:8000/rack";
+		axios
+			.post(url, rack_info)
+			.then((res) => {
+			console.log(res);
+
+			if (appInstance.current) {
+				appInstance.current.setupMouseEvents(
+					res.data.rack_width,
+					res.data.rack_length,
+					parseInt(localStorage.getItem("rackFloor")) // 로컬 스토리지에서 rackFloor값 불러오기!
+				);
+			}
+			})
+			.catch((error) => {
+			console.log(`axios에러`);
+			// console.error(error);
+		});
+	};
 
 
 	return (
@@ -226,7 +294,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 								<tbody>
 									<tr>
 										<td className="rack_create_container">
-											
+											<form>
 												<div className='rack_name_input_container'>
 													{/* 아이디 */}
 													<input
@@ -246,45 +314,46 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 														value={rackWidth}
 														onChange={(e) => setRackWidth(e.target.value)}
 													/>
-												</div>
+													</div>
 
-												{/* 세로 */}
-												<div className="rack_length_input_container">
+													{/* 세로 */}
+													<div className="rack_length_input_container">
 													<input
 														type="number"
 														placeholder="세로 길이를 입력해주세요."
 														value={rackLength}
 														onChange={(e) => setRackLength(e.target.value)}
 													/>
-												</div>
+													</div>
 
-												{/* 높이 */}
-												<div className="rack_floor_input_container">
+													{/* 높이 */}
+													<div className="rack_floor_input_container">
 													<input
 														type="number"
 														placeholder="층을 입력해주세요."
 														value={rackFloor}
 														onChange={(e) => setRackFloor(e.target.value)}
 													/>
-												</div>
+													</div>
 
-												{/* 생성완료 버튼 */}
-												<div className="rack_create_submit_button">
-													<button type="button" onClick={(e) => createRack(e)} className="create-button">
+													{/* 생성완료 버튼 */}
+													<div className="rack_create_submit_button">
+													<button type="submit" className="create-button">
 														생성하기
 													</button>
 												</div>
+											</form>
 										</td>
 									</tr>
-								</tbody>
-							</table>
-						</div>
+							</tbody>
+						</table>
 					</div>
-					{/* 모달창 끝 */}
 				</div>
+				{/* 모달창 끝 */}
+			</div>
 			)}
 		</div>
 	);
-};
+}; 
 
 export default CreateWarehouse;

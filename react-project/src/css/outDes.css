@@ -1,75 +1,20 @@
-#des_top{
-    padding: 3%;
-}
-
-#des_title{
-    font-size : 20px;
-    padding-bottom: 50px;
-}
-
-    
-#doughnut_tr{
-    width: 100%
-}
-
-#doughnut_td{
-    background-color: rgb(236, 232, 240);
-}
-#des_table_fold {
-display: flex;
-width: 100%;
-justify-content: center;
-}
-
-
-#doughnut1 {
-    width: 50%;
-    height: 100%;
-    margin: 5%;
-    justify-content: center;
-  
-}
-
-#doughnut2 {
-    width: 300px;
-    margin: 5%;
-    justify-content: center;
-}
-
-#doughnut_2{
-    width: 100%;
-    margin: 5%;
-}
-
-#doughnut_2{
-    width: 30%;
-    margin: 5%;
-}
-
-#des_div{
-    width: 40%;
-    margin-top: 10%;
-    margin-bottom: 10%;
+#out_des_container{
     display: flex;
-    justify-content: center;
-}
-#des_table{
-    width: 100%;
-    color: #ffffff;
-   
+    flex-direction: row;
 }
 
-#des_td:hover {
-    background-color: #ceb4ff;
-    color: #ffffff;
-    font-weight: bold;
-    font-family: "Pretendard-Regular";
-    box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
-    transform: translate3d(6px, -6px, 0);
-  
-    transition-delay: 0s;
-    transition-duration: 0.4s;
-    transition-property: all;
-    transition-timing-function: line;
-  
-  }
+#doughnut_1 {
+    margin: 5%;
+}
+
+
+#des_div {
+    display: flex;
+    margin: 10%;
+    align-items: center;
+    justify-content: center;
+}
+
+#des_table{
+    font-size: 15px;
+}

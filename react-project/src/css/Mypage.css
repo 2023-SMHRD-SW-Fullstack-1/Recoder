@@ -1,11 +1,13 @@
-input {
-    padding-left: 3%;
+#mypage-container {
+    flex: 1;
+    padding: 0 36px;
 }
-
-.content1 {
-    padding: 10%;
+#mypage-header {
+    width: 100%;
+    height: 84px;
+    padding: 12px 0;
 }
-
-.Join-container {
-    margin-top: 3%;
+#mypage-header span {
+    font-size: 1.7rem;
+    font-weight: 500;
 }

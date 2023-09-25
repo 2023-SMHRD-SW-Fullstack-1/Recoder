@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import '../css/barCode.css';
 import { useNavigate } from 'react-router';
-
+import axios from 'axios';
 function Barcode({ inputItem, setInputItem }) {
 
-    const nav = useNavigate()
+  const nav = useNavigate()
 
   // input 입력값 관리
 
@@ -39,7 +39,32 @@ function Barcode({ inputItem, setInputItem }) {
   // "등록" 버튼 클릭 시 inputItem을 콘솔에 출력
   const sendBarcode = () => {
     console.log('모든 input 값:', inputItem);
-    nav('/in/create')
+    const barCode = inputItem.map(item => item.title);
+    axios.post('http://localhost:8000/in/barcode', barCode)
+      .then(response => {
+        console.log('바코드찍힌 리스트 가져오기 성공', response.data);
+        nav('/in/create')
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 401) {
+          console.log(error);
+        }
+        // 오류 처리
+      });
+    //   try {
+    //     const response = axios.post('http://localhost:8000/in/barcode', barCode);
+
+    //     if (response) {
+    //         console.log('바코드데이터 전송 성공');
+    //         console.log(response.data);
+    //         nav('/in/loading')
+    //     }
+    // } catch (error) {
+    //     if (error.response && error.response.status === 401) {
+    //         console.log(error);
+    //     }
+    // }
+
   };
 
   return (

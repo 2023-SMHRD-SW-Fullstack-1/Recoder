@@ -1,7 +1,6 @@
 import InTable from "./InTable";
 
 function In_HJ({ inList }) {
-  // Table_HJ 컴포넌트 props 데이터
   const columns = [
     {
       title: "제품ID",

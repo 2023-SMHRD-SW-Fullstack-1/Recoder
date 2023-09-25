@@ -261,6 +261,8 @@ export default class App {
 					this.rectangleMesh.position.y = newPosY;
 				}
 
+				
+
 				// console.log(`pointerX, pointer %c ${Math.round(intersection.point.x)}//${Math.round(intersection.point.z)}`, "background:blue, color:white")
 				// console.log(`pointer y : ${Math.round(intersection.point.y)}`)
 
@@ -320,7 +322,6 @@ export default class App {
 
 		this._divContainer.addEventListener('mousedown', this.mousedownHandler) 
 		this._divContainer.addEventListener('mouseup', this.mouseUpHandler)
-
 	}
 
 	mousedownHandler(e) {
@@ -348,6 +349,13 @@ export default class App {
 					if(index !== -1) {
 						this.meshes.splice(index, 1);
 					}
+					// const index = this.meshes.indexOf({
+						// 	x: this.rectangleMesh.position.x,
+						// 	y: 0.2,
+						// 	z: this.rectangleMesh.position.z
+						// });
+						// console.log('헤헤', this.meshes);
+						// console.log(this.rectangleMesh.position.x,)
 
 					// Mesh를 자원을 해제
 					if(this.raycaster.selectedMesh instanceof THREE.Group) {
@@ -435,7 +443,12 @@ export default class App {
 				console.log("선반의 z 값이 더 커!!")
 				return;
 			}
-			this.meshes.push(rackGroup);
+			
+			// this.meshes.push(rackGroup);
+			// this.meshes.push({
+			// 	rackpos: rackPos,
+			// });
+			this.meshes.push(rackPos);
 			rackGroup.name = "선반인데요"
 			this._scene.add(rackGroup);
 			// console.log(rackGroup.position)
