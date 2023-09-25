@@ -3,11 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import "../css/warehouse.css";
 import axios from "axios";
 import WareCardItem from "./Warehouse/WareCardItem";
+import AddIcon from '@mui/icons-material/Add';
 
 const WareManage = ({ comSeq }) => {
   const nav = useNavigate();
   const [warehouseList, setWarehouseList] = useState([]);
-  const [testlist, setTestlist] = useState([])
+  const [testlist, setTestlist] = useState([]);
 
   useEffect(() => {
     axios
@@ -27,7 +28,10 @@ const WareManage = ({ comSeq }) => {
         <span>창고 관리</span>
       </div>
       <div id="ware-create-button">
-        <button>창고 생성</button>
+        <Link to={'/ware/create'}>
+          <AddIcon />
+          <button>창고 생성</button>
+        </Link>
       </div>
       <div id="ware-item-box">
         {warehouseList.length > 0
@@ -37,9 +41,7 @@ const WareManage = ({ comSeq }) => {
                 wh_name={item.wh_name}
                 wh_seq={item.wh_seq}
                 index={index}
-              >
-                <Link to={`/warehouse/${item.wh_seq}`}></Link>
-              </WareCardItem>
+              ></WareCardItem>
             ))
           : "창고가 없습니다"}
       </div>

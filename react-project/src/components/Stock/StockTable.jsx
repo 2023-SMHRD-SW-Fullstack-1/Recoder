@@ -4,7 +4,12 @@ import { Table } from "antd";
 const StockTable = ({ columns, data }) => {
   return (
     <Table
-      style={{ color: "darkgray" }}
+      style={{ 
+        color: "darkgray",
+        height: 520,
+        overflow: 'auto',
+        overflowX: 'hidden'
+      }}
       columns={columns}
       dataSource={data}
     />

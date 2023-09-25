@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import App from "../../three/show_warehouse";
+import App from "../../three/previewWarehouse";
+import { Link, useNavigate } from "react-router-dom";
 
 const WareCardItem = ({ index, wh_name, wh_seq }) => {
-  console.log(index);
   const [warehouseInfo, setWarehouseInfo] = useState(null);
 
   const [warehouseWidth, setWarehouseWidth] = useState(null);
@@ -34,29 +34,28 @@ const WareCardItem = ({ index, wh_name, wh_seq }) => {
 
   useEffect(() => {
     if (warehouseWidth !== null && warehouseLength !== null) {
-      new App(
-        warehouseWidth,
-        warehouseLength,
-        rackWidth,
-        rackLength,
-        index,
-      )
+      new App(warehouseWidth, warehouseLength, rackWidth, rackLength, index);
     }
   }, [warehouseWidth, warehouseLength]);
 
   return (
-    <div id="ware-cardlist-item">
-      <div id="ware-preview">
-        <div>
-          <div id={`webgl-container-${index}`} style={{ position: "relative" }}></div>
+    <Link to={`/warehouse/${wh_seq}`}>
+      <div id="ware-cardlist-item">
+        <div id="ware-preview">
+          <div>
+            <div
+              id={`webgl-container-${index}`}
+              style={{ position: "relative" }}
+            ></div>
+          </div>
+        </div>
+        <div id="ware-detail">
+          <div>창고 이름 {wh_name}</div>
+          <div>보유 상품</div>
+          <div>적재율</div>
         </div>
       </div>
-      <div id="ware-detail">
-        <div>창고 이름 {wh_name}</div>
-        <div>보유 상품</div>
-        <div>적재율</div>
-      </div>
-    </div>
+    </Link>
   );
 };
 

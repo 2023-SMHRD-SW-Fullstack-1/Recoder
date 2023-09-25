@@ -4,7 +4,8 @@ import WarehouseIcon from '@mui/icons-material/Warehouse';
 import AddAlarmIcon from '@mui/icons-material/AddAlarm';
 import '../../css/stock.css'
 
-const StockDataList = () => {
+const StockDataList = ({ stockList }) => {  
+
   const columns = [
     {
       title: "제품ID",
@@ -40,9 +41,9 @@ const StockDataList = () => {
       title: "이미지",
       dataIndex: "stock_img",
       key: "stock_img",
-      render: () => (
+      render: (text) => (
         <img
-          src='/img/background.jpg'
+          src={`http://localhost:8000/img/${text}`}
           style={{
             width: 60,
             height: 60,
@@ -103,96 +104,17 @@ const StockDataList = () => {
     },
   ];
 
-  // const data = list.map((item, idx) => ({
-  //   key: idx + 1,
-  //   stock_id: item.Stock.stock_seq,
-  //   stock_name: item.Stock.stock_kind,
-  //   stock_kind: item.Stock.cl_seq,
-  //   loading_position: item.loading_position,
-  //   stock_expired: item.Stock.stock_expired,
-  //   stock_bal: item.Stock.stock_balance_cnt,
-  // }));
-
-  const data = [
-    {
-      key: 1,
-      stock_id: "1",
-      stock_name: "Product 1",
-      stock_kind: "품목1",
-      created_at: "2023-09-09",
-      stock_bal: "Company A",
-      stock_img: "123456",
-      loading_position: "2023-09-09",
-      stock_notice_cnt: 100,
-      stock_expired: "2023-09-09",
-      cl_name: "fht",
-    },
-    {
-      key: 2,
-      stock_id: "2",
-      stock_name: "Product 1",
-      stock_kind: "품목1",
-      created_at: "2023-09-09",
-      stock_bal: "Company A",
-      stock_img: "123456",
-      loading_position: "2023-09-09",
-      stock_notice_cnt: 100,
-      stock_expired: "2023-09-09",
-      cl_name: "My name is John Brown",
-    },
-    {
-      key: 3,
-      stock_id: "3",
-      stock_name: "Product 1",
-      stock_kind: "품목1",
-      created_at: "2023-09-09",
-      stock_bal: "Company A",
-      stock_img: "123456",
-      loading_position: "2023-09-09",
-      stock_notice_cnt: 100,
-      stock_expired: "2023-09-09",
-      cl_name: "My name is John Brown",
-    },
-    {
-      key: 4,
-      stock_id: "4",
-      stock_name: "Product 1",
-      stock_kind: "품목1",
-      created_at: "2023-09-09",
-      stock_bal: "Company A",
-      stock_img: "123456",
-      loading_position: "2023-09-09",
-      stock_notice_cnt: 100,
-      stock_expired: "2023-09-09",
-      cl_name: "My name is John Brown",
-    },
-    {
-      key: 5,
-      stock_id: "5",
-      stock_name: "Product 1",
-      stock_kind: "품목1",
-      created_at: "2023-09-09",
-      stock_bal: "Company A",
-      stock_img: "123456",
-      loading_position: "2023-09-09",
-      stock_notice_cnt: 100,
-      stock_expired: "2023-09-09",
-      cl_name: "My name is John Brown",
-    },
-    {
-      key: 6,
-      stock_id: "6",
-      stock_name: "Product 1",
-      stock_kind: "품목1",
-      created_at: "2023-09-09",
-      stock_bal: "Company A",
-      stock_img: "123456",
-      loading_position: "2023-09-09",
-      stock_notice_cnt: 100,
-      stock_expired: "2023-09-09",
-      cl_name: "My name is John Brown",
-    },
-  ];
+  const data = stockList.map((item, idx) => ({
+    key: idx + 1,
+    stock_id: item.Stock.stock_seq,
+    stock_name: item.Stock.stock_name,
+    stock_kind: item.Stock.stock_kind,
+    created_at: item.created_at,
+    stock_expired: item.Stock.stock_expired,
+    stock_bal: item.Stock.stock_balance_cnt,
+    stock_img: item.Stock.stock_img,
+    cl_name: item.Stock.Client?.cl_name,
+  }));  
 
   return <StockTable columns={columns} data={data} />;
 };

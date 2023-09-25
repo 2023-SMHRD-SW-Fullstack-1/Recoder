@@ -39,7 +39,6 @@
   line-height: 24px;
   border: none;
   outline: none;
-  border-radius: 33px;
-  margin-right: 4px;
+  padding-left: 4px;
   background: transparent;
 }

@@ -3,13 +3,10 @@ const cookieParser = require('cookie-parser')
 const morgan = require('morgan')
 const path = require('path')
 const session = require('express-session')
-const nunjucks = require('nunjucks')
 const dotenv = require('dotenv')
 const passport = require('passport')
 const cors = require('cors')
-const multer = require('multer')
-const fs = require('fs')
-// .env 파일 관련
+
 dotenv.config()
 //혜주작성
 const outRouter = require('./routes/out')
@@ -31,11 +28,11 @@ passportConfig()
 app.set('port', process.env.PORT || 8000)
 
 // 템플릿 엔진 설정
-app.set('view engine', 'html')
-nunjucks.configure('views', {
-    express: app,
-    watch: true,
-})
+// app.set('view engine', 'html')
+// nunjucks.configure('views', {
+//     express: app,
+//     watch: true,
+// })
 sequelize.sync({ force: false })
 .then(() => {
     console.log('데이터베이스 연결 성공');
@@ -43,7 +40,7 @@ sequelize.sync({ force: false })
 .catch((err) => {
     console.error(err);
 })
-// 리액트-노드 통신
+
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true

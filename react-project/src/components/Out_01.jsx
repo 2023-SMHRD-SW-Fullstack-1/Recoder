@@ -8,53 +8,55 @@ import '../css/out1.css'
 
 function Out_01() {
   const [outStockList, setOutStockList] = useState([]);
-  const id = 'smart';
+  const id = "smart";
   const wh_seq = 1;
   const com_seq = 1;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOk = () => {
     setIsModalOpen(false);
-// 엑시오스로 출고 데이터 보내기
-console.log('출고데이터',outPlus);
-sendData()
-  }
+    // 엑시오스로 출고 데이터 보내기
+    console.log("출고데이터", outPlus);
+    sendData();
+  };
 
-
-  const sendData = async()=>{
+  const sendData = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/out/create/loading', outPlus);
-    
+      const response = await axios.post(
+        "http://localhost:8000/out/create/loading",
+        outPlus
+      );
+
       if (response.status === 200) {
-        console.log('출고데이터 전송 성공');
+        console.log("출고데이터 전송 성공");
         console.log(response.data);
-        window.location.href = 'http://localhost:3000/out/create';
+        window.location.href = "http://localhost:3000/out/create";
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
         console.log(error);
       }
     }
-    
-    
-      };
-      const handleCancel = () => {
-        setIsModalOpen(false);
-      };
-  
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
-  const [desList, setDesList] = useState([])
+  const [desList, setDesList] = useState([]);
 
   const outData = {
     wh_seq: wh_seq,
-    com_seq: com_seq
-  }
+    com_seq: com_seq,
+  };
   const getOutStock = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/out/create', outData);
+      const response = await axios.post(
+        "http://localhost:8000/out/create",
+        outData
+      );
 
       if (response.status === 200) {
-        console.log('출고예정 리스트 가져오기 성공');
+        console.log("출고예정 리스트 가져오기 성공");
         console.log(response.data);
         setOutStockList(response.data.result1);
         setDesList(response.data.result2);
@@ -64,69 +66,66 @@ sendData()
         alert("데이터 출력 실패");
       }
     }
-  }
-
-
+  };
 
   const handleOutLoading = (record) => {
-    console.log('출고버튼클릭 : ', record);
-    setIsModalOpen(true)
+    console.log("출고버튼클릭 : ", record);
+    setIsModalOpen(true);
     setOutPluse({ ...outPlus, loading_seq: record.loading_seq });
   };
 
-
-  const title = "입고예정"
-  const items = []
+  const title = "입고예정";
+  const items = [];
   //tb 목록
   const columns = [
     {
-      title: '적재ID',
-      dataIndex: 'loading_seq',
-      key: 'loading_seq',
+      title: "적재ID",
+      dataIndex: "loading_seq",
+      key: "loading_seq",
       render: (text, data, idx) => (
-        <span style={{ color: 'darkgray' }}>{text}</span>
+        <span style={{ color: "darkgray" }}>{text}</span>
       ),
     },
     {
-      title: '제품명',
-      dataIndex: 'stock_name',
-      key: 'stock_name',
-      render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
+      title: "제품명",
+      dataIndex: "stock_name",
+      key: "stock_name",
+      render: (text) => <span style={{ color: "darkgray" }}>{text}</span>,
     },
     {
-      title: '수량',
-      dataIndex: 'loading_cnt',
-      key: 'loading_cnt',
-      render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
+      title: "수량",
+      dataIndex: "loading_cnt",
+      key: "loading_cnt",
+      render: (text) => <span style={{ color: "darkgray" }}>{text}</span>,
     },
     {
-      title: '유통기한',
-      dataIndex: 'stock_expired',
-      key: 'stock_expired',
-      render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
+      title: "유통기한",
+      dataIndex: "stock_expired",
+      key: "stock_expired",
+      render: (text) => <span style={{ color: "darkgray" }}>{text}</span>,
     },
     {
-      title: '적재위치',
-      dataIndex: 'rack_seq',
-      key: 'rack_seq',
-      render: (text) => <span style={{ color: 'darkgray' }}>{text}</span>,
+      title: "적재위치",
+      dataIndex: "rack_seq",
+      key: "rack_seq",
+      render: (text) => <span style={{ color: "darkgray" }}>{text}</span>,
     },
     {
-      title: '출고',
-      dataIndex: 'out_btn',
-      key: 'out_btn',
+      title: "출고",
+      dataIndex: "out_btn",
+      key: "out_btn",
       render: (text, record) => (
-
         <button
           style={{
-            color: 'black', backgroundColor: 'white',
+            color: "black",
+            backgroundColor: "white",
             width: 60,
             fontSize: 13,
             height: 32,
             paddingRight: 14,
             paddingLeft: 14,
             borderRadius: 6,
-            borderColor: 'darkgray'
+            borderColor: "darkgray",
           }}
           onClick={() => handleOutLoading(record)} // 여기서 함수를 호출하지 않고 클릭 시 실행되도록 콜백으로 전달합니다.
         >
@@ -136,10 +135,8 @@ sendData()
     },
   ];
 
-
-
-  const data1 = outStockList.map(item => item.Racks);
-  const data2 = data1.map(racks => racks.map(rack => rack.Loadings));
+  const data1 = outStockList.map((item) => item.Racks);
+  const data2 = data1.map((racks) => racks.map((rack) => rack.Loadings));
   const data3 = data2.flat(2); // 이렇게 수정하여 모든 로딩을 하나의 배열로 평탄화합니다.
 
   const data = data3.map((loading, idx) => ({
@@ -149,11 +146,8 @@ sendData()
     loading_cnt: loading.loading_cnt,
     stock_expired: loading.Stock.stock_expired.substring(0, 10),
     rack_seq: `${loading.rack_seq}랙 ${loading.loading_floor}층 ${loading.loading_position}`,
-    out_btn: '출고'
+    out_btn: "출고",
   }));
-
-
-  
 
   const [showInput, setShowInput] = useState(false);
   const handleInputPluse = (e) => {
@@ -166,45 +160,46 @@ sendData()
     }
   };
 
-const [outPlus,setOutPluse] = useState({
-  loading_seq: '',
-  created_at: '',
-  loading_cnt: '',
-  stock_shipping_des: '',
-  loading_manager: id
-})
+  const [outPlus, setOutPluse] = useState({
+    loading_seq: "",
+    created_at: "",
+    loading_cnt: "",
+    stock_shipping_des: "",
+    loading_manager: id,
+  });
   // 배송지 선택 함수
-  const desHandler = (e)=>{
-console.log();
-if (e.target.name === 'out_date') {
-  console.log(e.target.value);
-  setOutPluse({ ...outPlus, created_at: e.target.value });
-} else if (e.target.name === 'out_cnt') {
-  console.log(e.target.value );
-  setOutPluse({ ...outPlus, loading_cnt: e.target.value });
-} else if (e.target.getAttribute('name') === 'loading_seq') {
-  console.log(e.target.innerText);
-  setOutPluse({ ...outPlus, loading_seq: e.target.innerText });
-} else if (e.target.name === 'out_des_choice') {
-  console.log(e.target.value);
-  setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
-} else if (e.target.name === 'out_des_self') {
-  console.log(e.target.value);
-  setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
-}
-};
-
-  
+  const desHandler = (e) => {
+    console.log();
+    if (e.target.name === "out_date") {
+      console.log(e.target.value);
+      setOutPluse({ ...outPlus, created_at: e.target.value });
+    } else if (e.target.name === "out_cnt") {
+      console.log(e.target.value);
+      setOutPluse({ ...outPlus, loading_cnt: e.target.value });
+    } else if (e.target.getAttribute("name") === "loading_seq") {
+      console.log(e.target.innerText);
+      setOutPluse({ ...outPlus, loading_seq: e.target.innerText });
+    } else if (e.target.name === "out_des_choice") {
+      console.log(e.target.value);
+      setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
+    } else if (e.target.name === "out_des_self") {
+      console.log(e.target.value);
+      setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
+    }
+  };
 
   useEffect(() => {
     getOutStock();
   }, []);
 
   return (
-    <div id='out_all'>
-      <div id='in_comtainer'>
-        <div id='in01_top'><TopBoard title={title} items={items} /></div>
-        <div id='in01_bottom'>
+    <div className="out-container">
+      <div className="out-header"></div>
+      <div id="in_comtainer">
+        <div id="in01_top">
+          <TopBoard title={title} items={items} />
+        </div>
+        <div id="in01_bottom">
           <Table_HJ columns={columns} data={data} />
         </div>
       </div>
@@ -215,7 +210,12 @@ if (e.target.name === 'out_date') {
           <span>배송지</span>
           <select id="out_filter" onClick={handleInputPluse}>
             {desList.map((item, idx) => (
-              <option onClick={desHandler} name='out_des_choice' key={idx} value={item.stock_shipping_des}>
+              <option
+                onClick={desHandler}
+                name="out_des_choice"
+                key={idx}
+                value={item.stock_shipping_des}
+              >
                 {item.stock_shipping_des}
               </option>
             ))}
@@ -224,8 +224,7 @@ if (e.target.name === 'out_date') {
           {showInput && (
           <input type='text' id='desInput' placeholder='배송지입력' name='out_des_self' onChange={desHandler}/>
           )}
-
-          </div>
+        </div>
       </Modal>
     </div>
   );

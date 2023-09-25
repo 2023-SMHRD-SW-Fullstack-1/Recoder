@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Button, Dropdown, Space } from "antd";
 
-const App = () => {
-  const [value, setValue] = useState("5개씩 보기");
+const App = ({ value, setValue }) => {
   
   const items = [
     {
@@ -15,7 +14,7 @@ const App = () => {
             margin: 10,
           }}
         >
-          50개씩 보기
+          5개씩 보기
         </p>
       ),
     },
@@ -29,12 +28,26 @@ const App = () => {
             margin: 10,
           }}
         >
-          100개씩 보기
+          50개씩 보기
         </p>
       ),
     },
     {
       key: "3",
+      label: (
+        <p
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            margin: 10,
+          }}
+        >
+          100개씩 보기
+        </p>
+      ),
+    },
+    {
+      key: "4",
       label: (
         <p
           target="_blank"
@@ -50,15 +63,15 @@ const App = () => {
   ];
 
   const handleMenuClick = (key) => {
-    console.log(key);
     if (key === '1') {
-      setValue("50개씩 보기");
+      setValue("5개씩 보기");
     } else if (key === '2') {
+      setValue("50개씩 보기");
+    } else if (key === '3') {
       setValue("100개씩 보기");
     } else {
       setValue("500개씩 보기");
     }
-    console.log(value);
   };
 
   return (
