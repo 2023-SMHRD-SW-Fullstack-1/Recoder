@@ -166,7 +166,7 @@ const inData = {
     stock_price: item.Stock.stock_price,
     cl_seq: item.Stock.cl_seq,
     stock_barcode: item.Stock.stock_barcode,
-    stock_expired: item.Stock.stock_expired,
+    stock_expired: item.Stock.stock_expired.substring(0,10),
     stock_bal: item.Stock.stock_balance_cnt,
     in_btn: "등록",
   }));

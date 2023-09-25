@@ -12,6 +12,8 @@ function Out_02() {
   // 출고리스트 담을 배열
   const [outLoadingList, setOutLoadingList] = useState([]);
 
+
+ 
   const outControllList = async () => {
     const userData = {
       id: id,
