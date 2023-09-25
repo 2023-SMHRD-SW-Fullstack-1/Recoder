@@ -6,7 +6,6 @@ import axios from 'axios';
 
 const Warehouse = () => {
   let { wh_seq } = useParams()
-
   console.log("wh_seq 값", wh_seq);
 
   // const [warehouseInfo, setWarehouseInfo] = useState(null);
