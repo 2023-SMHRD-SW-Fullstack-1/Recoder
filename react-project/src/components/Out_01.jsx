@@ -201,7 +201,7 @@ function Out_01() {
       <div className="out-header"></div>
       <div id="in_comtainer">
         <div id="in01_top">
-          <TopBoard title={title} items={items} />
+          <TopBoard title={'출고 등록'} items={items} />
         </div>
         <div id="in01_bottom">
           <Table_HJ columns={columns} data={data} />
