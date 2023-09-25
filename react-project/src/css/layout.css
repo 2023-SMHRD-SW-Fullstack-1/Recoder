@@ -102,9 +102,15 @@ body {
 .dashboard-item-header > span {
   font-size: 1.2rem;
 }
-
-.dashboard-item-header > div svg:nth-child(1) {
-  margin-right: 10px;
+.dashboard-item-header > div button {
+  border: none;
+  background: transparent;
+}
+.dashboard-item-header > div svg {
+  margin-left: 10px;
+}
+.dashboard-item-header > div a {
+  color: black;
 }
 #dashboard-warelist {
   flex: 1;
