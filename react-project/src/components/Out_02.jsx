@@ -91,7 +91,7 @@ function Out_02() {
   const data2 = data1.map((warehouses) =>
     warehouses.map((warehouse) => warehouse.Racks)
   );
-  const data3 = data2.flat(2); // 로딩을 랙 단위로 그룹화하고 평탄화합니다.
+  const data3 = data2.flat(2); // 로딩을 랙 단위로 그룹화하고 평탄화
 
   const data = data3
     .map((rack, idx) =>

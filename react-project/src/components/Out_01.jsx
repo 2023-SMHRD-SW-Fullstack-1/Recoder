@@ -17,7 +17,7 @@ function Out_01() {
     setIsModalOpen(false);
     // 엑시오스로 출고 데이터 보내기
     console.log("출고데이터", outPlus);
-    sendData();
+    // sendData();
   };
 
   const sendData = async () => {
@@ -179,10 +179,13 @@ function Out_01() {
     } else if (e.target.getAttribute("name") === "loading_seq") {
       console.log(e.target.innerText);
       setOutPluse({ ...outPlus, loading_seq: e.target.innerText });
-    } else if (e.target.name === "out_des_choice") {
-      console.log(e.target.value);
-      setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
     } else if (e.target.name === "out_des_self") {
+      if (!showInput) { // showInput 상태에 따라 값을 가져오도록 처리
+        console.log(e.target.value);
+        setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
+      }
+    }
+    if (e.target.name === "out_des_choice") {
       console.log(e.target.value);
       setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
     }
@@ -211,7 +214,7 @@ function Out_01() {
           <select id="out_filter" onClick={handleInputPluse}>
             {desList.map((item, idx) => (
               <option
-                onClick={desHandler}
+                onChange={desHandler}
                 name="out_des_choice"
                 key={idx}
                 value={item.stock_shipping_des}

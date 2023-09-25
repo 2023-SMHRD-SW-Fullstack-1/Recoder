@@ -4,19 +4,17 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
 import 'chartjs-plugin-datalabels'
 import '../../css/outDes.css'
+import { BoldOutlined } from '@ant-design/icons';
 
 function OutDesAdd({sName,wSeq}) {
 
     Chart.register(ArcElement, Tooltip, Legend);
 
-//    const [sName2,setSname2] = useState([])
-//    const [wSeq2,setWseq2] = useState([])
     
     const [charData,setCharData] = useState([])
 // 항목에 대한 데이터 다시 불러오기
 const stockNameData = async () => {
-//    setSname2(sName)
-//    setWseq2(wSeq)
+
     const stock_name = {
         stock_name : sName,
         wh_seq:wSeq
@@ -28,7 +26,7 @@ const stockNameData = async () => {
   
       if (response.status === 200) {
   
-        console.log("특정제품 데이터", response.data)
+        console.log("특정제품 데이터..", response.data)
         setCharData(response.data)
   
       };
@@ -45,10 +43,19 @@ const stockNameData = async () => {
 
     const labels = charData.map(item => item.Loading.stock_shipping_des);
     const cntData = charData.map(item => item.total_loading_cnt);
-    const total = cntData.reduce((acc, value) => acc + value, 0); // 데이터 배열의 합계 계산
-    const percentData = cntData.map(value => ((value / total) * 100).toFixed(2)); // 각 데이터 항목의 퍼센트 계산
+    const total = cntData.reduce((acc, value) => acc + parseInt(value, 10), 0); // 데이터 배열의 합계 계산
+    const percentData = cntData.map(value => ((parseInt(value, 10) / total) * 100).toFixed(2)); // 각 데이터 항목의 퍼센트 계산
 
-
+  
+  // 총합 계산
+//   const total = Object.values(cntData).reduce((acc, value) => acc + value, 0);
+  
+//   // 백분율 계산
+//   const percentData = Object.entries(cntData).map(([des, cnt]) => ({
+//     stock_shipping_des: des,
+//     percent: ((cnt / total) * 100).toFixed(2)
+//   }));
+  
 
     const data = {
         labels: labels,
@@ -95,9 +102,9 @@ useEffect(()=>{
     return (
         <div id='out_des_container'>
             <div id='doughnut_1'  style={{height:300}}> <Doughnut data={data} options={options} /></div>
-            <div id='des_div'>
+            <div id='des_div'  style={{margin:20, width:200}}>
                 <table id='des_table'>
-                    <thead>
+                    <thead style={{fontSize:17}}>
                     <tr>
                         <td>배송지</td>
                         <td>판매량</td>

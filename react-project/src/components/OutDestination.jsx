@@ -85,9 +85,10 @@ const columns = [
 
 
 
+
 const data1 = desData.map(item => item.Racks);
 const data2 = data1.map(racks => racks.map(rack => rack.Loadings));
-const data3 = data2.flat(2); // Loadings 배열을 평탄화합니다.
+const data3 = data2.flat(2); // Loadings 배열을 평탄화
 
 const data = data3.map((loading, idx) => ({
 
