@@ -4,10 +4,20 @@ import createRack from './createRackModule';
 import { PreventDragClick } from './PreventDragClick';
 
 export default class App {
+	/** 
+	 * @constructor
+	 * @param {int} width - 바닥 width {int}
+	 * @param {int} length - 바닥 Length
+	 * @param {number} rectangleWidth - 빨간판 width
+	 * @param {int} rectangleHeight - 빨간판 Height
+	 * @param {Array} 메쉬배열 - 메쉬배열들을 담을 배열
+	 * @returns {number} width + length  - dfdfdf
+	 */
 	constructor(width, length, rectangleWidth = 1, rectangleHeight = 1, 메쉬배열) {
-
 		// 변수
 		this.meshes = 메쉬배열
+		this.mousedownHandler = this.mousedownHandler.bind(this);
+		this.mouseUpHandler = this.mouseUpHandler.bind(this);
 
 		const divContainer = document.querySelector("#webgl-container");
 		this._divContainer = divContainer;
@@ -19,7 +29,8 @@ export default class App {
 
 		const scene = new THREE.Scene(); // scene 객체
 		this._scene = scene;
-		scene.background = new THREE.Color(0xffffff);
+		scene.background = new THREE.Color(0xbdffc0); // 초록
+		// scene.background = new THREE.Color(0xffffff);
 		// scene.background = new THREE.Color(0x71a379);
 
 		this.width = width;
@@ -270,7 +281,7 @@ export default class App {
 				return;
 			}
 
-		});
+		}); // mousemove 끝
 
 		// 마우스가 mouseout 했을 때
 		this._divContainer.addEventListener("mouseout", () => {
@@ -304,80 +315,95 @@ export default class App {
 			
 		});
 
-		this._divContainer.removeEventListener('click', () => this.addShelf());
 		
-		this._divContainer.addEventListener('mousedown', (e)=>{
-			if(e.button == 0) { // 왼쪽 클릭 했을 때
-				this.preventDragClick.mouseDownFunc(e);
-			} else if (e.button == 2) { // 우클릭 
-				this.raycaster.setFromCamera(this.mouse, this._camera);
-				const intersects = this.raycaster.intersectObjects(this._scene.children, true);
+		this._divContainer.removeEventListener('click', () => this.addShelf());
 
-				if(intersects.length > 0) {
-					const intersection = intersects[0];
-					if(intersection.object.name == "ground" || intersection.object.name == "선") return;
+		this._divContainer.removeEventListener('mousedown', this.mousedownHandler);
+		this._divContainer.removeEventListener('mouseup', this.addShelf);
 
-					//intersects.forEach(item => console.log("mesh이름", item.object.name))
-					if(intersection.object.parent && intersection.object.parent.parent) {
-						
-						this.raycaster.selectedMesh = intersection.object.parent.parent
-						// console.log(this.raycaster.selectedMesh.name); // ex) 선반인데요
-						// scene에서 제거
-						if(this.raycaster.selectedMesh) {
-							this._scene.remove(this.raycaster.selectedMesh)
-						}
-						// this.meshes 배열에서도 해당 객체 제거
-						const index = this.meshes.indexOf(this.raycaster.selectedMesh);
-						// const index = this.meshes.indexOf({
+		this._divContainer.addEventListener('mousedown', this.mousedownHandler) 
+		this._divContainer.addEventListener('mouseup', this.mouseUpHandler)
+	}
+
+	mousedownHandler(e) {
+		if(e.button == 0) { // 왼쪽 클릭 했을 때
+			this.preventDragClick.mouseDownFunc(e);
+		} else if (e.button == 2) { // 우클릭 
+			this.raycaster.setFromCamera(this.mouse, this._camera);
+			const intersects = this.raycaster.intersectObjects(this._scene.children, true);
+
+			if(intersects.length > 0) {
+				const intersection = intersects[0];
+				if(intersection.object.name == "ground" || intersection.object.name == "선") return;
+
+				//intersects.forEach(item => console.log("mesh이름", item.object.name))
+				if(intersection.object.parent && intersection.object.parent.parent) {
+					
+					this.raycaster.selectedMesh = intersection.object.parent.parent
+					// console.log(this.raycaster.selectedMesh.name); // ex) 선반인데요
+					// scene에서 제거
+					if(this.raycaster.selectedMesh) {
+						this._scene.remove(this.raycaster.selectedMesh)
+					}
+					// this.meshes 배열에서도 해당 객체 제거
+					const index = this.meshes.indexOf(this.raycaster.selectedMesh);
+					if(index !== -1) {
+						this.meshes.splice(index, 1);
+					}
+					// const index = this.meshes.indexOf({
 						// 	x: this.rectangleMesh.position.x,
 						// 	y: 0.2,
 						// 	z: this.rectangleMesh.position.z
 						// });
 						// console.log('헤헤', this.meshes);
 						// console.log(this.rectangleMesh.position.x,)
-						if(index !== -1) {
-							this.meshes.splice(index, 1);
-						}
 
-						// Mesh를 자원을 해제
-						if(this.raycaster.selectedMesh instanceof THREE.Group) {
-							// console.log("selectedMesh dispose \n\n", this.raycaster.selectedMesh)
-							// this.raycaster.selectedMesh가 Group일 때
-							this.raycaster.selectedMesh.traverse(child => {
-								if(child instanceof THREE.Mesh) {
-									// 자식이  Mesh인 경우 geometry를 dispose
-									child.geometry.dispose();
-									child.material.dispose();
-								}
-							})
-						}
-
+					// Mesh를 자원을 해제
+					if(this.raycaster.selectedMesh instanceof THREE.Group) {
+						// console.log("selectedMesh dispose \n\n", this.raycaster.selectedMesh)
+						// this.raycaster.selectedMesh가 Group일 때
+						this.raycaster.selectedMesh.traverse(child => {
+							if(child instanceof THREE.Mesh) {
+								// 자식이  Mesh인 경우 geometry를 dispose
+								child.geometry.dispose();
+								child.material.dispose();
+							}
+						})
 					}
-					
 				}
+				
 			}
-		})
+		}
+	}
 
+	mouseUpHandler(e) {
+		if (e.button == 0) { // 왼쪽 클릭 뗌
+			let 클릭됨 = this.preventDragClick.mouseUpFunc(e);
+			// console.log("마우스 드래그 했어? :", 클릭됨 ? "응" : "아니")
+			if (!클릭됨) {
+				this.raycaster.setFromCamera(this.mouse, this._camera);
+				const intersects = this.raycaster.intersectObject(this._warehouse);
 
-		this._divContainer.addEventListener('mouseup', (e)=>{
-			if (e.button == 0) { // 왼쪽 클릭 뗌
-				let 클릭됨 = this.preventDragClick.mouseUpFunc(e);
-				// console.log("마우스 드래그 했어? :", 클릭됨 ? "응" : "아니")
-				if (!클릭됨) {
-					this.raycaster.setFromCamera(this.mouse, this._camera);
-					const intersects = this.raycaster.intersectObject(this._warehouse);
-
-					// raycaster가 창고 밖에면 
-					if (intersects.length <= 0) {
-						return
-					}
-					this.addShelf()
+				// raycaster가 창고 밖에면 
+				if (intersects.length <= 0) {
+					return
 				}
-			} // if문 끝
-
-			else if (e.button == 2) { // 우클릭
+				this.addShelf()
 			}
-		})
+		} // if문 끝
+
+		else if (e.button == 2) { // 우클릭
+		}
+	}
+
+	// 모든 메쉬 삭제
+	deleteAllMesh() {
+		if(this._scene != null) {
+			console.log('this._scene을 null로 변경합니다.')
+			this._scene = null;
+		} else {
+			console.log("this._scene은 null 입니다.")
+		}
 	}
 
 	addShelf() {
@@ -423,9 +449,10 @@ export default class App {
 			// this.meshes.push({
 			// 	rackpos: rackPos,
 			// });
-			this.meshes.push(rackPos);
+			this.meshes.push(rackGroup);
 			rackGroup.name = "선반인데요"
 			this._scene.add(rackGroup);
+			// console.log(rackGroup.position)
 			// console.log("addShelf", this.meshes)
 		} else {
 			console.log("this.rectangleMesh 없음")

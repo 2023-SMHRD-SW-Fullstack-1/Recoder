@@ -29,7 +29,7 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 	const pilar4 = new THREE.Mesh(pilar, material);
 
 	// 수정 필요
-	boardMesh.position.set(rackPos.x, 0.2, rackPos.z);
+	// boardMesh.position.set(rackPos.x, 0.2, rackPos.z);
 
 	const boardBox = new THREE.Box3().setFromObject(boardMesh);
 	const pilarBox = new THREE.Box3().setFromObject(pilar1);
@@ -59,6 +59,7 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 
 	// 수정 필요
 	superGroup.name = "선반"
+	superGroup.position.set(rackPos.x, 0.2, rackPos.z)
 
 	return superGroup;
 }

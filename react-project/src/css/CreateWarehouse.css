@@ -5,15 +5,31 @@
     font-style: normal;
 }
 
+#webgl-container {
+    /* flex: 1; */
+    /* position: relative; */
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    background-color: green;
+}
 
 .btn-wrapper {
     display: flex;
     justify-content: center;
-    margin-top: 5rem;
+    /* margin-top: 5rem; */
 
+    position: absolute;
+    right: 10px;
+    top: 30px;
+    
+    
     & button {
         z-index: 1;
+        position: relative;
     }
+
 }
 
 .modal-open-btn {
@@ -95,12 +111,7 @@
 }
 
 
-#webgl-container {
-    flex: 1;
-    position: relative;
-    top: 0;
-    left: 0;
-}
+
 
 
 /* .rack_create_container input {
