@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import "../css/in01.css";
 import TopBoard from "./Out/TopBoard";
 
-function In_HJ({ inputItem, setInputItem }) {
+function In_HJ() {
   const nav = useNavigate();
 
   // 로그인 데이터 정보
@@ -17,12 +17,14 @@ function In_HJ({ inputItem, setInputItem }) {
 
   // 저장한 바코드 리스트 서버로 보내기
   const getBcList = () => {
-    console.log("페이지전환", inputItem);
-    const barCode = inputItem.map((item) => item.title);
+    console.log("페이지전환");
+    // const barCode = inputItem.map((item) => item.title);
     // const barCode = ["001", "002", "003"];
-
+const inData = {
+  com_seq:com_seq
+}
     axios
-      .post("http://localhost:8000/in/create", barCode)
+      .post("http://localhost:8000/in/create", inData)
       .then((response) => {
         console.log("바코드찍힌 리스트 가져오기 성공", response.data);
         setBcData(response.data);
@@ -42,23 +44,40 @@ function In_HJ({ inputItem, setInputItem }) {
       com_seq: com_seq,
       stock_seq: record.stock_seq,
     };
-    try {
-      const response = axios.post(
-        "http://localhost:8000/in/send/loading",
-        pickBc
-      );
-
-      if (response.status === 200) {
-        console.log("바코드데이터 전송 성공");
-        console.log(response.data);
-        nav("/in/create");
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        console.log(error);
-      }
+    axios.post('http://localhost:8000/in/send/loading', pickBc)
+      .then((res) => {
+        console.log(res.data[0]);
+        if (res.data[0]>0) {
+          console.log('새로고침');
+          window.location.href = 'http://localhost:3000/in/create' 
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
     }
-  };
+  //   try {
+      
+  //     const response = axios.post(
+  //       "http://localhost:8000/in/send/loading",
+  //       pickBc
+  //     );
+
+  //     if (response.status === 200) {
+  //       console.log("바코드데이터 전송 성공");
+  //       console.log(response.data);
+  //       // nav("/in/create");
+  //       window.location.href = 'http://localhost:3000/in/create' 
+  //       // getBcList();
+  //       // window.location.reload();
+       
+  //     }
+  //   } catch (error) {
+  //     if (error.response && error.response.status === 401) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
   const title = "입고예정";
   const items = [];
@@ -139,100 +158,100 @@ function In_HJ({ inputItem, setInputItem }) {
     },
   ];
 
-  // const data = bcData.map((item, idx) => ({
-  //   key: idx + 1,
-  //   stock_seq: item.stock_seq,
-  //   stock_name: item.stock_name,
-  //   stock_kind: item.stock_kind,
-  //   stock_price: item.stock_price,
-  //   cl_seq: item.cl_seq,
-  //   stock_barcode: item.stock_barcode,
-  //   stock_expired: item.stock_expired,
-  //   stock_bal: item.stock_balance_cnt,
-  //   in_btn: "등록",
-  // }));
+  const data = bcData.map((item, idx) => ({
+    key: idx + 1,
+    stock_seq: item.stock_seq,
+    stock_name: item.Stock.stock_name,
+    stock_kind: item.Stock.stock_kind,
+    stock_price: item.Stock.stock_price,
+    cl_seq: item.Stock.cl_seq,
+    stock_barcode: item.Stock.stock_barcode,
+    stock_expired: item.Stock.stock_expired,
+    stock_bal: item.Stock.stock_balance_cnt,
+    in_btn: "등록",
+  }));
 
-  const data = [
+  // const data = [
 
-      {
-          key: 1,
-          stock_id: '1',
-          stock_name: 'Product 1',
-          stock_kind: 'Type 1',
-          stock_price: 10.99,
-          cl_seq: 'Company A',
-          stock_barcode: '123456',
-          stock_expired: '2023-09-09',
-          stock_bal: 100,
-          in_btn: '등록',
-          description: 'My name is John Brown'
-      },
-      {
-          key: 2,
-          stock_id: '2',
-          stock_name: 'Product 1',
-          stock_kind: 'Type 1',
-          stock_price: 10.99,
-          cl_seq: 'Company A',
-          stock_barcode: '123456',
-          stock_expired: '2023-09-09',
-          stock_bal: 100,
-          in_btn: '등록',
-          description: 'My name is John Brown'
-      },
-      {
-          key: 3,
-          stock_id: '3',
-          stock_name: 'Product 1',
-          stock_kind: 'Type 1',
-          stock_price: 10.99,
-          cl_seq: 'Company A',
-          stock_barcode: '123456',
-          stock_expired: '2023-09-09',
-          stock_bal: 100,
-          in_btn: '등록',
-          description: 'My name is John Brown'
-      },
-      {
-          key: 4,
-          stock_id: '4',
-          stock_name: 'Product 1',
-          stock_kind: 'Type 1',
-          stock_price: 10.99,
-          cl_seq: 'Company A',
-          stock_barcode: '123456',
-          stock_expired: '2023-09-09',
-          stock_bal: 100,
-          in_btn: '등록',
-          description: 'My name is John Brown'
-      },
-      {
-          key: 5,
-          stock_id: '5',
-          stock_name: 'Product 1',
-          stock_kind: 'Type 1',
-          stock_price: 10.99,
-          cl_seq: 'Company A',
-          stock_barcode: '123456',
-          stock_expired: '2023-09-09',
-          stock_bal: 100,
-          in_btn: '등록',
-          description: 'My name is John Brown'
-      },
-      {
-          key: 6,
-          stock_id: '6',
-          stock_name: 'Product 1',
-          stock_kind: 'Type 1',
-          stock_price: 10.99,
-          cl_seq: 'Company A',
-          stock_barcode: '123456',
-          stock_expired: '2023-09-09',
-          stock_bal: 100,
-          in_btn: '등록',
-          description: 'My name is John Brown'
-      },
-  ];
+  //     {
+  //         key: 1,
+  //         stock_id: '1',
+  //         stock_name: 'Product 1',
+  //         stock_kind: 'Type 1',
+  //         stock_price: 10.99,
+  //         cl_seq: 'Company A',
+  //         stock_barcode: '123456',
+  //         stock_expired: '2023-09-09',
+  //         stock_bal: 100,
+  //         in_btn: '등록',
+  //         description: 'My name is John Brown'
+  //     },
+  //     {
+  //         key: 2,
+  //         stock_id: '2',
+  //         stock_name: 'Product 1',
+  //         stock_kind: 'Type 1',
+  //         stock_price: 10.99,
+  //         cl_seq: 'Company A',
+  //         stock_barcode: '123456',
+  //         stock_expired: '2023-09-09',
+  //         stock_bal: 100,
+  //         in_btn: '등록',
+  //         description: 'My name is John Brown'
+  //     },
+  //     {
+  //         key: 3,
+  //         stock_id: '3',
+  //         stock_name: 'Product 1',
+  //         stock_kind: 'Type 1',
+  //         stock_price: 10.99,
+  //         cl_seq: 'Company A',
+  //         stock_barcode: '123456',
+  //         stock_expired: '2023-09-09',
+  //         stock_bal: 100,
+  //         in_btn: '등록',
+  //         description: 'My name is John Brown'
+  //     },
+  //     {
+  //         key: 4,
+  //         stock_id: '4',
+  //         stock_name: 'Product 1',
+  //         stock_kind: 'Type 1',
+  //         stock_price: 10.99,
+  //         cl_seq: 'Company A',
+  //         stock_barcode: '123456',
+  //         stock_expired: '2023-09-09',
+  //         stock_bal: 100,
+  //         in_btn: '등록',
+  //         description: 'My name is John Brown'
+  //     },
+  //     {
+  //         key: 5,
+  //         stock_id: '5',
+  //         stock_name: 'Product 1',
+  //         stock_kind: 'Type 1',
+  //         stock_price: 10.99,
+  //         cl_seq: 'Company A',
+  //         stock_barcode: '123456',
+  //         stock_expired: '2023-09-09',
+  //         stock_bal: 100,
+  //         in_btn: '등록',
+  //         description: 'My name is John Brown'
+  //     },
+  //     {
+  //         key: 6,
+  //         stock_id: '6',
+  //         stock_name: 'Product 1',
+  //         stock_kind: 'Type 1',
+  //         stock_price: 10.99,
+  //         cl_seq: 'Company A',
+  //         stock_barcode: '123456',
+  //         stock_expired: '2023-09-09',
+  //         stock_bal: 100,
+  //         in_btn: '등록',
+  //         description: 'My name is John Brown'
+  //     },
+  // ];
 
   // useEffect(() => {
   //     const data = dataSet();

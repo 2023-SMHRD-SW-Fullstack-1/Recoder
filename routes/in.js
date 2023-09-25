@@ -7,7 +7,7 @@ const { updateStockAfterUploadImg } = require('../controllers/img')
 
 const router = express.Router()
 const { Loading, Stock, Client } = require('../models'); // 모델들을 import
-const { Op, fn, col, NOW, Model } = require('sequelize');
+const { Op, fn, col, NOW, Model, where } = require('sequelize');
 
 // 이미지 업로드 관련
 // -----------------------------
@@ -74,33 +74,8 @@ router.get('/:com_seq/:loading_type', async (req, res, next) => {
 // 바코드...
 router.post('/barcode', async (req, res) => {
     console.log('바코드', req.body);
-    const barCodes = req.body; // 입력 데이터의 바코드 배열
-
-    try {
-        const result = await Stock.update(
-
-            { update_at: fn('NOW') }, // 업데이트할 필드와 값을 설정합니다.
-            {
-                where: {
-                    stock_barcode: {
-                        [Op.in]: barCodes // $in 연산자 사용      
-                    }
-                }
-            }
-        );
-        console.log('업데이트바코드 조회', result);
-        res.json(result);
-    } catch (error) {
-        console.error(error);
-    }
-
-});
-
-
-
-router.post('/create', async (req, res) => {
-    console.log('입고바코드', req.body);
-    const barCodes = req.body; // 입력 데이터의 바코드 배열
+    let barCodes = req.body.barcode;
+    let com_seq = req.body.com_seq // 입력 데이터의 바코드 배열
 
     try {
         const result = await Stock.findAll({
@@ -108,10 +83,42 @@ router.post('/create', async (req, res) => {
                 stock_barcode: {
                     [Op.in]: barCodes // $in 연산자 사용      
                 },
-                update_at: {
-                                            [Op.ne]: null
-                                        }
+                update_at: null
+                
             }
+        });
+        console.log('stock바코드 조회', result);
+
+        // Loading 데이터를 bulk로 생성
+        const loadingData = await result.map((stock) => ({
+            stock_seq: stock.stock_seq,
+            com_seq: com_seq,
+            loading_type: null
+        }));
+
+        const loadingResult = await Loading.bulkCreate(loadingData);
+
+        res.json({ stockData: result, loadingData: loadingResult });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+
+router.post('/create', async (req, res) => {
+    console.log('입고바코드 가져오기', req.body);
+    const {com_seq} = req.body; // 입력 데이터의 바코드 배열
+
+    try {
+        const result = await Loading.findAll({
+            where: {
+               loading_type : null,
+               com_seq : com_seq
+            },   include: [{
+                model: Stock
+            }]
         });
         console.log('stock바코드 조회', result);
         res.json(result);
@@ -120,89 +127,23 @@ router.post('/create', async (req, res) => {
     }
 });
 
-// router.post('/create', async (req, res) => {
-//     console.log('바코드', req.body);
-//     const barCodes = req.body.barCode; // 입력 데이터의 바코드 배열
-
-//     try {
-//         const result = await Stock.findAll(
-//             { update_at: fn('NOW') }, // 업데이트할 필드와 값을 설정합니다.
-//             {
-//                 where: {
-//                     stock_barcode: {
-//                         [Op.in]: barCodes // $in 연산자 사용      
-//                     },
-//                     update_at: {
-//                         [Op.ne]: null
-//                     }
-//                 }
-//             }
-//         );
-//         console.log('업데이트바코드 조회', result);
-//         res.json(result);
-//     } catch (error) {
-//         console.error(error);
-//     }
-// });
-
-// (in_01)입고 예정 페이지 => 입고될 리스트 조회 : 바코드 찍힌 모든 제품 가져오기
-// router.post('/create', async (req, res) => {
-//     console.log('바코드', req.body);
-//     const barCodes = req.body.barCode; // 입력 데이터의 바코드 배열
-
-//     try {
-//         const result = await Stock.findAll(
-//             { update_at: fn('NOW') }, // 업데이트할 필드와 값을 설정합니다.
-//             {
-//                 where: {
-//                     stock_barcode: {
-//                         [Op.in]: barCodes // $in 연산자 사용      
-//                     },
-//                     update_at: {
-//                         [Op.ne]: null
-//                     }
-//                 }
-//             }
-//         );
-//         console.log('업데이트바코드 조회', result);
-//         res.json(result);
-//     } catch (error) {
-//         console.error(error);
-//     }
-// });
 
 // (in_01)입고 에정 페이지 : 등록버튼 누르고 입고 페이지로 넘기기  => 이후 입고 페이지에서 추가정보 등록 후 입고처리
 router.post('/send/loading', async (req, res, next) => {
     let { stock_barcode, com_seq, stock_seq } = req.body;
     console.log('update_at 넣을 바코드', req.body);
-    // try {
-    //     const result = await Stock.update(
-    //         { update_at: fn('NOW') },
-    //         {
-    //             where: {
-    //                 stock_barcode: stock_barcode
-    //             }
-    //         }
-    //     );
-    //     console.log('loading에 업데이트', req.body);
-    //     const result2 = await Loading.create({
-    //         stock_seq: stock_seq,
-    //         com_seq: com_seq,
-    //         loading_type: 'B'
-    //     });
-    //     console.log('로딩에 업데이트', result2);
-    //     res.json(result2);
-    // } catch (error) {
-    //     console.error(error);
-    //     next(error); // 에러가 발생하면 에러 핸들러 미들웨어로 전달합니다.
-    // }
+    
 
     try { // 등록클릭 > 로딩타입 B로 row 생성
-        const result2 = await Loading.create({
-            stock_seq: stock_seq,
-            com_seq: com_seq,
-            loading_type: 'B'
-        });
+        const result2 = await Loading.update(
+            { loading_type: 'B' }, // 업데이트할 데이터
+            { 
+                where: { 
+                    stock_seq: stock_seq,
+                    com_seq: com_seq
+                } // 업데이트할 조건
+            }
+        );
         res.json(result2);
     } catch (error) {
         console.log(error);
