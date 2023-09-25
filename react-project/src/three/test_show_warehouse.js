@@ -1,17 +1,19 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import createRack from './createRackModule';
+import createItem from './createItem'
 import { PreventDragClick } from './PreventDragClick';
 
 export default class App {
-    constructor(warehouseWidth, warehouseLength, racks) {
+    constructor(warehouseWidth, warehouseLength, racks, items) {
 
         // 변수
         this.meshes = []
-
-
-        const divContainer = document.querySelector("#webgl-container");
+        
+        
+        const divContainer = document.querySelector("#waredetail-container");
         this._divContainer = divContainer;
+        console.log(divContainer.clientWidth)
 
         const renderer = new THREE.WebGLRenderer({ antialias: true }); // 계단 현상 없이 부드럽게
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -27,8 +29,8 @@ export default class App {
         this.width = warehouseWidth;
         this.length = warehouseLength;
         this.racks = racks
+        this.items = items
         
-
 
         this._setupCamera();
         this._setupLight();
@@ -36,6 +38,7 @@ export default class App {
         this._setupControls();
         // this.setupMouseEvents();
         // _로 시작하는 이유 app 클래스 내부에서만 호출
+        this._setupEvents();
 
         // console.log("rackX",this.rackX);
 
@@ -49,6 +52,75 @@ export default class App {
         this.raycaster.selectedMesh = null;
 
         requestAnimationFrame(this.render.bind(this));
+    }
+
+    _setupEvents() {
+        this._raycaster = new THREE.Raycaster();
+        this._raycaster._clickedPosition = new THREE.Vector2();
+        this._raycaster._selectedMesh = null;
+
+        window.addEventListener("click", (event) => {
+            this._raycaster._clickedPosition.x = (event.clientX / window.innerWidth) * 2 - 1;
+            this._raycaster._clickedPosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            
+            this._raycaster.setFromCamera(this._raycaster._clickedPosition, this._camera);
+            const found = this._raycaster.intersectObjects([this._scene]);
+
+            if(found.length > 0) {
+                // console.log(found)
+                found.forEach((item)=>{
+                    if(item.object.name == "짐") {
+                        console.log("짐")
+
+                    }
+                })
+                // const clickedObj = found[0].object;
+                // console.log('오브젝트 클릭', clickedObj);
+                // if(clickedObj.parent.name !== "Board") { // 보드가 아닌 말을 클릭했을 경우
+                //     const oldSelectedMesh = this._raycaster._selectedMesh;
+
+                //     this._raycaster._selectedMesh = clickedObj;
+
+                    // if(oldSelectedMesh !== this._raycaster._selectedMesh) {
+                    //     gsap.to(this._raycaster._selectedMesh.position, { y: 4, duration: 1 });
+                    //     gsap.to(this._raycaster._selectedMesh.rotation, { y: Math.PI*2, duration: 1 });
+                    // } else {
+                    //     this._raycaster._selectedMesh = null;
+                    // }                    
+
+                    // if(oldSelectedMesh) {
+                    //     gsap.to(oldSelectedMesh.position, { y: 0.3, duration: 1 });
+                    //     gsap.to(oldSelectedMesh.rotation, { y: -Math.PI*2, duration: 1 });
+                    // }
+                // } else { // 보드를 클릭했을 경우
+                //     if(this._raycaster._selectedMesh) {
+                //         const timelineT = gsap.timeline();
+
+                //         timelineT.to(this._raycaster._selectedMesh.position, { 
+                //             x: found[0].point.x, 
+                //             z: found[0].point.z,
+                //             duration: 1,
+                //         });
+
+                //         timelineT.to(this._raycaster._selectedMesh.position, { 
+                //             y: 0.3, 
+                //             duration: 1,
+                //         });
+
+                //         const timelineR = gsap.timeline();
+
+                //         timelineR.to(this._raycaster._selectedMesh.rotation, { 
+                //             y: -Math.PI*2, 
+                //             duration: 2,
+                //         });
+
+                //         this._raycaster._selectedMesh = null;
+                //     }
+                // }
+            } else {
+                this._selectedMesh = null;
+            }
+        });
     }
 
     _setupControls() {
@@ -87,6 +159,10 @@ export default class App {
         for( const rack of this.racks){
             this.addShelf(rack);
         }
+        // for( const item of this.items){
+        //     this.addItem(item);
+        // }
+        this.addItem(this.items)
     }
 
     _createBoard() {
@@ -171,7 +247,7 @@ export default class App {
             // z: this.rackZ.position.z
             z: rack.rackZ
         }
-        console.log("현재 선반의 층수는?", this.rackFloor)
+        console.log("현재 선반의 층수는?", rack.rackFloor)
 
         // Rack 생성부분 - createRack 호출
         let rackGroup = createRack(rack.rackWidth, rack.rackLength, rack.rackFloor, rackPos)
@@ -210,6 +286,53 @@ export default class App {
         // console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
     }
 
+    addItem(item) {
+
+        let itemPos = {
+            // x: this.rackX.position.x,
+            x: item.itemX,
+            y: 0.2,
+            // z: this.rackZ.position.z
+            z: item.itemZ
+        }
+
+        // Rack 생성부분 - createRack 호출
+        let itemGroup = createItem(item.itemWidth, item.itemLength, 3, itemPos)
+        let mesh = new THREE.Box3().setFromObject(itemGroup)
+
+        let aa = {
+            minX: Math.round(mesh.min.x * 10) / 10,
+            maxX: Math.round(mesh.max.x * 10) / 10,
+            minZ: Math.round(mesh.min.z * 10) / 10,
+            maxZ: Math.round(mesh.max.z * 10) / 10
+        }
+        // console.log("바닥", this.groundBoundPos);
+        // console.log("선반", aa);
+
+        if (aa.minX < this.groundBoundPos.minX) {
+            console.log(`선반의 x 값이 더 작아! 선반 : ${aa.minX}, 바닥 : ${this.groundBoundPos.minX}`)
+            return;
+        }
+        if (aa.maxX > this.groundBoundPos.maxX) {
+            console.log("선반의 x 값이 더 커!")
+            return;
+        }
+        if (aa.minZ < this.groundBoundPos.minZ) {
+            console.log("선반의 z 값이 더 작아!")
+            return;
+        }
+        if (aa.maxZ > this.groundBoundPos.maxZ) {
+            console.log("선반의 z 값이 더 커!!")
+            return;
+        }
+        // this.meshes.push(rackGroup);
+        // rackGroup.name = "선반인데요"
+        this._scene.add(itemGroup);
+        console.log(this._scene)
+        // console.log("addShelf", this.meshes)
+
+        // console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
+    }
 
     // 창의 크기가 변경될때 발생하는 이벤트
     resize() {

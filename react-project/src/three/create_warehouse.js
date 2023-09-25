@@ -424,6 +424,7 @@ export default class App {
 			// 	rackpos: rackPos,
 			// });
 			this.meshes.push(rackPos);
+			console.log('123', this.meshes);
 			rackGroup.name = "선반인데요"
 			this._scene.add(rackGroup);
 			// console.log("addShelf", this.meshes)

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 // import App from '../three/show_warehouse'
 import App from '../three/test_show_warehouse'
 import axios from 'axios';
+import '../css/wareDetail.css'
 
 const Warehouse = () => {
   let { wh_seq } = useParams()
@@ -43,7 +44,13 @@ const Warehouse = () => {
       setWarehouseData({
         warehouseWidth: parseInt(warehouseRes.data.wh_width),
         warehouseLength: parseInt(warehouseRes.data.wh_length),
-        racks
+        racks,
+        items: {
+          itemWidth: 0.8,
+          itemLength: 0.8,
+          itemX: -1,
+          itemZ: 5
+        },
       });
     })
     .catch((error) => {
@@ -59,13 +66,14 @@ const Warehouse = () => {
       appInstance.current = new App(
         warehouseData.warehouseWidth,
         warehouseData.warehouseLength,
-        warehouseData.racks
+        warehouseData.racks,
+        warehouseData.items
       );
     }
   }, [warehouseData]);
 
   return (
-    <div id="webgl-container"></div>
+    <div id="waredetail-container"></div>
   );
 }
 
