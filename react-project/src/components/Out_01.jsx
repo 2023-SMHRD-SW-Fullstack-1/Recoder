@@ -17,7 +17,7 @@ function Out_01() {
     setIsModalOpen(false);
     // 엑시오스로 출고 데이터 보내기
     console.log("출고데이터", outPlus);
-    // sendData();
+    sendData();
   };
 
   const sendData = async () => {
