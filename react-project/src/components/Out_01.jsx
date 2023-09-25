@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import TopBoard from './Out/TopBoard';
 import { Button, Modal } from 'antd';
+import '../css/out1.css'
 
 function Out_01() {
   const [outStockList, setOutStockList] = useState([]);
@@ -207,20 +208,21 @@ if (e.target.name === 'out_date') {
           <Table_HJ columns={columns} data={data} />
         </div>
       </div>
-      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="출고 등록" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <div id='out_modal'>
-          <span>출고일</span><input onChange={desHandler} name='out_date' type='date'></input><br />
-          <span>출고수량</span><input onChange={desHandler} name='out_cnt' type='text'></input><br />
+          <span>출고일</span><input id='dateInput' onChange={desHandler} name='out_date' type='date'></input><br />
+          <span>출고수량</span><input id='cntInput' onChange={desHandler} name='out_cnt' type='text'></input><br />
+          <span>배송지</span>
           <select id="out_filter" onClick={handleInputPluse}>
             {desList.map((item, idx) => (
               <option onClick={desHandler} name='out_des_choice' key={idx} value={item.stock_shipping_des}>
                 {item.stock_shipping_des}
               </option>
             ))}
-            <option onClick={desHandler} name = 'out_des_self'>직접입력</option>
+            <option onClick={desHandler}  name = 'out_des_self'>직접입력</option>
           </select>
           {showInput && (
-          <input type='text' placeholder='배송지입력' name='out_des_self' onChange={desHandler}/>
+          <input type='text' id='desInput' placeholder='배송지입력' name='out_des_self' onChange={desHandler}/>
           )}
 
           </div>
