@@ -5,7 +5,7 @@
   font-style: normal;
 }
 
-*{
+.join_main *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -81,11 +81,6 @@
   transition: .5s;
 }
 
-input:focus ~ label,
-input:valid ~ label{
-top: -5px;
-}
-
 .input_box input{  
   width: 100%;
   height: 50px;
@@ -97,10 +92,12 @@ top: -5px;
   color: #fff;
 }
 
-input:focus ~ label,
-input:valid ~ label{
-top: -5px;
-}
+.join_main {
+  & input:focus ~ label,
+  & input:valid ~ label{
+    top: -5px;
+  }
+} 
 
 .id-check{
   color: #fff;
