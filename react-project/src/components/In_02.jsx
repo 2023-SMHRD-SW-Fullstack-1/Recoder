@@ -46,21 +46,21 @@ function In_02() {
 
   const delHandler = (record) => {
     console.log('취소클릭', record);
-    const stock_seq = record.stock_seq
-    try {
-      const response = axios.post('http://localhost:8000/in/del/loaing', stock_seq);
+    const stock_seq = {stock_seq : record.stock_seq}
 
-      if (response.status === 200) {
-        console.log('바코드데이터 전송 성공');
-        console.log(response.data);
-        nav('/in/loading')
+    axios.post('http://localhost:8000/in/del/loaing', stock_seq)
+    .then((res) => {
+      console.log(res.data[0]);
+      if (res.data[0]>0) {
+        console.log('새로고침');
+        window.location.href = 'http://localhost:3000/in/loading' 
       }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        console.log(error);
-      }
-    }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
   }
+ 
 
   const [handleData, setHandleData] = useState([])
 

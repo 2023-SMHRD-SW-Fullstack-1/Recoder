@@ -107,7 +107,7 @@ function Out_02() {
         description: loading.Stock.stock_name
       }))
     )
-    .flat(1); // 로딩을 평탄화합니다.
+    .flat(1); 
 
   useEffect(() => {
     outControllList();
