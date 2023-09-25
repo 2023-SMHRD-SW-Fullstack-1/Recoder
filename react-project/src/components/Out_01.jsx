@@ -151,8 +151,8 @@ function Out_01() {
 
   const [showInput, setShowInput] = useState(false);
   const handleInputPluse = (e) => {
-    console.log("배송지 선택 클릭");
-    console.log(e.target.value);
+    // console.log("배송지 선택 클릭");
+    // console.log(e.target.value);
     if (e.target.value === "직접입력") {
       setShowInput(true);
     } else {
@@ -179,18 +179,19 @@ function Out_01() {
     } else if (e.target.getAttribute("name") === "loading_seq") {
       console.log(e.target.innerText);
       setOutPluse({ ...outPlus, loading_seq: e.target.innerText });
+    } else if (e.target.name === "out_des_choice") {
+      console.log('고르기',e.target.value);
+      setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
     } else if (e.target.name === "out_des_self") {
-      if (!showInput) { // showInput 상태에 따라 값을 가져오도록 처리
-        console.log(e.target.value);
-        setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
-      }
-    }
-    if (e.target.name === "out_des_choice") {
-      console.log(e.target.value);
+      console.log('직접입력',e.target.value);
       setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
     }
   };
 
+  const desHandler2 = (e)=>{
+    console.log('고르기',e.target.value);
+    setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
+  }
   useEffect(() => {
     getOutStock();
   }, []);
@@ -211,10 +212,10 @@ function Out_01() {
           <span>출고일</span><input id='dateInput' onChange={desHandler} name='out_date' type='date'></input><br />
           <span>출고수량</span><input id='cntInput' onChange={desHandler} name='out_cnt' type='text'></input><br />
           <span>배송지</span>
-          <select id="out_filter" onClick={handleInputPluse}>
+          <select id="out_filter"  onChange={handleInputPluse} onClick={desHandler2}>
             {desList.map((item, idx) => (
               <option
-                onChange={desHandler}
+             
                 name="out_des_choice"
                 key={idx}
                 value={item.stock_shipping_des}
@@ -222,10 +223,10 @@ function Out_01() {
                 {item.stock_shipping_des}
               </option>
             ))}
-            <option onClick={desHandler}  name = 'out_des_self'>직접입력</option>
+            <option  >직접입력</option>
           </select>
           {showInput && (
-          <input type='text' id='desInput' placeholder='배송지입력' name='out_des_self' onChange={desHandler}/>
+          <input type='text' id='desInput' placeholder='배송지입력' onChange={desHandler} name = 'out_des_self'/>
           )}
         </div>
       </Modal>
