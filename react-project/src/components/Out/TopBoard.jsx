@@ -28,5 +28,5 @@ const items = [
 ];
 
 const title = "타이틀"
-const TopBoard = () => <Descriptions title={title} items={items} />;
+const TopBoard = ({title,items}) => <Descriptions title={title} items={items} />;
 export default TopBoard;

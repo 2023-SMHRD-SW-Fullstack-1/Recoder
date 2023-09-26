@@ -56,28 +56,6 @@ const inData = {
         console.error(err);
       })
     }
-  //   try {
-      
-  //     const response = axios.post(
-  //       "http://localhost:8000/in/send/loading",
-  //       pickBc
-  //     );
-
-  //     if (response.status === 200) {
-  //       console.log("바코드데이터 전송 성공");
-  //       console.log(response.data);
-  //       // nav("/in/create");
-  //       window.location.href = 'http://localhost:3000/in/create' 
-  //       // getBcList();
-  //       // window.location.reload();
-       
-  //     }
-  //   } catch (error) {
-  //     if (error.response && error.response.status === 401) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
 
   const title = "입고예정";
   const items = [];
@@ -166,7 +144,7 @@ const inData = {
     stock_price: item.Stock.stock_price,
     cl_seq: item.Stock.cl_seq,
     stock_barcode: item.Stock.stock_barcode,
-    stock_expired: item.Stock.stock_expired,
+    stock_expired: item.Stock.stock_expired.substring(0,10),
     stock_bal: item.Stock.stock_balance_cnt,
     in_btn: "등록",
   }));

@@ -14,7 +14,7 @@ const userRouter = require('./routes/user')
 const comRouter = require('./routes/company')
 const rackRouter = require('./routes/rack')
 const inRouter = require('./routes/in')
-
+const noRouter = require('./routes/notice')
 const stockRouter = require('./routes/stock')
 const wareRouter = require('./routes/ware')
 const warehouseRouter = require('./routes/warehouse')
@@ -75,6 +75,7 @@ app.use('/user', userRouter)
 app.use('/out', outRouter)
 app.use('/company', comRouter)
 app.use('/in', inRouter)
+app.use('/notice',noRouter)
 
 // 윤영현 著
 app.use('/ware', wareRouter)

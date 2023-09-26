@@ -20,6 +20,7 @@ import Barcode from './components/Barcode';
 import In_HJ from './components/In_HJ';
 import In_02 from './components/In_02';
 import Dashboard from './components/Dashboard'
+import Notice  from './components/Notice';
 
 const App = () => {
 
@@ -65,6 +66,7 @@ const App = () => {
               {/* 입고 */}
               <Route path='/in/create' element={ <In_HJ inputItem={inputItem} setInputItem={setInputItem}/> } /> 
               <Route path='/in/loading' element={ <In_02 /> } />
+              <Route path='/notice/create' element={ <Notice/> } />
               {/* 출고 */}
               <Route path='/out/create' element={ <Out_01 /> } />
               <Route path='/out/controll' element={ <Out_02 /> } />    

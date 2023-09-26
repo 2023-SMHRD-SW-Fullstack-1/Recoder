@@ -7,6 +7,7 @@ import '../css/in01.css'
 import TopBoard from './Out/TopBoard';
 import { Button, Modal } from 'antd';
 import { uploadFile } from '../api/fileAPI'
+import  Warehouse  from './Warehouse';
 
 function In_02() {
 
@@ -62,6 +63,41 @@ function In_02() {
   }
  
 
+  const [loadingData,setLoadingData] = useState({
+    rack_seq : '', 
+    loading_seq : '', 
+    loading_floor :'', 
+    loading_position : '', 
+    loading_manager : id, 
+    com_seq : com_seq
+
+  })
+  // 💥 입고등록 !!!
+  const Loading = (record) => {
+    console.log('취소클릭', record);
+    // const loadingData = {
+    //   rack_seq : rack_seq, 
+    //   loading_seq : loading_seq, 
+    //   loading_floor :loading_floor, 
+    //   loading_position : loading_position, 
+    //   loading_manager : id, 
+    //   com_seq : com_seq
+    // }
+
+    axios.post('http://localhost:8000/in/loaing', loadingData)
+    .then((res) => {
+      console.log(res.data[0]);
+      if (res.data[0]>0) {
+        console.log('새로고침');
+        window.location.href = 'http://localhost:3000/in/loading' 
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }
+
+
   const [handleData, setHandleData] = useState([])
 
 
@@ -69,6 +105,7 @@ function In_02() {
     console.log('handlePosition', record);
     setHandleData(record)
     // 모달 상태관리
+    nav(`/warehouse/${wh_seq}`)
     setIsModalOpen(true);
   }
 
@@ -136,8 +173,8 @@ function In_02() {
         <button
           style={{
             color: 'black', backgroundColor: 'white',
-            width: 60,
-            fontSize: 13,
+            width: 80,
+            fontSize: 12,
             height: 32,
             paddingRight: 14,
             paddingLeft: 14,
@@ -146,7 +183,7 @@ function In_02() {
           }}
           onClick={() => handleLoading(record)} // 여기서 함수를 호출하지 않고 클릭 시 실행되도록 콜백으로 전달합니다.
         >
-          적재
+          창고이동
         </button>
       ),
     },
@@ -216,9 +253,12 @@ function In_02() {
       <div id='in01_bottom'>
         <Table_HJ columns={columns} data={data} />
       </div>
+      <div style = {{width:1000}}>
       <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
        <In02Add/>
+       {/* <Warehouse wh_seq={wh_seq}/> */}
       </Modal>
+      </div>
     </div>
   )
 }

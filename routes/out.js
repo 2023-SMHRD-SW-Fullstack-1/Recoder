@@ -153,7 +153,6 @@ router.post('/controll', async (req, res) => {
                             where: {
                                 loading_type: 'O'
                             },
-
                             include: [{
                                 model: Stock,
 

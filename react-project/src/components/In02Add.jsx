@@ -10,7 +10,6 @@ function In02Add({record }) {
   return (
     <div>
         <div>안녕</div>
-        <Button>입고</Button>
     </div>
   )
 }

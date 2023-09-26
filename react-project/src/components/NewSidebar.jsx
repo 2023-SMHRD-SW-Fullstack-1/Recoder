@@ -25,7 +25,10 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
   getItem("홈", "sub1", <HomeOutlined />),
-  getItem("재고", "2", <AppstoreOutlined />),
+  getItem("재고", "sub2", <AppstoreOutlined />,[
+  getItem("재고조회", "2"),
+  getItem("재고 수량 관리", "3"),
+  ]),
   // getItem("재고", "sub2", <AppstoreOutlined />, [
   //   getItem("재고 조회", "2"),
   //   getItem("재고 관리", "3"),
@@ -78,7 +81,7 @@ const App = () => {
     } else if (key === "2") {
       nav("/stock/select");
     } else if (key === "3") {
-      nav("/stock/manage");
+      nav("/notice/create");
     } else if (key === "4") {
       nav("/in/create");
     } else if (key === "5") {
