@@ -12,6 +12,8 @@ function Out_02() {
   // 출고리스트 담을 배열
   const [outLoadingList, setOutLoadingList] = useState([]);
 
+
+ 
   const outControllList = async () => {
     const userData = {
       id: id,
@@ -118,7 +120,7 @@ function Out_02() {
       <div className="out-header"></div>
       <div id="in_comtainer">
         <div id="in01_top">
-          <TopBoard title={title} items={items} />
+          <TopBoard title={'출고 이력'} items={items} />
         </div>
         <div id="in01_bottom">
           <Table_HJ columns={columns} data={data} />

@@ -204,24 +204,45 @@ router.post('/del/loaing', async (req, res) => {
 
 // (in_02) :  추가정보 입력 후 입고등록
 router.post('/loading', async (req, res) => {
-    let { rack_seq, stock_seq, loading_floor, loading_position, loading_manager, com_seq, stock_barcode } = (req.body)
-
+    let { rack_seq, loading_seq, loading_floor, loading_position, loading_manager, com_seq } = (req.body)
     try {
-        console.log('loading', req.body);
-        const result = await Loading.create({
+    const result2 = await Loading.update(
+        
+        { 
+            loading_type: 'I',
             rack_seq: rack_seq,
-            loading_type: "I",
-            stock_seq: stock_seq,
             loading_floor: loading_floor,
             loading_position: loading_position,
             loading_manager: loading_manager,
-            com_seq: com_seq
-        })
+     }, // 업데이트할 데이터
+        { 
+            where: { 
+                loading_seq: loading_seq,
+                com_seq: com_seq
+            } // 업데이트할 조건
+        }
+    );
+    res.json(result2);
+} catch (error) {
+    console.log(error);
+}
 
-        res.json(result)
-    } catch (error) {
-        console.error(error);
-    }
+    // try {
+    //     console.log('loading', req.body);
+    //     const result = await Loading.create({
+    //         rack_seq: rack_seq,
+    //         loading_type: "I",
+    //         stock_seq: stock_seq,
+    //         loading_floor: loading_floor,
+    //         loading_position: loading_position,
+    //         loading_manager: loading_manager,
+    //         com_seq: com_seq
+    //     })
+
+    //     res.json(result)
+    // } catch (error) {
+    //     console.error(error);
+    // }
 })
 
 module.exports = router

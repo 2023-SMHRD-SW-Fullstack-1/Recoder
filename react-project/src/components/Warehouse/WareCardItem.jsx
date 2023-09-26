@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import App from "../../three/previewWarehouse";
 import { Link, useNavigate } from "react-router-dom";
+import DeleteAlert from './DeleteAlert'
 
 const WareCardItem = ({ index, wh_name, wh_seq }) => {
   const [warehouseInfo, setWarehouseInfo] = useState(null);
@@ -39,23 +40,24 @@ const WareCardItem = ({ index, wh_name, wh_seq }) => {
   }, [warehouseWidth, warehouseLength]);
 
   return (
-    <Link to={`/warehouse/${wh_seq}`}>
-      <div id="ware-cardlist-item">
-        <div id="ware-preview">
-          <div>
-            <div
-              id={`webgl-container-${index}`}
-              style={{ position: "relative" }}
-            ></div>
-          </div>
-        </div>
-        <div id="ware-detail">
-          <div>창고 이름 {wh_name}</div>
-          <div>보유 상품</div>
-          <div>적재율</div>
+    <div id="ware-cardlist-item">
+      <div id="ware-preview">
+        <div>
+          <div
+            id={`webgl-container-${index}`}
+            style={{ position: "relative" }}
+          ></div>
         </div>
       </div>
-    </Link>
+      <div id="ware-detail">
+        <Link to={`/warehouse/${wh_seq}`}>
+          <div>창고 이름 {wh_name}</div>
+        </Link>
+        <div>보유 상품</div>
+        <div>적재율</div>
+        <DeleteAlert wh_seq={wh_seq} />
+      </div>
+    </div>
   );
 };
 

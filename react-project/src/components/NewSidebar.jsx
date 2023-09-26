@@ -25,7 +25,10 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
   getItem("홈", "sub1", <HomeOutlined />),
-  getItem("재고", "2", <AppstoreOutlined />),
+  getItem("재고", "sub2", <AppstoreOutlined />,[
+  getItem("재고조회", "2"),
+  getItem("재고 수량 관리", "3"),
+  ]),
   // getItem("재고", "sub2", <AppstoreOutlined />, [
   //   getItem("재고 조회", "2"),
   //   getItem("재고 관리", "3"),
@@ -33,7 +36,7 @@ const items = [
   getItem("입고", "sub3", <InboxOutlined />, [
     getItem("입고 예정", "4"),
     getItem("입고 등록", "5"),
-    getItem("입고 관리", "6"),
+    // getItem("입고 관리", "6"),
   ]),
   getItem("출고", "sub4", <InboxOutlined />, [
     getItem("출고 등록", "7"),
@@ -78,7 +81,7 @@ const App = () => {
     } else if (key === "2") {
       nav("/stock/select");
     } else if (key === "3") {
-      nav("/stock/manage");
+      nav("/notice/create");
     } else if (key === "4") {
       nav("/in/create");
     } else if (key === "5") {

@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom'
 // import App from '../three/show_warehouse'
 import App from '../three/test_show_warehouse'
 import axios from 'axios';
+import '../css/wareDetail.css'
 
 const Warehouse = () => {
   let { wh_seq } = useParams()
-
   console.log("wh_seq 값", wh_seq);
 
   // const [warehouseInfo, setWarehouseInfo] = useState(null);
@@ -26,9 +26,10 @@ const Warehouse = () => {
   useEffect(() => {
     Promise.all([
       axios.get(`http://localhost:8000/warehouse/${wh_seq}`),
-      axios.get(`http://localhost:8000/rack/${wh_seq}`)
+      axios.get(`http://localhost:8000/rack/${wh_seq}`),
+      axios.get(`http://localhost:8000/stock/${wh_seq}`)
     ])
-    .then(([warehouseRes, rackRes]) => {
+    .then(([warehouseRes, rackRes, stockRes]) => {
       console.log("랙 데이터 배열", rackRes.data);
       const racks = rackRes.data.map(rack => ({
         rackFloor: parseInt(rack.rack_floor),
@@ -40,10 +41,23 @@ const Warehouse = () => {
 
       console.log("racks 찍어보자", racks);
 
+      console.log("상품 데이터 배열", stockRes);
+      // const stocks = stockRes.data.map(stock => ({
+
+      // }))
+      
+      // console.log("stock 가져오니라", stocks);
+
       setWarehouseData({
         warehouseWidth: parseInt(warehouseRes.data.wh_width),
         warehouseLength: parseInt(warehouseRes.data.wh_length),
-        racks
+        racks,
+        items: {
+          itemWidth: 0.8,
+          itemLength: 0.8,
+          itemX: -1,
+          itemZ: 5
+        },
       });
     })
     .catch((error) => {
@@ -59,13 +73,14 @@ const Warehouse = () => {
       appInstance.current = new App(
         warehouseData.warehouseWidth,
         warehouseData.warehouseLength,
-        warehouseData.racks
+        warehouseData.racks,
+        warehouseData.items
       );
     }
   }, [warehouseData]);
 
   return (
-    <div id="webgl-container"></div>
+    <div id="waredetail-container"></div>
   );
 }
 

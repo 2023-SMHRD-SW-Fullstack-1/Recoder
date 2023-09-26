@@ -187,6 +187,7 @@ function OutDes() {
 
       <div id='des_top'>
         <span id="des_title">품목 관리</span>
+        <TopBoard title={'출고 이력'} items={items} />
         <br />
         <span >기간 설정</span>
         <br />
