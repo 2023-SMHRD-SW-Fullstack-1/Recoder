@@ -66,6 +66,8 @@ function In_02() {
 
 
   const handleLoading = (record) => {
+    
+
     console.log('handlePosition', record);
     setHandleData(record)
     // 모달 상태관리

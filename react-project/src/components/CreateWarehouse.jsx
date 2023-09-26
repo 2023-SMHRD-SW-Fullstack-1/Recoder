@@ -54,7 +54,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 
 	const [rackX, setRackX] = useState(0);
 	const [rackZ, setRackZ] = useState(0);
-const [rackRotateYN, setRackRotateYN] = useState("N");
+	const [rackRotateYN, setRackRotateYN] = useState("N");
 
 
 	/** useEffect 처음 렌더링 실행 */
@@ -65,17 +65,21 @@ const [rackRotateYN, setRackRotateYN] = useState("N");
 		console.log("여기", newWareData);
 		console.log(newWareData.wh_seq);
 		setWh_seq(newWareData.wh_seq);
-	 
+
 		// const warehouseData = newWareData;
 		// const lastWarehouse = warehouseData[warehouseData.length - 1];
 		// console.log("가장 최근 창고 정보 :", lastWarehouse);
-	 
+
 			 // 창고의 크기 설정 (가로, 세로)
 			 // setWarehouseWidth(parseInt(newWareData.wh_width));
 			 // setWarehouseLength(parseInt(newWareData.wh_length));
-			 setWarehouseWidth(10); // 임시 데이터
-			 setWarehouseLength(10);
-			 console.log("dd")
+
+			// setWarehouseWidth(parseInt(localStorage.getItem("ware_width")));
+			// setWarehouseLength(parseInt(localStorage.getItem("ware_length")));
+			
+			setWarehouseWidth(10); // 임시 데이터
+			setWarehouseLength(10);
+			console.log("dd")
 		}, []);
 
 	useEffect(()=>{
@@ -248,12 +252,16 @@ const [rackRotateYN, setRackRotateYN] = useState("N");
 		<div>
 			{/* <button>선반 생성</button> */}
 			<div className={"btn-wrapper"}>
-				<button className={"modal-open-btn"} onClick={()=>setModalOpen(true)}>
-					선반 생성
-				</button>
-				<button onClick={createLoading}> loading 추가 {canAddLoading?"O":"X"} </button>
+				<span>
+					<input type="text" placeholder="선반의 가로 길이"/>
+					<input type="text" placeholder="선반의 세로 길이"/>
+					<button className={"modal-open-btn"} onClick={()=>setModalOpen(true)}>
+						선반 생성
+					</button>
+				</span>
+				{/* <button onClick={createLoading}> loading 추가 {canAddLoading?"O":"X"} </button>
 				<button onClick={completeRack}>생성</button>
-				<button onClick={get배열}>배열 확인</button>
+				<button onClick={get배열}>배열 확인</button> */}
 			</div>
 
 			<div id="webgl-container" >

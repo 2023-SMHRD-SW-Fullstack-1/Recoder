@@ -11,22 +11,34 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
     const [length, setLength] = useState(0);
     const nav = useNavigate()
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const warehouse_info = { name: name, width: width, length: length , comSeq: comSeq};
-        let url = "http://localhost:8000/ware";
+	useEffect(()=>{
+		localStorage.setItem("ware_name", null);
+		localStorage.setItem("ware_width", null)
+		localStorage.setItem("ware_length",null)
+	},[])
 
-        axios.post(url, warehouse_info)
-            .then((res) => {
-                console.log( "2번째로 넘겨줄 데이터", res.data);
-                // localStorage.setItem('warehouse', Json.stringify(res.data));
-                setNewWareData(res.data)
-                nav('/ware/createwarehouse')
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		
+		// 로컬 스토리지에 rackFloor값 저장
+		localStorage.setItem("ware_name", name)
+		localStorage.setItem("ware_width", width)
+		localStorage.setItem("ware_length",length)
+		nav('/ware/createwarehouse')
+		
+		// const warehouse_info = { name: name, width: width, length: length , comSeq: comSeq};
+		// let url = "http://localhost:8000/ware";
+		// axios.post(url, warehouse_info)
+		// .then((res) => {
+		// 	console.log( "2번째로 넘겨줄 데이터", res.data);
+		// 	// localStorage.setItem('warehouse', Json.stringify(res.data));
+		// 	setNewWareData(res.data)
+		// 	nav('/ware/createwarehouse')
+		// })
+		// .catch((error) => {
+		// 	console.error(error);
+		// });
+	}
 
 
     return (

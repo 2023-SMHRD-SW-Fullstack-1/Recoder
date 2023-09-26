@@ -51,7 +51,7 @@ const App = () => {
     <div>
       { uid ? (
         <div>
-          <Routes>            
+          <Routes>
             {/* 개발 끝나면 지워주세요 */}
             <Route index element={ <Login /> } />
             <Route path='/join' element={ <Join /> } />
@@ -76,8 +76,8 @@ const App = () => {
               {/* 로그아웃 */}
               <Route path='/logout' element={ <Logout /> } />
               
-              <Route path='/barcode' element={<Barcode inputItem = {inputItem} setInputItem={setInputItem}/>}  />      
-            </Route>    
+              <Route path='/barcode' element={<Barcode inputItem = {inputItem} setInputItem={setInputItem}/>} />
+            </Route>
               <Route path='/warehouse/:wh_seq' element={ <Warehouse comSeq={comSeq} /> } />
               <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
               <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
