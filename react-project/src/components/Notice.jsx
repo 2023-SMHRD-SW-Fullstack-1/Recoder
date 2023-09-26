@@ -190,7 +190,7 @@ useEffect(()=>{
   return (
     <div>
       <div id='notice_top'>
-        <div>재고 관리</div>
+        <div>재고 수량 관리</div>
         {/* <span>제품명</span>
         <select type='select'>
           {cntData.map((item,idx)=>(
