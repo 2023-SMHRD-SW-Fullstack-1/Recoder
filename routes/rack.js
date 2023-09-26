@@ -1,5 +1,5 @@
 const express = require('express')
-const { Rack } = require('../models')
+const { Rack, Loading, Stock } = require('../models')
 const router = express.Router()
 
 router.post('/', async (req, res, next) => {
@@ -31,7 +31,14 @@ router.get('/:wh_seq', async (req, res) => {
             // attributes: ['rack_x', 'rack_z', 'rack_width', 'rack_length', 'rack_floor'],
             where: {
                 wh_seq : wh_seq
-            }
+            },
+            include: [{
+                model: Loading,
+                include: [{
+                    model: Stock,
+                    
+                }]
+            }]
         })
         console.log('rackList 가져오기', rackList);
         res.json(rackList)
