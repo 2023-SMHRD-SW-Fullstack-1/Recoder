@@ -64,6 +64,34 @@ const Dashboard = ({ comSeq }) => {
     }
   }
 
+  useEffect(() => {
+    getInData()
+    .then((res) => {
+      setInList(res.data);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [isInClick])
+  useEffect(() => {
+    getStockData()
+    .then((res) => {
+      setStockList(res.data);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [isStockClick])
+  useEffect(() => {
+    getOutData()
+    .then((res) => {
+      setOutList(res.data);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [isOutClick])
+
   return (
     <div id="dashboard">
       <div id="dashboard-header">
