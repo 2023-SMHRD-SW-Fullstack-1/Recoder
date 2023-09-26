@@ -12,22 +12,27 @@ const Layout = () => {
   return (
     <div id='layout-container'>
       <NewSidebar />
-      <div id="dashboard-header">
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{ position: "relative", marginLeft: "24px" }}
-        >
-          <Avatar
-            alt="Travis Howard"
-            src="/static/images/avatar/2.jpg"
-            sx={{ width: 35, height: 35 }}
-          />
-        </Stack>
-        <MailOutlineIcon sx={{ fontSize: 30, marginLeft: "24px" }} />
-        <NotificationsNoneIcon sx={{ fontSize: 30 }} />
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}>
+        <div id="dashboard-header">
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ position: "relative", marginLeft: "24px" }}
+          >
+            <Avatar
+              alt="Travis Howard"
+              src="/static/images/avatar/2.jpg"
+              sx={{ width: 35, height: 35 }}
+            />
+          </Stack>
+          <MailOutlineIcon sx={{ fontSize: 30, marginLeft: "24px" }} />
+          <NotificationsNoneIcon sx={{ fontSize: 30 }} />
+        </div>
+        <Outlet />
       </div>
-      <Outlet />
     </div>
   )
 }
