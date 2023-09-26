@@ -71,7 +71,7 @@ const Dashboard = ({ comSeq }) => {
         setInList(res.data);
         setTimeout(() => {
           setIsInClick(true);
-        }, 500);
+        }, 300);
       })
       .catch((err) => {
         console.error(err);
@@ -83,7 +83,7 @@ const Dashboard = ({ comSeq }) => {
         setStockList(res.data);
         setTimeout(() => {
           setIsStockClick(true);
-        }, 500);
+        }, 300);
       })
       .catch((err) => {
         console.error(err);
@@ -95,7 +95,7 @@ const Dashboard = ({ comSeq }) => {
         setOutList(res.data);
         setTimeout(() => {
           setIsOutClick(true);
-        }, 500);
+        }, 300);
       })
       .catch((err) => {
         console.error(err);
