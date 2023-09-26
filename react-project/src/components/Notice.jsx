@@ -6,6 +6,7 @@ import "../css/in01.css";
 import TopBoard from "./Out/TopBoard";
 import '../css/notice.css'
 import { Button, Modal } from 'antd';
+
 function Notice() {
   const id = "smart";
   const wh_seq = 1;
@@ -18,17 +19,22 @@ const [isModalOpen, setIsModalOpen] = useState(false);
 
 const handleOk = () => {
   setIsModalOpen(false);
+  changeAlaram()
 };
 
 const handleCancel = () => {
   setIsModalOpen(false);
 };
 
+const [changeName,setChangeName] = useState({user_seq:user_seq,stock_name:'',notice_content:''})
 // 재고량 수정 버튼
-const changeCnt = (record)=>{
+const changeCnt = (record,text)=>{
   setIsModalOpen(true)
 
   console.log('크크킄클릭',record.stock_name);
+  console.log('클릭된 아이템의text:',text);
+  setChangeName({...changeName,stock_name : record.stock_name})
+  
 }
 
   // 재고 데이터 조회
@@ -37,6 +43,8 @@ const changeCnt = (record)=>{
   // 알람내용 조회
   const [alarm,setAlarm] = useState([])
 
+
+  
   const getNameList =  () => {
     const userData = {
       com_seq: com_seq,
@@ -70,6 +78,23 @@ const changeCnt = (record)=>{
 };
 
 
+// 알림내용 변경 함수
+const changeAlaram = ()=>{
+  axios
+  .post("http://localhost:8000/notice/change", changeName)
+  .then((response) => {
+  // 페이지 새로고침 해주기
+  window.location.href = 'http://localhost:3000/notice/create' 
+
+  })
+  .catch((error) => {
+    if (error.response && error.response.status === 401) {
+      console.log(error);
+    }
+    // 오류 처리
+  });
+};
+
 
 
 const flatAlarm = alarm.map(item=>({
@@ -96,11 +121,22 @@ const flatAlarm = alarm.map(item=>({
       render: (text, data,record, idx) => {
         const matchingItem = flatAlarm.find((item) => item.stock_name === data.stock_name);
         if (matchingItem) {
+          const noticeContent = parseFloat(matchingItem.notice_content);
+        const currentStock = parseFloat(data.stock_cnt);
+
+        if (noticeContent > currentStock) {
           return (
-            <span style={{ color: "darkgray" }}>
-              {matchingItem.notice_content}
+            <span style={{ color: "red" }}>
+              {matchingItem.notice_content} (부족) 
             </span>
           );
+        } else {
+          return (
+            <span style={{ color: "darkgreen" }}>
+              {matchingItem.notice_content} (적정)  
+            </span>
+          );
+        }
         } else {
           return (
             <span style={{ color: "darkgray" }}>설정 재고량이 없습니다</span>
@@ -110,7 +146,7 @@ const flatAlarm = alarm.map(item=>({
     },
     
     {
-      title: "현재 재고",
+      title: "현재 재고량",
       dataIndex: "stock_cnt",
       key: "stock_cnt",
       render: (text) => <span style={{ color: "darkgray" }}>{text}</span>,
@@ -120,7 +156,7 @@ const flatAlarm = alarm.map(item=>({
       dataIndex: "stock_cnt",
       key: "stock_cnt",
       
-      render: (text, record) => <button   onClick={() => changeCnt(record)}
+      render: (text, record) => <button   onClick={() => changeCnt(record,text)}
       style={{
         color: "black",
         backgroundColor: "white",
@@ -154,22 +190,28 @@ useEffect(()=>{
   return (
     <div>
       <div id='notice_top'>
-        <div>재고 확인</div>
-        <span>제품명</span>
+        <div>재고 관리</div>
+        {/* <span>제품명</span>
         <select type='select'>
           {cntData.map((item,idx)=>(
               <option key={idx} value = {item.Stock.stock_name}>
                 {item.Stock.stock_name}
                 </option>
           ))}
-          </select><br/>
+          </select><br/> */}
       </div>
       <div id = 'notice_table'>
       <Table_HJ columns={columns} data={data}/>
       </div>
        <Modal title="재고량 수정" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
               <div>
-                <span>수량설정</span><input style={{margin:20,width:150}} type='text'></input>
+              <input
+  onChange={(e) => {
+    setChangeName({ ...changeName, notice_content: e.target.value }); // value 속성으로 수정
+  }}
+  style={{ margin: 20, width: 150 }}
+  type="text"
+></input>
               </div>
 
        </Modal>

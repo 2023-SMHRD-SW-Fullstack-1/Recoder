@@ -35,6 +35,57 @@ router.post('/alarm', async (req, res) => {
     }
 });
 
+// 알림 수량 변경
+router.post('/change', async (req, res) => {
+    console.log('알람변경', req.body);
+    let { user_seq, stock_name, notice_content } = req.body;
+    try {
+        // 먼저 해당 유저와 재고 이름에 대한 알림 정보를 조회합니다.
+        const result = await Notice.findOne({
+            attributes: ['notice_content', 'notice_seq'],
+            include: [
+                {
+                    model: Stock,
+                    attributes: ['stock_name'],
+                    where: { stock_name: stock_name },
+                    include: [
+                        {
+                            model: Loading,
+                            attributes: [],
+                        },
+                    ],
+                },
+            ],
+            where: {
+                user_seq: user_seq,
+            },
+        });
+
+        if (!result) {
+            return res.status(404).json({ error: '해당 알림을 찾을 수 없습니다.' });
+        }
+
+        // 알림 정보가 있는 경우 알림 내용을 업데이트합니다.
+        const notice_seq = result.notice_seq;
+        await Notice.update(
+            {
+                notice_content: notice_content,
+            },
+            {
+                where: {
+                    notice_seq: notice_seq,
+                },
+            }
+        );
+
+        // 업데이트된 결과를 클라이언트에 응답
+        res.json({ success: true, message: '알림 내용이 업데이트되었습니다.' });
+    } catch (error) {
+        console.error('오류:', error);
+        res.status(500).json({ error: '서버 오류' });
+    }
+});
+
 // 입고제품 리스트 조회
 router.post('/list', async (req, res) => {
     console.log('com_seq', req.body.com_seq)
@@ -54,6 +105,8 @@ router.post('/list', async (req, res) => {
         console.error('오류:', error);
         res.status(500).json({ error: '서버 오류' });
     }
+
+  
 });
 
 // 입고재품 재고량 조회
