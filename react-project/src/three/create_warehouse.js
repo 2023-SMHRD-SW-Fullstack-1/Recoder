@@ -1,25 +1,28 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import createRack from './createRackModule';
 import { PreventDragClick } from './PreventDragClick';
+import createRack from './createRackModule';
+import createLoading from "./createLoading";
 
 export default class App {
-	/** 
+
+	/**
 	 * @constructor
-	 * @param {int} width - 바닥 width {int}
-	 * @param {int} length - 바닥 Length
+	 * @param {int} width - 바닥 width
+	 * @param {int} Length - 바닥 Length
 	 * @param {number} rectangleWidth - 빨간판 width
-	 * @param {int} rectangleHeight - 빨간판 Height
-	 * @param {Array} 메쉬배열 - 메쉬배열들을 담을 배열
-	 * @returns {number} width + length  - dfdfdf
+	 * @param {number} rectangleHeight - 빨간판 height
+	 * @param {Array} 메쉬배열 - 메쉬배열을 담을 배열
+	 * @returns {number} width + length
 	 */
 	constructor(width, length, rectangleWidth = 1, rectangleHeight = 1, 메쉬배열) {
 		// 변수
 		this.meshes = 메쉬배열
 		this.mousedownHandler = this.mousedownHandler.bind(this);
 		this.mouseUpHandler = this.mouseUpHandler.bind(this);
+		
 
-		const divContainer = document.querySelector("#webgl-container");
+		const divContainer = document.querySelector('#webgl-container');
 		this._divContainer = divContainer;
 
 		const renderer = new THREE.WebGLRenderer({ antialias: true }); // 계단 현상 없이 부드럽게
@@ -115,7 +118,7 @@ export default class App {
 			visible: false,
 		});
 
-		const group1 = new THREE.Group();
+		const baseGroup = new THREE.Group();
 		const wareHouseMesh = new THREE.Mesh(planeGeometry, wareHouseMaterial);
 		// 노란색 라인 생성
 		const lineMaterial = new THREE.LineBasicMaterial({ color: 0xa0a0a0 });
@@ -127,14 +130,14 @@ export default class App {
 
 		// 바닥 이름 설정
 		wareHouseMesh.name = "ground";
-		// 바닥을 group1에 추가
+		// 바닥을 baseGroup에 추가
 		wareHouseMesh.rotation.x = THREE.MathUtils.degToRad(-90);
-		group1.add(wareHouseMesh);
+		baseGroup.add(wareHouseMesh);
 		this.groundBound = new THREE.Box3().setFromObject(wareHouseMesh);
 
 		// 선 이름 설정
 		line.name = "선"
-		// group1.add(line);
+		// baseGroup.add(line);
 		// 선을 씬에 추가
 		this._scene.add(line);
 
@@ -145,7 +148,7 @@ export default class App {
 		// mesh.position.set(0, 0, 0);
 
 		// this._warehouse에 group1을 추가
-		this._warehouse.add(group1);
+		this._warehouse.add(baseGroup);
 
 		// this._scene에 this._warehouse를 추가
 		this._scene.add(this._warehouse);
@@ -162,11 +165,12 @@ export default class App {
 		// console.log(this.groundBoundPos);
 	}
 
-	setupMouseEvents(rectangleWidth = 1, rectangleHeight = 1, rackFloor = 1) {
+	setupMouseEvents(rectangleWidth = 1, rectangleHeight = 1, rackFloor = 1, ) {
 		console.log(`THREE.JS 선반 - 가로: ${rectangleWidth}/ 세로: ${rectangleHeight}/ ${rackFloor}층`)
 		this.rectangleWidth = rectangleWidth
 		this.rectangleHeight = rectangleHeight
 		this.rackFloor = rackFloor
+		
 
 		let isCreateRack = false
 
@@ -371,7 +375,6 @@ export default class App {
 						})
 					}
 				}
-				
 			}
 		}
 	}
@@ -388,7 +391,9 @@ export default class App {
 				if (intersects.length <= 0) {
 					return
 				}
-				this.addShelf()
+				this.addShelf();
+				// this.addLoading();
+
 			}
 		} // if문 끝
 
@@ -460,6 +465,18 @@ export default class App {
 		// console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
 	}
 
+	addLoading() {
+		// this.raycaster.
+		let pos = {
+			x: this.rectangleMesh.position.x,
+			y: this.rectangleMesh.position.y,
+			z: this.rectangleMesh.position.z
+		}
+
+		let loading = createLoading(pos, 0.7)
+		this._scene.add(loading);
+	}
+
 
 	// 창의 크기가 변경될때 발생하는 이벤트
 	resize() {
@@ -485,4 +502,6 @@ export default class App {
 	update(time) {
 		time *= 0.001; // 알아보기 쉽게 ms단위를 초단위로 변경
 	}
+
+
 }

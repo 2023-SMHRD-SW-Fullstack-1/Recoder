@@ -21,11 +21,12 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	// let 메쉬배열 = []
 	// 테스트
 	const [메쉬배열, setTest] = useState([]);
+	const [canAddLoading, setCanAddLoading] = useState(false)
 
 	const [rackName, setRackName] = useState("");
-	const [rackWidth, setRackWidth] = useState(3);
-	const [rackLength, setRackLength] = useState(1);
-	const [rackFloor, setRackFloor] = useState(2);
+	const [rackWidth, setRackWidth] = useState(0);
+	const [rackLength, setRackLength] = useState(0);
+	const [rackFloor, setRackFloor] = useState(0);
 
 	// 원래 코드
 	// useEffect(() => {
@@ -135,6 +136,16 @@ const [rackRotateYN, setRackRotateYN] = useState("N");
 		// });
 	};
 
+	const createLoading = (e) => {
+		setCanAddLoading(!canAddLoading)
+
+		if(appInstance.current) {
+			appInstance.current.setupMouseEvents(
+				rackWidth, rackLength, canAddLoading? "loading" : "rack"
+			)
+		}
+	}
+
 	/** 선반 정보를 DB에 저장 */
 	const completeRack = (e) => {
 		let result = []
@@ -190,7 +201,6 @@ const [rackRotateYN, setRackRotateYN] = useState("N");
 		// 	console.log(`x: ${item.position.x}, z: ${item.position.z}`)
 		// })
 	}
-	const [canAddLoading, setCanAddLoading] = useState(false)
 
 	// 모달 창 끄는 부분
 	const modalClose = (e) => {
@@ -222,9 +232,9 @@ const [rackRotateYN, setRackRotateYN] = useState("N");
 
 			if (appInstance.current) {
 				appInstance.current.setupMouseEvents(
-						res.data.rack_width,
-						res.data.rack_length,
-						parseInt(localStorage.getItem("rackFloor")) // 로컬 스토리지에서 rackFloor값 불러오기!
+					res.data.rack_width,
+					res.data.rack_length,
+					parseInt(localStorage.getItem("rackFloor")) // 로컬 스토리지에서 rackFloor값 불러오기!
 				);
 			}
 			})
@@ -232,7 +242,7 @@ const [rackRotateYN, setRackRotateYN] = useState("N");
 			console.log(`axios에러`);
 			// console.error(error);
 		});
-};
+	};
 
 	return (
 		<div>
@@ -241,99 +251,97 @@ const [rackRotateYN, setRackRotateYN] = useState("N");
 				<button className={"modal-open-btn"} onClick={()=>setModalOpen(true)}>
 					선반 생성
 				</button>
-				<button onClick={()=>{setCanAddLoading(!canAddLoading)}}> loading 추가 {canAddLoading?"O":"X"} </button>
+				<button onClick={createLoading}> loading 추가 {canAddLoading?"O":"X"} </button>
 				<button onClick={completeRack}>생성</button>
 				<button onClick={get배열}>배열 확인</button>
 			</div>
 
 			<div id="webgl-container" >
-				{modalOpen && (
-					<div className={"modal-container"} ref={modalBackground}
-					onClick={(e)=> {
-						if (e.target === modalBackground.current) {
-							setModalOpen(false);
-						}
-					}} >
-						{/* 모달창 열었을때 나오는 부분 */}
-						<div className={"modal-content"}>
-							<div className="rack_create_all">
-							<div className="rack_create_title">
-									<h1>선반생성</h1>
-									<button
-										className={"modal-close-btn"}
-										>
-										<img
-											onClick={()=>setModalOpen(false)}
-											src='/img/X_icon.png'
-											// alt='side-button'
-											width='20px'
-											height='23px' />
-									</button>
-								</div>
-
-								<table>
-									<tbody>
-										<tr>
-											<td className="rack_create_container">
-												<form>
-													<div className='rack_name_input_container'>
-														{/* 아이디 */}
-														<input
-															type="text"
-															placeholder='선반 이름을 입력해주세요.'
-															autoFocus
-															value={rackName}
-															onChange={(e) => setRackName(e.target.value)}
-														/>
-													</div>
-
-													{/* 가로 */}
-													<div className="rack_width_input_container">
-														<input
-															type="number"
-															placeholder="가로 길이를 입력해주세요."
-															value={rackWidth}
-															onChange={(e) => setRackWidth(e.target.value)}
-														/>
-														</div>
-
-														{/* 세로 */}
-														<div className="rack_length_input_container">
-														<input
-															type="number"
-															placeholder="세로 길이를 입력해주세요."
-															value={rackLength}
-															onChange={(e) => setRackLength(e.target.value)}
-														/>
-														</div>
-
-														{/* 높이 */}
-														<div className="rack_floor_input_container">
-														<input
-															type="number"
-															placeholder="층을 입력해주세요."
-															value={rackFloor}
-															onChange={(e) => setRackFloor(e.target.value)}
-														/>
-														</div>
-
-														{/* 생성완료 버튼 */}
-														<div className="rack_create_submit_button">
-														<button type="submit" className="create-button">
-															생성하기
-														</button>
-													</div>
-												</form>
-											</td>
-										</tr>
-								</tbody>
-							</table>
+			</div> {/* id="webgl-container" */}
+			{modalOpen && (
+				<div className={"modal-container"} ref={modalBackground}
+				onClick={(e)=> {
+					if (e.target === modalBackground.current) {
+						setModalOpen(false);
+					}
+				}} >
+					{/* 모달창 열었을때 나오는 부분 */}
+					<div className={"modal-content"}>
+						<div className="rack_create_all">
+						<div className="rack_create_title">
+								<h1 onClick={()=>{console.log("선반생ㄱ성")}}>선반생성</h1>
+								<button
+									className={"modal-close-btn"}
+									>
+									<img onClick={()=>{setModalOpen(false)}}
+										src='/img/X_icon.png'
+										// alt='side-button'
+										width='20px'
+										height='23px' />
+								</button>
 							</div>
+
+							<table>
+								<tbody>
+									<tr>
+										<td className="rack_create_container">
+											<form>
+												<div className='rack_name_input_container'>
+													{/* 아이디 */}
+													<input
+														type="text"
+														placeholder='선반 이름을 입력해주세요.'
+														autoFocus
+														value={rackName}
+														onChange={(e) => setRackName(e.target.value)}
+													/>
+												</div>
+
+												{/* 가로 */}
+												<div className="rack_width_input_container">
+													<input
+														type="number"
+														placeholder="가로 길이를 입력해주세요."
+														value={rackWidth}
+														onChange={(e) => setRackWidth(e.target.value)}
+													/>
+													</div>
+
+													{/* 세로 */}
+													<div className="rack_length_input_container">
+													<input
+														type="number"
+														placeholder="세로 길이를 입력해주세요."
+														value={rackLength}
+														onChange={(e) => setRackLength(e.target.value)}
+													/>
+													</div>
+
+													{/* 높이 */}
+													<div className="rack_floor_input_container">
+													<input
+														type="number"
+														placeholder="층을 입력해주세요."
+														value={rackFloor}
+														onChange={(e) => setRackFloor(e.target.value)}
+													/>
+													</div>
+
+													{/* 생성완료 버튼 */}
+													<div className="rack_create_submit_button">
+													<button type="submit" className="create-button">
+														생성하기
+													</button>
+												</div>
+											</form>
+										</td>
+									</tr>
+							</tbody>
+						</table>
 						</div>
 					</div>
-				)} {/* 모달창 끝 */}
-
-				</div> {/* id="webgl-container" */}
+				</div>
+			)} {/* 모달창 끝 */}
 		</div>
 	);
 };

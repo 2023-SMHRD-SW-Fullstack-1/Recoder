@@ -16,18 +16,21 @@ const Dashboard = ({ comSeq }) => {
   const [inList, setInList] = useState([]);
   const [stockList, setStockList] = useState([]);
   const [outList, setOutList] = useState([]);
+  const [isInClick, setIsInClick] = useState(true)
+  const [isStockClick, setIsStockClick] = useState(true)
+  const [isOutClick, setIsOutClick] = useState(true)
+
+  const getInData = () => {
+    return axios.get(`http://localhost:8000/in/${comSeq}/B`);
+  };
+  const getStockData = () => {
+    return axios.get(`http://localhost:8000/in/${comSeq}/I`);
+  };
+  const getOutData = () => {
+    return axios.get(`http://localhost:8000/in/${comSeq}/O`);
+  };
 
   useEffect(() => {
-    const getInData = () => {
-      return axios.get(`http://localhost:8000/in/${comSeq}/B`);
-    };
-    const getStockData = () => {
-      return axios.get(`http://localhost:8000/in/${comSeq}/I`);
-    };
-    const getOutData = () => {
-      return axios.get(`http://localhost:8000/in/${comSeq}/O`);
-    };
-
     Promise.all([getInData(), getStockData(), getOutData()])
       .then((res) => {
         setInList(res[0].data);
@@ -38,6 +41,56 @@ const Dashboard = ({ comSeq }) => {
         console.error(err);
       });
   }, []);
+
+  const inClick = () => {
+    if (isInClick) {
+      setIsInClick(false)
+    } else {
+      setIsInClick(true)
+    }
+  }
+  const stockClick = () => {
+    if (isStockClick) {
+      setIsStockClick(false)
+    } else {
+      setIsStockClick(true)
+    }
+  }
+  const outClick = () => {
+    if (isOutClick) {
+      setIsOutClick(false)
+    } else {
+      setIsOutClick(true)
+    }
+  }
+
+  useEffect(() => {
+    getInData()
+    .then((res) => {
+      setInList(res.data);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [isInClick])
+  useEffect(() => {
+    getStockData()
+    .then((res) => {
+      setStockList(res.data);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [isStockClick])
+  useEffect(() => {
+    getOutData()
+    .then((res) => {
+      setOutList(res.data);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [isOutClick])
 
   return (
     <div id="dashboard">
@@ -74,8 +127,8 @@ const Dashboard = ({ comSeq }) => {
             <div className="dashboard-item-header">
               <span>입고예정</span>
               <div>
-                <CachedIcon />
-                <OpenInNewIcon />
+                <button onClick={inClick}><CachedIcon /></button>
+                <Link to='/in/create'><OpenInNewIcon /></Link>
               </div>
             </div>
             <ShortInList inList={inList} />
@@ -86,8 +139,8 @@ const Dashboard = ({ comSeq }) => {
             <div className="dashboard-item-header">
               <span>재고</span>
               <div>
-                <CachedIcon />
-                <OpenInNewIcon />
+                <button onClick={stockClick}><CachedIcon /></button>
+                <Link to='/stock/select'><OpenInNewIcon /></Link>
               </div>
             </div>
             <ShortStockList stockList={stockList} />
@@ -96,8 +149,8 @@ const Dashboard = ({ comSeq }) => {
             <div className="dashboard-item-header">
               <span>출고완료</span>
               <div>
-                <CachedIcon />
-                <OpenInNewIcon />
+                <button onClick={outClick}><CachedIcon /></button>
+                <Link to='/out/controll'><OpenInNewIcon /></Link>
               </div>
             </div>
             <ShortOutList outList={outList} />

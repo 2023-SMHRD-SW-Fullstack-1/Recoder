@@ -33,7 +33,7 @@ const items = [
   getItem("입고", "sub3", <InboxOutlined />, [
     getItem("입고 예정", "4"),
     getItem("입고 등록", "5"),
-    getItem("입고 관리", "6"),
+    // getItem("입고 관리", "6"),
   ]),
   getItem("출고", "sub4", <InboxOutlined />, [
     getItem("출고 등록", "7"),
