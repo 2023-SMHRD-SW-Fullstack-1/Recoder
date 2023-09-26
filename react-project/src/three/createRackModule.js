@@ -20,8 +20,8 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 	);
 
 	const material = new THREE.MeshBasicMaterial({color:0xf1c2ff})
-	
 	const boardMesh = new THREE.Mesh(board, material);
+	
 
 	const pilar1 = new THREE.Mesh(pilar, material);
 	const pilar2 = new THREE.Mesh(pilar, material);
@@ -41,25 +41,25 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 	pilar4.position.set(boardBox.min.x, boardBox.max.y + pilarYLen/2 - pilarYLen * 0.2, boardBox.max.z);
 
 
-	const superGroup = new THREE.Group();
-	let group = new THREE.Group();
+	const rackUnitGroup = new THREE.Group();
+	let rackComponentGroup = new THREE.Group();
 	
 	boardMesh.name = "판11111"
-	group.add(boardMesh, pilar1, pilar2, pilar3, pilar4);
+	rackComponentGroup.add(boardMesh, pilar1, pilar2, pilar3, pilar4);
 
-	superGroup.add(group);
+	rackUnitGroup.add(rackComponentGroup);
 
 	// 층 입력 받으면 층 수만큼 올리는 코드 작성하기!
 	for(let i = 0; i < rackFloor - 1; i++){
-		let group1 =  group.clone();
-		group1.position.y += 1 //sizeY
-		superGroup.add(group1);
-		group = group1.clone();
+		let rackFloorGroup =  rackComponentGroup.clone();
+		rackFloorGroup.position.y += 1 //sizeY
+		rackUnitGroup.add(rackFloorGroup);
+		rackComponentGroup = rackFloorGroup.clone();
 	}
 
 	// 수정 필요
-	superGroup.name = "선반"
-	superGroup.position.set(rackPos.x, 0.2, rackPos.z)
+	rackUnitGroup.name = "선반"
+	rackUnitGroup.position.set(rackPos.x, 0.2, rackPos.z)
 
-	return superGroup;
+	return rackUnitGroup;
 }
