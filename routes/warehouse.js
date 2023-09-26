@@ -21,6 +21,19 @@ router.get('/:wh_seq', async (req, res) => {
     }
 })
 
+router.delete('/:wh_seq', async (req, res) => {
+    try {
+        const result = await Warehouse.destroy({
+            where: {
+                wh_seq: req.params.wh_seq
+            }
+        })
+        res.json(result)
+    } catch (error) {
+        console.error(error);
+    }
+})
+
 // router.get('/:wh_seq', async (req, res) => {
 //     console.log("qwe");
 //     let wh_seq = req.params.wh_seq

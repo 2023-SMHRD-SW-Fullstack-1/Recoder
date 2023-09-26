@@ -86,4 +86,23 @@ router.get('/:wh_seq', async (req, res) => {
   }
 })
 
+router.get('/stockcount/:wh_seq', async (req, res) => {
+  try {
+    const result = await Warehouse.findAndCountAll({
+      where: {
+        wh_seq: parseInt(req.params.wh_seq)
+      },
+      include: [{
+        model: Rack,
+        include: [{
+          model: Loading
+        }]
+      }]
+    })
+    res.send(`${result.count}`)
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 module.exports = router
