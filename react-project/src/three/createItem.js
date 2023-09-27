@@ -8,6 +8,7 @@ import * as THREE from 'three';
 */
 export default function createItem(sizeX, sizeZ, itemFloor, itemPos) {   
 
+   // 상품들 기본 사이즈 조정하는 부분
    const item = new THREE.BoxGeometry(sizeX, 0.8, sizeZ, 1, 1, 1);
    // const pilar = new THREE.BoxGeometry(0.05, sizeY, 0.05);
    // const board = new THREE.BoxGeometry(1, 0.02, 1, 1, 1, 1);
@@ -19,7 +20,14 @@ export default function createItem(sizeX, sizeZ, itemFloor, itemPos) {
    //    Math.random()
    // );
 
-   const material = new THREE.MeshBasicMaterial({color: 'lightblue'})
+   //MeshBasicMaterial을 MeshPhysicalMaterial로 바꿨읍니다
+   const material = new THREE.MeshPhysicalMaterial({
+    color: '#996633',
+    emissive: 0x000000,
+    roughness: 0.7,
+    metalness: 0.7,
+    wireframe: false
+  })
    
    const itemMesh = new THREE.Mesh(item, material);
 
@@ -29,7 +37,8 @@ export default function createItem(sizeX, sizeZ, itemFloor, itemPos) {
    // const pilar4 = new THREE.Mesh(pilar, material);
 
    // 수정 필요
-   itemMesh.position.set(itemPos.x, 0.6, itemPos.z);
+   // 상품들 위치 조정하는 부분
+   itemMesh.position.set(itemPos.x, 0.6+itemFloor, itemPos.z);
 
    // const boardBox = new THREE.Box3().setFromObject(boardMesh);
    // const pilarBox = new THREE.Box3().setFromObject(pilar1);

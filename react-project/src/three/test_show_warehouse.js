@@ -21,7 +21,7 @@ export default class App {
 
         const scene = new THREE.Scene(); // scene 객체
         this._scene = scene;
-        scene.background = new THREE.Color(0xffff00);
+        scene.background = new THREE.Color(0xffffff);
         // scene.background = new THREE.Color(0x71a379);
 
         this.cellSize = 1; // 각 격자 칸의 크기를 클래스 멤버로 정의
@@ -76,12 +76,34 @@ export default class App {
     }
 
     _setupLight() {
-        const color = 0xffffff;
-        const intensity = 1;
-        const light = new THREE.DirectionalLight(color, intensity);
-        light.position.set(-1, 2, 4);
-        light.name = "DirectionalLight"
+        // const color = 0xffffff;
+        // const intensity = 5;
+        // const light = new THREE.DirectionalLight(color, intensity);
+        // light.position.set(-1, 2, 4);
+        // light.name = "DirectionalLight"
+        // this._scene.add(light);
+
+        const auxLight = new THREE.DirectionalLight(0xffffff, 0.2);
+        auxLight.position.set(0, 5, 0);
+        auxLight.target.position.set(0, 0, 0);
+        auxLight.intensity = 1;
+        this._scene.add(auxLight.target);
+        this._scene.add(auxLight);
+
+        const light = new THREE.SpotLight(0xffffff, 100);
+        light.position.set(0, 7, 7);
+        light.target.position.set(0, 0, 0);
+        light.angle = THREE.MathUtils.degToRad(100);
+        light.penumbra = 0.2;
+        this._scene.add(light.target);
+
+        light.shadow.mapSize.width = light.shadow.mapSize.height = 2048; // 그림자 품질 향상 기본값 : 512
+        light.shadow.radius = 1; // 그림자 외곽 블러링 처리 시 사용 기본값 : 1
+
+
         this._scene.add(light);
+        this._light = light;
+        light.castShadow = true;
     }
 
     // 파란색 정육면체 mesh 생성
@@ -120,6 +142,7 @@ export default class App {
             side: THREE.DoubleSide,
             visible: false,
         });
+        this._warehouse.receiveShadow = true;
 
         const group1 = new THREE.Group();
         const wareHouseMesh = new THREE.Mesh(planeGeometry, wareHouseMaterial);
@@ -215,6 +238,7 @@ export default class App {
         }
         // this.meshes.push(rackGroup);
         rackGroup.name = "선반인데요"
+        rackGroup.castShadow = true;
         this._scene.add(rackGroup);
         // console.log("addShelf", this.meshes)
 
@@ -233,7 +257,7 @@ export default class App {
         }
 
         // Rack 생성부분 - createRack 호출
-        let itemGroup = createItem(item.itemWidth, item.itemLength, 3, itemPos)
+        let itemGroup = createItem(0.8, 0.8, item.loadingFloor, itemPos)
         let mesh = new THREE.Box3().setFromObject(itemGroup)
 
         let aa = {
