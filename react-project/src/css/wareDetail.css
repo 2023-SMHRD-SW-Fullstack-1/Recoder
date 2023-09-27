@@ -1,13 +1,23 @@
-#waredetail-container {
-	/* flex: 1; */
+.warehouse1 {
 	position: relative;
-	width: 100%;
-	height: 100vh;
+
+	& #waredetail-container {
+		/* flex: 1; */
+		position: relative;
+		width: 100%;
+		height: 100vh;
+	}
+
+	& .button-container {
+		position: absolute;
+		background-color: pink;
+		top: 10px;
+		left: 10px;
+	}
 }
 
-.warehouse .button-container {
-	position: absolute;
-	background-color: pink;
-	width: 100%;
-}
+
+
+
+
 

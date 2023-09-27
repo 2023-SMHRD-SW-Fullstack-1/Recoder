@@ -5,6 +5,7 @@ import App from '../three/test_show_warehouse'
 import axios from 'axios';
 import '../css/wareDetail.css'
 
+
 const Warehouse = () => {
   let { wh_seq } = useParams()
   console.log("wh_seq 값", wh_seq);
@@ -79,12 +80,19 @@ const Warehouse = () => {
     }
   }, [warehouseData]);
 
+  function addLoading() {
+    console.log("짐 추가 클릭")
+
+  }
+
+
   return (
-    <div className='warehouse' >
+    <div className='warehouse1' >
       <div id="waredetail-container" />
 
       <div className='button-container'>
-        <button type='button'> 짐 추가 </button>
+        <button type='button' onClick={addLoading}> 짐 추가 </button>
+        <button type='button'> 선반 추가 </button>
       </div>
     </div>
   );

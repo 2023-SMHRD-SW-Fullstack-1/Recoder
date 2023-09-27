@@ -3,12 +3,19 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import createRack from './createRackModule';
 import createItem from './createItem'
 import { PreventDragClick } from './PreventDragClick';
+import createLoadingClass from '../three/createLoadingClass';
 
 export default class App {
+
+
     constructor(warehouseWidth, warehouseLength, racks, items) {
 
         // 변수
         this.meshes = []
+
+        this.mouseupHandler = this.mouseupHandler.bind(this);
+        this._setupModel = this._setupModel.bind(this);
+        this.addLoading = this.addLoading.bind(this);
 
 
         const divContainer = document.querySelector("#waredetail-container");
@@ -46,12 +53,18 @@ export default class App {
         this.resize();
 
         this.mouse = new THREE.Vector2();
+
+
         this.raycaster = new THREE.Raycaster();
         this.raycaster.selectedMesh = null;
+
+        
+        this._divContainer.addEventListener("mouseup", this.mouseupHandler);
 
         requestAnimationFrame(this.render.bind(this));
     }
 
+    /** 컨트롤 세팅 */
     _setupControls() {
         const controls = new OrbitControls(this._camera, this._divContainer);
         controls.addEventListener('change', () => {
@@ -60,6 +73,7 @@ export default class App {
         })
     }
 
+    /** 카메라 세팅 */
     _setupCamera() {
         // three.js가 3차원 그래픽을 출력할 영역의 가로, 세로 크기를 가져오기
         const width = this._divContainer.clientWidth;
@@ -73,6 +87,7 @@ export default class App {
         this._camera = camera;
     }
 
+    /** 조명 세팅 */
     _setupLight() {
         const color = 0xffffff;
         const intensity = 1;
@@ -92,8 +107,26 @@ export default class App {
         //     this.addItem(item);
         // }
         this.addItem(this.items)
+
+        this.d = new THREE.Group();
+        let a = new THREE.BoxGeometry(1, 1, 1);
+        let b = new THREE.MeshPhongMaterial();
+        let c = new THREE.Mesh(a, b);
+        this._scene.add(c);
+
+        let c1 = new THREE.Mesh(a, b);
+        c1.position.set(1,0,0)
+        this._scene.add(c1);
+
+        let c2 = new THREE.Mesh(a, b);
+        c2.position.set(2,0,0)
+        this.d.add(c,c1,c2)
+        this._scene.add(this.d);
+
+
     }
 
+    /** 바닥 추가 */
     _createBoard() {
         // 창고 3d
         this._warehouse = new THREE.Object3D();
@@ -151,6 +184,7 @@ export default class App {
         this._scene.add(this._warehouse);
 
         // this._warehouse = wareHouse;
+        console.log(`바닥의 위치ㄴ! ${JSON.stringify(wareHouseMesh.position)}`)
 
         this.rectangleMesh = null;
         this.groundBoundPos = {
@@ -164,6 +198,7 @@ export default class App {
         // console.log(this.groundBoundPos);
     }
 
+    /** 선반 추가 */
     addShelf(rack) {
         // 선반 만들기
         // console.log(this.rackX);
@@ -215,8 +250,19 @@ export default class App {
         // console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
     }
 
-    addItem(item) {
+    /** 짐추가 2, 필요시 삭제 */
+    addLoading(posX, posZ) {
+        console.log("addLoading 호출")
+        let aaa = new createLoadingClass();
+        let bbbb = aaa.createLoading();
+        bbbb.position.set(posX, 0, posZ)
 
+        this.d.add(bbbb)
+        
+    }
+
+    /** 짐 추가 */
+    addItem(item) {
         let itemPos = {
             // x: this.rackX.position.x,
             x: item.itemX,
@@ -261,6 +307,94 @@ export default class App {
 
         // console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
     }
+
+	mouseupHandler(e) {
+		if(e.button == 0 && e.shiftKey) {
+			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+			this.raycaster.setFromCamera(this.mouse, this._camera);
+			const intersects = this.raycaster.intersectObject(this.d);
+			
+			// console.log(`intersecs's length : ${intersects.length}`)
+			if(intersects.length > 0) {
+				const intersection = intersects[0]
+				// console.log(intersects.map(item=>item.object.name));
+				// console.log(intersects.map(item=>item.point))
+				let {x, z} = intersection.point;
+				this.raycaster.selectedMesh = intersection.object
+				this.raycaster.selectedMesh.position.y += 1
+				
+				console.log(`a: ${x}\nb: ${z}`)
+			} else if(intersects.length == 0) {
+				// console.log(intersects)
+			}
+
+		}
+
+		if(e.button == 2 && e.shiftKey) { // 우클릭
+			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+			this.raycaster.setFromCamera(this.mouse, this._camera);
+			const intersects = this.raycaster.intersectObject(this.d);
+			
+			// console.log(`intersecs's length : ${intersects.length}`)
+			if(intersects.length > 0) {
+				const intersection = intersects[0]
+				// console.log(intersects.map(item=>item.object.name));
+				// console.log(intersects.map(item=>item.point))
+				let {x, z} = intersection.point;
+				this.raycaster.selectedMesh = intersection.object
+				this.raycaster.selectedMesh.position.y -= 1
+				
+				console.log(`a: ${x}\nb: ${z}`)
+			} else if(intersects.length == 0) {
+				// console.log(intersects)
+			}
+
+
+
+
+
+		}
+
+		if(e.button == 0 && !e.shiftKey) {
+			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+			this.raycaster.setFromCamera(this.mouse, this._camera);
+			const intersects = this.raycaster.intersectObjects(this._scene.children);
+			
+			// console.log(`intersecs's length : ${intersects.length}`)
+			// console.log("this._scene", this._scene)
+			if(intersects.length > 0) {
+				const intersection = intersects[0]
+				let x = parseInt(intersection.point.x * 100) / 100
+				let z = parseInt(intersection.point.z * 100) / 100
+
+				this.addLoading(x, z);
+				
+			}
+		}
+
+		if(e.button == 2 && !e.shiftKey) {
+			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+			this.raycaster.setFromCamera(this.mouse, this._camera);
+			const intersects = this.raycaster.intersectObject(this.d);
+
+			console.log("우클릭")
+			if(intersects.length > 0) {
+				this.raycaster.selectedMesh = intersects[0].object;
+
+				this.d.remove(this.raycaster.selectedMesh);
+			}
+		}
+	}
+
+
+
+
+
+
 
     // 창의 크기가 변경될때 발생하는 이벤트
     resize() {
