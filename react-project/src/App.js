@@ -21,11 +21,12 @@ import In_HJ from './components/In_HJ';
 import In_02 from './components/In_02';
 import Dashboard from './components/Dashboard'
 import Notice  from './components/Notice';
+import axios from 'axios'
 
 const App = () => {
 
-  const [uid, setUid] = useState('smart')
-  const [comSeq, setComSeq] = useState(1);
+  const [uid, setUid] = useState('')
+  const [comSeq, setComSeq] = useState(0);
   const [newWareData, setNewWareData] = useState({})
 
   //혜주 추가 - 바코드 값 관리
@@ -34,19 +35,19 @@ const App = () => {
     title: '',
   }]);
 
-  // useEffect(() => {
-  //   axios.get('http://localhost:8000/user')
-  //   .then((res) => {
-  //     console.log(res);
-  //     if (res.data) {
-  //       setUid(true)
-  //       setComSeq(res.data.com_seq)
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //   })
-  // }, [])
+  useEffect(() => {
+    axios.get('http://localhost:8000/user')
+    .then((res) => {
+      console.log(res);
+      if (res.data) {
+        setUid(true)
+        setComSeq(res.data.com_seq)
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [])
 
   return (
     <div>
@@ -54,9 +55,9 @@ const App = () => {
         <div>
           <Routes>
             {/* 개발 끝나면 지워주세요 */}
-            <Route index element={ <Login /> } />
+            {/* <Route index element={ <Login /> } />
             <Route path='/join' element={ <Join /> } />
-            <Route path='/register/company' element={ <RegisterCompany /> } />
+            <Route path='/register/company' element={ <RegisterCompany /> } /> */}
             {/* 개발 끝나면 지워주세요 */}
             <Route element={ <Layout /> } >
               {/* 대시보드 */}
