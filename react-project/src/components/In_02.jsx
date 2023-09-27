@@ -90,6 +90,7 @@ function In_02() {
       if (res.data[0]>0) {
         console.log('새로고침');
         window.location.href = 'http://localhost:3000/in/loading' 
+        
       }
     })
     .catch((err) => {
@@ -102,10 +103,15 @@ function In_02() {
 
 
   const handleLoading = (record) => {
+    
+
     console.log('handlePosition', record);
     setHandleData(record)
     // 모달 상태관리
     nav(`/warehouse/${wh_seq}`)
+    
+    
+    
     setIsModalOpen(true);
   }
 

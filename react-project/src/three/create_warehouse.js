@@ -3,6 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PreventDragClick } from './PreventDragClick';
 import createRack from './createRackModule';
 import createLoading from "./createLoading";
+import Rack from "./Rack";
 
 export default class App {
 
@@ -422,6 +423,12 @@ export default class App {
 			console.log("현재 선반의 층수는?", this.rackFloor)
 
 			let rackGroup = createRack(this.rectangleWidth, this.rectangleHeight, this.rackFloor, rackPos)
+			// let rackGroup = new Rack(this.rectangleWidth, this.rectangleHeight, this.rackFloor, rackPos)
+			
+			// rackGroup.getMinX()()
+			// console.log("rack의 min 값, rackGroup.getMinX", rackGroup.getMinX())
+			// console.log("rack의 min 값, rackGroup.minX", rackGroup.minX)
+
 			let mesh = new THREE.Box3().setFromObject(rackGroup)
 
 			let aa = {

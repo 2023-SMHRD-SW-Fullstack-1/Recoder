@@ -5,7 +5,7 @@ import createItem from './createItem'
 import { PreventDragClick } from './PreventDragClick';
 
 export default class App {
-    constructor(warehouseWidth, warehouseLength, racks, items) {
+    constructor(warehouseWidth, warehouseLength, racks, stocks) {
 
         // 변수
         this.meshes = []
@@ -21,14 +21,16 @@ export default class App {
 
         const scene = new THREE.Scene(); // scene 객체
         this._scene = scene;
-        scene.background = new THREE.Color(0xffffff);
+        scene.background = new THREE.Color(0xffff00);
         // scene.background = new THREE.Color(0x71a379);
 
         this.cellSize = 1; // 각 격자 칸의 크기를 클래스 멤버로 정의
         this.width = warehouseWidth;
         this.length = warehouseLength;
         this.racks = racks
-        this.items = items
+        // this.items = items
+        this.stocks = stocks
+        // this.items = stocks
         
 
         this._setupCamera();
@@ -91,7 +93,11 @@ export default class App {
         // for( const item of this.items){
         //     this.addItem(item);
         // }
-        this.addItem(this.items)
+        // this.addItem(this.items)
+        this.addItem(this.stocks)
+        for( const stock of this.stocks){
+            this.addItem(stock);
+        }
     }
 
     _createBoard() {
@@ -219,10 +225,11 @@ export default class App {
 
         let itemPos = {
             // x: this.rackX.position.x,
-            x: item.itemX,
+            // x: item.itemX,
+            x: item.loadingPosition1,
             y: 0.2,
             // z: this.rackZ.position.z
-            z: item.itemZ
+            z: item.loadingPosition2
         }
 
         // Rack 생성부분 - createRack 호출

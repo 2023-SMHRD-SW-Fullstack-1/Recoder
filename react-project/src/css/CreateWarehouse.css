@@ -23,14 +23,13 @@
     position: absolute;
     right: 10px;
     top: 30px;
-    
-    
+
     & button {
         z-index: 1;
         position: relative;
     }
-
 }
+
 
 .modal-open-btn {
     cursor: pointer;
