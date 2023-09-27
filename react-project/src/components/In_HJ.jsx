@@ -3,9 +3,12 @@ import Table_HJ from "./Table_HJ";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import "../css/in01.css";
-import TopBoard from "./Out/TopBoard";
+import DatePicker from './Stock/DatePicker'
+import StockDropDown from './Stock/StockDropDown'
 
 function In_HJ() {
+  const [value, setValue] = useState('5개씩 보기');
+
   const nav = useNavigate();
 
   // 로그인 데이터 정보
@@ -20,9 +23,9 @@ function In_HJ() {
     console.log("페이지전환");
     // const barCode = inputItem.map((item) => item.title);
     // const barCode = ["001", "002", "003"];
-const inData = {
-  com_seq:com_seq
-}
+    const inData = {
+      com_seq: com_seq,
+    };
     axios
       .post("http://localhost:8000/in/create", inData)
       .then((response) => {
@@ -44,18 +47,19 @@ const inData = {
       com_seq: com_seq,
       stock_seq: record.stock_seq,
     };
-    axios.post('http://localhost:8000/in/send/loading', pickBc)
+    axios
+      .post("http://localhost:8000/in/send/loading", pickBc)
       .then((res) => {
         console.log(res.data[0]);
-        if (res.data[0]>0) {
-          console.log('새로고침');
-          window.location.href = 'http://localhost:3000/in/create' 
+        if (res.data[0] > 0) {
+          console.log("새로고침");
+          window.location.href = "http://localhost:3000/in/create";
         }
       })
       .catch((err) => {
         console.error(err);
-      })
-    }
+      });
+  };
 
   const title = "입고예정";
   const items = [];
@@ -144,7 +148,7 @@ const inData = {
     stock_price: item.Stock.stock_price,
     cl_seq: item.Stock.cl_seq,
     stock_barcode: item.Stock.stock_barcode,
-    stock_expired: item.Stock.stock_expired.substring(0,10),
+    stock_expired: item.Stock.stock_expired.substring(0, 10),
     stock_bal: item.Stock.stock_balance_cnt,
     in_btn: "등록",
   }));
@@ -243,10 +247,12 @@ const inData = {
   return (
     <div id="in-container">
       <div id="in-header">
-        {/* <span>입고 예정</span> */}
+        <span>입고 예정</span>
       </div>
-      <TopBoard />
-      {/* <div id="in-filter">필터(기능 만들고 height를 fit content로 바꿔주세요)</div> */}
+      <div id='stock-filter'>
+        <DatePicker />
+        <StockDropDown value={ value } setValue={ setValue } />
+      </div>
       <div>
         <Table_HJ columns={columns} data={data} />
       </div>

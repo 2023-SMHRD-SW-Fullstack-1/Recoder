@@ -63,10 +63,10 @@ const App = () => {
               <Route path='/main' element={ <Dashboard comSeq={ comSeq } /> } />
               {/* 재고 */}
               <Route path='/stock/select' element={ <StockSelect comSeq={ comSeq } />} />
+              <Route path='/notice/create' element={ <Notice /> } />
               {/* 입고 */}
               <Route path='/in/create' element={ <In_HJ inputItem={inputItem} setInputItem={setInputItem}/> } /> 
               <Route path='/in/loading' element={ <In_02 /> } />
-              <Route path='/notice/create' element={ <Notice/> } />
               {/* 출고 */}
               <Route path='/out/create' element={ <Out_01 /> } />
               <Route path='/out/controll' element={ <Out_02 /> } />    

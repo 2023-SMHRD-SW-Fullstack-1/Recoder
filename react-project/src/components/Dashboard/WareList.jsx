@@ -21,19 +21,19 @@ const WareList = () => {
       title: "창고 보기",
       dataIndex: "cl_seq",
       key: "cl_seq",
-      render: () => (
-        <button
-          style={{
-            background: "transparent",
-            border: "none",
-            boxShadow: "0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04)",
-            borderRadius: 4,
-            padding: 4,
-          }}
-        >
-          <KeyboardArrowRightIcon />
-        </button>
-      ),
+      // render: () => (
+      //   <button
+      //     style={{
+      //       background: "transparent",
+      //       border: "none",
+      //       boxShadow: "0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04)",
+      //       borderRadius: 4,
+      //       padding: 4,
+      //     }}
+      //   >
+      //     <KeyboardArrowRightIcon />
+      //   </button>
+      // ),
     },
   ];
 

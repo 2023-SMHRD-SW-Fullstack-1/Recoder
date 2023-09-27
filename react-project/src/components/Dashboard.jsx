@@ -104,8 +104,8 @@ const Dashboard = ({ comSeq }) => {
 
   return (
     <div id="dashboard">
-      {/* <div id="dashboard-header">
-        <Stack
+      <div id="dashboard-header">
+        {/* <Stack
           direction="row"
           spacing={1}
           sx={{ position: "relative", marginLeft: "24px" }}
@@ -117,8 +117,8 @@ const Dashboard = ({ comSeq }) => {
           />
         </Stack>
         <MailOutlineIcon sx={{ fontSize: 30, marginLeft: "24px" }} />
-        <NotificationsNoneIcon sx={{ fontSize: 30 }} />
-      </div> */}
+        <NotificationsNoneIcon sx={{ fontSize: 30 }} /> */}
+      </div>
       <div>
         <div id="dashboard-body1">
           <div id="dashboard-item1">
