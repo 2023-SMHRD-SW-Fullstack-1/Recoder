@@ -182,10 +182,6 @@ function Notice() {
     getNameList();
   }, []);
 
-  const handlePageNumberClick = (page) => {
-    setPageNum(page);
-  };
-
   return (
     <div id="stock-container">
       <div id="stock-header">
@@ -209,16 +205,6 @@ function Notice() {
       <div id="notice_table">
         <Table_HJ columns={columns} data={data} />
       </div>
-      <Pagination
-        style={{
-          textAlign: "center",
-          marginTop: "12px",
-        }}
-        current={pageNum}
-        total={stockCount}
-        pageSize={intValue}
-        onChange={handlePageNumberClick}
-      />
       <Modal
         title="재고량 수정"
         open={isModalOpen}
