@@ -7,18 +7,19 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import WareList from "./Dashboard/WareList";
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Dashboard = ({ comSeq }) => {
   const [inList, setInList] = useState([]);
   const [stockList, setStockList] = useState([]);
   const [outList, setOutList] = useState([]);
-  const [isInClick, setIsInClick] = useState(true)
-  const [isStockClick, setIsStockClick] = useState(true)
-  const [isOutClick, setIsOutClick] = useState(true)
+  const [isInClick, setIsInClick] = useState(true);
+  const [isStockClick, setIsStockClick] = useState(true);
+  const [isOutClick, setIsOutClick] = useState(true);
 
   const getInData = () => {
     return axios.get(`http://localhost:8000/in/${comSeq}/B`);
@@ -44,61 +45,78 @@ const Dashboard = ({ comSeq }) => {
 
   const inClick = () => {
     if (isInClick) {
-      setIsInClick(false)
+      setIsInClick(false);
     } else {
-      setIsInClick(true)
+      setIsInClick(true);
     }
-  }
+  };
   const stockClick = () => {
     if (isStockClick) {
-      setIsStockClick(false)
+      setIsStockClick(false);
     } else {
-      setIsStockClick(true)
+      setIsStockClick(true);
     }
-  }
+  };
   const outClick = () => {
     if (isOutClick) {
-      setIsOutClick(false)
+      setIsOutClick(false);
     } else {
-      setIsOutClick(true)
+      setIsOutClick(true);
     }
-  }
+  };
 
   useEffect(() => {
     getInData()
-    .then((res) => {
-      setInList(res.data);
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-  }, [isInClick])
+      .then((res) => {
+        setInList(res.data);
+        setTimeout(() => {
+          setIsInClick(true);
+        }, 300);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [isInClick]);
   useEffect(() => {
     getStockData()
-    .then((res) => {
-      setStockList(res.data);
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-  }, [isStockClick])
+      .then((res) => {
+        setStockList(res.data);
+        setTimeout(() => {
+          setIsStockClick(true);
+        }, 300);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [isStockClick]);
   useEffect(() => {
     getOutData()
-    .then((res) => {
-      setOutList(res.data);
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-  }, [isOutClick])
+      .then((res) => {
+        setOutList(res.data);
+        setTimeout(() => {
+          setIsOutClick(true);
+        }, 300);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [isOutClick]);
 
   return (
     <div id="dashboard">
       <div id="dashboard-header">
-        <Stack direction="row" spacing={1} sx={{ position: 'relative', marginLeft: '24px' }}>
-          <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" sx={{ width: 35, height: 35 }} />      
-        </Stack>      
-        <MailOutlineIcon sx={{ fontSize: 30, marginLeft: '24px' }} />
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{ position: "relative", marginLeft: "24px" }}
+        >
+          <Avatar
+            alt="Travis Howard"
+            src="/static/images/avatar/2.jpg"
+            sx={{ width: 35, height: 35 }}
+          />
+        </Stack>
+        <MailOutlineIcon sx={{ fontSize: 30, marginLeft: "24px" }} />
         <NotificationsNoneIcon sx={{ fontSize: 30 }} />
       </div>
       <div>
@@ -127,11 +145,19 @@ const Dashboard = ({ comSeq }) => {
             <div className="dashboard-item-header">
               <span>입고예정</span>
               <div>
-                <button onClick={inClick}><CachedIcon /></button>
-                <Link to='/in/create'><OpenInNewIcon /></Link>
+                <button onClick={inClick}>
+                  <CachedIcon />
+                </button>
+                <Link to="/in/create">
+                  <OpenInNewIcon />
+                </Link>
               </div>
             </div>
-            <ShortInList inList={inList} />
+            {!isInClick ? (
+              <CircularProgress />
+            ) : (
+              <ShortInList inList={inList} />
+            )}
           </div>
         </div>
         <div id="dashboard-body2">
@@ -139,21 +165,37 @@ const Dashboard = ({ comSeq }) => {
             <div className="dashboard-item-header">
               <span>재고</span>
               <div>
-                <button onClick={stockClick}><CachedIcon /></button>
-                <Link to='/stock/select'><OpenInNewIcon /></Link>
+                <button onClick={stockClick}>
+                  <CachedIcon />
+                </button>
+                <Link to="/stock/select">
+                  <OpenInNewIcon />
+                </Link>
               </div>
             </div>
-            <ShortStockList stockList={stockList} />
+            {!isStockClick ? (
+              <CircularProgress />
+            ) : (
+              <ShortStockList stockList={stockList} />
+            )}
           </div>
           <div id="dashboard-item4">
             <div className="dashboard-item-header">
               <span>출고완료</span>
               <div>
-                <button onClick={outClick}><CachedIcon /></button>
-                <Link to='/out/controll'><OpenInNewIcon /></Link>
+                <button onClick={outClick}>
+                  <CachedIcon />
+                </button>
+                <Link to="/out/controll">
+                  <OpenInNewIcon />
+                </Link>
               </div>
             </div>
-            <ShortOutList outList={outList} />
+            {!isOutClick ? (
+              <CircularProgress />
+            ) : (
+              <ShortOutList outList={outList} />
+            )}
           </div>
         </div>
       </div>
