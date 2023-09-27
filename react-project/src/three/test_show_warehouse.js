@@ -21,7 +21,7 @@ export default class App {
 
         const scene = new THREE.Scene(); // scene 객체
         this._scene = scene;
-        scene.background = new THREE.Color(0xffffff);
+        scene.background = new THREE.Color(0xffff00);
         // scene.background = new THREE.Color(0x71a379);
 
         this.cellSize = 1; // 각 격자 칸의 크기를 클래스 멤버로 정의

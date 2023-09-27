@@ -1,4 +1,13 @@
 #waredetail-container {
-    flex: 1;
-  }
-  
+	/* flex: 1; */
+	position: relative;
+	width: 100%;
+	height: 100vh;
+}
+
+.warehouse .button-container {
+	position: absolute;
+	background-color: pink;
+	width: 100%;
+}
+

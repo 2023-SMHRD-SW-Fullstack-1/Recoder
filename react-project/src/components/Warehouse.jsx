@@ -80,7 +80,13 @@ const Warehouse = () => {
   }, [warehouseData]);
 
   return (
-    <div id="waredetail-container"></div>
+    <div className='warehouse' >
+      <div id="waredetail-container" />
+
+      <div className='button-container'>
+        <button type='button'> 짐 추가 </button>
+      </div>
+    </div>
   );
 }
 
