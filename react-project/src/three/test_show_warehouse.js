@@ -5,7 +5,7 @@ import createItem from './createItem'
 import { PreventDragClick } from './PreventDragClick';
 
 export default class App {
-    constructor(warehouseWidth, warehouseLength, racks, items) {
+    constructor(warehouseWidth, warehouseLength, racks, stocks) {
 
         // 변수
         this.meshes = []
@@ -28,7 +28,9 @@ export default class App {
         this.width = warehouseWidth;
         this.length = warehouseLength;
         this.racks = racks
-        this.items = items
+        // this.items = items
+        this.stocks = stocks
+        // this.items = stocks
         
 
         this._setupCamera();
@@ -91,7 +93,11 @@ export default class App {
         // for( const item of this.items){
         //     this.addItem(item);
         // }
-        this.addItem(this.items)
+        // this.addItem(this.items)
+        this.addItem(this.stocks)
+        for( const stock of this.stocks){
+            this.addItem(stock);
+        }
     }
 
     _createBoard() {
@@ -219,10 +225,11 @@ export default class App {
 
         let itemPos = {
             // x: this.rackX.position.x,
-            x: item.itemX,
+            // x: item.itemX,
+            x: item.loadingPosition1,
             y: 0.2,
             // z: this.rackZ.position.z
-            z: item.itemZ
+            z: item.loadingPosition2
         }
 
         // Rack 생성부분 - createRack 호출
