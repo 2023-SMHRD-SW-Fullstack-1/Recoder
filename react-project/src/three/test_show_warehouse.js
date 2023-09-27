@@ -108,7 +108,7 @@ export default class App {
         // }
         this.addItem(this.items)
 
-        this.d = new THREE.Group();
+        this.loading = new THREE.Group();
         let a = new THREE.BoxGeometry(1, 1, 1);
         let b = new THREE.MeshPhongMaterial();
         let c = new THREE.Mesh(a, b);
@@ -120,8 +120,8 @@ export default class App {
 
         let c2 = new THREE.Mesh(a, b);
         c2.position.set(2,0,0)
-        this.d.add(c,c1,c2)
-        this._scene.add(this.d);
+        this.loading.add(c,c1,c2)
+        this._scene.add(this.loading);
 
 
     }
@@ -148,7 +148,7 @@ export default class App {
             visible: false,
         });
 
-        const group1 = new THREE.Group();
+        this.ground = new THREE.Group();
         const wareHouseMesh = new THREE.Mesh(planeGeometry, wareHouseMaterial);
         // 노란색 라인 생성
         const lineMaterial = new THREE.LineBasicMaterial({ color: 0xa0a0a0 });
@@ -162,14 +162,17 @@ export default class App {
         wareHouseMesh.name = "ground";
         // 바닥을 group1에 추가
         wareHouseMesh.rotation.x = THREE.MathUtils.degToRad(-90);
-        group1.add(wareHouseMesh);
+        this.ground.add(wareHouseMesh);
+		
         this.groundBound = new THREE.Box3().setFromObject(wareHouseMesh);
 
         // 선 이름 설정
         line.name = "선"
         // group1.add(line);
         // 선을 씬에 추가
-        this._scene.add(line);
+		this.line = new THREE.Group()
+		this.line.add(line)
+        this._scene.add(this.line);
 
         // 판 돌리기
         line.rotation.x = -Math.PI / 2; // 90도
@@ -178,10 +181,11 @@ export default class App {
         // mesh.position.set(0, 0, 0);
 
         // this._warehouse에 group1을 추가
-        this._warehouse.add(group1);
+        // this._warehouse.add(group1);
 
         // this._scene에 this._warehouse를 추가
-        this._scene.add(this._warehouse);
+        // this._scene.add(this._warehouse);
+        this._scene.add(this.ground);
 
         // this._warehouse = wareHouse;
         console.log(`바닥의 위치ㄴ! ${JSON.stringify(wareHouseMesh.position)}`)
@@ -257,7 +261,7 @@ export default class App {
         let bbbb = aaa.createLoading();
         bbbb.position.set(posX, 0, posZ)
 
-        this.d.add(bbbb)
+        this.loading.add(bbbb)
         
     }
 
@@ -313,7 +317,7 @@ export default class App {
 			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
 			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 			this.raycaster.setFromCamera(this.mouse, this._camera);
-			const intersects = this.raycaster.intersectObject(this.d);
+			const intersects = this.raycaster.intersectObject(this.loading);
 			
 			// console.log(`intersecs's length : ${intersects.length}`)
 			if(intersects.length > 0) {
@@ -335,7 +339,7 @@ export default class App {
 			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
 			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 			this.raycaster.setFromCamera(this.mouse, this._camera);
-			const intersects = this.raycaster.intersectObject(this.d);
+			const intersects = this.raycaster.intersectObject(this.loading);
 			
 			// console.log(`intersecs's length : ${intersects.length}`)
 			if(intersects.length > 0) {
@@ -361,7 +365,7 @@ export default class App {
 			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
 			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 			this.raycaster.setFromCamera(this.mouse, this._camera);
-			const intersects = this.raycaster.intersectObjects(this._scene.children);
+			const intersects = this.raycaster.intersectObject(this.ground);
 			
 			// console.log(`intersecs's length : ${intersects.length}`)
 			// console.log("this._scene", this._scene)
@@ -379,13 +383,13 @@ export default class App {
 			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
 			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 			this.raycaster.setFromCamera(this.mouse, this._camera);
-			const intersects = this.raycaster.intersectObject(this.d);
+			const intersects = this.raycaster.intersectObject(this.loading);
 
 			console.log("우클릭")
 			if(intersects.length > 0) {
 				this.raycaster.selectedMesh = intersects[0].object;
 
-				this.d.remove(this.raycaster.selectedMesh);
+				this.loading.remove(this.raycaster.selectedMesh);
 			}
 		}
 	}
