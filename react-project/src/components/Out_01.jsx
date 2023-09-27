@@ -3,10 +3,21 @@ import Table_HJ from './Table_HJ';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import TopBoard from './Out/TopBoard';
-import { Button, Modal } from 'antd';
+import { Button, Modal ,Pagination} from 'antd';
 import '../css/out1.css'
-
+import StockDropDown from './Stock/StockDropDown'
 function Out_01() {
+
+  
+  const [stockCount, setStockCount] = useState(0)
+  const [value, setValue] = useState('5개씩 보기');
+  const [intValue, setIntValue] = useState(5)
+  const [pageNum, setPageNum] = useState(1)
+
+  const handlePageNumberClick = (page) => {
+    setPageNum(page)    
+  }
+
   const [outStockList, setOutStockList] = useState([]);
   const id = "smart";
   const wh_seq = 1;
@@ -194,7 +205,7 @@ function Out_01() {
   }
   useEffect(() => {
     getOutStock();
-  }, []);
+  }, [pageNum, intValue]);
 
   return (
     <div className="out-container">
@@ -204,9 +215,20 @@ function Out_01() {
           <TopBoard title={'출고 등록'} items={items} />
         </div>
         <div id="in01_bottom">
+        <StockDropDown value={ value } setValue={ setValue } />
           <Table_HJ columns={columns} data={data} />
         </div>
       </div>
+      <Pagination
+        style={{
+          textAlign: 'center',
+          marginTop: '12px'
+        }}
+        current={pageNum}
+        total={stockCount}
+        pageSize={intValue}
+        onChange={handlePageNumberClick}
+      />
       <Modal title="출고 등록" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <div id='out_modal'>
           <span>출고일</span><input id='dateInput' onChange={desHandler} name='out_date' type='date'></input><br />
@@ -229,6 +251,7 @@ function Out_01() {
           <input type='text' id='desInput' placeholder='배송지입력' onChange={desHandler} name = 'out_des_self'/>
           )}
         </div>
+       
       </Modal>
     </div>
   );

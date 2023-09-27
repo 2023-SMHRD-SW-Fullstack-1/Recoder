@@ -3,8 +3,16 @@ import Table_HJ from "./Table_HJ";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import TopBoard from "./Out/TopBoard";
-
+import { Button, Modal ,Pagination} from 'antd';
+import StockDropDown from './Stock/StockDropDown'
 function Out_02() {
+  const [stockCount, setStockCount] = useState(0)
+  const [value, setValue] = useState('5개씩 보기');
+  const [intValue, setIntValue] = useState(5)
+  const [pageNum, setPageNum] = useState(1)
+  const handlePageNumberClick = (page) => {
+    setPageNum(page)    
+  }
   const id = "smart";
   const wh_seq = 1;
   const com_seq = 1;
@@ -113,7 +121,7 @@ function Out_02() {
 
   useEffect(() => {
     outControllList();
-  }, []);
+  }, [pageNum, intValue]);
 
   return (
     <div className="out-container">
@@ -122,9 +130,21 @@ function Out_02() {
         <div id="in01_top">
           <TopBoard title={'출고 이력'} items={items} />
         </div>
+      
         <div id="in01_bottom">
+        <StockDropDown value={ value } setValue={ setValue } />
           <Table_HJ columns={columns} data={data} />
         </div>
+        <Pagination
+        style={{
+          textAlign: 'center',
+          marginTop: '12px'
+        }}
+        current={pageNum}
+        total={stockCount}
+        pageSize={intValue}
+        onChange={handlePageNumberClick}
+      />
       </div>
     </div>
   );
