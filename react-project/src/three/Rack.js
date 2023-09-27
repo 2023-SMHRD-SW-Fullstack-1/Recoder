@@ -44,7 +44,16 @@ export default class Rack {
 			Math.random()
 		);
 
-		const material = new THREE.MeshBasicMaterial({color:0xf1c2ff})
+		const material = new THREE.MeshBasicMaterial({
+			color:"#9b59b6",
+			emissive: 0x000000,
+			roughness: 1,
+			metalness: 0,
+			clearcoat: 1,
+			clearcoatRoughness: 0,
+			wireframe: false,
+			flatShading: false
+		})
 		const boardMesh = new THREE.Mesh(board, material);
 
 		const pilar1 = new THREE.Mesh(pilar, material);
