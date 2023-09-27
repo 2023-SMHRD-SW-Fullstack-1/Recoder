@@ -5,7 +5,8 @@ import App from '../three/test_show_warehouse'
 import axios from 'axios';
 import '../css/wareDetail.css'
 
-const Warehouse = () => {
+const Warehouse = ({ comSeq }) => {
+  console.log("com_seq가온나", comSeq);
   let { wh_seq } = useParams()
   console.log("wh_seq 값", wh_seq);
 
@@ -27,42 +28,50 @@ const Warehouse = () => {
     Promise.all([
       axios.get(`http://localhost:8000/warehouse/${wh_seq}`),
       axios.get(`http://localhost:8000/rack/${wh_seq}`),
-      axios.get(`http://localhost:8000/stock/${wh_seq}`)
+      axios.get(`http://localhost:8000/stock/show/${comSeq}`)
     ])
-    .then(([warehouseRes, rackRes, stockRes]) => {
-      console.log("랙 데이터 배열", rackRes.data);
-      const racks = rackRes.data.map(rack => ({
-        rackFloor: parseInt(rack.rack_floor),
-        rackWidth: parseInt(rack.rack_width),
-        rackLength: parseInt(rack.rack_length),
-        rackX: parseInt(rack.rack_x),
-        rackZ: parseInt(rack.rack_z)
-      }));
+      .then(([warehouseRes, rackRes, stockRes]) => {
+        console.log("랙 데이터 배열", rackRes.data);
+        const racks = rackRes.data.map(rack => ({
+          rackFloor: parseInt(rack.rack_floor),
+          rackWidth: parseInt(rack.rack_width),
+          rackLength: parseInt(rack.rack_length),
+          rackX: parseInt(rack.rack_x),
+          rackZ: parseInt(rack.rack_z)
+        }));
 
-      console.log("racks 찍어보자", racks);
+        console.log("racks 찍어보자", racks);
 
-      console.log("상품 데이터 배열", stockRes);
-      // const stocks = stockRes.data.map(stock => ({
 
-      // }))
-      
-      // console.log("stock 가져오니라", stocks);
+        console.log("상품 데이터 배열", stockRes);
 
-      setWarehouseData({
-        warehouseWidth: parseInt(warehouseRes.data.wh_width),
-        warehouseLength: parseInt(warehouseRes.data.wh_length),
-        racks,
-        items: {
-          itemWidth: 0.8,
-          itemLength: 0.8,
-          itemX: -1,
-          itemZ: 5
-        },
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+        const stocks = stockRes.data.map(stock => {
+          const [pos1, pos2] = stock.loading_position.split(',').map(Number);
+          return{
+            loadingFloor: stock.loading_floor,
+            loadingPosition1: pos1,
+            loadingPosition2: pos2
+          }
+        })
+
+        console.log("stock 가져오니라", stocks);
+
+        setWarehouseData({
+          warehouseWidth: parseInt(warehouseRes.data.wh_width),
+          warehouseLength: parseInt(warehouseRes.data.wh_length),
+          racks,
+          stocks
+          // items: {
+          //   itemWidth: 0.8,
+          //   itemLength: 0.8,
+          //   itemX: -1,
+          //   itemZ: 5
+          // },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }, [wh_seq])
 
   useEffect(() => {
@@ -74,7 +83,8 @@ const Warehouse = () => {
         warehouseData.warehouseWidth,
         warehouseData.warehouseLength,
         warehouseData.racks,
-        warehouseData.items
+        // warehouseData.items
+        warehouseData.stocks
       );
     }
   }, [warehouseData]);

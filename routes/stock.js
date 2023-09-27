@@ -1,5 +1,5 @@
 const express = require('express')
-const { fn, col } = require('sequelize');
+const { fn, col, Op } = require('sequelize');
 const { Client, Company, Loading, Notice, Rack, Stock, User, Warehouse } = require('../models')
 
 const router = express.Router()
@@ -7,7 +7,7 @@ const router = express.Router()
 // loading_type이 I인 데이터 전체 조회
 router.get('/:com_seq', async (req, res, next) => {
   let com_seq = req.params.com_seq
-
+  console.log("혹시 너니?");
   try {
     const result = await Loading.findAndCountAll({
       where: {
@@ -56,29 +56,24 @@ router.get('/:com_seq/:limit/:offset', async (req, res, next) => {
   }
 })
 
-router.get('/:wh_seq', async (req, res) => {
-  console.log("qwe");
-  let wh_seq = req.params.wh_seq
+router.get('/show/:comSeq', async (req, res) => {
+  console.log("제발가져와주라");
+  // let wh_seq = req.params.wh_seq
   try {
-    const rackList = await Rack.findAll({
+    const stockList = await Loading.findAll({
       // attributes: ['rack_x', 'rack_z', 'rack_width', 'rack_length', 'rack_floor'],
       where: {
-        wh_seq: wh_seq
+        com_seq: req.params.comSeq,
+        loading_type: 'I',
+        loading_floor: {
+          [Op.ne]: null
+        }
       },
       include: [{
-        model: Rack,
-        include: [{
-          model: Loading,
-          where: {
-            loading_type: 'O'
-          },
-          include: [{
-            model: Stock,
-          }]
-        }]
+        model: Stock,
       }]
     })
-    console.log('rackList 가져오기', stockList);
+    console.log('stock 가져오기', stockList);
     res.json(stockList)
   } catch (error) {
     console.error(error);
