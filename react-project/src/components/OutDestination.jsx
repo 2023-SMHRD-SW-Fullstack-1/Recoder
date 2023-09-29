@@ -11,7 +11,7 @@ import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
 import DatePicker from './Stock/DatePicker'
 import StockDropDown from './Stock/StockDropDown'
 
-function OutDestination({selectWhSeq,setSelectWhSeq}) {
+function OutDestination({selectWhSeq}) {
   const [value, setValue] = useState('5개씩 보기');
 
   const id = "smart";

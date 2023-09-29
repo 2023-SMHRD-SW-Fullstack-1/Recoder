@@ -121,7 +121,9 @@ const Dashboard = ({ comSeq,selectWhSeq,setSelectWhSeq}) => {
       </div>
       <div>
         <div id="dashboard-body1">
+      
           <div id="dashboard-item1">
+        
             <div id="current">
               <div id="current-header">
                 <span>물류현황</span>

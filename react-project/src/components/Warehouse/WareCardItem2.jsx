@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import App from "../../three/previewWarehouse";
 import { Link, useNavigate } from "react-router-dom";
-import DeleteAlert from './DeleteAlert'
 
-const WareCardItem = ({ index, wh_name, wh_seq , selectWhSeq,setSelectWhSeq}) => {
+
+const WareCardItem2 = ({ index, wh_name, wh_seq , selectWhSeq,setSelectWhSeq}) => {
   const [warehouseInfo, setWarehouseInfo] = useState(null);
 
   const [warehouseWidth, setWarehouseWidth] = useState(null);
@@ -15,7 +15,11 @@ const WareCardItem = ({ index, wh_name, wh_seq , selectWhSeq,setSelectWhSeq}) =>
 
   const nav = useNavigate()
   const appInstance = useRef(null);
-
+const selectWh = ()=>{
+console.log('창고선택클릭',wh_seq);
+setSelectWhSeq(wh_seq)
+nav("/main");
+}
   // wh_seq를 가지고 해당 창고 정보 불러오기
   useEffect(() => {
     axios
@@ -54,12 +58,13 @@ const WareCardItem = ({ index, wh_name, wh_seq , selectWhSeq,setSelectWhSeq}) =>
         <Link to={`/warehouse/${wh_seq}`}>
           <div>창고 이름 {wh_name}</div>
         </Link>
+      
         <div>보유 상품</div>
         <div>적재율</div>
-        <DeleteAlert wh_seq={wh_seq} />
+        <button onClick={selectWh}>창고선택</button>
       </div>
     </div>
   );
 };
 
-export default WareCardItem;
+export default WareCardItem2;

@@ -21,7 +21,7 @@ function Out_01({selectWhSeq,setSelectWhSeq}) {
 
   const [outStockList, setOutStockList] = useState([]);
   const id = "smart";
-  const wh_seq = 1;
+  const wh_seq = selectWhSeq;
   const com_seq = 1;
 
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -21,6 +21,7 @@ import In_HJ from './components/In_HJ';
 import In_02 from './components/In_02';
 import Dashboard from './components/Dashboard'
 import Notice  from './components/Notice';
+import WareManageSelect from './components/WareMnageSelect';
 
 const App = () => {
 
@@ -59,7 +60,7 @@ const App = () => {
             <Route path='/join' element={ <Join /> } />
             <Route path='/register/company' element={ <RegisterCompany /> } />
             {/* 개발 끝나면 지워주세요 */}
-            <Route element={ <Layout /> } >
+            <Route element={ <Layout selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } >
               {/* 대시보드 */}
               <Route path='/main' element={ <Dashboard selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={ comSeq } /> } />
               {/* 재고 */}
@@ -72,8 +73,8 @@ const App = () => {
               <Route path='/out/create' element={ <Out_01 selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } />
               <Route path='/out/controll' element={ <Out_02 selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } />    
               <Route path='/out/des' element={ <OutDestination selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } />
-              {/* 창고 */}
-              <Route path='/ware/manage' element={ <WareManage selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={comSeq}/> } />
+                  {/* 창고 */}
+         <Route path='/ware/manage' element={ <WareManage selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={comSeq}/> } />
               {/* 마이페이지 */}
               <Route path='/mypage' element={ <Mypage /> } />
               {/* 로그아웃 */}
@@ -84,9 +85,11 @@ const App = () => {
               <Route path='/warehouse/:wh_seq' element={ <Warehouse comSeq={comSeq} /> } />
               <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
               <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
+         {/* 창고 선택*/}
+         <Route path='/ware/select' element={ <WareManageSelect selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={comSeq}/> } />
           </Routes> 
         </div>
-      ) : (
+      ) : ( 
         <Routes>
           <Route path='*' element={ <Login /> } />
           <Route path='/join' element={ <Join /> } />

@@ -13,7 +13,7 @@ function In_HJ({selectWhSeq,setSelectWhSeq}) {
 
   // 로그인 데이터 정보
   const id = "smart";
-  const wh_seq = 1;
+  const wh_seq = selectWhSeq;
   const com_seq = 1;
 
   const [bcData, setBcData] = useState([]);
