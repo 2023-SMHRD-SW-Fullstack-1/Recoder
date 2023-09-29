@@ -12,10 +12,13 @@ export default class App {
 
         // 변수
         this.meshes = []
-
         this.mouseupHandler = this.mouseupHandler.bind(this);
         this._setupModel = this._setupModel.bind(this);
         this.addLoading = this.addLoading.bind(this);
+		this.짐추가가능여부 = false;
+		this.선반추가가능여부 = false;
+        this.rackGroup = new THREE.Group()
+
 
 
         const divContainer = document.querySelector("#waredetail-container");
@@ -42,6 +45,7 @@ export default class App {
         this._setupLight();
         this._setupModel();
         this._setupControls();
+		this._setupMouseEvents();
         // this.setupMouseEvents();
         // _로 시작하는 이유 app 클래스 내부에서만 호출
 
@@ -59,7 +63,6 @@ export default class App {
         this.raycaster.selectedMesh = null;
 
         
-        this._divContainer.addEventListener("mouseup", this.mouseupHandler);
 
         requestAnimationFrame(this.render.bind(this));
     }
@@ -218,8 +221,9 @@ export default class App {
         console.log("현재 선반의 층수는?", rack.rackFloor)
 
         // Rack 생성부분 - createRack 호출
-        let rackGroup = createRack(rack.rackWidth, rack.rackLength, rack.rackFloor, rackPos)
-        let mesh = new THREE.Box3().setFromObject(rackGroup)
+
+        let rackMesh = createRack(rack.rackWidth, rack.rackLength, rack.rackFloor, rackPos)
+        let mesh = new THREE.Box3().setFromObject(rackMesh)
 
         let aa = {
             minX: Math.round(mesh.min.x * 10) / 10,
@@ -247,19 +251,20 @@ export default class App {
             return;
         }
         // this.meshes.push(rackGroup);
-        rackGroup.name = "선반인데요"
-        this._scene.add(rackGroup);
+        rackMesh.name = "선반인데요"
+        this.rackGroup.add(rackMesh)
+        this._scene.add(this.rackGroup);
         // console.log("addShelf", this.meshes)
 
         // console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
     }
 
     /** 짐추가 2, 필요시 삭제 */
-    addLoading(posX, posZ) {
+    addLoading(posX, posY, posZ) {
         console.log("addLoading 호출")
         let aaa = new createLoadingClass();
         let bbbb = aaa.createLoading();
-        bbbb.position.set(posX, 0, posZ)
+        bbbb.position.set(posX, posY, posZ)
 
         this.loading.add(bbbb)
         
@@ -313,6 +318,8 @@ export default class App {
     }
 
 	mouseupHandler(e) {
+		console.log(`x: ${this.newPosX}, y: ${this.newPosY}, z: ${this.newPosZ}  `)
+
 		if(e.button == 0 && e.shiftKey) {
 			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
 			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -354,31 +361,46 @@ export default class App {
 			} else if(intersects.length == 0) {
 				// console.log(intersects)
 			}
-
-
-
-
-
 		}
 
+		// 마우스 좌클릭만
 		if(e.button == 0 && !e.shiftKey) {
 			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
 			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 			this.raycaster.setFromCamera(this.mouse, this._camera);
-			const intersects = this.raycaster.intersectObject(this.ground);
+			const intersects = this.raycaster.intersectObjects(this.rackGroup.children);
 			
-			// console.log(`intersecs's length : ${intersects.length}`)
+            // console.log(`intersecs's length : ${intersects.length}`)
 			// console.log("this._scene", this._scene)
 			if(intersects.length > 0) {
-				const intersection = intersects[0]
-				let x = parseInt(intersection.point.x * 100) / 100
-				let z = parseInt(intersection.point.z * 100) / 100
+                const intersection = intersects[0]
+				// let x = parseInt(intersection.point.x * 100) / 100
+				// let y = parseInt(intersection.point.y * 100) / 100
+				// let z = parseInt(intersection.point.z * 100) / 100
 
-				this.addLoading(x, z);
+
+				const cellX = Math.floor(
+					(intersection.point.x + this.width / 2) / this.cellSize
+				);
+				const cellY = Math.floor(
+					(intersection.point.z + this.length / 2) / this.cellSize
+				);
+
+				
+				let newPosX = cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
+				let newPosY = intersection.point.y + intersection.object.scale.y/2; // 판 위에 놓이도록 약간 위로 띄움
+				let newPosZ = cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
+
+				if(this.짐추가가능여부) {
+					this.addLoading(newPosX, newPosY, newPosZ);
+				}
+
+
 				
 			}
 		}
 
+		// shift x + 마우스 클릭만
 		if(e.button == 2 && !e.shiftKey) {
 			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
 			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -395,7 +417,57 @@ export default class App {
 	}
 
 
+	_setupMouseEvents(짐추가가능여부=false, 선반추가가능여부 = false) {
+		this.짐추가가능여부 = 짐추가가능여부;
+		this.선반추가가능여부 = 선반추가가능여부;
 
+		let newPosX;
+		let newPosY;
+		let newPosZ;
+
+		this._divContainer.addEventListener("mousemove", (event)=>{
+			this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+			this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+			this.raycaster.setFromCamera(this.mouse, this._camera);
+			const intersects = this.raycaster.intersectObject(this.ground);
+
+			
+
+			if(intersects.length > 0) {
+				const intersection = intersects[0];
+				const rectangleGeo = new THREE.PlaneGeometry(1, 1, 1);
+				const rectangleMaterial = new THREE.MeshPhongMaterial({
+					visible: false
+				})
+				const rectangleMesh = new THREE.Mesh(rectangleGeo, rectangleMaterial);
+
+				const cellX = Math.floor(
+					(intersection.point.x + this.width / 2) / this.cellSize
+				);
+				const cellY = Math.floor(
+					(intersection.point.z + this.length / 2) / this.cellSize
+				);
+
+				newPosX = cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
+				newPosY = intersection.point.y + 0.01; // 판 위에 놓이도록 약간 위로 띄움
+				newPosZ = cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
+
+				this.newPosX = newPosX;
+				this.newPosY = newPosY;
+				this.newPosZ = newPosZ;
+
+				this._divContainer.removeEventListener("mouseup", this.mouseupHandler);
+				this._divContainer.addEventListener("mouseup", this.mouseupHandler);
+
+
+
+			}
+
+
+			
+			
+		})
+	}
 
 
 

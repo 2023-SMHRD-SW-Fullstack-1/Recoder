@@ -8,7 +8,7 @@ import '../css/wareDetail.css'
 
 const Warehouse = () => {
   let { wh_seq } = useParams()
-  console.log("wh_seq 값", wh_seq);
+  //console.log("wh_seq 값", wh_seq);
 
   // const [warehouseInfo, setWarehouseInfo] = useState(null);
 
@@ -21,6 +21,9 @@ const Warehouse = () => {
   const [rackZ, setRackZ] = useState(null);
 
   const [warehouseData, setWarehouseData] = useState({});
+
+  const [canAddItem, setCanAddItem] = useState(true);
+  const [canAddRack, setCanAddRack] = useState(true);
 
   const appInstance = useRef(null);
 
@@ -81,7 +84,21 @@ const Warehouse = () => {
   }, [warehouseData]);
 
   function addLoading() {
+    setCanAddItem((prevState) => {
+      // 여기서 prevState를 사용하여 이전 상태를 기반으로 새로운 상태를 계산
+      const newCanAddItem = !prevState;
+      setCanAddRack(newCanAddItem);
+      appInstance.current._setupMouseEvents(
+        canAddItem,
+        canAddRack
+      )
+      return newCanAddItem;
+    });
+
+    // setCanAddItem(!canAddItem);
+    // setCanAddRack(!canAddItem);
     console.log("짐 추가 클릭")
+    
 
   }
 
@@ -91,7 +108,7 @@ const Warehouse = () => {
       <div id="waredetail-container" />
 
       <div className='button-container'>
-        <button type='button' onClick={addLoading}> 짐 추가 </button>
+        <button type='button' onClick={addLoading}>{canAddItem? "짐 추가" : "짐 추가중"}</button>
         <button type='button'> 선반 추가 </button>
       </div>
     </div>
