@@ -7,7 +7,7 @@ import { Button, Modal, Pagination } from "antd";
 import StockDropDown from "./Stock/StockDropDown";
 import DatePicker from './Stock/DatePicker'
 
-function Out_02() {
+function Out_02({selectWhSeq,setSelectWhSeq}) {
   const [stockCount, setStockCount] = useState(0);
   const [value, setValue] = useState("5개씩 보기");
   const [intValue, setIntValue] = useState(5);

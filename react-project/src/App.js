@@ -28,6 +28,7 @@ const App = () => {
   const [comSeq, setComSeq] = useState(1);
   const [newWareData, setNewWareData] = useState({})
 
+  const [selectWhSeq,setSelectWhSeq] = useState([])
   //혜주 추가 - 바코드 값 관리
   const [inputItem, setInputItem] = useState([{
     id: '',
@@ -60,19 +61,19 @@ const App = () => {
             {/* 개발 끝나면 지워주세요 */}
             <Route element={ <Layout /> } >
               {/* 대시보드 */}
-              <Route path='/main' element={ <Dashboard comSeq={ comSeq } /> } />
+              <Route path='/main' element={ <Dashboard selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={ comSeq } /> } />
               {/* 재고 */}
-              <Route path='/stock/select' element={ <StockSelect comSeq={ comSeq } />} />
-              <Route path='/notice/create' element={ <Notice /> } />
+              <Route path='/stock/select' element={ <StockSelect comSeq={ comSeq } selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/>} />
+              <Route path='/notice/create' element={ <Notice  selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } />
               {/* 입고 */}
-              <Route path='/in/create' element={ <In_HJ inputItem={inputItem} setInputItem={setInputItem}/> } /> 
-              <Route path='/in/loading' element={ <In_02 /> } />
+              <Route path='/in/create' element={ <In_HJ selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}inputItem={inputItem} setInputItem={setInputItem}/> } /> 
+              <Route path='/in/loading' element={ <In_02 selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } />
               {/* 출고 */}
-              <Route path='/out/create' element={ <Out_01 /> } />
-              <Route path='/out/controll' element={ <Out_02 /> } />    
-              <Route path='/out/des' element={ <OutDestination /> } />
+              <Route path='/out/create' element={ <Out_01 selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } />
+              <Route path='/out/controll' element={ <Out_02 selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } />    
+              <Route path='/out/des' element={ <OutDestination selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } />
               {/* 창고 */}
-              <Route path='/ware/manage' element={ <WareManage comSeq={comSeq}/> } />
+              <Route path='/ware/manage' element={ <WareManage selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={comSeq}/> } />
               {/* 마이페이지 */}
               <Route path='/mypage' element={ <Mypage /> } />
               {/* 로그아웃 */}

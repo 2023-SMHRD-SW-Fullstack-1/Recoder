@@ -13,7 +13,7 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const Dashboard = ({ comSeq }) => {
+const Dashboard = ({ comSeq,selectWhSeq,setSelectWhSeq}) => {
   const [inList, setInList] = useState([]);
   const [stockList, setStockList] = useState([]);
   const [outList, setOutList] = useState([]);

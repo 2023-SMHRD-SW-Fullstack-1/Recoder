@@ -5,7 +5,7 @@ import axios from "axios";
 import WareCardItem from "./Warehouse/WareCardItem";
 import AddIcon from '@mui/icons-material/Add';
 
-const WareManage = ({ comSeq }) => {
+const WareManage = ({ comSeq ,selectWhSeq,setSelectWhSeq}) => {
   const nav = useNavigate();
   const [warehouseList, setWarehouseList] = useState([]);
   const [testlist, setTestlist] = useState([]);
@@ -36,7 +36,7 @@ const WareManage = ({ comSeq }) => {
       <div id="ware-item-box">
         {warehouseList.length > 0
           ? warehouseList.map((item, index) => (
-              <WareCardItem
+              <WareCardItem selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}
                 key={index}
                 wh_name={item.wh_name}
                 wh_seq={item.wh_seq}
