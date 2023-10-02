@@ -5,16 +5,30 @@ import { useNavigate } from "react-router";
 import TopBoard from "./Out/TopBoard";
 import { Button, Modal, Pagination } from "antd";
 import StockDropDown from "./Stock/StockDropDown";
+import OutDropDown from '../components/Out/OutDropDown'
 import DatePicker from './Stock/DatePicker'
 
-function Out_02() {
+const Out_02 = ({ comSeq }) => {
+  const [wareNameList, setWareNameList] = useState([])
   const [stockCount, setStockCount] = useState(0);
   const [value, setValue] = useState("5개씩 보기");
   const [intValue, setIntValue] = useState(5);
   const [pageNum, setPageNum] = useState(1);
+
+  useEffect(() => {
+    axios.get(`http://localhost:8000/wh_name/${comSeq}`)
+    .then((res) => {
+      console.log('창고 이름 리스트', res);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [])
+
   const handlePageNumberClick = (page) => {
     setPageNum(page);
   };
+
   const id = "smart";
   const wh_seq = 1;
   const com_seq = 1;
@@ -122,14 +136,15 @@ function Out_02() {
   useEffect(() => {
     outControllList();
   }, [pageNum, intValue]);
-
+  
   return (
     <div className="out-container">
       <div className="out-header">
         <span>출고 이력</span>
       </div>
       <div className='out-filter'>
-        <DatePicker />
+        {/* <DatePicker /> */}
+        {/* <OutDropDown value={ value } setValue={ setValue } /> */}
         <StockDropDown value={ value } setValue={ setValue } />
       </div>
       <Table_HJ columns={columns} data={data} />
@@ -153,7 +168,7 @@ function Out_02() {
         onChange={handlePageNumberClick}
       />
     </div>
-  );
+  )
 }
 
-export default Out_02;
+export default Out_02

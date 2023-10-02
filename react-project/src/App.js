@@ -70,7 +70,7 @@ const App = () => {
               <Route path='/in/loading' element={ <In_02 /> } />
               {/* 출고 */}
               <Route path='/out/create' element={ <Out_01 /> } />
-              <Route path='/out/controll' element={ <Out_02 /> } />    
+              <Route path='/out/controll' element={ <Out_02 comSeq={ comSeq } /> } />    
               <Route path='/out/des' element={ <OutDestination /> } />
               {/* 창고 */}
               <Route path='/ware/manage' element={ <WareManage comSeq={comSeq}/> } />

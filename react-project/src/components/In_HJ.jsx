@@ -250,8 +250,8 @@ function In_HJ() {
         <span>입고 예정</span>
       </div>
       <div id='stock-filter'>
-        <DatePicker />
-        <StockDropDown value={ value } setValue={ setValue } />
+        {/* <DatePicker />
+        <StockDropDown value={ value } setValue={ setValue } /> */}
       </div>
       <div>
         <Table_HJ columns={columns} data={data} />

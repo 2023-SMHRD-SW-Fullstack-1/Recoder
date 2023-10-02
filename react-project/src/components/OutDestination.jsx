@@ -108,8 +108,8 @@ function OutDestination() {
         <span>출고품 관리</span>
       </div>
       <div id='stock-filter'>
-        <DatePicker />
-        <StockDropDown value={ value } setValue={ setValue } />
+        {/* <DatePicker />
+        <StockDropDown value={ value } setValue={ setValue } /> */}
       </div>
       <Table_HJ
         // rowKey="stock_name"

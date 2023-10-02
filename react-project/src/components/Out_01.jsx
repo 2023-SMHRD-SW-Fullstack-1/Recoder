@@ -214,8 +214,8 @@ function Out_01() {
         <span>출고 등록</span>
       </div>
       <div className="out-filter">
-        <DatePicker />
-        <StockDropDown value={value} setValue={setValue} />
+        {/* <DatePicker />
+        <StockDropDown value={value} setValue={setValue} /> */}
       </div>
       <Table_HJ columns={columns} data={data} />
       {/* <div id="in_comtainer">
@@ -226,7 +226,7 @@ function Out_01() {
           <StockDropDown value={value} setValue={setValue} />
         </div>
       </div> */}
-      <Pagination
+      {/* <Pagination
         style={{
           textAlign: "center",
           marginTop: "12px",
@@ -235,7 +235,7 @@ function Out_01() {
         total={stockCount}
         pageSize={intValue}
         onChange={handlePageNumberClick}
-      />
+      /> */}
       <Modal
         title="출고 등록"
         open={isModalOpen}

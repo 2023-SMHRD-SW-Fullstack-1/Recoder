@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import WareTable from "./WareTable";
+import axios from 'axios'
 
-const WareList = () => {
+const WareList = ({ comSeq }) => {
+
+  useEffect(() => {
+    axios.get(`http://localhost:8000/ware/wh_name/:comSeq`)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [])
+
   const columns = [
     {
       title: "창고명",

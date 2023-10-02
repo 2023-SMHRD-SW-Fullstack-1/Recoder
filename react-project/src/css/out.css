@@ -13,10 +13,10 @@
 }
 .out-filter {
   width: 100%;
-  height: fit-content;
+  height: 32px;
   /* background-color: lightblue; */
   margin-bottom: 12px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-end;
 }

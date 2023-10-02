@@ -256,8 +256,8 @@ function In_02() {
         <span>입고 등록</span>
       </div>
       <div id='stock-filter'>
-        <DatePicker />
-        <StockDropDown value={ value } setValue={ setValue } />
+        {/* <DatePicker />
+        <StockDropDown value={ value } setValue={ setValue } /> */}
       </div>
       <div id="in01_bottom">
         <Table_HJ columns={columns} data={data} />

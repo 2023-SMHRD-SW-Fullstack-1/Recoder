@@ -188,8 +188,8 @@ function Notice() {
         <span>재고 수량 관리</span>
       </div>
       <div id="stock-filter">
-        <DatePicker />
-        <StockDropDown value={value} setValue={setValue} />
+        {/* <DatePicker />
+        <StockDropDown value={value} setValue={setValue} /> */}
       </div>
       {/* <div id="notice_top">
         <div>재고 수량 관리</div>

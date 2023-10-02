@@ -13,7 +13,7 @@
 }
 #stock-filter {  
   width: 100%;
-  height: fit-content;
+  height: 32px;
   /* background-color: lightblue; */
   margin-bottom: 12px;
   display: flex;

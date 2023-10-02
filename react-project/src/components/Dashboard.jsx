@@ -139,7 +139,7 @@ const Dashboard = ({ comSeq }) => {
                 <Link to="/out/select">30개</Link>
               </div>
             </div>
-            <WareList />
+            <WareList comSeq={ comSeq } />
           </div>
           <div id="dashboard-item2">
             <div className="dashboard-item-header">
