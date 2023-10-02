@@ -18,6 +18,7 @@ export default class App {
 		this.짐추가가능여부 = false;
 		this.선반추가가능여부 = false;
         this.rackGroup = new THREE.Group()
+		this.isMoving = false;
 
 
 
@@ -267,7 +268,6 @@ export default class App {
         bbbb.position.set(posX, posY, posZ)
 
         this.loading.add(bbbb)
-        
     }
 
     /** 짐 추가 */
@@ -365,15 +365,61 @@ export default class App {
 
 		// 마우스 좌클릭만
 		if(e.button == 0 && !e.shiftKey) {
+			console.log(`짐이동여부 : ${this.짐이동여부}`)
+			if(this.짐이동여부 && !this.isMoving) {
+				console.log(`짐이동여부안 : ${this.짐이동여부}`)
+				this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+				this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+				this.raycaster.setFromCamera(this.mouse, this._camera);
+				const intersects = this.raycaster.intersectObjects(this.loading.children);
+				
+				if(intersects.length > 0) {
+					const intersection = intersects[0];
+					this.raycaster.selectedMesh = intersection.object;
+					let selectedMesh = this.raycaster.selectedMesh;
+
+					this.isMoving = true
+					selectedMesh.position.set(selectedMesh.position.x, selectedMesh.position.y + 2, selectedMesh.position.z);
+				}
+				return;
+			} else if(this.짐이동여부 && this.isMoving) {
+				this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+				this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+				this.raycaster.setFromCamera(this.mouse, this._camera);
+				const intersects = this.raycaster.intersectObjects(this.rackGroup.children);
+
+				if(intersects.length > 0) {
+					const intersection = intersects[0];
+
+					const cellX = Math.floor(
+						(intersection.point.x + this.width / 2) / this.cellSize
+					);
+					const cellY = Math.floor(
+						(intersection.point.z + this.length / 2) / this.cellSize
+					);
+	
+					
+					let newPosX = cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
+					let newPosY = intersection.point.y + intersection.object.scale.y/2; // 판 위에 놓이도록 약간 위로 띄움
+					let newPosZ = cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
+
+					this.raycaster.selectedMesh.position.set(newPosX, newPosY, newPosZ);
+					this.isMoving = false;
+				}
+			}
+
+			console.log(`짐이동여부 다음`)
+
+
 			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
 			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 			this.raycaster.setFromCamera(this.mouse, this._camera);
 			const intersects = this.raycaster.intersectObjects(this.rackGroup.children);
 			
-            // console.log(`intersecs's length : ${intersects.length}`)
+			// console.log(`intersecs's length : ${intersects.length}`)
 			// console.log("this._scene", this._scene)
 			if(intersects.length > 0) {
-                const intersection = intersects[0]
+				const intersection = intersects[0]
 				// let x = parseInt(intersection.point.x * 100) / 100
 				// let y = parseInt(intersection.point.y * 100) / 100
 				// let z = parseInt(intersection.point.z * 100) / 100
@@ -391,6 +437,7 @@ export default class App {
 				let newPosY = intersection.point.y + intersection.object.scale.y/2; // 판 위에 놓이도록 약간 위로 띄움
 				let newPosZ = cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
 
+				console.log(`this.짐추가가능여부 : ${this.짐추가가능여부}`)
 				if(this.짐추가가능여부) {
 					this.addLoading(newPosX, newPosY, newPosZ);
 				}
@@ -417,9 +464,10 @@ export default class App {
 	}
 
 
-	_setupMouseEvents(짐추가가능여부=false, 선반추가가능여부 = false) {
+	_setupMouseEvents(짐추가가능여부=false, 선반추가가능여부 = false, 짐이동여부 = false) {
 		this.짐추가가능여부 = 짐추가가능여부;
 		this.선반추가가능여부 = 선반추가가능여부;
+		this.짐이동여부 = 짐이동여부;
 
 		let newPosX;
 		let newPosY;
