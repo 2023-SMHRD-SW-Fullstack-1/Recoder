@@ -43,7 +43,10 @@ const items = [
     getItem("출고 이력", "8"),
     getItem("출고품 관리", "9"),
   ]),
-  getItem("창고", "10", <SettingOutlined />),
+  getItem("창고", "10", <SettingOutlined />,[
+    getItem("관리","13"),
+    getItem("창고 이동","14")
+  ]),
   // 기존 코드-----
   // getItem('창고', 'sub5', <SettingOutlined />, [
   //   getItem('창고관리', '10'),
@@ -61,7 +64,7 @@ const items = [
 
 // submenu keys of first level
 const rootSubmenuKeys = ["sub1", "sub2", "sub3", "sub4", "sub5", "sub6"];
-const App = () => {
+const App = ({selectWhSeq,setSelectWgSeq}) => {
   const [openKeys, setOpenKeys] = useState(["sub1"]);
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -94,9 +97,11 @@ const App = () => {
       nav("/out/controll");
     } else if (key === "9") {
       nav("/out/des");
-    } else if (key === "10") {
+    } else if (key === "13") {
       nav("/ware/manage");
-    } else if (key === "11") {
+    } else if (key === "14") {
+      nav("/ware/select");
+    }else if (key === "11") {
       nav("/mypage");
     } else if (key === "12") {
       nav("/logout");
@@ -106,6 +111,9 @@ const App = () => {
   return (
     <div id="menu_div">
       <div id="sidebar-top">스마트 윤영현님 안녕하세요</div>
+      <div id ="sidebar-wh">
+          <span>접속창고 {selectWhSeq}</span>
+          </div>
       <Menu
         mode="inline"
         openKeys={openKeys}

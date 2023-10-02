@@ -6,14 +6,14 @@ import "../css/in01.css";
 import DatePicker from './Stock/DatePicker'
 import StockDropDown from './Stock/StockDropDown'
 
-function In_HJ() {
+function In_HJ({selectWhSeq,setSelectWhSeq}) {
   const [value, setValue] = useState('5개씩 보기');
 
   const nav = useNavigate();
 
   // 로그인 데이터 정보
   const id = "smart";
-  const wh_seq = 1;
+  const wh_seq = selectWhSeq;
   const com_seq = 1;
 
   const [bcData, setBcData] = useState([]);

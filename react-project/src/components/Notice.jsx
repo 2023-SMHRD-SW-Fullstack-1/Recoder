@@ -8,7 +8,7 @@ import "../css/notice.css";
 import { Button, Modal } from "antd";
 import { Pagination } from "antd";
 
-function Notice() {
+function Notice({selectWhSeq,setSelectWhSeq}) {
   const [stockCount, setStockCount] = useState(0);
   const [intValue, setIntValue] = useState(5);
   const [pageNum, setPageNum] = useState(1);

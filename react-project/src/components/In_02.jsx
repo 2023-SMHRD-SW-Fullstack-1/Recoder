@@ -11,7 +11,7 @@ import Warehouse from "./Warehouse";
 import DatePicker from './Stock/DatePicker'
 import StockDropDown from './Stock/StockDropDown'
 
-function In_02() {
+function In_02({selectWhSeq,setSelectWhSeq}) {
   const [value, setValue] = useState('5개씩 보기');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +26,7 @@ function In_02() {
   const nav = useNavigate();
 
   const id = "smart";
-  const wh_seq = 1;
+  const wh_seq = selectWhSeq;
   const com_seq = 1;
 
   const [loadingList, setLoadingList] = useState([]);

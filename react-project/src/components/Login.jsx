@@ -29,7 +29,8 @@ const Login = () => {
         .then((res) => {
           console.log(res);
           if (res.data.user_id) {
-            window.location.href = 'http://localhost:3000/main'
+            // window.location.href = 'http://localhost:3000/main'
+            window.location.href = 'http://localhost:3000/ware/select'
           }
         })
         .catch((err) => {

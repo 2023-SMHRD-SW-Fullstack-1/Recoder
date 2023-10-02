@@ -9,7 +9,7 @@ import "../css/out.css";
 import DatePicker from "./Stock/DatePicker";
 import StockDropDown from "./Stock/StockDropDown";
 
-function Out_01() {
+function Out_01({selectWhSeq,setSelectWhSeq}) {
   const [stockCount, setStockCount] = useState(0);
   const [value, setValue] = useState("5개씩 보기");
   const [intValue, setIntValue] = useState(5);
@@ -21,7 +21,7 @@ function Out_01() {
 
   const [outStockList, setOutStockList] = useState([]);
   const id = "smart";
-  const wh_seq = 1;
+  const wh_seq = selectWhSeq;
   const com_seq = 1;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -205,6 +205,7 @@ function Out_01() {
     setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
   };
   useEffect(() => {
+    console.log('선택하신 창고 번호',selectWhSeq);
     getOutStock();
   }, [pageNum, intValue]);
 

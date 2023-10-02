@@ -8,7 +8,7 @@ import StockDropDown from "./Stock/StockDropDown";
 import OutDropDown from '../components/Out/OutDropDown'
 import DatePicker from './Stock/DatePicker'
 
-const Out_02 = ({ comSeq }) => {
+const Out_02 = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
   const [wareNameList, setWareNameList] = useState([])
   const [stockCount, setStockCount] = useState(0);
   const [value, setValue] = useState("5개씩 보기");

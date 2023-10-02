@@ -13,7 +13,7 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const Dashboard = ({ comSeq }) => {
+const Dashboard = ({ comSeq,selectWhSeq,setSelectWhSeq}) => {
   const [inList, setInList] = useState([]);
   const [stockList, setStockList] = useState([]);
   const [outList, setOutList] = useState([]);
@@ -121,7 +121,9 @@ const Dashboard = ({ comSeq }) => {
       </div>
       <div>
         <div id="dashboard-body1">
+      
           <div id="dashboard-item1">
+        
             <div id="current">
               <div id="current-header">
                 <span>물류현황</span>
