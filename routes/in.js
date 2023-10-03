@@ -222,6 +222,10 @@ router.post('/loading', async (req, res) => {
             } // 업데이트할 조건
         }
     );
+    // socket -------------------
+    // const io = req.app.get('io');
+    // io.of('/in').emit('updateLoading', '여기?');
+    // --------------------------
     res.json(result2);
 } catch (error) {
     console.log(error);

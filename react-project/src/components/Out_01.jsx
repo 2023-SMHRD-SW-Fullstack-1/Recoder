@@ -42,7 +42,7 @@ function Out_01({selectWhSeq,setSelectWhSeq}) {
       if (response.status === 200) {
         console.log("출고데이터 전송 성공");
         console.log(response.data);
-        window.location.href = "http://localhost:3000/out/create";
+        // window.location.href = "http://localhost:3000/out/create";
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -85,6 +85,10 @@ function Out_01({selectWhSeq,setSelectWhSeq}) {
     setIsModalOpen(true);
     setOutPluse({ ...outPlus, loading_seq: record.loading_seq });
   };
+
+  useEffect(() => {
+    getOutStock()
+  }, [])
 
   const title = "입고예정";
   const items = [];

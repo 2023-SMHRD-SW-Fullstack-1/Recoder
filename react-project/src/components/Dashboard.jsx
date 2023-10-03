@@ -7,13 +7,10 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import WareList from "./Dashboard/WareList";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
+import io from 'socket.io-client'
 
-const Dashboard = ({ comSeq,selectWhSeq,setSelectWhSeq}) => {
+const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
   const [inList, setInList] = useState([]);
   const [stockList, setStockList] = useState([]);
   const [outList, setOutList] = useState([]);
@@ -41,6 +38,14 @@ const Dashboard = ({ comSeq,selectWhSeq,setSelectWhSeq}) => {
       .catch((err) => {
         console.error(err);
       });
+
+    const socket = io.connect('http://localhost:8000/out', {
+      path: '/socket.io'
+    });
+
+    socket.on('updateOut', (data) => {
+      console.log('소켓 테스트', data);
+    });
   }, []);
 
   const inClick = () => {

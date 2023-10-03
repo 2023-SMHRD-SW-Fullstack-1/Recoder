@@ -117,6 +117,10 @@ router.post('/create/loading', async (req, res) => {
             })
 
         console.log(outLoading);
+        // socket -------------------------
+        const io = req.app.get('io');
+        io.of('/out').emit('updateOut', '출고완료');
+        // --------------------------------
         res.json(outLoading)
     } catch (error) {
         console.log(error);
