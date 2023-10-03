@@ -54,12 +54,12 @@ const Login = () => {
                   <h2>로그인</h2>
 
                   <div className="inputbox">
-                    <input type='text' ref={idRef} value='smart' required />
+                    <input type='text' ref={idRef} required />
                     <label htmlFor="">ID</label>
                   </div>
 
                   <div className="inputbox">
-                    <input type='password' ref={pwRef} value='123456' required />
+                    <input type='password' ref={pwRef} required />
                     <label htmlFor="">Password</label>
                   </div>
 

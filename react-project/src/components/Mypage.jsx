@@ -3,16 +3,130 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import "../css/Mypage.css";
+import { useEffect, useRef, useState, Fragment } from "react";
+import axios from "axios";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 function GridComplexExample() {
+  const [userNick, setUserNick] = useState("");
+
+  const currentPW = useRef();
+  const newPW = useRef();
+  const nick = useRef();
+
+  const [updateUserData, setUpdateUserData] = useState({});
+
+  const [open, setOpen] = useState(false);
+  const [msg, setMsg] = useState('');
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/user/info")
+      .then((res) => {
+        setUserNick(res.data.userNick[0].user_nick);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  const updateUser = (e) => {
+    e.preventDefault();
+
+    setUpdateUserData({
+      currentPW: currentPW.current.value,
+      newPW: newPW.current.value,
+      nick: nick.current.value,
+    });
+  };
+
+  useEffect(() => {
+    axios
+      .patch("http://localhost:8000/user", updateUserData)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data === "ok") {
+          setOpen(open);
+          setMsg('업데이트가 완료되었습니다.');
+        } else {
+          setOpen(open);
+          setMsg(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [updateUserData]);
+  
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+  
+  const action = (
+    <Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </Fragment>
+  );
+
   return (
     <div id="mypage-container">
       <div id="mypage-header">
         <span>마이페이지</span>
       </div>
-      <Form
-        style={{ width: 800 }}
-      >
+      <Form style={{ width: 800 }} onSubmit={updateUser}>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridEmail">
+            <Form.Label>현재 비밀번호</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              ref={currentPW}
+            />
+          </Form.Group>
+
+          <Form.Group as={Col} controlId="formGridPassword">
+            <Form.Label>새로운 비밀번호</Form.Label>
+            <Form.Control type="password" placeholder="Password" ref={newPW} />
+          </Form.Group>
+        </Row>
+
+        <Form.Group className="mb-3" controlId="formGridAddress1">
+          <Form.Label>닉네임</Form.Label>
+          <Form.Control placeholder={userNick} ref={nick} />
+        </Form.Group>
+
+        <Button variant="primary" type="submit" style={{ marginBottom: 12 }}>
+          회원정보 수정
+        </Button>
+      </Form>
+
+      <div>
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message={msg}
+          action={action}
+        />
+      </div>
+
+      <div id="mypage-header">
+        <span>회사 등록</span>
+      </div>
+      <Form style={{ width: 800 }}>
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridEmail">
             <Form.Label>Email</Form.Label>

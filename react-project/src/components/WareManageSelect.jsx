@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "../css/warehouse.css";
 import axios from "axios";
 import WareCardItem2 from "./Warehouse/WareCardItem2";
+import { Link } from "react-router-dom";
 
-const WareManageSelect = ({ comSeq ,selectWhSeq,setSelectWhSeq}) => {
+const WareManageSelect = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
   const [warehouseList, setWarehouseList] = useState([]);
 
   useEffect(() => {
@@ -23,17 +24,24 @@ const WareManageSelect = ({ comSeq ,selectWhSeq,setSelectWhSeq}) => {
         <span>창고 선택</span>
       </div>
       <div id="ware-item-box">
-        {warehouseList.length > 0
-          ? warehouseList.map((item, index) => (
-              <WareCardItem2 selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}
-                key={index}
-                wh_name={item.wh_name}
-                wh_seq={item.wh_seq}
-                index={index}
-                racks={item.Racks}
-              ></WareCardItem2>
-            ))
-          : "창고가 없습니다"}
+        {warehouseList.length > 0 ? (
+          warehouseList.map((item, index) => (
+            <WareCardItem2
+              selectWhSeq={selectWhSeq}
+              setSelectWhSeq={setSelectWhSeq}
+              key={index}
+              wh_name={item.wh_name}
+              wh_seq={item.wh_seq}
+              index={index}
+              racks={item.Racks}
+            ></WareCardItem2>
+          ))
+        ) : (
+          <div>
+            창고가 없습니다 <br></br>
+            <Link to={"/main"}>메인으로 이동</Link>
+          </div>
+        )}
       </div>
     </div>
   );
