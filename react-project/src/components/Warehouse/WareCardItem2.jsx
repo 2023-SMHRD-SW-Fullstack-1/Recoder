@@ -11,8 +11,11 @@ const WareCardItem2 = ({
   setSelectWhSeq,
   racks,
 }) => {
-  const [stockName, setStockName] = useState(racks[0]?.Loadings[0]?.Stock.stock_name);
+  const [stockName, setStockName] = useState(
+    racks[0]?.Loadings[0]?.Stock.stock_name
+  );
   const [stockNum, setStockNum] = useState(0);
+  const [stockPercent, setStockPercent] = useState(0);
 
   const [warehouseInfo, setWarehouseInfo] = useState(null);
   const [warehouseWidth, setWarehouseWidth] = useState(null);
@@ -38,12 +41,24 @@ const WareCardItem2 = ({
       stockCnt += racks[i]?.Loadings.length;
     }
     setStockNum(stockCnt);
-  }
-  
+  };
+
+  // 적재율 구하기
+  const getRackPercent = () => {
+    let totalPercent = 0;
+    let usePercent = 0;
+    for (let i = 0; i < racks.length; i++) {
+      totalPercent += parseInt(racks[i]?.rack_length) * parseInt(racks[i]?.rack_width) * parseInt(racks[0]?.rack_floor);
+      usePercent += racks[i]?.Loadings.length;
+    }
+    setStockPercent(parseInt((usePercent / totalPercent) * 100));
+  };
+
   // 화면 렌더링 될 때
   useEffect(() => {
-    getStockCnt()
-  }, [])
+    getStockCnt();
+    getRackPercent();
+  }, []);
 
   // wh_seq를 가지고 해당 창고 정보 불러오기
   useEffect(() => {
@@ -86,9 +101,13 @@ const WareCardItem2 = ({
         </div>
         <div>
           <span>보유 상품 | </span>
-          <span>{stockName} 외 {stockNum}종</span>
+          <span>
+            {stockName} 외 {stockNum}종
+          </span>
         </div>
-        <div>적재율 | </div>
+        { !stockPercent ? 
+          <div>적재율 | 0%</div> :
+          <div>적재율 | {stockPercent}%</div> }
         <div style={{ textAlign: "center", marginTop: 12 }}>
           <div className="ware-select-button">
             <button onClick={selectWh}>창고선택</button>
