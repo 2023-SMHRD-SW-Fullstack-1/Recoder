@@ -52,9 +52,9 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 	pilar4.position.set(boardBox.min.x, boardBox.max.y + pilarYLen / 2 - pilarYLen * 0.2, boardBox.max.z);
 
 
-	const rackUnitGroup = new THREE.Group();
 	let rackComponentGroup = new THREE.Group();
-
+	const rackUnitGroup = new THREE.Group();
+	
 	boardMesh.name = "판11111"
 	rackComponentGroup.add(boardMesh, pilar1, pilar2, pilar3, pilar4);
 
