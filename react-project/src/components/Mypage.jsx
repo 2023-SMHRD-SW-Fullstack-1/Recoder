@@ -73,6 +73,7 @@ function GridComplexExample() {
     .then((res) => {
       if (res.data === 'ok') {
         alert('기업 등록이 완료되었습니다.')
+        window.location.href = 'http://localhost:3000/main'
       } else {
         alert(`${res.data}`)
       }

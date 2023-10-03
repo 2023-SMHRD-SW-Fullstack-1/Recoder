@@ -1,5 +1,5 @@
 const express = require('express')
-const { Company, Client } = require('../models')
+const { Company, User } = require('../models')
 
 const router = express.Router()
 
@@ -26,11 +26,18 @@ router.post('/', async (req, res, next) => {
         where: { com_business_num: com_business_num }
       })
       if (!result) {
-        await Company.create({
+        const result2 = await Company.create({
           com_business_num: com_business_num,
           com_name: com_name,
           com_address: com_address,
           com_tel: com_tel,
+        })
+        await User.update({
+          com_seq: result2.com_seq
+        }, {
+          where: {
+            user_seq: req.user.user_seq
+          }
         })
         res.send('ok')
       } else {
