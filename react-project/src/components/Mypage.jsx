@@ -46,40 +46,16 @@ function GridComplexExample() {
     axios
       .patch("http://localhost:8000/user", updateUserData)
       .then((res) => {
-        console.log(res.data);
         if (res.data === "ok") {
-          setOpen(open);
-          setMsg('업데이트가 완료되었습니다.');
+          alert('업데이트가 완료되었습니다.');
         } else {
-          setOpen(open);
-          setMsg(res.data);
+          alert(`${res.data}`);
         }
       })
       .catch((err) => {
         console.error(err);
       });
   }, [updateUserData]);
-  
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-  
-  const action = (
-    <Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </Fragment>
-  );
 
   return (
     <div id="mypage-container">
@@ -88,7 +64,7 @@ function GridComplexExample() {
       </div>
       <Form style={{ width: 800 }} onSubmit={updateUser}>
         <Row className="mb-3">
-          <Form.Group as={Col} controlId="formGridEmail">
+          <Form.Group as={Col}>
             <Form.Label>현재 비밀번호</Form.Label>
             <Form.Control
               type="password"
@@ -97,13 +73,13 @@ function GridComplexExample() {
             />
           </Form.Group>
 
-          <Form.Group as={Col} controlId="formGridPassword">
+          <Form.Group as={Col}>
             <Form.Label>새로운 비밀번호</Form.Label>
             <Form.Control type="password" placeholder="Password" ref={newPW} />
           </Form.Group>
         </Row>
 
-        <Form.Group className="mb-3" controlId="formGridAddress1">
+        <Form.Group className="mb-3">
           <Form.Label>닉네임</Form.Label>
           <Form.Control placeholder={userNick} ref={nick} />
         </Form.Group>
@@ -112,16 +88,6 @@ function GridComplexExample() {
           회원정보 수정
         </Button>
       </Form>
-
-      <div>
-        <Snackbar
-          open={open}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          message={msg}
-          action={action}
-        />
-      </div>
 
       <div id="mypage-header">
         <span>회사 등록</span>
