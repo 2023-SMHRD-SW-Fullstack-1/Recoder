@@ -22,7 +22,7 @@ import In_02 from './components/In_02';
 import Dashboard from './components/Dashboard'
 import Notice  from './components/Notice';
 import axios from 'axios'
-import WareManageSelect from './components/WareMnageSelect';
+import WareManageSelect from './components/WareManageSelect';
 
 const App = () => {
 

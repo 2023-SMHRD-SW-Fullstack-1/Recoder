@@ -27,7 +27,15 @@ router.get('/manage/:com_seq', async (req, res) => {
             where: {
                 com_seq : com_seq
             },
-
+            include: [{
+                model: Rack,
+                include: [{
+                    model: Loading,
+                    include: [{
+                        model: Stock
+                    }]
+                }]
+            }]
         });
         console.log('warehouseList 가져오기',warehouseList);
         res.json(warehouseList);

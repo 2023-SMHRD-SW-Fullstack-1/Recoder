@@ -35,7 +35,7 @@ export default class App {
     this.length = warehouseLength;
     this.racks = racks;
     // this.items = items
-    this.stocks = stocks;
+    this.items = items;
     // this.items = stocks
 
     this._setupCamera();
