@@ -57,4 +57,17 @@ router.post('/checkid', checkId)
 // 회원 정보 수정
 router.patch('/', isLoggedIn, patch);
 
+// 닉네임 요청
+router.get('/info', async (req, res, next) => {
+  const userNick = await User.findAll({
+    where: { user_seq: req.user.user_seq},
+    attributes: ['user_nick'],
+    include: [{
+      model: Company,
+      attributes: ['com_name'],
+    }],
+  })
+  res.json({userNick})
+})
+
 module.exports = router

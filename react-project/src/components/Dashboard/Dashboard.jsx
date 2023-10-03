@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import ShortInList from "./Dashboard/ShortInList";
-import ShortStockList from "./Dashboard/ShortStockList";
-import ShortOutList from "./Dashboard/ShortOutList";
+import ShortInList from "./ShortInList";
+import ShortStockList from "./ShortStockList";
+import ShortOutList from "./ShortOutList";
 import CachedIcon from "@mui/icons-material/Cached";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import WareList from "./Dashboard/WareList";
+import WareList from "./WareList";
 import CircularProgress from "@mui/material/CircularProgress";
 import io from 'socket.io-client'
 
@@ -109,21 +109,7 @@ const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
 
   return (
     <div id="dashboard">
-      <div id="dashboard-header">
-        {/* <Stack
-          direction="row"
-          spacing={1}
-          sx={{ position: "relative", marginLeft: "24px" }}
-        >
-          <Avatar
-            alt="Travis Howard"
-            src="/static/images/avatar/2.jpg"
-            sx={{ width: 35, height: 35 }}
-          />
-        </Stack>
-        <MailOutlineIcon sx={{ fontSize: 30, marginLeft: "24px" }} />
-        <NotificationsNoneIcon sx={{ fontSize: 30 }} /> */}
-      </div>
+      <div id="dashboard-header"></div>
       <div>
         <div id="dashboard-body1">
       

@@ -10,7 +10,6 @@ const WareManageSelect = ({ comSeq ,selectWhSeq,setSelectWhSeq}) => {
     axios
       .get(`http://localhost:8000/ware/manage/${comSeq}`)
       .then((res) => {
-        console.log(res.data);
         setWarehouseList(res.data);
       })
       .catch((error) => {

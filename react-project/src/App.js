@@ -14,12 +14,11 @@ import Mypage from './components/Mypage';
 import './App.css'
 import Logout from './components/Logout';
 import Out_02 from './components/Out_02';
-import RegisterCompany from './components/RegisterCompany';
 import Layout from './components/Layout'
 import Barcode from './components/Barcode';
 import In_HJ from './components/In_HJ';
 import In_02 from './components/In_02';
-import Dashboard from './components/Dashboard'
+import Dashboard from './components/Dashboard/Dashboard'
 import Notice  from './components/Notice';
 import axios from 'axios'
 import WareManageSelect from './components/WareManageSelect';
@@ -61,7 +60,7 @@ const App = () => {
             <Route path='/join' element={ <Join /> } />
             <Route path='/register/company' element={ <RegisterCompany /> } /> */}
             {/* 개발 끝나면 지워주세요 */}
-            <Route element={ <Layout selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } >
+            <Route element={ <Layout comSeq={comSeq} selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } >
               {/* 대시보드 */}
               <Route path='/main' element={ <Dashboard selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={ comSeq } /> } />
               {/* 재고 */}
