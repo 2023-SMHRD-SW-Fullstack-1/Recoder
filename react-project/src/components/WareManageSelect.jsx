@@ -38,8 +38,9 @@ const WareManageSelect = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
           ))
         ) : (
           <div>
-            창고가 없습니다 <br></br>
-            <Link to={"/main"}>메인으로 이동</Link>
+            창고가 없습니다 <br />
+            <Link to={"/main"}>메인으로 이동</Link> <br />
+            { !comSeq && <div>기업을 아직 등록하지 않으셨습니다.<br /><Link to={"/mypage"}>기업 등록하기</Link></div> }
           </div>
         )}
       </div>

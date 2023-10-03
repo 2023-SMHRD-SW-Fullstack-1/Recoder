@@ -3,11 +3,8 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import "../css/Mypage.css";
-import { useEffect, useRef, useState, Fragment } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 
 function GridComplexExample() {
   const [userNick, setUserNick] = useState("");
@@ -16,10 +13,13 @@ function GridComplexExample() {
   const newPW = useRef();
   const nick = useRef();
 
-  const [updateUserData, setUpdateUserData] = useState({});
+  const comName = useRef();
+  const regNum = useRef();
+  const address = useRef();
+  const comTel = useRef();
 
-  const [open, setOpen] = useState(false);
-  const [msg, setMsg] = useState('');
+  const [updateUserData, setUpdateUserData] = useState({});
+  const [registerComData, setRegisterComData] = useState({});
 
   useEffect(() => {
     axios
@@ -57,6 +57,31 @@ function GridComplexExample() {
       });
   }, [updateUserData]);
 
+  const registerCom = (e) => {
+    e.preventDefault();
+
+    setRegisterComData({
+      com_business_num: regNum.current.value,
+      com_name: comName.current.value,
+      com_address: address.current.value,
+      com_tel: comTel.current.value,
+    })
+  }
+
+  useEffect(() => {
+    axios.post('http://localhost:8000/company', registerComData)
+    .then((res) => {
+      if (res.data === 'ok') {
+        alert('기업 등록이 완료되었습니다.')
+      } else {
+        alert(`${res.data}`)
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [registerComData])
+
   return (
     <div id="mypage-container">
       <div id="mypage-header">
@@ -92,55 +117,31 @@ function GridComplexExample() {
       <div id="mypage-header">
         <span>회사 등록</span>
       </div>
-      <Form style={{ width: 800 }}>
+      <Form style={{ width: 800 }} onSubmit={registerCom}>
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridEmail">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Label>기업명</Form.Label>
+            <Form.Control type="text" placeholder="기업명을 입력하세요" ref={comName} />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Label>사업자등록번호</Form.Label>
+            <Form.Control type="text" placeholder="000-00-00000" ref={regNum} />
           </Form.Group>
         </Row>
 
         <Form.Group className="mb-3" controlId="formGridAddress1">
-          <Form.Label>Address</Form.Label>
-          <Form.Control placeholder="1234 Main St" />
+          <Form.Label>주소</Form.Label>
+          <Form.Control placeholder="1234 Main St" ref={address} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formGridAddress2">
-          <Form.Label>Address 2</Form.Label>
-          <Form.Control placeholder="Apartment, studio, or floor" />
-        </Form.Group>
-
-        <Row className="mb-3">
-          <Form.Group as={Col} controlId="formGridCity">
-            <Form.Label>City</Form.Label>
-            <Form.Control />
-          </Form.Group>
-
-          <Form.Group as={Col} controlId="formGridState">
-            <Form.Label>State</Form.Label>
-            <Form.Select defaultValue="Choose...">
-              <option>Choose...</option>
-              <option>...</option>
-            </Form.Select>
-          </Form.Group>
-
-          <Form.Group as={Col} controlId="formGridZip">
-            <Form.Label>Zip</Form.Label>
-            <Form.Control />
-          </Form.Group>
-        </Row>
-
-        <Form.Group className="mb-3" id="formGridCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
+          <Form.Label>전화번호</Form.Label>
+          <Form.Control placeholder='000-0000-0000' ref={comTel} />
+        </Form.Group>        
 
         <Button variant="primary" type="submit">
-          Submit
+          등록
         </Button>
       </Form>
     </div>

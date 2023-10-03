@@ -93,7 +93,7 @@ const App = ({ comSeq, selectWhSeq, setSelectWgSeq }) => {
     axios.get('http://localhost:8000/user/info')
     .then((res) => {
       setUserNick(res.data.userNick[0].user_nick);
-      setComName(res.data.userNick[0].Company.com_name);
+      setComName(res.data.userNick[0].Company?.com_name);
     })
     .catch((err) => {
       console.error(err);
