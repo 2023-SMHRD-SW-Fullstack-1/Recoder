@@ -6,15 +6,12 @@ import WareCardItem from "./Warehouse/WareCardItem";
 import AddIcon from '@mui/icons-material/Add';
 
 const WareManage = ({ comSeq ,selectWhSeq,setSelectWhSeq}) => {
-  const nav = useNavigate();
   const [warehouseList, setWarehouseList] = useState([]);
-  const [testlist, setTestlist] = useState([]);
 
   useEffect(() => {
     axios
       .get(`http://localhost:8000/ware/manage/${comSeq}`)
       .then((res) => {
-        console.log(res.data);
         setWarehouseList(res.data);
       })
       .catch((error) => {
@@ -41,6 +38,7 @@ const WareManage = ({ comSeq ,selectWhSeq,setSelectWhSeq}) => {
                 wh_name={item.wh_name}
                 wh_seq={item.wh_seq}
                 index={index}
+                racks={item.Racks}
               ></WareCardItem>
             ))
           : "창고가 없습니다"}

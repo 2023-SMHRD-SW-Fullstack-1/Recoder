@@ -14,9 +14,14 @@ const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
   const [inList, setInList] = useState([]);
   const [stockList, setStockList] = useState([]);
   const [outList, setOutList] = useState([]);
+
   const [isInClick, setIsInClick] = useState(true);
   const [isStockClick, setIsStockClick] = useState(true);
   const [isOutClick, setIsOutClick] = useState(true);
+
+  const [inListCnt, setInListCnt] = useState(0);
+  const [outListCnt, setOutListCnt] = useState(0);
+  const [stockListCnt, setStockListCnt] = useState(0);
 
   const getInData = () => {
     return axios.get(`http://localhost:8000/in/${comSeq}/B`);
@@ -27,17 +32,29 @@ const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
   const getOutData = () => {
     return axios.get(`http://localhost:8000/in/${comSeq}/O`);
   };
+  const getInDataCnt = () => {
+    return axios.get(`http://localhost:8000/in/cnt/${comSeq}/B`);
+  };
+  const getStockDataCnt = () => {
+    return axios.get(`http://localhost:8000/in/cnt/${comSeq}/I`);
+  };
+  const getOutDataCnt = () => {
+    return axios.get(`http://localhost:8000/in/cnt/${comSeq}/O`);
+  };
 
   useEffect(() => {
-    Promise.all([getInData(), getStockData(), getOutData()])
-      .then((res) => {
-        setInList(res[0].data);
-        setStockList(res[1].data);
-        setOutList(res[2].data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    Promise.all([getInData(), getStockData(), getOutData(), getInDataCnt(), getStockDataCnt(), getOutDataCnt()])
+    .then((res) => {
+      setInList(res[0].data);
+      setStockList(res[1].data);
+      setOutList(res[2].data);
+      setInListCnt(res[3].data);
+      setOutListCnt(res[4].data);
+      setStockListCnt(res[5].data);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 
     const socket = io.connect('http://localhost:8000/out', {
       path: '/socket.io'
@@ -117,19 +134,19 @@ const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
         
             <div id="current">
               <div id="current-header">
-                <span>물류현황</span>
+                <span>전체 물류현황</span>
               </div>
               <div className="current-item">
                 <span>입고예정</span>
-                <Link to="/in/create">28개</Link>
+                <Link to="/in/create">{inListCnt}개</Link>
               </div>
               <div className="current-item">
                 <span>재고</span>
-                <Link to="/stock/select">367개</Link>
+                <Link to="/stock/select">{stockListCnt}개</Link>
               </div>
               <div className="current-item">
                 <span>출고완료</span>
-                <Link to="/out/select">30개</Link>
+                <Link to="/out/controll">{outListCnt}개</Link>
               </div>
             </div>
             <WareList comSeq={ comSeq } />
