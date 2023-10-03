@@ -59,39 +59,7 @@ const StockDataList = ({ stockList }) => {
       title: "적재 위치",
       dataIndex: "loading_position",
       key: "loading_position",
-      render: () => (
-        <button
-          style={{
-            background: 'transparent',
-            border: 'none',
-            boxShadow: '0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04)',
-            borderRadius: 4,
-            padding: 4
-          }}
-        ><WarehouseIcon
-          sx={{ color: 'gray' }}
-        /></button>
-      ),
-    },
-    {
-      title: "재고소진 알림",
-      dataIndex: "stock_notice_cnt",
-      key: "stock_notice_cnt",
-      render: () => (
-        <div id="stock-input-div">
-          <div id="stock-input-box">
-            <input type="text" id="stock-input" />
-            <button
-              style={{
-                background: 'transparent',
-                border: 'none',
-              }}
-            >
-              <AddAlarmIcon sx={{ color: 'gray' }} />
-            </button>
-          </div>
-        </div>
-      ),
+      render: (text) => <span style={{ color: "darkgray" }}>{text}</span>,
     },
     {
       title: "유통기한",
