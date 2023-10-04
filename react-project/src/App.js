@@ -27,7 +27,7 @@ import InWarehouse from './components/InWarehouse';
 const App = () => {
 
   const [uid, setUid] = useState('')
-  const [comSeq, setComSeq] = useState(0);
+  const [comSeq, setComSeq] = useState(1);
   const [newWareData, setNewWareData] = useState({})
 
   const [selectWhSeq,setSelectWhSeq] = useState([])

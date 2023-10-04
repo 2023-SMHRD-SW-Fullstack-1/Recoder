@@ -21,7 +21,7 @@ function Out_01({selectWhSeq,setSelectWhSeq}) {
 
   const [outStockList, setOutStockList] = useState([]);
   const id = "smart";
-  const wh_seq = selectWhSeq;
+  const wh_seq = 1;
   const com_seq = 1;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +42,7 @@ function Out_01({selectWhSeq,setSelectWhSeq}) {
       if (response.status === 200) {
         console.log("출고데이터 전송 성공");
         console.log(response.data);
-        // window.location.href = "http://localhost:3000/out/create";
+        window.location.href = "http://localhost:3000/out/create";
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {

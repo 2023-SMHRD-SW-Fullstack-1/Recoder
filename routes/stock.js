@@ -114,4 +114,16 @@ router.get('/stockcount/:wh_seq', async (req, res) => {
   }
 })
 
+router.get('/ware/:stock_seq', async (req, res) => {
+  try {
+    const result = await Stock.findOne({
+      where: { stock_seq: req.params.stock_seq },
+      include: { model: Loading }
+    })
+    res.json(result)
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 module.exports = router

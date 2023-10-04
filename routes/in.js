@@ -273,17 +273,17 @@ router.post('/loading', async (req, res) => {
     // }
 })
 
-router.get('/ware/:stock_seq', async (req, res) => {
-    console.log('로그');
+router.patch('/position', async (req, res) => {
+    console.log(req.body);
+    let { position, stock_seq } = req.body
+
     try {
-        const result = await Stock.findAll({
-            where: { stock_seq: req.params.stock_seq },
-            include: [{
-                model: Loading
-            }]
+        await Loading.update({
+            loading_position: position
+        }, {
+            where: { stock_seq: stock_seq }  
         })
-        console.log('입고상품정보', result);
-        res.json(result)
+        res.send('ok')
     } catch (error) {
         console.error(error);
     }
