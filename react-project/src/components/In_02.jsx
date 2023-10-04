@@ -104,7 +104,7 @@ function In_02({selectWhSeq,setSelectWhSeq}) {
     console.log("handlePosition", record);
     setHandleData(record);
     // 모달 상태관리
-    nav(`/warehouse/${wh_seq}`);
+    // nav(`/warehouse/${wh_seq}`);
 
     setIsModalOpen(true);
   };

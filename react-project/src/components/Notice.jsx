@@ -8,7 +8,7 @@ import "../css/notice.css";
 import { Button, Modal } from "antd";
 import { Pagination } from "antd";
 
-function Notice({selectWhSeq,setSelectWhSeq}) {
+function Notice({ selectWhSeq, setSelectWhSeq }) {
   const [stockCount, setStockCount] = useState(0);
   const [intValue, setIntValue] = useState(5);
   const [pageNum, setPageNum] = useState(1);
@@ -66,8 +66,8 @@ function Notice({selectWhSeq,setSelectWhSeq}) {
       ])
       .then(
         axios.spread((res1, res2) => {
-          console.log(res1.data);
-          console.log(res2.data);
+          console.log("res1",res1.data);
+          console.log('alarm',res2.data);
           setCntData(res1.data);
           setStockCount(res1.data.length);
           setAlarm(res2.data);
@@ -119,7 +119,7 @@ function Notice({selectWhSeq,setSelectWhSeq}) {
           const noticeContent = parseFloat(matchingItem.notice_content);
           const currentStock = parseFloat(data.stock_cnt);
 
-          if (noticeContent > currentStock) {
+          if (noticeContent > currentStock || data.stock_cnt == null) {
             return (
               <span style={{ color: "red" }}>
                 {matchingItem.notice_content} (부족)
@@ -144,7 +144,13 @@ function Notice({selectWhSeq,setSelectWhSeq}) {
       title: "현재 재고량",
       dataIndex: "stock_cnt",
       key: "stock_cnt",
-      render: (text) => <span style={{ color: "darkgray" }}>{text}</span>,
+      render: (text, data) => {
+        if (text == null) {
+          return (<span style={{ color: "darkgray" }}>{0}</span>)
+        } else {
+          return (<span style={{ color: "darkgray" }}>{text}</span>)
+        }
+      }
     },
     {
       title: "수정",
