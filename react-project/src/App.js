@@ -27,10 +27,10 @@ import InWarehouse from './components/InWarehouse';
 const App = () => {
 
   const [uid, setUid] = useState('')
-  const [comSeq, setComSeq] = useState(0);
+  const [comSeq, setComSeq] = useState(1);
   const [newWareData, setNewWareData] = useState({})
 
-  const [selectWhSeq,setSelectWhSeq] = useState(1)
+  const [selectWhSeq,setSelectWhSeq] = useState([])
   //혜주 추가 - 바코드 값 관리
   const [inputItem, setInputItem] = useState([{
     id: '',

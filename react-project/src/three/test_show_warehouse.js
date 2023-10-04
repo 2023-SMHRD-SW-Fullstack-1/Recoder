@@ -434,7 +434,6 @@ export default class App {
         }
       }
 
-      console.log(`짐이동여부 다음`);
 
       this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;

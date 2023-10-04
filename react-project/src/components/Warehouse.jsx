@@ -138,6 +138,10 @@ const Warehouse = () => {
           {canMoveItem ? "짐 이동중" : "짐 이동하기"}
         </button>
       </div>
+
+      <div className="modal-top">
+
+      </div>
     </div>
   );
 };

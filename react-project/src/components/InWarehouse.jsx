@@ -145,7 +145,16 @@ const Warehouse = () => {
   }
 
   useEffect(() => {
-    console.log(strGetItem);
+    axios.patch('http://localhost:8000/in/position', {
+      stock_seq: stock_seq,
+      position: strGetItem
+    })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
   }, [strGetItem])
 
   return (
