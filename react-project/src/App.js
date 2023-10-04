@@ -22,6 +22,7 @@ import Dashboard from './components/Dashboard/Dashboard'
 import Notice  from './components/Notice';
 import axios from 'axios'
 import WareManageSelect from './components/WareManageSelect';
+import InWarehouse from './components/InWarehouse';
 
 const App = () => {
 
@@ -86,6 +87,8 @@ const App = () => {
               <Route path='/warehouse/:wh_seq' element={ <Warehouse comSeq={comSeq} /> } />
               <Route path='/ware/create' element={ <WareCreate comSeq={comSeq} setNewWareData={setNewWareData} /> } />
               <Route path='/ware/createwarehouse' element={ <CreateWarehouse comSeq={comSeq} newWareData={newWareData} /> } />
+              {/* 입고에서 적재 클릭하면 이동 */}
+              <Route path='/in/ware/:wh_seq/:stock_seq' element={ <InWarehouse /> } />
               {/* 창고 선택*/}
               <Route path='/ware/select' element={ <WareManageSelect selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={comSeq} wareName={wareName}setWareName={setWareName}/> } />
           </Routes> 

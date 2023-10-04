@@ -60,6 +60,9 @@ export default class App {
 		this.raycaster = new THREE.Raycaster();
 		this.raycaster.selectedMesh = null;
 
+		localStorage.setItem("rack_width", 1)
+		localStorage.setItem("rack_length", 1)
+		localStorage.setItem("rack_floor", 1)
 		requestAnimationFrame(this.render.bind(this));
 	}
 
@@ -421,13 +424,14 @@ export default class App {
 				z: this.rectangleMesh.position.z
 			}
 			console.log("현재 선반의 층수는?", this.rackFloor)
+			let rackWidth = localStorage.getItem("rack_width") == null || localStorage.getItem == undefined ?  1 : localStorage.getItem("rack_width");
+			let rackLength = localStorage.getItem("rack_length") == null || localStorage.getItem == undefined ?  1 : localStorage.getItem("rack_length");
+			let rackFloor = localStorage.getItem("rack_floor") == null || localStorage.getItem == undefined ?  1 : localStorage.getItem("rack_floor");
 
-			let rackGroup = createRack(this.rectangleWidth, this.rectangleHeight, this.rackFloor, rackPos)
-			// let rackGroup = new Rack(this.rectangleWidth, this.rectangleHeight, this.rackFloor, rackPos)
-			
-			// rackGroup.getMinX()()
-			// console.log("rack의 min 값, rackGroup.getMinX", rackGroup.getMinX())
-			// console.log("rack의 min 값, rackGroup.minX", rackGroup.minX)
+			// let rackGroup = createRack(this.rectangleWidth, this.rectangleHeight, this.rackFloor, rackPos)
+			console.log(`랙탱글 크기 ${rackWidth}, ${rackLength}`)
+			let rackGroup = createRack(rackWidth, rackLength, rackFloor, rackPos)
+
 
 			let mesh = new THREE.Box3().setFromObject(rackGroup)
 
@@ -462,7 +466,7 @@ export default class App {
 			// 	rackpos: rackPos,
 			// });
 			this.meshes.push(rackGroup);
-			rackGroup.name = "선반인데요"
+			rackGroup.name = ""
 			this._scene.add(rackGroup);
 			// console.log(rackGroup.position)
 			// console.log("addShelf", this.meshes)

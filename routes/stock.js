@@ -4,6 +4,30 @@ const { Client, Company, Loading, Notice, Rack, Stock, User, Warehouse } = requi
 
 const router = express.Router()
 
+router.post('/barcode', async (req, res) => {
+  console.log(req.body);
+  let { stock_name, stock_kind, stock_price, stock_barcode, stock_expired, stock_balance_cnt} = req.body;
+
+  try {
+    const stock_expired_date = new Date(stock_expired);
+
+    console.log(stock_expired_date);
+
+    const result = await Stock.create({
+      stock_name: stock_name,
+      stock_kind: stock_kind,
+      stock_price: stock_price,
+      stock_barcode: stock_barcode,
+      stock_expired: stock_expired_date,
+      stock_balance_cnt: stock_balance_cnt,
+      stock_img: '',
+    })
+    res.send('ok')
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 // loading_type이 I인 데이터 전체 조회
 router.get('/:com_seq', async (req, res, next) => {
   let com_seq = req.params.com_seq
@@ -56,24 +80,42 @@ router.get('/:com_seq/:limit/:offset', async (req, res, next) => {
   }
 })
 
-router.get('/show/:comSeq', async (req, res) => {
-  console.log("제발가져와주라");
+// warehouse.jsx axios.get(`http://localhost:8000/stock/show/${wh_seq}`) 요청
+router.get('/show/:wh_seq', async (req, res) => {
+  console.log("제발가져와주라help", req.params.wh_seq);
   // let wh_seq = req.params.wh_seq
   try {
-    const stockList = await Loading.findAll({
-      // attributes: ['rack_x', 'rack_z', 'rack_width', 'rack_length', 'rack_floor'],
-      where: {
-        com_seq: req.params.comSeq,
-        loading_type: 'I',
-        loading_floor: {
-          [Op.ne]: null
-        }
-      },
+    const stockList = await Warehouse.findAll({
+      attributes: ['wh_seq'],
       include: [{
-        model: Stock,
-      }]
+        model: Rack,
+        include: [{
+          model: Loading,
+          // where: {
+          //   loading_type: 'I' 
+          // },
+          include:[{
+            model: Stock
+          }]
+        }]
+      }],
+      where:{
+        wh_seq: req.params.wh_seq,
+      }
+
+      //loading_type: 'O',
+      // where: {
+      //   com_seq: req.params.comSeq,
+      //   loading_type: 'I',
+      //   loading_floor: {
+      //     [Op.ne]: null
+      //   }
+      // },
+      // include: [{
+      //   model: Stock,
+      // }]
     })
-    console.log('stock 가져오기', stockList);
+    // console.log('stock 가져오기', stockList);
     res.json(stockList)
   } catch (error) {
     console.error(error);
@@ -95,6 +137,18 @@ router.get('/stockcount/:wh_seq', async (req, res) => {
       }]
     })
     res.send(`${result.count}`)
+  } catch (error) {
+    console.error(error);
+  }
+})
+
+router.get('/ware/:stock_seq', async (req, res) => {
+  try {
+    const result = await Stock.findOne({
+      where: { stock_seq: req.params.stock_seq },
+      include: { model: Loading }
+    })
+    res.json(result)
   } catch (error) {
     console.error(error);
   }

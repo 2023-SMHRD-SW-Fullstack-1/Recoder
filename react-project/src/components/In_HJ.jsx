@@ -143,13 +143,13 @@ function In_HJ({selectWhSeq,setSelectWhSeq}) {
   const data = bcData.map((item, idx) => ({
     key: idx + 1,
     stock_seq: item.stock_seq,
-    stock_name: item.Stock.stock_name,
-    stock_kind: item.Stock.stock_kind,
-    stock_price: item.Stock.stock_price,
-    cl_seq: item.Stock.cl_seq,
-    stock_barcode: item.Stock.stock_barcode,
-    stock_expired: item.Stock.stock_expired.substring(0, 10),
-    stock_bal: item.Stock.stock_balance_cnt,
+    stock_name: item.Stock?.stock_name,
+    stock_kind: item.Stock?.stock_kind,
+    stock_price: item.Stock?.stock_price,
+    cl_seq: item.Stock?.cl_seq,
+    stock_barcode: item.Stock?.stock_barcode,
+    stock_expired: item.Stock?.stock_expired.substring(0, 10),
+    stock_bal: item.Stock?.stock_balance_cnt,
     in_btn: "등록",
   }));
 

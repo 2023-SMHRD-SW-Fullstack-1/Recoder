@@ -3,12 +3,12 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import createRack from "./createRackModule";
 import createItem from "./createItem";
 import { PreventDragClick } from "./PreventDragClick";
-import createLoadingClass from "../three/createLoadingClass";
-import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
-import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
+import createLoadingClass from "./createLoadingClass";
+import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib.js";
+import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper.js";
 
 export default class App {
-  constructor(warehouseWidth, warehouseLength, racks, items) {
+  constructor(warehouseWidth, warehouseLength, racks, items, getItem, clickRackSeq) {
     // 변수
     this.meshes = [];
     this.mouseupHandler = this.mouseupHandler.bind(this);
@@ -18,7 +18,6 @@ export default class App {
     this.선반추가가능여부 = false;
     this.rackGroup = new THREE.Group();
     this.isMoving = false;
-    this.loading = new THREE.Group();
 
     const divContainer = document.querySelector("#waredetail-container");
     this._divContainer = divContainer;
@@ -32,15 +31,16 @@ export default class App {
     this._scene = scene;
     scene.background = new THREE.Color(0xffffff);
     // scene.background = new THREE.Color(0x71a379);
-    this._scene.add(this.loading);
-
 
     this.cellSize = 1; // 각 격자 칸의 크기를 클래스 멤버로 정의
     this.width = warehouseWidth;
     this.length = warehouseLength;
     this.racks = racks;
-    // this.items = items    
+    // this.items = items
     this.stocks = items;
+    // this.items = stocks
+    this.getItem = getItem;
+    this.clickRackSeq = clickRackSeq;
 
     this._setupCamera();
     this._setupLight();
@@ -62,7 +62,9 @@ export default class App {
     this.raycaster = new THREE.Raycaster();
     this.raycaster.selectedMesh = null;
 
-
+    this._divContainer.addEventListener("mousedown", (e) => {
+      this.preventDragClick.mouseDownFunc(e);
+    });
 
     requestAnimationFrame(this.render.bind(this));
   }
@@ -95,15 +97,15 @@ export default class App {
     RectAreaLightUniformsLib.init(); // RectAreaLight를 사용하기 위한 코드
 
     const light = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
-    light.position.set(0, 8, 0);
+    light.position.set(0, 16, 0);
     light.rotation.x = THREE.MathUtils.degToRad(-90);
 
     const light2 = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
-    light2.position.set(-4, 8, 0);
+    light2.position.set(-4, 16, 0);
     light2.rotation.x = THREE.MathUtils.degToRad(-90);
 
     const light3 = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
-    light3.position.set(4, 8, 0);
+    light3.position.set(4, 16, 0);
     light3.rotation.x = THREE.MathUtils.degToRad(-90);
 
     const helper = new RectAreaLightHelper(light);
@@ -131,13 +133,13 @@ export default class App {
     //     this.addItem(item);
     // }
     // this.addItem(this.items);
-    // this.addItem(this.stocks)
 
     for (const stock of this.stocks) {
       this.addItem(stock);
     }
 
-    
+    this.loading = new THREE.Group();
+    this._scene.add(this.loading);
   }
 
   /** 바닥 추가 */
@@ -302,8 +304,8 @@ export default class App {
     };
 
     // Rack 생성부분 - createRack 호출
-    let itemGroup = createItem(0.8, 0.8, item.loadingFloor, itemPos, item.stockName, item.stockPrice, item.stockIndate);
-    let mesh = new THREE.Box3().setFromObject(itemGroup);  
+    let itemGroup = createItem(0.8, 0.8, item.loadingFloor, itemPos);
+    let mesh = new THREE.Box3().setFromObject(itemGroup);
 
     let aa = {
       minX: Math.round(mesh.min.x * 10) / 10,
@@ -332,19 +334,19 @@ export default class App {
       console.log("선반의 z 값이 더 커!!");
       return;
     }
-    
     // this.meshes.push(rackGroup);
     // rackGroup.name = "선반인데요"
-    this.loading.add(itemGroup);
+    this._scene.add(itemGroup);
     // console.log("addShelf", this.meshes)
 
     // console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
   }
 
   mouseupHandler(e) {
-    let clicked = this.preventDragClick.mouseDownFunc(e);
-    if (clicked) return;
-
+    let dragged = this.preventDragClick.mouseUpFunc(e);
+    if (dragged) {
+      return;
+    }
 
     console.log(`x: ${this.newPosX}, y: ${this.newPosY}, z: ${this.newPosZ}  `);
 
@@ -445,13 +447,17 @@ export default class App {
         }
       }
 
+      console.log(`짐이동여부 다음`);
+
       this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
       this.raycaster.setFromCamera(this.mouse, this._camera);
-      const intersects = this.raycaster.intersectObjects( this.rackGroup.children );
-      console.log(this.rackGroup)
+      const intersects = this.raycaster.intersectObjects(
+        this.rackGroup.children
+      );
 
-      // 선반 클릭 이벤트
+      // console.log(`intersecs's length : ${intersects.length}`)
+      // console.log("this._scene", this._scene)
       if (intersects.length > 0) {
         const intersection = intersects[0];
         // let x = parseInt(intersection.point.x * 100) / 100
@@ -465,43 +471,34 @@ export default class App {
           (intersection.point.z + this.length / 2) / this.cellSize
         );
 
-        let newPosX = cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
+        let newPosX =
+          cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
         let newPosY = intersection.point.y + intersection.object.scale.y / 2; // 판 위에 놓이도록 약간 위로 띄움
         let newPosZ =
           cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
 
         // console.log(`this.짐추가가능여부 : ${this.짐추가가능여부}`);
-        console.log(`좌표 x:${newPosX}, y:${newPosY}, z:${newPosZ}`)
+        console.log(`좌표 x:${newPosX}, y:${newPosY}, z:${newPosZ}`);
+        this.getItem.itemX = newPosX;
+        this.getItem.itemY = newPosY;
+        this.getItem.itemZ = newPosZ;
+        console.log("입고 자리", this.getItem);
 
         if (this.짐추가가능여부) {
           this.addLoading(newPosX, newPosY, newPosZ);
+          if(intersection.object.parent.parent) {
+            console.log("seq출력", intersection.object.parent.parent.userData.rackSeq)
+            // localStorage.setItem('rack_seq', intersection.object.parent.parent.userData.rackSeq);
+            this.clickRackSeq.rack_seq = intersection.object.parent.parent.userData.rackSeq
+          }
         } else {
           if(intersection.object.parent.parent) {
             console.log("seq출력", intersection.object.parent.parent.userData.rackSeq)
-
+            // localStorage.setItem('rack_seq', intersection.object.parent.parent.userData.rackSeq);
+            this.clickRackSeq.rack_seq = intersection.object.parent.parent.userData.rackSeq
           }
         }
       }
-
-      // 짐클릭 이벤트
-      // this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-      // this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-      // this.raycaster.setFromCamera(this.mouse, this._camera);
-      // const intersects = this.raycaster.intersectObject(
-      //   this.loading
-      // );
-      // console.log(this.loading)
-      // console.log(`intersecs length  : ${intersects.length}`)
-      // if (intersects.length > 0) {
-      //   const intersection = intersects[0];
-      //   // 이름만 가져와봄
-      //   console.log(`메쉬 이름!!! :${intersection.object.name}`);
-      //   localStorage.setItem("selectedMesh_name", intersection.object.name)
-      //   localStorage.setItem("selectedMesh_price", intersection.object.userData.stockPrice);
-      //   localStorage.setItem("selectedMesh_indate", intersection.object.userData.stockIndate);
-
-      // }
-
     }
 
     // shift x + 마우스 클릭만
@@ -509,7 +506,7 @@ export default class App {
       this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
       this.raycaster.setFromCamera(this.mouse, this._camera);
-      const intersects = this.raycaster.intersectObject(this.loading.children);
+      const intersects = this.raycaster.intersectObject(this.loading);
 
       console.log("우클릭");
       if (intersects.length > 0) {

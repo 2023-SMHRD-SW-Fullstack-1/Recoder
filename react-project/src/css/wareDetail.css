@@ -15,7 +15,27 @@
 		left: 10px;
 	}
 }
+#info {
+	background-color: aliceblue;
+	position: absolute;
+	top: 30px;
+	width: 240px;
+	height: 150px;
+	border: 1px solid;
+	border-radius: 4px;
+	margin-top: 12px;
+	padding: 12px;
+}
 
+.modal-top {
+	position: fixed;
+	width: 500px;
+	height: 500px;
+	/* background-color: aqua; */
+	top: 0;
+	left: 0;
+
+}
 
 
 
