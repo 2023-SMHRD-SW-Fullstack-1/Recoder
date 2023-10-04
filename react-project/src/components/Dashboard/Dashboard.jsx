@@ -56,14 +56,6 @@ const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
     .catch((err) => {
       console.error(err);
     });
-
-    const socket = io.connect('http://localhost:8000/out', {
-      path: '/socket.io'
-    });
-
-    socket.on('updateOut', (data) => {
-      console.log('소켓 테스트', data);
-    });
   }, []);
 
   const inClick = () => {

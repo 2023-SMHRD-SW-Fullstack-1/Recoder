@@ -3,13 +3,41 @@ import { useNavigate, useParams } from "react-router-dom";
 import App from "../three/inWare";
 import axios from "axios";
 import "../css/wareDetail.css";
+import io from 'socket.io-client'
 
 const Warehouse = () => {
   let { wh_seq, stock_seq } = useParams();
 
-  const nav = useNavigate();
+  const nav = useNavigate(); 
+
+  const inSocket = io.connect('http://localhost:8000/in', {
+    path: '/socket.io'
+  });
+  inSocket.on('updateIn', (data) => {
+    if (data === '입고완료') {
+      if (updateIn) {
+        setUpdateIn(false)
+      } else {
+        setUpdateIn(true)
+      }
+    }
+  });
+  const outSocket = io.connect('http://localhost:8000/out', {
+    path: '/socket.io'
+  });
+  outSocket.on('updateOut', (data) => {
+    if (data === '출고완료') {
+      if (updateOut) {
+        setUpdateOut(false)
+      } else {
+        setUpdateOut(true)
+      }
+    }
+  });
 
   // 변수
+  const [updateIn, setUpdateIn] = useState(true)
+  const [updateOut, setUpdateOut] = useState(true)
   const [stockName, setStockName] = useState("");
   const [warehouseWidth, setWarehouseWidth] = useState(null);
   const [warehouseLength, setWarehouseLength] = useState(null);
@@ -65,7 +93,7 @@ const Warehouse = () => {
 
         console.log("스톡 응답", stockRes);
 
-        const stocks = stockRes.data[0].Racks[0].Loadings.map((stock) => {
+        const stocks = stockRes.data[0].Racks[19].Loadings.map((stock) => {
           const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
           return {
             loadingFloor: stock.loading_floor,
@@ -87,7 +115,7 @@ const Warehouse = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [wh_seq]);
+  }, [wh_seq, updateIn, updateOut]);
 
   // useEffect -> warehouseData
   useEffect(() => {
@@ -101,7 +129,7 @@ const Warehouse = () => {
         warehouseData.racks,
         warehouseData.stocks,
         warehouseData.getItem,
-        warehouseData.clickStockSeq
+        warehouseData.clickRackSeq
       );
     } else {
       console.log("error");
@@ -160,7 +188,27 @@ const Warehouse = () => {
   }, []);
 
   const inPositionClick = () => {
-    console.log('위치 선택 완료 클릭', getItem);
+    console.log('위치 선택 완료 클릭', getItem, clickRackSeq);
+    let positionData = {
+      stock_seq: stock_seq,
+      x: getItem.itemX,
+      z: getItem.itemZ,
+      y: getItem.itemY,
+      rack_seq: clickRackSeq.rack_seq
+    }
+    if (clickRackSeq.rack_seq !== 0) {
+      axios.patch('http://localhost:8000/in/position', positionData)
+      .then((res) => {
+        if (res.data === 'ok') {
+          nav('/in/loading')
+        } else {
+          alert('입고 실패! 다시 시도해주세요')
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    }
   }
 
   return (

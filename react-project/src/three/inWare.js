@@ -486,10 +486,16 @@ export default class App {
 
         if (this.짐추가가능여부) {
           this.addLoading(newPosX, newPosY, newPosZ);
+          if(intersection.object.parent.parent) {
+            console.log("seq출력", intersection.object.parent.parent.userData.rackSeq)
+            // localStorage.setItem('rack_seq', intersection.object.parent.parent.userData.rackSeq);
+            this.clickRackSeq.rack_seq = intersection.object.parent.parent.userData.rackSeq
+          }
         } else {
           if(intersection.object.parent.parent) {
             console.log("seq출력", intersection.object.parent.parent.userData.rackSeq)
-            localStorage.setItem('rack_seq', intersection.object.parent.parent.userData.rackSeq);
+            // localStorage.setItem('rack_seq', intersection.object.parent.parent.userData.rackSeq);
+            this.clickRackSeq.rack_seq = intersection.object.parent.parent.userData.rackSeq
           }
         }
       }

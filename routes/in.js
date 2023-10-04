@@ -274,17 +274,20 @@ router.post('/loading', async (req, res) => {
 })
 
 router.patch('/position', async (req, res) => {
-    console.log(req.body);
-    let { position, stock_seq, rack_seq } = req.body
-
+    let { stock_seq, x, z, y, rack_seq } = req.body;
+    let loading_floor = parseInt(y);
+    let loading_position = [x, z].join(',')
     try {
         await Loading.update({
-            loading_position: position,
             loading_type: 'I',
+            loading_floor: loading_floor,
+            loading_position: loading_position,
             rack_seq: rack_seq,
         }, {
             where: { stock_seq: stock_seq }  
         })
+        const io = req.app.get('io');
+        io.of('/in').emit('updateIn', '입고완료');
         res.send('ok')
     } catch (error) {
         console.error(error);
