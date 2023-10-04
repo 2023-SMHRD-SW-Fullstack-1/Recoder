@@ -17,6 +17,16 @@ const Warehouse = () => {
   const [rackX, setRackX] = useState(null);
   const [rackZ, setRackZ] = useState(null);
 
+  const [itemX, setItemX] = useState(0);
+  const [itemY, setItemY] = useState(0);
+  const [itemZ, setItemZ] = useState(0);
+  const [getItem, setGetItem] = useState({
+    itemX: itemX,
+    itemY: itemY,
+    itemZ: itemZ,
+  })
+  const [strGetItem, setStrGetItem] = useState('')
+
   const [warehouseData, setWarehouseData] = useState({});
 
   const [canAddItem, setCanAddItem] = useState(false); // 짐 추가 가능 여부
@@ -55,6 +65,7 @@ const Warehouse = () => {
             itemX: -1,
             itemZ: 5,
           },
+          getItem,
         });
       })
       .catch((error) => {
@@ -72,7 +83,8 @@ const Warehouse = () => {
         warehouseData.warehouseWidth,
         warehouseData.warehouseLength,
         warehouseData.racks,
-        warehouseData.items
+        warehouseData.items,
+        warehouseData.getItem,
       );
     }
   }, [warehouseData]);
@@ -127,6 +139,15 @@ const Warehouse = () => {
     })
   }, [])
 
+  const inPositionClick = () => {
+    console.log('위치 선택 완료 클릭', getItem);
+    setStrGetItem(JSON.stringify(getItem))
+  }
+
+  useEffect(() => {
+    console.log(strGetItem);
+  }, [strGetItem])
+
   return (
     <div className="warehouse1">
       <div id="waredetail-container" />
@@ -143,7 +164,7 @@ const Warehouse = () => {
           <strong>입고할 상품 정보</strong> <br />
           <span>상품 ID | {stock_seq}</span> <br />
           <span>상품명 | {stockName}</span> <br />
-          <button>위치 선택 완료</button>
+          <button onClick={inPositionClick}>위치 선택 완료</button>
         </div>
       </div>
     </div>

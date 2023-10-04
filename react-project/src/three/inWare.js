@@ -6,7 +6,7 @@ import { PreventDragClick } from "./PreventDragClick";
 import createLoadingClass from "./createLoadingClass";
 
 export default class App {
-  constructor(warehouseWidth, warehouseLength, racks, items) {
+  constructor(warehouseWidth, warehouseLength, racks, items, getItem) {
     // 변수
     this.meshes = [];
     this.mouseupHandler = this.mouseupHandler.bind(this);
@@ -37,6 +37,7 @@ export default class App {
     // this.items = items
     this.items = items;
     // this.items = stocks
+    this.getItem = getItem;
 
     this._setupCamera();
     this._setupLight();
@@ -58,7 +59,9 @@ export default class App {
     this.raycaster = new THREE.Raycaster();
     this.raycaster.selectedMesh = null;
 
-    
+    this._divContainer.addEventListener("mousedown", e=>{
+      this.preventDragClick.mouseDownFunc(e);
+    })
 
     requestAnimationFrame(this.render.bind(this));
   }
@@ -331,9 +334,11 @@ export default class App {
   }
 
   mouseupHandler(e) {
-	    let clicked =	this.preventDragClick.mouseDownFunc(e);
-      if(clicked) return;
-
+	  let dragged = this.preventDragClick.mouseUpFunc(e);    
+    if(dragged) {
+      return;
+    }
+      
     
     console.log(`x: ${this.newPosX}, y: ${this.newPosY}, z: ${this.newPosZ}  `);
 
@@ -381,7 +386,7 @@ export default class App {
     }
 
     // 마우스 좌클릭만
-    if (e.button == 0 && !e.shiftKey) {
+    if (e.button == 0 && !e.shiftKey) {      
       console.log(`짐이동여부 : ${this.짐이동여부}`);
       if (this.짐이동여부 && !this.isMoving) {
         console.log(`짐이동여부안 : ${this.짐이동여부}`);
@@ -466,6 +471,11 @@ export default class App {
 
         // console.log(`this.짐추가가능여부 : ${this.짐추가가능여부}`);
         console.log(`좌표 x:${newPosX}, y:${newPosY}, z:${newPosZ}`)
+        this.getItem.itemX = newPosX
+        this.getItem.itemY = newPosY
+        this.getItem.itemZ = newPosZ
+        console.log('입고 자리', this.getItem);
+
         if (this.짐추가가능여부) {
           this.addLoading(newPosX, newPosY, newPosZ);
         }

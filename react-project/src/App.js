@@ -30,7 +30,7 @@ const App = () => {
   const [comSeq, setComSeq] = useState(0);
   const [newWareData, setNewWareData] = useState({})
 
-  const [selectWhSeq,setSelectWhSeq] = useState([])
+  const [selectWhSeq,setSelectWhSeq] = useState(1)
   //혜주 추가 - 바코드 값 관리
   const [inputItem, setInputItem] = useState([{
     id: '',
