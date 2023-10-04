@@ -13,7 +13,7 @@ router.get('/:wh_seq', async (req, res) => {
             },
 
         });
-        console.log('warehouseList 가져오기',warehouseList);
+        // console.log('warehouseList 가져오기',warehouseList);
         res.json(warehouseList);
     } catch (error) {
         console.error(error);

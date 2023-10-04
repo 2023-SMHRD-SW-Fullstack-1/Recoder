@@ -26,6 +26,11 @@ const Warehouse = () => {
   const [canAddRack, setCanAddRack] = useState(false); // 선반 추가 가능 여부
   const [canMoveItem, setCanMoveItem] = useState(false);
 
+  const [selectedName, setSelectedName] = useState(""); // 이름
+  const [selectedPrice, setSelectedPrice] = useState(0); // 가격
+  const [selectedIndate, setSelectedIndate] = useState(0); // 입고일
+  
+
   const appInstance = useRef(null);
 
   // useEffect -> wh_seq
@@ -33,9 +38,7 @@ const Warehouse = () => {
     Promise.all([
       axios.get(`http://localhost:8000/warehouse/${wh_seq}`),
       axios.get(`http://localhost:8000/rack/${wh_seq}`),
-      // axios.get(`http://localhost:8000/stock/${wh_seq}`),
-      // axios.get(`http://localhost:8000/stock/show/${comSeq}`)
-      axios.get(`http://localhost:8000/stock/show/${wh_seq}`)
+      axios.get(`http://localhost:8000/stock/show/${wh_seq}`),
     ])
       .then(([warehouseRes, rackRes, stockRes]) => {
         console.log("랙 데이터 배열", rackRes.data);
@@ -45,18 +48,18 @@ const Warehouse = () => {
           rackLength: parseInt(rack.rack_length),
           rackX: parseInt(rack.rack_x),
           rackZ: parseInt(rack.rack_z),
+          seq: rack.rack_seq
         }));
+        
 
         console.log("warehouse", warehouseRes.data.wh_width)
         console.log("racks 찍어보자", racks);
 
         console.log("상품 데이터 배열", stockRes);
 
-        console.log("stockRes",stockRes.data[0]);
-        // const stocks = stockRes.data.map(stock => ({
-
-        // }))
+        console.log("stockRes", stockRes.data[0]);
         console.log("뭘가져오는지 보자", stockRes.data[0].Racks[0].Loadings);
+        console.log("뭘가져오는지 보자", stockRes.data[0].Racks[0].Loadings[0].Stock);
 
         console.log("true/false", Array.isArray(stockRes.data[0].Racks[0].Loadings));
 
@@ -64,10 +67,16 @@ const Warehouse = () => {
         const stocks = stockRes.data[0].Racks[0].Loadings.map(stock => {
           // const [pos1, pos2] = stock.loading_position.split(',').map(Number);
           const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
+          const stockName = stock.Stock.stock_name
+          const stockPrice = stock.Stock.stock_price
+          const stockIndate = stock.created_at
           return {
             loadingFloor: stock.loading_floor,
             loadingPosition1: pos1,
-            loadingPosition2: pos2
+            loadingPosition2: pos2,
+            stockName: stockName,
+            stockPrice: stockPrice,
+            stockIndate: stockIndate
           }
         })
 
@@ -81,7 +90,7 @@ const Warehouse = () => {
         });
 
         console.log("stock 가져오니라", stocks);
-        
+
       })
       .catch((error) => {
         console.log(error);
@@ -96,12 +105,12 @@ const Warehouse = () => {
       console.log(warehouseData);
       console.log(Object.keys(warehouseData));
       console.log(`warehouseData ${JSON.stringify(warehouseData)}`)
-      
+
       appInstance.current = new App(
         warehouseData.warehouseWidth,
         warehouseData.warehouseLength,
         warehouseData.racks,
-        warehouseData.stocks
+        warehouseData.stocks,
       );
     }
     else {
@@ -150,7 +159,11 @@ const Warehouse = () => {
 
   return (
     <div className="warehouse1">
-      <div id="waredetail-container" />
+      <div id="waredetail-container" onClick={()=>{
+          setSelectedName(localStorage.getItem("selectedMesh_name")==undefined ? "" : localStorage.getItem("selectedMesh_name"))
+          setSelectedPrice(localStorage.getItem("selectedMesh_price")==undefined ? "-" : localStorage.getItem("selectedMesh_price"))
+          setSelectedIndate(localStorage.getItem("selectedMesh_indate")==undefined ? "-" : localStorage.getItem("selectedMesh_indate"))
+        }} />
 
       <div className="button-container">
         <button type="button" onClick={addLoading}>
@@ -163,8 +176,12 @@ const Warehouse = () => {
       </div>
 
       <div className="modal-top">
-
+        <p>재고 이름 : {selectedName}</p>
+        <p>가격 : {selectedPrice}</p>
+        <p>입고일 : {selectedIndate}</p>        
+        
       </div>
+
     </div>
   );
 };
