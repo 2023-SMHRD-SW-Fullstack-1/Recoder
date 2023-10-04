@@ -279,7 +279,8 @@ router.patch('/position', async (req, res) => {
 
     try {
         await Loading.update({
-            loading_position: position
+            loading_position: position,
+            loading_type: 'I',
         }, {
             where: { stock_seq: stock_seq }  
         })

@@ -9,6 +9,7 @@ import axios from "axios";
 import WareList from "./WareList";
 import CircularProgress from "@mui/material/CircularProgress";
 import io from 'socket.io-client'
+import BarcodeReader from "../Barcode/BarcodeReader";
 
 const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
   const [inList, setInList] = useState([]);
@@ -131,23 +132,27 @@ const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
         <div id="dashboard-body1">
       
           <div id="dashboard-item1">
-        
-            <div id="current">
-              <div id="current-header">
-                <span>전체 물류현황</span>
+          
+            <div id="current-container">
+              <div id="current">
+                <div id="current-header">
+                  <span>전체 물류현황</span>
+                </div>
+                <div className="current-item">
+                  <span>입고예정</span>
+                  <Link to="/in/create">{inListCnt}개</Link>
+                </div>
+                <div className="current-item">
+                  <span>재고</span>
+                  <Link to="/stock/select">{stockListCnt}개</Link>
+                </div>
+                <div className="current-item">
+                  <span>출고완료</span>
+                  <Link to="/out/controll">{outListCnt}개</Link>
+                </div>
               </div>
-              <div className="current-item">
-                <span>입고예정</span>
-                <Link to="/in/create">{inListCnt}개</Link>
-              </div>
-              <div className="current-item">
-                <span>재고</span>
-                <Link to="/stock/select">{stockListCnt}개</Link>
-              </div>
-              <div className="current-item">
-                <span>출고완료</span>
-                <Link to="/out/controll">{outListCnt}개</Link>
-              </div>
+
+            <BarcodeReader />
             </div>
             <WareList comSeq={ comSeq } />
           </div>

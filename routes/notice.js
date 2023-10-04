@@ -156,7 +156,7 @@ router.post('/create', async (req, res) => {
                 com_seq: com_seq,
                 [Op.or]: [
                     { loading_type: 'I' },
-                    { loading_type: 'O' }
+                    // { loading_type: 'O' }
                   ]
                 
             },

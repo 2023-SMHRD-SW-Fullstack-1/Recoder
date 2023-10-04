@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import App from "../three/inWare";
 import axios from "axios";
 import "../css/wareDetail.css";
 
 const Warehouse = () => {
   let { wh_seq, stock_seq } = useParams();
+
+  const nav = useNavigate();
 
   // 변수
   const [stockName, setStockName] = useState('')
@@ -39,7 +41,8 @@ const Warehouse = () => {
     Promise.all([
       axios.get(`http://localhost:8000/warehouse/${wh_seq}`),
       axios.get(`http://localhost:8000/rack/${wh_seq}`),
-      axios.get(`http://localhost:8000/stock/${wh_seq}`),
+      // axios.get(`http://localhost:8000/stock/${wh_seq}`),
+      axios.get(`http://localhost:8000/stock/show/${wh_seq}`),
     ])
       .then(([warehouseRes, rackRes, stockRes]) => {
         console.log("랙 데이터 배열", rackRes.data);
@@ -55,16 +58,24 @@ const Warehouse = () => {
 
         console.log("상품 데이터 배열", stockRes);
 
+        console.log('스톡 응답', stockRes);
+
+        const stocks = stockRes.data[0].Racks[0].Loadings.map(stock => {
+          // const [pos1, pos2] = stock.loading_position.split(',').map(Number);
+          const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
+          return {
+            loadingFloor: stock.loading_floor,
+            loadingPosition1: pos1,
+            loadingPosition2: pos2
+          }
+        })
+        console.log('스톡스', stocks);
+
         setWarehouseData({
           warehouseWidth: parseInt(warehouseRes.data.wh_width),
           warehouseLength: parseInt(warehouseRes.data.wh_length),
           racks,
-          items: {
-            itemWidth: 0.8,
-            itemLength: 0.8,
-            itemX: -1,
-            itemZ: 5,
-          },
+          stocks,
           getItem,
         });
       })
@@ -83,9 +94,11 @@ const Warehouse = () => {
         warehouseData.warehouseWidth,
         warehouseData.warehouseLength,
         warehouseData.racks,
-        warehouseData.items,
+        warehouseData.stocks,
         warehouseData.getItem,
       );
+    } else {
+      console.log("error");
     }
   }, [warehouseData]);
 
@@ -145,16 +158,22 @@ const Warehouse = () => {
   }
 
   useEffect(() => {
-    axios.patch('http://localhost:8000/in/position', {
-      stock_seq: stock_seq,
-      position: strGetItem
-    })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.error(err);
-    })
+    if (strGetItem !== '') {
+      axios.patch('http://localhost:8000/in/position', {
+        stock_seq: stock_seq,
+        position: strGetItem
+      })
+      .then((res) => {
+        if (res.data === 'ok') {
+          nav('/in/loading')
+        } else {
+          alert('다시 시도해주세요')
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    }
   }, [strGetItem])
 
   return (

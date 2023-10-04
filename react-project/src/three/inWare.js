@@ -4,6 +4,8 @@ import createRack from "./createRackModule";
 import createItem from "./createItem";
 import { PreventDragClick } from "./PreventDragClick";
 import createLoadingClass from "./createLoadingClass";
+import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib.js";
+import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper.js";
 
 export default class App {
   constructor(warehouseWidth, warehouseLength, racks, items, getItem) {
@@ -35,7 +37,7 @@ export default class App {
     this.length = warehouseLength;
     this.racks = racks;
     // this.items = items
-    this.items = items;
+    this.stocks = items;
     // this.items = stocks
     this.getItem = getItem;
 
@@ -59,9 +61,9 @@ export default class App {
     this.raycaster = new THREE.Raycaster();
     this.raycaster.selectedMesh = null;
 
-    this._divContainer.addEventListener("mousedown", e=>{
+    this._divContainer.addEventListener("mousedown", (e) => {
       this.preventDragClick.mouseDownFunc(e);
-    })
+    });
 
     requestAnimationFrame(this.render.bind(this));
   }
@@ -91,33 +93,33 @@ export default class App {
 
   /** 조명 세팅 */
   _setupLight() {
-    // const color = 0xffffff;
-    // const intensity = 5;
-    // const light = new THREE.DirectionalLight(color, intensity);
-    // light.position.set(-1, 2, 4);
-    // light.name = "DirectionalLight"
-    // this._scene.add(light);
+    RectAreaLightUniformsLib.init(); // RectAreaLight를 사용하기 위한 코드
 
-    const auxLight = new THREE.DirectionalLight(0xffffff, 0.2);
-    auxLight.position.set(0, 5, 0);
-    auxLight.target.position.set(0, 0, 0);
-    auxLight.intensity = 1;
-    this._scene.add(auxLight.target);
-    this._scene.add(auxLight);
+    const light = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
+    light.position.set(0, 16, 0);
+    light.rotation.x = THREE.MathUtils.degToRad(-90);
 
-    const light = new THREE.SpotLight(0xffffff, 100);
-    light.position.set(0, 7, 7);
-    light.target.position.set(0, 0, 0);
-    light.angle = THREE.MathUtils.degToRad(100);
-    light.penumbra = 0.2;
-    this._scene.add(light.target);
+    const light2 = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
+    light2.position.set(-4, 16, 0);
+    light2.rotation.x = THREE.MathUtils.degToRad(-90);
 
-    light.shadow.mapSize.width = light.shadow.mapSize.height = 2048; // 그림자 품질 향상 기본값 : 512
-    light.shadow.radius = 1; // 그림자 외곽 블러링 처리 시 사용 기본값 : 1
+    const light3 = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
+    light3.position.set(4, 16, 0);
+    light3.rotation.x = THREE.MathUtils.degToRad(-90);
+
+    const helper = new RectAreaLightHelper(light);
+    light.add(helper);
+
+    const helper2 = new RectAreaLightHelper(light2);
+    light.add(helper2);
+
+    const helper3 = new RectAreaLightHelper(light3);
+    light.add(helper3);
 
     this._scene.add(light);
+    this._scene.add(light2);
+    this._scene.add(light3);
     this._light = light;
-    light.castShadow = true;
   }
 
   // 파란색 정육면체 mesh 생성
@@ -129,7 +131,11 @@ export default class App {
     // for( const item of this.items){
     //     this.addItem(item);
     // }
-    this.addItem(this.items);
+    // this.addItem(this.items);
+
+    for (const stock of this.stocks) {
+      this.addItem(stock);
+    }
 
     this.loading = new THREE.Group();
     this._scene.add(this.loading);
@@ -334,12 +340,11 @@ export default class App {
   }
 
   mouseupHandler(e) {
-	  let dragged = this.preventDragClick.mouseUpFunc(e);    
-    if(dragged) {
+    let dragged = this.preventDragClick.mouseUpFunc(e);
+    if (dragged) {
       return;
     }
-      
-    
+
     console.log(`x: ${this.newPosX}, y: ${this.newPosY}, z: ${this.newPosZ}  `);
 
     if (e.button == 0 && e.shiftKey) {
@@ -386,7 +391,7 @@ export default class App {
     }
 
     // 마우스 좌클릭만
-    if (e.button == 0 && !e.shiftKey) {      
+    if (e.button == 0 && !e.shiftKey) {
       console.log(`짐이동여부 : ${this.짐이동여부}`);
       if (this.짐이동여부 && !this.isMoving) {
         console.log(`짐이동여부안 : ${this.짐이동여부}`);
@@ -470,11 +475,11 @@ export default class App {
           cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
 
         // console.log(`this.짐추가가능여부 : ${this.짐추가가능여부}`);
-        console.log(`좌표 x:${newPosX}, y:${newPosY}, z:${newPosZ}`)
-        this.getItem.itemX = newPosX
-        this.getItem.itemY = newPosY
-        this.getItem.itemZ = newPosZ
-        console.log('입고 자리', this.getItem);
+        console.log(`좌표 x:${newPosX}, y:${newPosY}, z:${newPosZ}`);
+        this.getItem.itemX = newPosX;
+        this.getItem.itemY = newPosY;
+        this.getItem.itemZ = newPosZ;
+        console.log("입고 자리", this.getItem);
 
         if (this.짐추가가능여부) {
           this.addLoading(newPosX, newPosY, newPosZ);

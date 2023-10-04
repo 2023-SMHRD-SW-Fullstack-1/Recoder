@@ -119,7 +119,7 @@ function Notice({selectWhSeq,setSelectWhSeq}) {
           const noticeContent = parseFloat(matchingItem.notice_content);
           const currentStock = parseFloat(data.stock_cnt);
 
-          if (noticeContent > currentStock) {
+          if (noticeContent > currentStock || data.stock_cnt == null) {
             return (
               <span style={{ color: "red" }}>
                 {matchingItem.notice_content} (부족)
@@ -144,7 +144,13 @@ function Notice({selectWhSeq,setSelectWhSeq}) {
       title: "현재 재고량",
       dataIndex: "stock_cnt",
       key: "stock_cnt",
-      render: (text) => <span style={{ color: "darkgray" }}>{text}</span>,
+      render: (text, data) => {
+        if (text == null) {
+          return (<span style={{ color: "darkgray" }}>{0}</span>)
+        } else {
+          return (<span style={{ color: "darkgray" }}>{text}</span>)
+        }
+      }
     },
     {
       title: "수정",
