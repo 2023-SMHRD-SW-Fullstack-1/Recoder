@@ -273,20 +273,4 @@ router.post('/loading', async (req, res) => {
     // }
 })
 
-router.get('/ware/:stock_seq', async (req, res) => {
-    console.log('로그');
-    try {
-        const result = await Stock.findAll({
-            where: { stock_seq: req.params.stock_seq },
-            include: [{
-                model: Loading
-            }]
-        })
-        console.log('입고상품정보', result);
-        res.json(result)
-    } catch (error) {
-        console.error(error);
-    }
-})
-
 module.exports = router

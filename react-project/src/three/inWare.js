@@ -3,7 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import createRack from "./createRackModule";
 import createItem from "./createItem";
 import { PreventDragClick } from "./PreventDragClick";
-import createLoadingClass from "../three/createLoadingClass";
+import createLoadingClass from "./createLoadingClass";
 
 export default class App {
   constructor(warehouseWidth, warehouseLength, racks, items) {

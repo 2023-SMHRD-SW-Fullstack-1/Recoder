@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import App from "../three/test_show_warehouse";
+import App from "../three/inWare";
 import axios from "axios";
 import "../css/wareDetail.css";
 
@@ -8,6 +8,7 @@ const Warehouse = () => {
   let { wh_seq, stock_seq } = useParams();
 
   // 변수
+  const [stockName, setStockName] = useState('')
   const [warehouseWidth, setWarehouseWidth] = useState(null);
   const [warehouseLength, setWarehouseLength] = useState(null);
   const [rackWidth, setRackWidth] = useState(null);
@@ -117,9 +118,9 @@ const Warehouse = () => {
 
   // 입고페이지에서 선택한 상품 정보 요청
   useEffect(() => {
-    axios.get(`http://localhost:8000/in/ware/${stock_seq}`)
+    axios.get(`http://localhost:8000/stock/ware/${stock_seq}`)
     .then((res) => {
-      console.log('화면 렌더링 완료', res);
+      setStockName(res.data.stock_name);
     })
     .catch((err) => {
       console.error(err);
@@ -140,7 +141,8 @@ const Warehouse = () => {
         </button>
         <div id="info">
           <strong>입고할 상품 정보</strong> <br />
-          상품명 | 일체형 도킹형 미니 보조배터리 5000mAh C타입 <br />
+          <span>상품 ID | {stock_seq}</span> <br />
+          <span>상품명 | {stockName}</span> <br />
           <button>위치 선택 완료</button>
         </div>
       </div>
