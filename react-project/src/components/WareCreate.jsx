@@ -11,6 +11,7 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
     const [length, setLength] = useState(0);
     const nav = useNavigate()
 
+    /** useEffect -> [] */
 	useEffect(()=>{
 		localStorage.setItem("ware_name", null);
 		localStorage.setItem("ware_width", null)

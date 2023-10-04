@@ -111,23 +111,6 @@ export default class App {
         //     this.addItem(item);
         // }
         this.addItem(this.items)
-
-        this.loading = new THREE.Group();
-        let a = new THREE.BoxGeometry(1, 1, 1);
-        let b = new THREE.MeshPhongMaterial();
-        let c = new THREE.Mesh(a, b);
-        this._scene.add(c);
-
-        let c1 = new THREE.Mesh(a, b);
-        c1.position.set(1,0,0)
-        this._scene.add(c1);
-
-        let c2 = new THREE.Mesh(a, b);
-        c2.position.set(2,0,0)
-        this.loading.add(c,c1,c2)
-        this._scene.add(this.loading);
-
-
     }
 
     /** 바닥 추가 */
