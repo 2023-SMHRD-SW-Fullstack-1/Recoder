@@ -4,6 +4,8 @@ import createRack from "./createRackModule";
 import createItem from "./createItem";
 import { PreventDragClick } from "./PreventDragClick";
 import createLoadingClass from "../three/createLoadingClass";
+import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 
 export default class App {
   constructor(warehouseWidth, warehouseLength, racks, items) {
@@ -34,9 +36,8 @@ export default class App {
     this.width = warehouseWidth;
     this.length = warehouseLength;
     this.racks = racks;
-    // this.items = items
-    this.items = items;
-    // this.items = stocks
+    // this.items = items    
+    this.stocks = items;
 
     this._setupCamera();
     this._setupLight();
@@ -86,33 +87,33 @@ export default class App {
 
   /** 조명 세팅 */
   _setupLight() {
-    // const color = 0xffffff;
-    // const intensity = 5;
-    // const light = new THREE.DirectionalLight(color, intensity);
-    // light.position.set(-1, 2, 4);
-    // light.name = "DirectionalLight"
-    // this._scene.add(light);
+    RectAreaLightUniformsLib.init(); // RectAreaLight를 사용하기 위한 코드
 
-    const auxLight = new THREE.DirectionalLight(0xffffff, 0.2);
-    auxLight.position.set(0, 5, 0);
-    auxLight.target.position.set(0, 0, 0);
-    auxLight.intensity = 1;
-    this._scene.add(auxLight.target);
-    this._scene.add(auxLight);
+    const light = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
+    light.position.set(0, 8, 0);
+    light.rotation.x = THREE.MathUtils.degToRad(-90);
+    
+    const light2 = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
+    light2.position.set(-4, 8, 0);
+    light2.rotation.x = THREE.MathUtils.degToRad(-90);
 
-    const light = new THREE.SpotLight(0xffffff, 100);
-    light.position.set(0, 7, 7);
-    light.target.position.set(0, 0, 0);
-    light.angle = THREE.MathUtils.degToRad(100);
-    light.penumbra = 0.2;
-    this._scene.add(light.target);
+    const light3 = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
+    light3.position.set(4, 8, 0);
+    light3.rotation.x = THREE.MathUtils.degToRad(-90);
 
-    light.shadow.mapSize.width = light.shadow.mapSize.height = 2048; // 그림자 품질 향상 기본값 : 512
-    light.shadow.radius = 1; // 그림자 외곽 블러링 처리 시 사용 기본값 : 1
+    const helper = new RectAreaLightHelper(light);
+    light.add(helper);
+
+    const helper2 = new RectAreaLightHelper(light2);
+    light.add(helper2);
+
+    const helper3 = new RectAreaLightHelper(light3);
+    light.add(helper3);
 
     this._scene.add(light);
+    this._scene.add(light2);
+    this._scene.add(light3);
     this._light = light;
-    light.castShadow = true;
   }
 
   // 파란색 정육면체 mesh 생성
@@ -124,21 +125,15 @@ export default class App {
     // for( const item of this.items){
     //     this.addItem(item);
     // }
-    this.addItem(this.items);
+    // this.addItem(this.items);
+    // this.addItem(this.stocks)
+
+    for( const stock of this.stocks){
+        this.addItem(stock);
+    }
 
     this.loading = new THREE.Group();
-    let a = new THREE.BoxGeometry(1, 1, 1);
-    let b = new THREE.MeshPhongMaterial();
-    let c = new THREE.Mesh(a, b);
-    this._scene.add(c);
-
-    let c1 = new THREE.Mesh(a, b);
-    c1.position.set(1, 0, 0);
-    this._scene.add(c1);
-
-    let c2 = new THREE.Mesh(a, b);
-    c2.position.set(2, 0, 0);
-    this.loading.add(c, c1, c2);
+   
     this._scene.add(this.loading);
   }
 
