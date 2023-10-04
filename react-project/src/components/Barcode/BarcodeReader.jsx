@@ -81,11 +81,20 @@ function BarcodeReader() {
 
   return (
     <div className='barcode_top'>
-      <button onClick={() => {
-        setModalView((prev) => !prev)
-        setData({}) 
-        setBarcodeData(null)
-      }}>재고 추가</button>
+      <button 
+        onClick={() => {
+          setModalView((prev) => !prev)
+          setData({}) 
+          setBarcodeData(null)
+        }}
+        style={{
+          background: "transparent",
+          border: "none",
+          boxShadow: "0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04)",
+          borderRadius: 4,
+          padding: 8,
+        }}
+      >사전 바코드 등록</button>
       {modalView ? (
         <div className='modal_background'>
           <div className='modal_top'>

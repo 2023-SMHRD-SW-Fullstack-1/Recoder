@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import WareTable from "./WareTable";
 import axios from 'axios'
 import { Link } from 'react-router-dom'
@@ -8,7 +8,7 @@ const WareList = ({ comSeq }) => {
   const [warehouseList, setWarehouseList] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/ware/manage/${comSeq}`)
+    axios.get(`http://localhost:8000/ware/shortList/${comSeq}`)
     .then((res) => {
       console.log(res.data);
       setWarehouseList(res.data);
@@ -26,7 +26,7 @@ const WareList = ({ comSeq }) => {
       render: (text) => <span style={{ color: "darkgray" }}>{text}</span>,
     },
     {
-      title: "창고 보기",
+      title: "",
       dataIndex: "wh_seq",
       key: "wh_seq",
       render: (record) => (
@@ -39,29 +39,11 @@ const WareList = ({ comSeq }) => {
             padding: 4,
           }}
         >
-          <KeyboardArrowRightIcon />
+          창고 보기
         </button></Link>
       ),
     },
   ];
-
-  // const data = [
-  //   {
-  //     stock_id: "창고이름1",
-  //     stock_name: "콜라 외 24종",
-  //     cl_seq: "버튼",
-  //   },
-  //   {
-  //     stock_id: "창고이름2",
-  //     stock_name: "사이다 외 8종",
-  //     cl_seq: "버튼",
-  //   },
-  //   {
-  //     stock_id: "창고이름3",
-  //     stock_name: "환타 외 60종",
-  //     cl_seq: "버튼",
-  //   },
-  // ];
 
   const data = warehouseList.map((item, idx) => ({
     key: idx + 1,
@@ -73,6 +55,9 @@ const WareList = ({ comSeq }) => {
     <div id="dashboard-warelist">
       <div id="warelist-header" className="dashboard-item-header">
         <span>나의 창고</span>
+        <Link to="/ware/manage" style={{ color: "black" }}>
+          <OpenInNewIcon />
+        </Link>
       </div>
       <div>
         <WareTable columns={columns} data={data} />

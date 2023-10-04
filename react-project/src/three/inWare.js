@@ -8,7 +8,7 @@ import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLigh
 import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper.js";
 
 export default class App {
-  constructor(warehouseWidth, warehouseLength, racks, items, getItem) {
+  constructor(warehouseWidth, warehouseLength, racks, items, getItem, clickRackSeq) {
     // 변수
     this.meshes = [];
     this.mouseupHandler = this.mouseupHandler.bind(this);
@@ -40,6 +40,7 @@ export default class App {
     this.stocks = items;
     // this.items = stocks
     this.getItem = getItem;
+    this.clickRackSeq = clickRackSeq;
 
     this._setupCamera();
     this._setupLight();
@@ -488,7 +489,7 @@ export default class App {
         } else {
           if(intersection.object.parent.parent) {
             console.log("seq출력", intersection.object.parent.parent.userData.rackSeq)
-
+            localStorage.setItem('rack_seq', intersection.object.parent.parent.userData.rackSeq);
           }
         }
       }

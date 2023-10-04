@@ -10,7 +10,7 @@ const Warehouse = () => {
   const nav = useNavigate();
 
   // 변수
-  const [stockName, setStockName] = useState('')
+  const [stockName, setStockName] = useState("");
   const [warehouseWidth, setWarehouseWidth] = useState(null);
   const [warehouseLength, setWarehouseLength] = useState(null);
   const [rackWidth, setRackWidth] = useState(null);
@@ -22,14 +22,16 @@ const Warehouse = () => {
   const [itemX, setItemX] = useState(0);
   const [itemY, setItemY] = useState(0);
   const [itemZ, setItemZ] = useState(0);
-  const [clickStockSeq, setClickStockSeq] = useState(0);
+  const [rack_seq, setRack_seq] = useState(0);
+  const [clickRackSeq, setClickRackSeq] = useState({
+    rack_seq: rack_seq
+  });
   const [getItem, setGetItem] = useState({
     itemX: itemX,
     itemY: itemY,
     itemZ: itemZ,
-    clickStockSeq: clickStockSeq,
-  })
-  const [strGetItem, setStrGetItem] = useState('')
+  });
+  const [strGetItem, setStrGetItem] = useState("");
 
   const [warehouseData, setWarehouseData] = useState({});
 
@@ -61,18 +63,40 @@ const Warehouse = () => {
 
         console.log("상품 데이터 배열", stockRes);
 
-        console.log('스톡 응답', stockRes);
+        console.log("스톡 응답", stockRes);
 
-        const stocks = stockRes.data[0].Racks[0].Loadings.map(stock => {
+        // console.log('범인', stockRes.data[0].Racks[19].Loadings);
+
+        const stocks = stockRes.data[0].Racks.map((rack) => {
           // const [pos1, pos2] = stock.loading_position.split(',').map(Number);
-          const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
-          return {
-            loadingFloor: stock.loading_floor,
-            loadingPosition1: pos1,
-            loadingPosition2: pos2
-          }
-        })
-        console.log('스톡스', stocks);
+          // console.log('용의자', rack.Loadings[0].loading_position);
+          const loadings = rack.Loadings.map((loading) => {
+            console.log('너지', loading.loading_position);
+            const [itemX, itemY, itemZ] = loading.loading_position
+              ? JSON.parse(rack.loading_position)
+              : [0, 0];
+              console.log('공범', itemX, itemY, itemZ);
+            return {
+              loadingFloor: itemY,
+              loadingPosition1: itemX,
+              loadingPosition2: itemZ,
+            };
+          })
+        });
+        // const stocks = stockRes.data[0].Racks[0].Loadings.map((stock) => {
+        //   // const [pos1, pos2] = stock.loading_position.split(',').map(Number);
+        //   console.log('ee', stock.Stock.loading_position);
+        //   const [x, y, z] = stock.Stock.loading_position
+        //     ? JSON.parse(stock.Stock.loading_position)
+        //     : [0, 0];
+        //     console.log('dd', x, y, z);
+        //   return {
+        //     loadingFloor: y,
+        //     loadingPosition1: x,
+        //     loadingPosition2: z,
+        //   };
+        // });
+        console.log("스톡스", stocks);
 
         setWarehouseData({
           warehouseWidth: parseInt(warehouseRes.data.wh_width),
@@ -80,6 +104,7 @@ const Warehouse = () => {
           racks,
           stocks,
           getItem,
+          clickRackSeq,
         });
       })
       .catch((error) => {
@@ -99,6 +124,7 @@ const Warehouse = () => {
         warehouseData.racks,
         warehouseData.stocks,
         warehouseData.getItem,
+        warehouseData.clickStockSeq
       );
     } else {
       console.log("error");
@@ -146,38 +172,70 @@ const Warehouse = () => {
 
   // 입고페이지에서 선택한 상품 정보 요청
   useEffect(() => {
-    axios.get(`http://localhost:8000/stock/ware/${stock_seq}`)
-    .then((res) => {
-      setStockName(res.data.stock_name);
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-  }, [])
-
-  const inPositionClick = () => {
-    console.log('위치 선택 완료 클릭', getItem);
-    setStrGetItem(JSON.stringify(getItem))
-  }
-
-  useEffect(() => {
-    if (strGetItem !== '') {
-      axios.patch('http://localhost:8000/in/position', {
-        stock_seq: stock_seq,
-        position: strGetItem
-      })
+    axios
+      .get(`http://localhost:8000/stock/ware/${stock_seq}`)
       .then((res) => {
-        if (res.data === 'ok') {
-          nav('/in/loading')
-        } else {
-          alert('다시 시도해주세요')
-        }
+        setStockName(res.data.stock_name);
       })
       .catch((err) => {
         console.error(err);
-      })
-    }
-  }, [strGetItem])
+      });
+  }, []);
+
+  const inPositionClick = () => {
+    console.log('이거자나22',"위치 선택 완료 클릭", getItem);
+    let aStrGetItem = JSON.stringify(getItem);
+    setTimeout(() => {
+      setStrGetItem((prev)=>{
+        console.log('이거자나', rack_seq);
+        if (aStrGetItem !== "") {
+          axios
+            .patch("http://localhost:8000/in/position", {
+              stock_seq: stock_seq,
+              position: aStrGetItem,
+              rack_seq: localStorage.getItem('rack_seq'),
+            })
+            .then((res) => {
+              if (res.data === "ok") {
+                nav("/in/loading");
+              } else {
+                alert("다시 시도해주세요");
+              }
+              localStorage.setItem('rack_seq', null)
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        }
+        return JSON.stringify(getItem);
+      });      
+    }, 300);
+    
+  };
+
+  // useEffect(() => {
+  //   console.log('이거자나', rack_seq);
+
+  //   if (strGetItem !== "") {
+  //     axios
+  //       .patch("http://localhost:8000/in/position", {
+  //         stock_seq: stock_seq,
+  //         position: strGetItem,
+  //         rack_seq: rack_seq,
+  //       })
+  //       .then((res) => {
+  //         if (res.data === "ok") {
+  //           nav("/in/loading");
+  //         } else {
+  //           alert("다시 시도해주세요");
+  //         }
+  //         localStorage.setItem('rack_seq', null)
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+  //   }
+  // }, [rack_seq]);
 
   return (
     <div className="warehouse1">

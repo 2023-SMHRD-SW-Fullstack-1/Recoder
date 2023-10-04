@@ -151,8 +151,7 @@ const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
                   <Link to="/out/controll">{outListCnt}개</Link>
                 </div>
               </div>
-
-            <BarcodeReader />
+              <BarcodeReader />
             </div>
             <WareList comSeq={ comSeq } />
           </div>
