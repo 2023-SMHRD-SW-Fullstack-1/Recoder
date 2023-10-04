@@ -405,6 +405,7 @@ export default class App {
 
 					this.raycaster.selectedMesh.position.set(newPosX, newPosY, newPosZ);
 					this.isMoving = false;
+					return;
 				}
 			}
 
