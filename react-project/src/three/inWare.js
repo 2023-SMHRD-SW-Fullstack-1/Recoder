@@ -243,6 +243,8 @@ export default class App {
     );
     let mesh = new THREE.Box3().setFromObject(rackMesh);
 
+    rackMesh.userData.rackSeq = rack.seq
+
     let aa = {
       minX: Math.round(mesh.min.x * 10) / 10,
       maxX: Math.round(mesh.max.x * 10) / 10,
@@ -483,6 +485,11 @@ export default class App {
 
         if (this.짐추가가능여부) {
           this.addLoading(newPosX, newPosY, newPosZ);
+        } else {
+          if(intersection.object.parent.parent) {
+            console.log("seq출력", intersection.object.parent.parent.userData.rackSeq)
+
+          }
         }
       }
     }

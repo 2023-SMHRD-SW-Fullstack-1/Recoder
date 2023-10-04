@@ -14,9 +14,9 @@ const Warehouse = () => {
 
 
 	// 변수
-  const [selectName, setSelectedName] = useState('')
-  const [selectPrice, setSelectPrice] = useState('')
-  const [selectIndate, setSelectedIndate] = useState('')
+  const [selectedName, setSelectedName] = useState('')
+  const [selectedPrice, setSelectedPrice] = useState('')
+  const [selectedIndate, setSelectedIndate] = useState('')
 	const [warehouseWidth, setWarehouseWidth] = useState(null);
 	const [warehouseLength, setWarehouseLength] = useState(null);
 	const [rackWidth, setRackWidth] = useState(null);
@@ -50,6 +50,7 @@ const Warehouse = () => {
 					rackLength: parseInt(rack.rack_length),
 					rackX: parseInt(rack.rack_x),
 					rackZ: parseInt(rack.rack_z),
+          seq: rack.rack_seq,
 				}));
 
 				console.log("warehouse", warehouseRes.data.wh_width)

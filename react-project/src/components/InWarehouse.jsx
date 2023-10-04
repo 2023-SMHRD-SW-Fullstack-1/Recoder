@@ -22,10 +22,12 @@ const Warehouse = () => {
   const [itemX, setItemX] = useState(0);
   const [itemY, setItemY] = useState(0);
   const [itemZ, setItemZ] = useState(0);
+  const [clickStockSeq, setClickStockSeq] = useState(0);
   const [getItem, setGetItem] = useState({
     itemX: itemX,
     itemY: itemY,
     itemZ: itemZ,
+    clickStockSeq: clickStockSeq,
   })
   const [strGetItem, setStrGetItem] = useState('')
 
@@ -52,6 +54,7 @@ const Warehouse = () => {
           rackLength: parseInt(rack.rack_length),
           rackX: parseInt(rack.rack_x),
           rackZ: parseInt(rack.rack_z),
+          seq: rack.rack_seq,
         }));
 
         console.log("racks 찍어보자", racks);
