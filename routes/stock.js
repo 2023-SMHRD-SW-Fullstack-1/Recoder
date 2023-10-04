@@ -4,6 +4,30 @@ const { Client, Company, Loading, Notice, Rack, Stock, User, Warehouse } = requi
 
 const router = express.Router()
 
+router.post('/barcode', async (req, res) => {
+  console.log(req.body);
+  let { stock_name, stock_kind, stock_price, stock_barcode, stock_expired, stock_balance_cnt} = req.body;
+
+  try {
+    const stock_expired_date = new Date(stock_expired);
+
+    console.log(stock_expired_date);
+
+    const result = await Stock.create({
+      stock_name: stock_name,
+      stock_kind: stock_kind,
+      stock_price: stock_price,
+      stock_barcode: stock_barcode,
+      stock_expired: stock_expired_date,
+      stock_balance_cnt: stock_balance_cnt,
+      stock_img: '',
+    })
+    res.send('ok')
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 // loading_type이 I인 데이터 전체 조회
 router.get('/:com_seq', async (req, res, next) => {
   let com_seq = req.params.com_seq
