@@ -1,9 +1,10 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import createRack from "./createRackModule";
-import createItem from "./createItem";
-import { PreventDragClick } from "./PreventDragClick";
-import createLoadingClass from "../three/createLoadingClass";
+import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
+import createRack from './createRackModule';
+import createItem from './createItem'
+import { PreventDragClick } from './PreventDragClick';
 
 export default class App {
   constructor(warehouseWidth, warehouseLength, racks, items) {
