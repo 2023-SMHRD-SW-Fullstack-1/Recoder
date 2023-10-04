@@ -80,8 +80,9 @@ router.get('/:com_seq/:limit/:offset', async (req, res, next) => {
   }
 })
 
+// warehouse.jsx axios.get(`http://localhost:8000/stock/show/${wh_seq}`) 요청
 router.get('/show/:wh_seq', async (req, res) => {
-  console.log("제발가져와주라");
+  console.log("제발가져와주라help", req.params.wh_seq);
   // let wh_seq = req.params.wh_seq
   try {
     const stockList = await Warehouse.findAll({
@@ -90,16 +91,19 @@ router.get('/show/:wh_seq', async (req, res) => {
         model: Rack,
         include: [{
           model: Loading,
+          // where: {
+          //   loading_type: 'I' 
+          // },
           include:[{
             model: Stock
           }]
         }]
       }],
       where:{
-        wh_seq: req.params.wh_seq
+        wh_seq: req.params.wh_seq,
       }
 
-
+      //loading_type: 'O',
       // where: {
       //   com_seq: req.params.comSeq,
       //   loading_type: 'I',
@@ -111,7 +115,7 @@ router.get('/show/:wh_seq', async (req, res) => {
       //   model: Stock,
       // }]
     })
-    console.log('stock 가져오기', stockList);
+    // console.log('stock 가져오기', stockList);
     res.json(stockList)
   } catch (error) {
     console.error(error);
