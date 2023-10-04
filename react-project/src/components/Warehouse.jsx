@@ -141,6 +141,10 @@ const Warehouse = () => {
 				<button type='button'> 선반 추가 </button>
 				<button type='button' onClick={moveLoading}>{canMoveItem? "짐 이동중":"짐 이동하기"}</button>
 			</div>
+
+			<div className='modal-info'>
+
+			</div>
 		</div>
 	);
 }
