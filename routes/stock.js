@@ -56,22 +56,36 @@ router.get('/:com_seq/:limit/:offset', async (req, res, next) => {
   }
 })
 
-router.get('/show/:comSeq', async (req, res) => {
+router.get('/show/:wh_seq', async (req, res) => {
   console.log("제발가져와주라");
   // let wh_seq = req.params.wh_seq
   try {
-    const stockList = await Loading.findAll({
-      // attributes: ['rack_x', 'rack_z', 'rack_width', 'rack_length', 'rack_floor'],
-      where: {
-        com_seq: req.params.comSeq,
-        loading_type: 'I',
-        loading_floor: {
-          [Op.ne]: null
-        }
-      },
+    const stockList = await Warehouse.findAll({
+      attributes: ['wh_seq'],
       include: [{
-        model: Stock,
-      }]
+        model: Rack,
+        include: [{
+          model: Loading,
+          include:[{
+            model: Stock
+          }]
+        }]
+      }],
+      where:{
+        wh_seq: req.params.wh_seq
+      }
+
+
+      // where: {
+      //   com_seq: req.params.comSeq,
+      //   loading_type: 'I',
+      //   loading_floor: {
+      //     [Op.ne]: null
+      //   }
+      // },
+      // include: [{
+      //   model: Stock,
+      // }]
     })
     console.log('stock 가져오기', stockList);
     res.json(stockList)
