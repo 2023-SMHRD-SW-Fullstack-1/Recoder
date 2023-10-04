@@ -154,7 +154,11 @@ router.post('/create', async (req, res) => {
             ],
             where: {
                 com_seq: com_seq,
-                loading_type: 'I'
+                [Op.or]: [
+                    { loading_type: 'I' },
+                    { loading_type: 'O' }
+                  ]
+                
             },
             include: [{
                 model: Stock,

@@ -33,8 +33,8 @@ export default class App {
 
 		const scene = new THREE.Scene(); // scene 객체
 		this._scene = scene;
-		scene.background = new THREE.Color(0xbdffc0); // 초록
-		// scene.background = new THREE.Color(0xffffff);
+		// scene.background = new THREE.Color(0xbdffc0); // 초록
+		scene.background = new THREE.Color(0xffffff);
 		// scene.background = new THREE.Color(0x71a379);
 
 		this.width = width;
