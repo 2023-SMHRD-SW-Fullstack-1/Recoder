@@ -15,6 +15,17 @@
 		left: 10px;
 	}
 }
+#info {
+	background-color: aliceblue;
+	position: absolute;
+	top: 30px;
+	width: 240px;
+	height: 150px;
+	border: 1px solid;
+	border-radius: 4px;
+	margin-top: 12px;
+	padding: 12px;
+}
 
 
 

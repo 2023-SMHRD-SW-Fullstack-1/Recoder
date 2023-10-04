@@ -4,15 +4,10 @@ import axios from "axios";
 import In02Add from "./In02Add";
 import { useNavigate } from "react-router";
 import "../css/in01.css";
-import TopBoard from "./Out/TopBoard";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
 import { uploadFile } from "../api/fileAPI";
-import Warehouse from "./Warehouse";
-import DatePicker from './Stock/DatePicker'
-import StockDropDown from './Stock/StockDropDown'
 
-function In_02({selectWhSeq,setSelectWhSeq}) {
-  const [value, setValue] = useState('5개씩 보기');
+function In_02({ selectWhSeq, setSelectWhSeq }) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -103,8 +98,9 @@ function In_02({selectWhSeq,setSelectWhSeq}) {
   const handleLoading = (record) => {
     console.log("handlePosition", record);
     setHandleData(record);
+    let stock_seq = record.stock_seq;
     // 모달 상태관리
-    nav(`/warehouse/${wh_seq}`);
+    nav(`/in/ware/${wh_seq}/${stock_seq}`);
 
     setIsModalOpen(true);
   };
@@ -167,7 +163,7 @@ function In_02({selectWhSeq,setSelectWhSeq}) {
     },
     {
       title: "적재",
-      dataIndex: "loadin",
+      dataIndex: "loading",
       key: "loading",
       render: (text, record) => (
         <button
@@ -239,7 +235,7 @@ function In_02({selectWhSeq,setSelectWhSeq}) {
     stock_barcode: Litem.Stock.stock_barcode,
     stock_expired: Litem.Stock.stock_expired.substring(0, 10),
     stock_bal: Litem.Stock.stock_balance_cnt,
-    loading: "적재",
+    loading: Litem.Stock.stock_seq,
     in_btn: "취소",
     description: (
       <In02Add handleData={handleData} setHandleData={setHandleData} />
