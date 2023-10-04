@@ -14,7 +14,11 @@
     z-index: 0;
     background-color: green;
 }
-
+.create-warehouse-container > .btn-wrapper {
+    & input[type=number] {
+        width: 75px;
+    }
+}
 .btn-wrapper {
     display: flex;
     justify-content: center;

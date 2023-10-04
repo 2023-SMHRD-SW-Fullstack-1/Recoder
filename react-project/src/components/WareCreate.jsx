@@ -70,7 +70,11 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
                                         type="number"
                                         placeholder='가로 길이를 입력해주세요.'
                                         value={width}  
-                                        onChange={(e) => setWidth(e.target.value)}
+                                        onChange={(e) => {
+                                            if(e.target.value <= 0) {
+                                                e.target.value = 1
+                                            }
+                                            setWidth(e.target.value)}}
                                     />
                                 </div>
 
@@ -80,8 +84,11 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
                                         type="number"
                                         placeholder='세로 길이를 입력해주세요.'
                                         value={length}  
-                                        onChange={(e) => setLength(e.target.value)}
-                                    />
+                                        onChange={(e) => {
+                                            if(e.target.value <= 0) {
+                                                e.target.value = 1
+                                            }
+                                            setLength(e.target.value)}}/>
                                 </div>
 
                                 {/* 생성완료 버튼 */}
