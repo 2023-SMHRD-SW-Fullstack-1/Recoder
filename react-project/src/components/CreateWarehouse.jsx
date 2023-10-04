@@ -66,19 +66,19 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 		console.log(newWareData.wh_seq);
 		setWh_seq(newWareData.wh_seq);
 
-		// const warehouseData = newWareData;
+		const warehouseData = newWareData;
 		// const lastWarehouse = warehouseData[warehouseData.length - 1];
 		// console.log("가장 최근 창고 정보 :", lastWarehouse);
 
 			 // 창고의 크기 설정 (가로, 세로)
-			 // setWarehouseWidth(parseInt(newWareData.wh_width));
-			 // setWarehouseLength(parseInt(newWareData.wh_length));
+			//  setWarehouseWidth(parseInt(newWareData.wh_width));
+			//  setWarehouseLength(parseInt(newWareData.wh_length));
 
-			// setWarehouseWidth(parseInt(localStorage.getItem("ware_width")));
-			// setWarehouseLength(parseInt(localStorage.getItem("ware_length")));
+			setWarehouseWidth(parseInt(localStorage.getItem("ware_width")));
+			setWarehouseLength(parseInt(localStorage.getItem("ware_length")));
 			
-			setWarehouseWidth(10); // 임시 데이터
-			setWarehouseLength(10);
+			// setWarehouseWidth(10); // 임시 데이터
+			// setWarehouseLength(10);
 			console.log("dd")
 		}, []);
 
