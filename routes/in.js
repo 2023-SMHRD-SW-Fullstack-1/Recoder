@@ -273,4 +273,20 @@ router.post('/loading', async (req, res) => {
     // }
 })
 
+router.patch('/position', async (req, res) => {
+    console.log(req.body);
+    let { position, stock_seq } = req.body
+
+    try {
+        await Loading.update({
+            loading_position: position
+        }, {
+            where: { stock_seq: stock_seq }  
+        })
+        res.send('ok')
+    } catch (error) {
+        console.error(error);
+    }
+})
+
 module.exports = router

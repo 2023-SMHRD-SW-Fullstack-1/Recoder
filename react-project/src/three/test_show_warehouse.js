@@ -4,6 +4,8 @@ import createRack from "./createRackModule";
 import createItem from "./createItem";
 import { PreventDragClick } from "./PreventDragClick";
 import createLoadingClass from "../three/createLoadingClass";
+import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 
 export default class App {
 	constructor(warehouseWidth, warehouseLength, racks, items) {
@@ -88,33 +90,33 @@ export default class App {
 
 	/** 조명 세팅 */
 	_setupLight() {
-		// const color = 0xffffff;
-		// const intensity = 5;
-		// const light = new THREE.DirectionalLight(color, intensity);
-		// light.position.set(-1, 2, 4);
-		// light.name = "DirectionalLight"
-		// this._scene.add(light);
-
-		const auxLight = new THREE.DirectionalLight(0xffffff, 0.2);
-		auxLight.position.set(0, 5, 0);
-		auxLight.target.position.set(0, 0, 0);
-		auxLight.intensity = 1;
-		this._scene.add(auxLight.target);
-		this._scene.add(auxLight);
-
-		const light = new THREE.SpotLight(0xffffff, 100);
-		light.position.set(0, 7, 7);
-		light.target.position.set(0, 0, 0);
-		light.angle = THREE.MathUtils.degToRad(100);
-		light.penumbra = 0.2;
-		this._scene.add(light.target);
-
-		light.shadow.mapSize.width = light.shadow.mapSize.height = 2048; // 그림자 품질 향상 기본값 : 512
-		light.shadow.radius = 1; // 그림자 외곽 블러링 처리 시 사용 기본값 : 1
-
+		RectAreaLightUniformsLib.init(); // RectAreaLight를 사용하기 위한 코드
+	
+		const light = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
+		light.position.set(0, 8, 0);
+		light.rotation.x = THREE.MathUtils.degToRad(-90);
+		
+		const light2 = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
+		light2.position.set(-4, 8, 0);
+		light2.rotation.x = THREE.MathUtils.degToRad(-90);
+	
+		const light3 = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
+		light3.position.set(4, 8, 0);
+		light3.rotation.x = THREE.MathUtils.degToRad(-90);
+	
+		const helper = new RectAreaLightHelper(light);
+		light.add(helper);
+	
+		const helper2 = new RectAreaLightHelper(light2);
+		light.add(helper2);
+	
+		const helper3 = new RectAreaLightHelper(light3);
+		light.add(helper3);
+	
 		this._scene.add(light);
+		this._scene.add(light2);
+		this._scene.add(light3);
 		this._light = light;
-		light.castShadow = true;
 	}
 
 	// 파란색 정육면체 mesh 생성
@@ -126,7 +128,6 @@ export default class App {
 		for( const item of this.items){
 			this.addItem(item);
 		}
-		this.addItem(this.items);
 
 		this.loading = new THREE.Group();
 		this._scene.add(this.loading);
@@ -214,59 +215,52 @@ export default class App {
 		// 선반 만들기
 		// console.log(this.rackX);
 		// console.log(this.rackZ);
-
+	
 		let rackPos = {
 			// x: this.rackX.position.x,
 			x: rack.rackX,
 			y: 0.2,
 			// z: this.rackZ.position.z
-			z: rack.rackZ,
-		};
-		console.log("현재 선반의 층수는?", rack.rackFloor);
-
+			z: rack.rackZ
+		}
+		console.log("현재 선반의 층수는?", rack.rackFloor)
+	
 		// Rack 생성부분 - createRack 호출
-
-		let rackMesh = createRack(
-			rack.rackWidth,
-			rack.rackLength,
-			rack.rackFloor,
-			rackPos
-		);
-		let mesh = new THREE.Box3().setFromObject(rackMesh);
-
+	
+		let rackMesh = createRack(rack.rackWidth, rack.rackLength, rack.rackFloor, rackPos)
+		let mesh = new THREE.Box3().setFromObject(rackMesh)
+	
 		let aa = {
 			minX: Math.round(mesh.min.x * 10) / 10,
 			maxX: Math.round(mesh.max.x * 10) / 10,
 			minZ: Math.round(mesh.min.z * 10) / 10,
-			maxZ: Math.round(mesh.max.z * 10) / 10,
-		};
+			maxZ: Math.round(mesh.max.z * 10) / 10
+		}
 		// console.log("바닥", this.groundBoundPos);
 		// console.log("선반", aa);
-
+	
 		if (aa.minX < this.groundBoundPos.minX) {
-			console.log(
-				`선반의 x 값이 더 작아! 선반 : ${aa.minX}, 바닥 : ${this.groundBoundPos.minX}`
-			);
+			console.log(`선반의 x 값이 더 작아! 선반 : ${aa.minX}, 바닥 : ${this.groundBoundPos.minX}`)
 			return;
 		}
 		if (aa.maxX > this.groundBoundPos.maxX) {
-			console.log("선반의 x 값이 더 커!");
+			console.log("선반의 x 값이 더 커!")
 			return;
 		}
 		if (aa.minZ < this.groundBoundPos.minZ) {
-			console.log("선반의 z 값이 더 작아!");
+			console.log("선반의 z 값이 더 작아!")
 			return;
 		}
 		if (aa.maxZ > this.groundBoundPos.maxZ) {
-			console.log("선반의 z 값이 더 커!!");
+			console.log("선반의 z 값이 더 커!!")
 			return;
 		}
 		// this.meshes.push(rackGroup);
-		rackMesh.name = "선반인데요";
-		this.rackGroup.add(rackMesh);
+		rackMesh.name = "선반인데요"
+		this.rackGroup.add(rackMesh)
 		this._scene.add(this.rackGroup);
 		// console.log("addShelf", this.meshes)
-
+	
 		// console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
 	}
 
@@ -283,18 +277,15 @@ export default class App {
 	/** 짐 추가 */
 	addItem(item) {
 		let itemPos = {
-			// x: this.rackX.position.x,
-			// x: item.itemX,
 			x: item.loadingPosition1,
 			y: 0.2,
-			// z: this.rackZ.position.z
 			z: item.loadingPosition2,
 		};
-
+	
 		// Rack 생성부분 - createRack 호출
 		let itemGroup = createItem(0.8, 0.8, item.loadingFloor, itemPos);
 		let mesh = new THREE.Box3().setFromObject(itemGroup);
-
+	
 		let aa = {
 			minX: Math.round(mesh.min.x * 10) / 10,
 			maxX: Math.round(mesh.max.x * 10) / 10,
@@ -303,11 +294,9 @@ export default class App {
 		};
 		// console.log("바닥", this.groundBoundPos);
 		// console.log("선반", aa);
-
+	
 		if (aa.minX < this.groundBoundPos.minX) {
-			console.log(
-				`선반의 x 값이 더 작아! 선반 : ${aa.minX}, 바닥 : ${this.groundBoundPos.minX}`
-			);
+			console.log(`선반의 x 값이 더 작아! 선반 : ${aa.minX}, 바닥 : ${this.groundBoundPos.minX}`);
 			return;
 		}
 		if (aa.maxX > this.groundBoundPos.maxX) {
@@ -326,7 +315,7 @@ export default class App {
 		// rackGroup.name = "선반인데요"
 		this._scene.add(itemGroup);
 		// console.log("addShelf", this.meshes)
-
+	
 		// console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
 	}
 
@@ -532,317 +521,11 @@ export default class App {
 
 				this._divContainer.removeEventListener("mouseup", this.mouseupHandler);
 				this._divContainer.addEventListener("mouseup", this.mouseupHandler);
-
-
-
 			}
 		})
 	}
 
-	/** 선반 추가 */
-	addShelf(rack) {
-		// 선반 만들기
-		// console.log(this.rackX);
-		// console.log(this.rackZ);
 
-		let rackPos = {
-			// x: this.rackX.position.x,
-			x: rack.rackX,
-			y: 0.2,
-			// z: this.rackZ.position.z
-			z: rack.rackZ
-		}
-		console.log("현재 선반의 층수는?", rack.rackFloor)
-
-		// Rack 생성부분 - createRack 호출
-
-		let rackMesh = createRack(rack.rackWidth, rack.rackLength, rack.rackFloor, rackPos)
-		let mesh = new THREE.Box3().setFromObject(rackMesh)
-
-		let aa = {
-			minX: Math.round(mesh.min.x * 10) / 10,
-			maxX: Math.round(mesh.max.x * 10) / 10,
-			minZ: Math.round(mesh.min.z * 10) / 10,
-			maxZ: Math.round(mesh.max.z * 10) / 10
-		}
-		// console.log("바닥", this.groundBoundPos);
-		// console.log("선반", aa);
-
-		if (aa.minX < this.groundBoundPos.minX) {
-			console.log(`선반의 x 값이 더 작아! 선반 : ${aa.minX}, 바닥 : ${this.groundBoundPos.minX}`)
-			return;
-		}
-		if (aa.maxX > this.groundBoundPos.maxX) {
-			console.log("선반의 x 값이 더 커!")
-			return;
-		}
-		if (aa.minZ < this.groundBoundPos.minZ) {
-			console.log("선반의 z 값이 더 작아!")
-			return;
-		}
-		if (aa.maxZ > this.groundBoundPos.maxZ) {
-			console.log("선반의 z 값이 더 커!!")
-			return;
-		}
-		// this.meshes.push(rackGroup);
-		rackMesh.name = "선반인데요"
-		this.rackGroup.add(rackMesh)
-		this._scene.add(this.rackGroup);
-		// console.log("addShelf", this.meshes)
-
-		// console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
-	}
-
-	/** 짐추가 2, 필요시 삭제 */
-	addLoading(posX, posY, posZ) {
-		console.log("addLoading 호출")
-		let aaa = new createLoadingClass();
-		let bbbb = aaa.createLoading();
-		bbbb.position.set(posX, posY, posZ)
-
-		this.loading.add(bbbb)
-	}
-
-	/** 짐 추가 */
-	addItem(item) {
-		let itemPos = {
-			// x: this.rackX.position.x,
-			x: item.itemX,
-			y: 0.2,
-			// z: this.rackZ.position.z
-			z: item.itemZ
-		}
-
-		// Rack 생성부분 - createRack 호출
-		let itemGroup = createItem(item.itemWidth, item.itemLength, 3, itemPos)
-		let mesh = new THREE.Box3().setFromObject(itemGroup)
-
-		let aa = {
-			minX: Math.round(mesh.min.x * 10) / 10,
-			maxX: Math.round(mesh.max.x * 10) / 10,
-			minZ: Math.round(mesh.min.z * 10) / 10,
-			maxZ: Math.round(mesh.max.z * 10) / 10
-		}
-		// console.log("바닥", this.groundBoundPos);
-		// console.log("선반", aa);
-
-		if (aa.minX < this.groundBoundPos.minX) {
-			console.log(`선반의 x 값이 더 작아! 선반 : ${aa.minX}, 바닥 : ${this.groundBoundPos.minX}`)
-			return;
-		}
-		if (aa.maxX > this.groundBoundPos.maxX) {
-			console.log("선반의 x 값이 더 커!")
-			return;
-		}
-		if (aa.minZ < this.groundBoundPos.minZ) {
-			console.log("선반의 z 값이 더 작아!")
-			return;
-		}
-		if (aa.maxZ > this.groundBoundPos.maxZ) {
-			console.log("선반의 z 값이 더 커!!")
-			return;
-		}
-		// this.meshes.push(rackGroup);
-		// rackGroup.name = "선반인데요"
-		this._scene.add(itemGroup);
-		// console.log("addShelf", this.meshes)
-
-		// console.log(`rackGroup의 위치 : ${JSON.stringify(rackGroup.position)}`)
-	}
-
-	mouseupHandler(e) {
-		console.log(`x: ${this.newPosX}, y: ${this.newPosY}, z: ${this.newPosZ}  `)
-
-		if (e.button == 0 && e.shiftKey) {
-			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-			this.raycaster.setFromCamera(this.mouse, this._camera);
-			const intersects = this.raycaster.intersectObject(this.loading);
-
-			// console.log(`intersecs's length : ${intersects.length}`)
-			if (intersects.length > 0) {
-				const intersection = intersects[0]
-				// console.log(intersects.map(item=>item.object.name));
-				// console.log(intersects.map(item=>item.point))
-				let { x, z } = intersection.point;
-				this.raycaster.selectedMesh = intersection.object
-				this.raycaster.selectedMesh.position.y += 1
-
-				console.log(`a: ${x}\nb: ${z}`)
-			} else if (intersects.length == 0) {
-				// console.log(intersects)
-			}
-
-		}
-
-		if (e.button == 2 && e.shiftKey) { // 우클릭
-			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-			this.raycaster.setFromCamera(this.mouse, this._camera);
-			const intersects = this.raycaster.intersectObject(this.loading);
-
-			// console.log(`intersecs's length : ${intersects.length}`)
-			if (intersects.length > 0) {
-				const intersection = intersects[0]
-				// console.log(intersects.map(item=>item.object.name));
-				// console.log(intersects.map(item=>item.point))
-				let { x, z } = intersection.point;
-				this.raycaster.selectedMesh = intersection.object
-				this.raycaster.selectedMesh.position.y -= 1
-
-				console.log(`a: ${x}\nb: ${z}`)
-			} else if (intersects.length == 0) {
-				// console.log(intersects)
-			}
-		}
-
-		// 마우스 좌클릭만
-		if (e.button == 0 && !e.shiftKey) {
-			console.log(`짐이동여부 : ${this.짐이동여부}`)
-			if (this.짐이동여부 && !this.isMoving) {
-				console.log(`짐이동여부안 : ${this.짐이동여부}`)
-				this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-				this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-				this.raycaster.setFromCamera(this.mouse, this._camera);
-				const intersects = this.raycaster.intersectObjects(this.loading.children);
-
-				if (intersects.length > 0) {
-					const intersection = intersects[0];
-					this.raycaster.selectedMesh = intersection.object;
-					let selectedMesh = this.raycaster.selectedMesh;
-
-					this.isMoving = true
-					selectedMesh.position.set(selectedMesh.position.x, selectedMesh.position.y + 2, selectedMesh.position.z);
-				}
-				return;
-			} else if (this.짐이동여부 && this.isMoving) {
-				this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-				this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-				this.raycaster.setFromCamera(this.mouse, this._camera);
-				const intersects = this.raycaster.intersectObjects(this.rackGroup.children);
-
-				if (intersects.length > 0) {
-					const intersection = intersects[0];
-
-					const cellX = Math.floor(
-						(intersection.point.x + this.width / 2) / this.cellSize
-					);
-					const cellY = Math.floor(
-						(intersection.point.z + this.length / 2) / this.cellSize
-					);
-
-
-					let newPosX = cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
-					let newPosY = intersection.point.y + intersection.object.scale.y / 2; // 판 위에 놓이도록 약간 위로 띄움
-					let newPosZ = cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
-
-					this.raycaster.selectedMesh.position.set(newPosX, newPosY, newPosZ);
-					this.isMoving = false;
-					return;
-				}
-			}
-
-			console.log(`짐이동여부 다음`)
-
-
-			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-			this.raycaster.setFromCamera(this.mouse, this._camera);
-			const intersects = this.raycaster.intersectObjects(this.rackGroup.children);
-
-			// console.log(`intersecs's length : ${intersects.length}`)
-			// console.log("this._scene", this._scene)
-			if (intersects.length > 0) {
-				const intersection = intersects[0]
-				// let x = parseInt(intersection.point.x * 100) / 100
-				// let y = parseInt(intersection.point.y * 100) / 100
-				// let z = parseInt(intersection.point.z * 100) / 100
-
-
-				const cellX = Math.floor(
-					(intersection.point.x + this.width / 2) / this.cellSize
-				);
-				const cellY = Math.floor(
-					(intersection.point.z + this.length / 2) / this.cellSize
-				);
-
-
-				let newPosX = cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
-				let newPosY = intersection.point.y + intersection.object.scale.y / 2; // 판 위에 놓이도록 약간 위로 띄움
-				let newPosZ = cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
-
-				console.log(`this.짐추가가능여부 : ${this.짐추가가능여부}`)
-				if (this.짐추가가능여부) {
-					this.addLoading(newPosX, newPosY, newPosZ);
-				}
-
-
-
-			}
-		}
-
-		// shift x + 마우스 클릭만
-		if (e.button == 2 && !e.shiftKey) {
-			this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-			this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-			this.raycaster.setFromCamera(this.mouse, this._camera);
-			const intersects = this.raycaster.intersectObject(this.loading);
-
-			console.log("우클릭")
-			if (intersects.length > 0) {
-				this.raycaster.selectedMesh = intersects[0].object;
-
-				this.loading.remove(this.raycaster.selectedMesh);
-			}
-		}
-	}
-
-
-	_setupMouseEvents(짐추가가능여부 = false, 선반추가가능여부 = false, 짐이동여부 = false) {
-		this.짐추가가능여부 = 짐추가가능여부;
-		this.선반추가가능여부 = 선반추가가능여부;
-		this.짐이동여부 = 짐이동여부;
-
-		let newPosX;
-		let newPosY;
-		let newPosZ;
-
-		this._divContainer.addEventListener("mousemove", (event) => {
-			this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-			this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-			this.raycaster.setFromCamera(this.mouse, this._camera);
-			const intersects = this.raycaster.intersectObject(this.ground);
-
-
-
-			if (intersects.length > 0) {
-				const intersection = intersects[0];
-				const rectangleGeo = new THREE.PlaneGeometry(1, 1, 1);
-				const rectangleMaterial = new THREE.MeshPhongMaterial({
-					visible: false
-				})
-				const rectangleMesh = new THREE.Mesh(rectangleGeo, rectangleMaterial);
-
-				const cellX = Math.floor(
-					(intersection.point.x + this.width / 2) / this.cellSize
-				);
-				const cellY = Math.floor(
-					(intersection.point.z + this.length / 2) / this.cellSize
-				);
-
-				newPosX = cellX * this.cellSize - this.width / 2 + this.cellSize / 2;
-				newPosY = intersection.point.y + 0.01; // 판 위에 놓이도록 약간 위로 띄움
-				newPosZ = cellY * this.cellSize - this.length / 2 + this.cellSize / 2;
-
-				this.newPosX = newPosX;
-				this.newPosY = newPosY;
-				this.newPosZ = newPosZ;
-
-				this._divContainer.removeEventListener("mouseup", this.mouseupHandler);
-				this._divContainer.addEventListener("mouseup", this.mouseupHandler);
-			}
-		})
-	}
 
 
 
