@@ -65,37 +65,14 @@ const Warehouse = () => {
 
         console.log("스톡 응답", stockRes);
 
-        // console.log('범인', stockRes.data[0].Racks[19].Loadings);
-
-        const stocks = stockRes.data[0].Racks.map((rack) => {
-          // const [pos1, pos2] = stock.loading_position.split(',').map(Number);
-          // console.log('용의자', rack.Loadings[0].loading_position);
-          const loadings = rack.Loadings.map((loading) => {
-            console.log('너지', loading.loading_position);
-            const [itemX, itemY, itemZ] = loading.loading_position
-              ? JSON.parse(rack.loading_position)
-              : [0, 0];
-              console.log('공범', itemX, itemY, itemZ);
-            return {
-              loadingFloor: itemY,
-              loadingPosition1: itemX,
-              loadingPosition2: itemZ,
-            };
-          })
+        const stocks = stockRes.data[0].Racks[0].Loadings.map((stock) => {
+          const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
+          return {
+            loadingFloor: stock.loading_floor,
+            loadingPosition1: pos1,
+            loadingPosition2: pos2,
+          };
         });
-        // const stocks = stockRes.data[0].Racks[0].Loadings.map((stock) => {
-        //   // const [pos1, pos2] = stock.loading_position.split(',').map(Number);
-        //   console.log('ee', stock.Stock.loading_position);
-        //   const [x, y, z] = stock.Stock.loading_position
-        //     ? JSON.parse(stock.Stock.loading_position)
-        //     : [0, 0];
-        //     console.log('dd', x, y, z);
-        //   return {
-        //     loadingFloor: y,
-        //     loadingPosition1: x,
-        //     loadingPosition2: z,
-        //   };
-        // });
         console.log("스톡스", stocks);
 
         setWarehouseData({
@@ -183,59 +160,8 @@ const Warehouse = () => {
   }, []);
 
   const inPositionClick = () => {
-    console.log('이거자나22',"위치 선택 완료 클릭", getItem);
-    let aStrGetItem = JSON.stringify(getItem);
-    setTimeout(() => {
-      setStrGetItem((prev)=>{
-        console.log('이거자나', rack_seq);
-        if (aStrGetItem !== "") {
-          axios
-            .patch("http://localhost:8000/in/position", {
-              stock_seq: stock_seq,
-              position: aStrGetItem,
-              rack_seq: localStorage.getItem('rack_seq'),
-            })
-            .then((res) => {
-              if (res.data === "ok") {
-                nav("/in/loading");
-              } else {
-                alert("다시 시도해주세요");
-              }
-              localStorage.setItem('rack_seq', null)
-            })
-            .catch((err) => {
-              console.error(err);
-            });
-        }
-        return JSON.stringify(getItem);
-      });      
-    }, 300);
-    
-  };
-
-  // useEffect(() => {
-  //   console.log('이거자나', rack_seq);
-
-  //   if (strGetItem !== "") {
-  //     axios
-  //       .patch("http://localhost:8000/in/position", {
-  //         stock_seq: stock_seq,
-  //         position: strGetItem,
-  //         rack_seq: rack_seq,
-  //       })
-  //       .then((res) => {
-  //         if (res.data === "ok") {
-  //           nav("/in/loading");
-  //         } else {
-  //           alert("다시 시도해주세요");
-  //         }
-  //         localStorage.setItem('rack_seq', null)
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //       });
-  //   }
-  // }, [rack_seq]);
+    console.log('위치 선택 완료 클릭', getItem);
+  }
 
   return (
     <div className="warehouse1">
