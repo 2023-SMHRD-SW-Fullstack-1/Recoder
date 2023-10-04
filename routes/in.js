@@ -186,6 +186,8 @@ router.post('/send/loading', async (req, res, next) => {
                 } // 업데이트할 조건
             }
         );
+        const io = req.app.get('io');
+        io.of('/in').emit('updateIn', '입고등록완료');
         res.json(result2);
     } catch (error) {
         console.log(error);
@@ -238,6 +240,8 @@ router.post('/del/loaing', async (req, res) => {
                 ],
             }
         );
+        const io = req.app.get('io');
+        io.of('/in').emit('updateIn', '입고취소완료');
         res.json(result)
     } catch (error) {
         console.log('입고취소 에러', error);
