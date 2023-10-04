@@ -27,6 +27,15 @@
 	padding: 12px;
 }
 
+.warehouse-info {
+	position:fixed;
+	width: 200px;
+	height: 200px;
+	background-color: yellow;
+	opacity: 0.5;
+	left: 0;
+	top: 0;
+}
 
 
 
