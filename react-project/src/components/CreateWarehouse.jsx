@@ -24,9 +24,9 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	const [canAddLoading, setCanAddLoading] = useState(false)
 
 	const [rackName, setRackName] = useState("");
-	const [rackWidth, setRackWidth] = useState(0);
-	const [rackLength, setRackLength] = useState(0);
-	const [rackFloor, setRackFloor] = useState(0);
+	const [rackWidth, setRackWidth] = useState(1);
+	const [rackLength, setRackLength] = useState(1);
+	const [rackFloor, setRackFloor] = useState(1);
 
 	// 원래 코드
 	// useEffect(() => {
@@ -57,11 +57,8 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	const [rackRotateYN, setRackRotateYN] = useState("N");
 
 
-	/** useEffect 처음 렌더링 실행 */
+	/** useEffect -> [] */
 	useEffect(() => {
-		console.log("useEffect 최초 1회 실행")
-
-
 		console.log("여기", newWareData);
 		console.log(newWareData.wh_seq);
 		setWh_seq(newWareData.wh_seq);
@@ -70,28 +67,27 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 		// const lastWarehouse = warehouseData[warehouseData.length - 1];
 		// console.log("가장 최근 창고 정보 :", lastWarehouse);
 
-			 // 창고의 크기 설정 (가로, 세로)
-			 // setWarehouseWidth(parseInt(newWareData.wh_width));
-			 // setWarehouseLength(parseInt(newWareData.wh_length));
+		// 창고의 크기 설정 (가로, 세로)
+		// setWarehouseWidth(parseInt(newWareData.wh_width));
+		// setWarehouseLength(parseInt(newWareData.wh_length));
 
-			// setWarehouseWidth(parseInt(localStorage.getItem("ware_width")));
-			// setWarehouseLength(parseInt(localStorage.getItem("ware_length")));
-			
-			setWarehouseWidth(10); // 임시 데이터
-			setWarehouseLength(10);
-			console.log("dd")
-		}, []);
+		setWarehouseWidth(parseInt(localStorage.getItem("ware_width")));
+		setWarehouseLength(parseInt(localStorage.getItem("ware_length")));			
+		// setWarehouseWidth(10); // 임시 데이터
+		// setWarehouseLength(10);
+	}, []);
 
+	/** useEffect -> [warehouseWidth, warehouseLength] */
 	useEffect(()=>{
 		if (warehouseWidth !== null && warehouseLength !== null) {
-				console.log("지금!");
-				appInstance.current = new App(
-				warehouseWidth,
-				warehouseLength,
-				rackWidth,
-				rackLength,
-				메쉬배열
-				);
+			console.log("지금!");
+			appInstance.current = new App(
+			warehouseWidth,
+			warehouseLength,
+			rackWidth,
+			rackLength,
+			메쉬배열
+			);
 		}
 	}, [warehouseWidth, warehouseLength])
 
@@ -206,6 +202,11 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 		// })
 	}
 
+	function sizeRack() {
+		localStorage.setItem("rack_width", rackWidth);
+		localStorage.setItem("rack_length", rackLength);
+	}
+
 	// 모달 창 끄는 부분
 	const modalClose = (e) => {
 		setModalOpen(false);
@@ -249,18 +250,33 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	};
 
 	return (
-		<div>
+		<div className="create-warehouse-container">
 			{/* <button>선반 생성</button> */}
 			<div className={"btn-wrapper"}>
 				<span>
-					<input type="text" placeholder="선반의 가로 길이"/>
-					<input type="text" placeholder="선반의 세로 길이"/>
-					<button className={"modal-open-btn"} onClick={()=>setModalOpen(true)}>
-						선반 생성
+					<input type="number" placeholder="선반의 가로 길이"  value={rackWidth} onChange={(e) => {
+							if(e.target.value <= 0) {
+								e.target.value = 1
+							}
+							setRackWidth(e.target.value)}}/>
+					<input type="number" placeholder="선반의 세로 길이" value={rackLength} onChange={(e) => {
+						if(e.target.value <= 0) {
+							e.target.value = 1
+						}
+						setRackLength(e.target.value)}} />
+					<input type="number" placeholder="선반의 층수" value={rackFloor} onChange={(e) => {
+						if(e.target.value <= 0) {
+							e.target.value = 1
+						}
+						setRackFloor(e.target.value)
+					}}/>
+					<button className={"modal-open-btn"} onClick={sizeRack}>
+						선반 크기
 					</button>
+					<button type="button" className={"modal-open-btn"} onClick={completeRack}>창고 생성</button>
 				</span>
+				
 				{/* <button onClick={createLoading}> loading 추가 {canAddLoading?"O":"X"} </button>
-				<button onClick={completeRack}>생성</button>
 				<button onClick={get배열}>배열 확인</button> */}
 			</div>
 

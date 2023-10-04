@@ -6,62 +6,62 @@ import axios from "axios";
 import "../css/wareDetail.css";
 
 const Warehouse = () => {
-  let { wh_seq } = useParams();
-  //console.log("wh_seq 값", wh_seq);
+	let { wh_seq } = useParams();
+	//console.log("wh_seq 값", wh_seq);
 
-  // const [warehouseInfo, setWarehouseInfo] = useState(null);
+	// const [warehouseInfo, setWarehouseInfo] = useState(null);
 
-  // 변수
-  const [warehouseWidth, setWarehouseWidth] = useState(null);
-  const [warehouseLength, setWarehouseLength] = useState(null);
-  const [rackWidth, setRackWidth] = useState(null);
-  const [rackLength, setRackLength] = useState(null);
-  const [rackFloor, setRackFloor] = useState(null);
-  const [rackX, setRackX] = useState(null);
-  const [rackZ, setRackZ] = useState(null);
 
-  const [warehouseData, setWarehouseData] = useState({});
 
-  const [canAddItem, setCanAddItem] = useState(false); // 짐 추가 가능 여부
-  const [canAddRack, setCanAddRack] = useState(false); // 선반 추가 가능 여부
-  const [canMoveItem, setCanMoveItem] = useState(false);
+	// 변수
+  const [selectName, setSelectedName] = useState('')
+  const [selectPrice, setSelectPrice] = useState('')
+  const [selectIndate, setSelectedIndate] = useState('')
+	const [warehouseWidth, setWarehouseWidth] = useState(null);
+	const [warehouseLength, setWarehouseLength] = useState(null);
+	const [rackWidth, setRackWidth] = useState(null);
+	const [rackLength, setRackLength] = useState(null);
+	const [rackFloor, setRackFloor] = useState(null);
+	const [rackX, setRackX] = useState(null);
+	const [rackZ, setRackZ] = useState(null);
 
-  const [selectedName, setSelectedName] = useState(""); // 이름
-  const [selectedPrice, setSelectedPrice] = useState(0); // 가격
-  const [selectedIndate, setSelectedIndate] = useState(0); // 입고일
-  
+	const [warehouseData, setWarehouseData] = useState({});
 
-  const appInstance = useRef(null);
+	const [canAddItem, setCanAddItem] = useState(false); // 짐 추가 가능 여부
+	const [canAddRack, setCanAddRack] = useState(false); // 선반 추가 가능 여부
+	const [canMoveItem, setCanMoveItem] = useState(false);
 
-  // useEffect -> wh_seq
-  useEffect(() => {
-    Promise.all([
-      axios.get(`http://localhost:8000/warehouse/${wh_seq}`),
-      axios.get(`http://localhost:8000/rack/${wh_seq}`),
-      axios.get(`http://localhost:8000/stock/show/${wh_seq}`),
-    ])
-      .then(([warehouseRes, rackRes, stockRes]) => {
-        console.log("랙 데이터 배열", rackRes.data);
-        const racks = rackRes.data.map((rack) => ({
-          rackFloor: parseInt(rack.rack_floor),
-          rackWidth: parseInt(rack.rack_width),
-          rackLength: parseInt(rack.rack_length),
-          rackX: parseInt(rack.rack_x),
-          rackZ: parseInt(rack.rack_z),
-          seq: rack.rack_seq
-        }));
-        
+	const appInstance = useRef(null);
 
-        console.log("warehouse", warehouseRes.data.wh_width)
-        console.log("racks 찍어보자", racks);
+	// useEffect -> wh_seq
+	useEffect(() => {
+		Promise.all([
+			axios.get(`http://localhost:8000/warehouse/${wh_seq}`),
+			axios.get(`http://localhost:8000/rack/${wh_seq}`),
+			// axios.get(`http://localhost:8000/stock/${wh_seq}`),
+			// axios.get(`http://localhost:8000/stock/show/${comSeq}`)
+			axios.get(`http://localhost:8000/stock/show/${wh_seq}`)
+		])
+			.then(([warehouseRes, rackRes, stockRes]) => {
+				console.log("랙 데이터 배열", rackRes.data);
+				const racks = rackRes.data.map((rack) => ({
+					rackFloor: parseInt(rack.rack_floor),
+					rackWidth: parseInt(rack.rack_width),
+					rackLength: parseInt(rack.rack_length),
+					rackX: parseInt(rack.rack_x),
+					rackZ: parseInt(rack.rack_z),
+				}));
 
-        console.log("상품 데이터 배열", stockRes);
+				console.log("warehouse", warehouseRes.data.wh_width)
+				console.log("racks 찍어보자", racks);
+
+				console.log("상품 데이터 배열", stockRes);
 
         console.log("stockRes", stockRes.data[0]);
         console.log("뭘가져오는지 보자", stockRes.data[0].Racks[0].Loadings);
         console.log("뭘가져오는지 보자", stockRes.data[0].Racks[0].Loadings[0].Stock);
 
-        console.log("true/false", Array.isArray(stockRes.data[0].Racks[0].Loadings));
+				console.log("true/false", Array.isArray(stockRes.data[0].Racks[0].Loadings));
 
 
         const stocks = stockRes.data[0].Racks[0].Loadings.map(stock => {
@@ -80,7 +80,7 @@ const Warehouse = () => {
           }
         })
 
-        // console.log("stock 가져오니라", stocks);
+	// console.log("stock 가져오니라", stocks);
 
         setWarehouseData({
           warehouseWidth: parseInt(warehouseRes.data.wh_width),
@@ -118,44 +118,44 @@ const Warehouse = () => {
     }
   }, [warehouseData]);
 
-  function addLoading() {
-    setCanAddItem((prevState) => {
-      // 여기서 prevState를 사용하여 이전 상태를 기반으로 새로운 상태를 계산
-      const newCanAddItem = !prevState;
-      if (!prevState) {
-        setCanAddRack(false);
-        setCanMoveItem(false);
-      }
+	function addLoading() {
+		setCanAddItem((prevState) => {
+			// 여기서 prevState를 사용하여 이전 상태를 기반으로 새로운 상태를 계산
+			const newCanAddItem = !prevState;
+			if (!prevState) {
+				setCanAddRack(false);
+				setCanMoveItem(false);
+			}
 
-      appInstance.current._setupMouseEvents(
-        newCanAddItem,
-        canAddRack,
-        canMoveItem
-      );
-      return newCanAddItem; // return으로 canAddItem설정
-    }); // state일때의 state 콜백
+			appInstance.current._setupMouseEvents(
+				newCanAddItem,
+				canAddRack,
+				canMoveItem
+			);
+			return newCanAddItem; // return으로 canAddItem설정
+		}); // state일때의 state 콜백
 
-    // setCanAddItem(!canAddItem);
-    // setCanAddRack(!canAddItem);
-    console.log("짐 추가 클릭");
-  }
+		// setCanAddItem(!canAddItem);
+		// setCanAddRack(!canAddItem);
+		console.log("짐 추가 클릭");
+	}
 
-  function moveLoading() {
-    setCanMoveItem((prevState) => {
-      const newCanMoveItem = !prevState;
-      if (!prevState) {
-        setCanAddItem(false);
-        setCanAddRack(false);
-      }
+	function moveLoading() {
+		setCanMoveItem((prevState) => {
+			const newCanMoveItem = !prevState;
+			if (!prevState) {
+				setCanAddItem(false);
+				setCanAddRack(false);
+			}
 
-      appInstance.current._setupMouseEvents(
-        canAddItem,
-        canAddRack,
-        newCanMoveItem
-      );
-      return newCanMoveItem;
-    });
-  }
+			appInstance.current._setupMouseEvents(
+				canAddItem,
+				canAddRack,
+				newCanMoveItem
+			);
+			return newCanMoveItem;
+		});
+	}
 
   return (
     <div className="warehouse1">
@@ -185,5 +185,4 @@ const Warehouse = () => {
     </div>
   );
 };
-
 export default Warehouse;
