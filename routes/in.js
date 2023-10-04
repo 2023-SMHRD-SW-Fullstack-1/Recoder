@@ -98,35 +98,53 @@ router.get('/cnt/:com_seq/:loading_type', async (req, res, next) => {
 // 바코드...
 router.post('/barcode', async (req, res) => {
     console.log('바코드', req.body);
-    let barCodes = req.body.barcode;
-    let com_seq = req.body.com_seq // 입력 데이터의 바코드 배열
+    let barcode = req.body.barcode;
+    let com_seq = req.body.com_seq
 
     try {
         const result = await Stock.findAll({
             where: {
-                stock_barcode: {
-                    [Op.in]: barCodes // $in 연산자 사용      
-                },
-                update_at: null
-                
+                stock_barcode: barcode
             }
-        });
-        console.log('stock바코드 조회', result);
-
-        // Loading 데이터를 bulk로 생성
-        const loadingData = await result.map((stock) => ({
-            stock_seq: stock.stock_seq,
+        })
+        let { stock_seq, stock_balance_cnt } = result[0]
+        await Loading.create({
+            loading_type: null,
+            loading_cnt: stock_balance_cnt,
             com_seq: com_seq,
-            loading_type: null
-        }));
-
-        const loadingResult = await Loading.bulkCreate(loadingData);
-
-        res.json({ stockData: result, loadingData: loadingResult });
+            stock_seq: stock_seq
+        })
+        res.send('ok')
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
     }
+
+    // try {
+    //     const result = await Stock.findAll({
+    //         where: {
+    //             stock_barcode: {
+    //                 [Op.in]: barCodes // $in 연산자 사용      
+    //             },
+    //             update_at: null
+                
+    //         }
+    //     });
+    //     console.log('stock바코드 조회', result);
+
+    //     // Loading 데이터를 bulk로 생성
+    //     const loadingData = await result.map((stock) => ({
+    //         stock_seq: stock.stock_seq,
+    //         com_seq: com_seq,
+    //         loading_type: null
+    //     }));
+
+    //     const loadingResult = await Loading.bulkCreate(loadingData);
+
+    //     res.json({ stockData: result, loadingData: loadingResult });
+    // } catch (error) {
+    //     console.error(error);
+    //     res.status(500).json({ error: 'Internal Server Error' });
+    // }
 });
 
 
