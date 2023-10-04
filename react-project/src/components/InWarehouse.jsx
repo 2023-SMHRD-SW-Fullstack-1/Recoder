@@ -1,17 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-// import App from '../three/show_warehouse'
-import App from "../three/test_show_warehouse";
+import App from "../three/inWare";
 import axios from "axios";
 import "../css/wareDetail.css";
 
 const Warehouse = () => {
-  let { wh_seq } = useParams();
-  //console.log("wh_seq 값", wh_seq);
-
-  // const [warehouseInfo, setWarehouseInfo] = useState(null);
+  let { wh_seq, stock_seq } = useParams();
 
   // 변수
+  const [stockName, setStockName] = useState('')
   const [warehouseWidth, setWarehouseWidth] = useState(null);
   const [warehouseLength, setWarehouseLength] = useState(null);
   const [rackWidth, setRackWidth] = useState(null);
@@ -19,6 +16,16 @@ const Warehouse = () => {
   const [rackFloor, setRackFloor] = useState(null);
   const [rackX, setRackX] = useState(null);
   const [rackZ, setRackZ] = useState(null);
+
+  const [itemX, setItemX] = useState(0);
+  const [itemY, setItemY] = useState(0);
+  const [itemZ, setItemZ] = useState(0);
+  const [getItem, setGetItem] = useState({
+    itemX: itemX,
+    itemY: itemY,
+    itemZ: itemZ,
+  })
+  const [strGetItem, setStrGetItem] = useState('')
 
   const [warehouseData, setWarehouseData] = useState({});
 
@@ -28,7 +35,6 @@ const Warehouse = () => {
 
   const appInstance = useRef(null);
 
-  // useEffect -> wh_seq
   useEffect(() => {
     Promise.all([
       axios.get(`http://localhost:8000/warehouse/${wh_seq}`),
@@ -48,11 +54,6 @@ const Warehouse = () => {
         console.log("racks 찍어보자", racks);
 
         console.log("상품 데이터 배열", stockRes);
-        // const stocks = stockRes.data.map(stock => ({
-
-        // }))
-
-        // console.log("stock 가져오니라", stocks);
 
         setWarehouseData({
           warehouseWidth: parseInt(warehouseRes.data.wh_width),
@@ -64,6 +65,7 @@ const Warehouse = () => {
             itemX: -1,
             itemZ: 5,
           },
+          getItem,
         });
       })
       .catch((error) => {
@@ -81,7 +83,8 @@ const Warehouse = () => {
         warehouseData.warehouseWidth,
         warehouseData.warehouseLength,
         warehouseData.racks,
-        warehouseData.items
+        warehouseData.items,
+        warehouseData.getItem,
       );
     }
   }, [warehouseData]);
@@ -125,6 +128,26 @@ const Warehouse = () => {
     });
   }
 
+  // 입고페이지에서 선택한 상품 정보 요청
+  useEffect(() => {
+    axios.get(`http://localhost:8000/stock/ware/${stock_seq}`)
+    .then((res) => {
+      setStockName(res.data.stock_name);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }, [])
+
+  const inPositionClick = () => {
+    console.log('위치 선택 완료 클릭', getItem);
+    setStrGetItem(JSON.stringify(getItem))
+  }
+
+  useEffect(() => {
+    console.log(strGetItem);
+  }, [strGetItem])
+
   return (
     <div className="warehouse1">
       <div id="waredetail-container" />
@@ -137,8 +160,15 @@ const Warehouse = () => {
         <button type="button" onClick={moveLoading}>
           {canMoveItem ? "짐 이동중" : "짐 이동하기"}
         </button>
+        <div id="info">
+          <strong>입고할 상품 정보</strong> <br />
+          <span>상품 ID | {stock_seq}</span> <br />
+          <span>상품명 | {stockName}</span> <br />
+          <button onClick={inPositionClick}>위치 선택 완료</button>
+        </div>
       </div>
     </div>
   );
 };
+
 export default Warehouse;

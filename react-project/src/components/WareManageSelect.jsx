@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "../css/warehouse.css";
 import axios from "axios";
-import WareCardItem from "./Warehouse/WareCardItem";
-import AddIcon from '@mui/icons-material/Add';
+import WareCardItem2 from "./Warehouse/WareCardItem2";
+import { Link } from "react-router-dom";
 
-const WareManage = ({ comSeq ,selectWhSeq,setSelectWhSeq}) => {
+const WareManageSelect = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
   const [warehouseList, setWarehouseList] = useState([]);
 
   useEffect(() => {
@@ -22,32 +21,34 @@ const WareManage = ({ comSeq ,selectWhSeq,setSelectWhSeq}) => {
   return (
     <div id="ware-container">
       <div id="ware-header">
-        <span>창고 관리</span>
-      </div>
-      <div id="ware-create-button">
-        <Link to={'/ware/create'}>
-          <AddIcon />
-          <button>창고 생성</button>
-        </Link>
+        <span>창고 선택</span>
       </div>
       <div id="ware-item-box">
-        {warehouseList.length > 0
-          ? warehouseList.map((item, index) => (
-              <WareCardItem selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}
-                key={index}
-                wh_name={item.wh_name}
-                wh_seq={item.wh_seq}
-                index={index}
-                racks={item.Racks}
-              ></WareCardItem>
-            ))
-          : "창고가 없습니다"}
+        {warehouseList.length > 0 ? (
+          warehouseList.map((item, index) => (
+            <WareCardItem2
+              selectWhSeq={selectWhSeq}
+              setSelectWhSeq={setSelectWhSeq}
+              key={index}
+              wh_name={item.wh_name}
+              wh_seq={item.wh_seq}
+              index={index}
+              racks={item.Racks}
+            ></WareCardItem2>
+          ))
+        ) : (
+          <div>
+            창고가 없습니다 <br />
+            <Link to={"/main"}>메인으로 이동</Link> <br />
+            { !comSeq && <div>기업을 아직 등록하지 않으셨습니다.<br /><Link to={"/mypage"}>기업 등록하기</Link></div> }
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default WareManage;
+export default WareManageSelect;
 
 // 예전 코드
 // ---------------------------------------------------------------------

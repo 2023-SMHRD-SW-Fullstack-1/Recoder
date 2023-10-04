@@ -78,20 +78,40 @@ exports.checkId = async (req, res) => {
   }
 }
 
-exports.patch = async (req, res) => {  
-  let {user_pw, user_nick} = req.body
+exports.updateUser = async (req, res) => {
+  let { currentPW, newPW, nick } = req.body
   try {
-    const hashedPassword = await bcrypt.hash(user_pw, 12);
-
-    await User.update({
-      user_pw: hashedPassword,
-      user_nick: user_nick
-    }, {
-      where: {
-        user_id: req.user.user_id
+    const result = await bcrypt.compare(currentPW, req.user.user_pw);
+    if (result) {
+      if (newPW) {
+        const hashedPassword = await bcrypt.hash(newPW, 12);
+        if (nick) {
+          await User.update({
+            user_pw: hashedPassword,
+            user_nick: nick
+          }, {
+            where: {
+              user_id: req.user.user_id
+            }
+          })
+          res.send('ok')      
+        } else {
+          await User.update({
+            user_pw: hashedPassword,
+            user_nick: req.user.user_nick
+          }, {
+            where: {
+              user_id: req.user.user_id
+            }
+          })
+          res.send('ok')  
+        }
+      } else {
+        res.send('새로운 비밀번호를 입력하세요.')
       }
-    })
-    res.send('ok')
+    } else {
+      res.send('기존 비밀번호가 일치하지 않습니다.')
+    }
   } catch (error) {
     console.error(error);
   }

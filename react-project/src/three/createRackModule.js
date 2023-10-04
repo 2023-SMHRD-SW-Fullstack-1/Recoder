@@ -6,7 +6,7 @@ import * as THREE from 'three';
  * rackFloor => 선반의 층수
  * rackPos => 선반 위치
 */
-export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {	
+export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 
 	const board = new THREE.BoxGeometry(sizeX, 0.02, sizeZ, 1, 1, 1);
 	// const pilar = new THREE.BoxGeometry(0.05, sizeY, 0.05);
@@ -19,9 +19,20 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 		Math.random()
 	);
 
-	const material = new THREE.MeshBasicMaterial({color:0xf1c2ff})
+	// MeshBasicMaterial을 MeshPhysicalMaterial로 바꿔볼거에ㅐ용
+	const material = new THREE.MeshPhysicalMaterial({
+		// color:0xf1c2ff
+		color: "#ffffff",
+		emissive: 0x000000,
+		roughness: 0.5,
+		metalness: 0,
+		clearcoat: 0.3,
+		clearcoatRoughness: 0,
+		wireframe: false,
+		flatShading: false
+	})
 	const boardMesh = new THREE.Mesh(board, material);
-	
+
 
 	const pilar1 = new THREE.Mesh(pilar, material);
 	const pilar2 = new THREE.Mesh(pilar, material);
@@ -35,10 +46,10 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 	const pilarBox = new THREE.Box3().setFromObject(pilar1);
 	const pilarYLen = pilarBox.max.y - pilarBox.min.y;
 
-	pilar1.position.set(boardBox.min.x, boardBox.max.y + pilarYLen/2 - pilarYLen * 0.2, boardBox.min.z);
-	pilar2.position.set(boardBox.max.x, boardBox.max.y + pilarYLen/2 - pilarYLen * 0.2, boardBox.min.z);
-	pilar3.position.set(boardBox.max.x, boardBox.max.y + pilarYLen/2 - pilarYLen * 0.2, boardBox.max.z);
-	pilar4.position.set(boardBox.min.x, boardBox.max.y + pilarYLen/2 - pilarYLen * 0.2, boardBox.max.z);
+	pilar1.position.set(boardBox.min.x, boardBox.max.y + pilarYLen / 2 - pilarYLen * 0.2, boardBox.min.z);
+	pilar2.position.set(boardBox.max.x, boardBox.max.y + pilarYLen / 2 - pilarYLen * 0.2, boardBox.min.z);
+	pilar3.position.set(boardBox.max.x, boardBox.max.y + pilarYLen / 2 - pilarYLen * 0.2, boardBox.max.z);
+	pilar4.position.set(boardBox.min.x, boardBox.max.y + pilarYLen / 2 - pilarYLen * 0.2, boardBox.max.z);
 
 
 	let rackComponentGroup = new THREE.Group();
@@ -50,8 +61,8 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 	rackUnitGroup.add(rackComponentGroup);
 
 	// 층 입력 받으면 층 수만큼 올리는 코드 작성하기!
-	for(let i = 0; i < rackFloor - 1; i++){
-		let rackFloorGroup =  rackComponentGroup.clone();
+	for (let i = 0; i < rackFloor - 1; i++) {
+		let rackFloorGroup = rackComponentGroup.clone();
 		rackFloorGroup.position.y += 1 //sizeY
 		rackUnitGroup.add(rackFloorGroup);
 		rackComponentGroup = rackFloorGroup.clone();

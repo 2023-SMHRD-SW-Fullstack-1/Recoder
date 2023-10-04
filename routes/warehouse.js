@@ -34,6 +34,18 @@ router.delete('/:wh_seq', async (req, res) => {
     }
 })
 
+router.get('/wh_name/:com_seq', async (req, res) => {
+    try {
+        const wareNameList = await Warehouse.findAll({
+            where: { com_seq: req.params.com_seq },
+            attributes: ['wh_name'],
+        })
+        res.json(wareNameList)
+    } catch (error) {
+        console.error(error);
+    }
+})
+
 // router.get('/:wh_seq', async (req, res) => {
 //     console.log("qwe");
 //     let wh_seq = req.params.wh_seq

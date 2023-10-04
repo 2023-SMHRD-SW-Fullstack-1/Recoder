@@ -2,18 +2,22 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import App from "../../three/previewWarehouse";
 import { Link, useNavigate } from "react-router-dom";
-import DeleteAlert from "./DeleteAlert";
 
-const WareCardItem = ({
-  racks,
+const WareCardItem2 = ({
   index,
   wh_name,
   wh_seq,
   selectWhSeq,
   setSelectWhSeq,
+  racks,
 }) => {
-  const [warehouseInfo, setWarehouseInfo] = useState(null);
+  const [stockName, setStockName] = useState(
+    racks[0]?.Loadings[0]?.Stock.stock_name
+  );
+  const [stockNum, setStockNum] = useState(0);
+  const [stockPercent, setStockPercent] = useState(0);
 
+  const [warehouseInfo, setWarehouseInfo] = useState(null);
   const [warehouseWidth, setWarehouseWidth] = useState(null);
   const [warehouseLength, setWarehouseLength] = useState(null);
   const [rackWidth, setRackWidth] = useState(1);
@@ -21,13 +25,14 @@ const WareCardItem = ({
   const [rackFloor, setRackFloor] = useState(1);
 
   const nav = useNavigate();
+
   const appInstance = useRef(null);
 
-  const [stockName, setStockName] = useState(
-    racks[0]?.Loadings[0]?.Stock.stock_name
-  );
-  const [stockNum, setStockNum] = useState(0);
-  const [stockPercent, setStockPercent] = useState(0);
+  const selectWh = () => {
+    console.log("창고선택클릭", wh_seq);
+    setSelectWhSeq(wh_seq);
+    nav("/main");
+  };
 
   // 보유 상품 갯수 구하기
   const getStockCnt = () => {
@@ -43,10 +48,7 @@ const WareCardItem = ({
     let totalPercent = 0;
     let usePercent = 0;
     for (let i = 0; i < racks.length; i++) {
-      totalPercent +=
-        parseInt(racks[i]?.rack_length) *
-        parseInt(racks[i]?.rack_width) *
-        parseInt(racks[0]?.rack_floor);
+      totalPercent += parseInt(racks[i]?.rack_length) * parseInt(racks[i]?.rack_width) * parseInt(racks[0]?.rack_floor);
       usePercent += racks[i]?.Loadings.length;
     }
     setStockPercent(parseInt((usePercent / totalPercent) * 100));
@@ -103,15 +105,17 @@ const WareCardItem = ({
             {stockName} 외 {stockNum}종
           </span>
         </div>
-        {!stockPercent ? (
-          <div>적재율 | 0%</div>
-        ) : (
-          <div>적재율 | {stockPercent}%</div>
-        )}
-        <DeleteAlert wh_seq={wh_seq} />
+        { !stockPercent ? 
+          <div>적재율 | 0%</div> :
+          <div>적재율 | {stockPercent}%</div> }
+        <div style={{ textAlign: "center", marginTop: 12 }}>
+          <div className="ware-select-button">
+            <button onClick={selectWh}>창고선택</button>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default WareCardItem;
+export default WareCardItem2;

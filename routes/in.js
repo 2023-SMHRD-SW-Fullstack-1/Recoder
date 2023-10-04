@@ -69,6 +69,30 @@ router.get('/:com_seq/:loading_type', async (req, res, next) => {
         console.error(error);
     }
 })
+// 전체 물류현황 갯수 요청
+router.get('/cnt/:com_seq/:loading_type', async (req, res, next) => {
+
+    let com_seq = req.params.com_seq
+    let loading_type = req.params.loading_type
+
+    try {
+        const result = await Loading.count({
+            where: {
+                com_seq: com_seq,
+                loading_type: loading_type
+            },
+            include: [{
+                model: Stock,
+                include: [{
+                    model: Client
+                }]
+            }],
+        })
+        res.json(result)
+    } catch (error) {
+        console.error(error);
+    }
+})
 
 
 // 바코드...
@@ -222,6 +246,10 @@ router.post('/loading', async (req, res) => {
             } // 업데이트할 조건
         }
     );
+    // socket -------------------
+    // const io = req.app.get('io');
+    // io.of('/in').emit('updateLoading', '여기?');
+    // --------------------------
     res.json(result2);
 } catch (error) {
     console.log(error);

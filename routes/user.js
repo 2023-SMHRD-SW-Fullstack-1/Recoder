@@ -4,7 +4,7 @@ const passport = require('passport');
 
 const { User, Company, Warehouse, Rack } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares');
-const { login, join, logout, checkId, patch } = require('../controllers/auth');
+const { login, join, logout, checkId, updateUser } = require('../controllers/auth');
 
 const router = express.Router()
 
@@ -55,6 +55,19 @@ router.post('/logout', isLoggedIn, logout);
 router.post('/checkid', checkId)
 
 // 회원 정보 수정
-router.patch('/', isLoggedIn, patch);
+router.patch('/', isLoggedIn, updateUser);
+
+// 닉네임 요청
+router.get('/info', async (req, res, next) => {
+  const userNick = await User.findAll({
+    where: { user_seq: req.user?.user_seq },
+    attributes: ['user_nick'],
+    include: [{
+      model: Company,
+      attributes: ['com_name'],
+    }],
+  })
+  res.json({userNick})
+})
 
 module.exports = router

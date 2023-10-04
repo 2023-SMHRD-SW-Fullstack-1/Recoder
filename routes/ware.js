@@ -1,5 +1,5 @@
 const express = require('express')
-const { Warehouse } = require('../models')
+const { Warehouse, Loading, Rack, Stock } = require('../models')
 const router = express.Router()
 
 router.post('/', async (req, res, next) => {
@@ -27,7 +27,15 @@ router.get('/manage/:com_seq', async (req, res) => {
             where: {
                 com_seq : com_seq
             },
-
+            include: [{
+                model: Rack,
+                include: [{
+                    model: Loading,
+                    include: [{
+                        model: Stock
+                    }]
+                }]
+            }]
         });
         console.log('warehouseList 가져오기',warehouseList);
         res.json(warehouseList);
@@ -36,4 +44,34 @@ router.get('/manage/:com_seq', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 })
+
+router.get('/wh_name/:com_seq', async (req, res) => {
+    try {
+        const nameList = await Warehouse.findAndCountAll({
+            attributes: ['wh_name'],
+            where: {
+                com_seq: req.params.com_seq,
+            },
+            include: [{
+                model: Rack,
+                attributes: ['rack_seq'],
+                include: [{
+                    model: Loading,
+                    where: {
+                        loading_type: 'I'
+                    },
+                    attributes: ['loading_seq'],
+                    include: [{
+                        model: Stock,
+                        attributes: ['stock_name']
+                    }]
+                }]
+            }]
+        })
+        res.json(nameList)
+    } catch (error) {
+        console.error(error);
+    }
+})
+
 module.exports = router

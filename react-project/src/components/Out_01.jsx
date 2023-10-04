@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import Table_HJ from './Table_HJ';
-import axios from 'axios';
-import { useNavigate } from 'react-router';
-import TopBoard from './Out/TopBoard';
-import { Button, Modal ,Pagination} from 'antd';
-import '../css/out1.css'
-import StockDropDown from './Stock/StockDropDown'
-function Out_01() {
+import React, { useEffect, useState } from "react";
+import Table_HJ from "./Table_HJ";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import TopBoard from "./Out/TopBoard";
+import { Button, Modal, Pagination } from "antd";
+import "../css/out1.css";
+import "../css/out.css";
+import DatePicker from "./Stock/DatePicker";
+import StockDropDown from "./Stock/StockDropDown";
 
-  
-  const [stockCount, setStockCount] = useState(0)
-  const [value, setValue] = useState('5개씩 보기');
-  const [intValue, setIntValue] = useState(5)
-  const [pageNum, setPageNum] = useState(1)
+function Out_01({selectWhSeq,setSelectWhSeq}) {
+  const [stockCount, setStockCount] = useState(0);
+  const [value, setValue] = useState("5개씩 보기");
+  const [intValue, setIntValue] = useState(5);
+  const [pageNum, setPageNum] = useState(1);
 
   const handlePageNumberClick = (page) => {
-    setPageNum(page)    
-  }
+    setPageNum(page);
+  };
 
   const [outStockList, setOutStockList] = useState([]);
   const id = "smart";
@@ -84,6 +85,10 @@ function Out_01() {
     setIsModalOpen(true);
     setOutPluse({ ...outPlus, loading_seq: record.loading_seq });
   };
+
+  useEffect(() => {
+    getOutStock()
+  }, [])
 
   const title = "입고예정";
   const items = [];
@@ -191,53 +196,82 @@ function Out_01() {
       console.log(e.target.innerText);
       setOutPluse({ ...outPlus, loading_seq: e.target.innerText });
     } else if (e.target.name === "out_des_choice") {
-      console.log('고르기',e.target.value);
+      console.log("고르기", e.target.value);
       setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
     } else if (e.target.name === "out_des_self") {
-      console.log('직접입력',e.target.value);
+      console.log("직접입력", e.target.value);
       setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
     }
   };
 
-  const desHandler2 = (e)=>{
-    console.log('고르기',e.target.value);
+  const desHandler2 = (e) => {
+    console.log("고르기", e.target.value);
     setOutPluse({ ...outPlus, stock_shipping_des: e.target.value });
-  }
+  };
   useEffect(() => {
+    console.log('선택하신 창고 번호',selectWhSeq);
     getOutStock();
   }, [pageNum, intValue]);
 
   return (
     <div className="out-container">
-      <div className="out-header"></div>
-      <div id="in_comtainer">
+      <div className="out-header">
+        <span>출고 등록</span>
+      </div>
+      <div className="out-filter">
+        {/* <DatePicker />
+        <StockDropDown value={value} setValue={setValue} /> */}
+      </div>
+      <Table_HJ columns={columns} data={data} />
+      {/* <div id="in_comtainer">
         <div id="in01_top">
-          <TopBoard title={'출고 등록'} items={items} />
+          <TopBoard title={"출고 등록"} items={items} />
         </div>
         <div id="in01_bottom">
-        <StockDropDown value={ value } setValue={ setValue } />
-          <Table_HJ columns={columns} data={data} />
+          <StockDropDown value={value} setValue={setValue} />
         </div>
-      </div>
-      <Pagination
+      </div> */}
+      {/* <Pagination
         style={{
-          textAlign: 'center',
-          marginTop: '12px'
+          textAlign: "center",
+          marginTop: "12px",
         }}
         current={pageNum}
         total={stockCount}
         pageSize={intValue}
         onChange={handlePageNumberClick}
-      />
-      <Modal title="출고 등록" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <div id='out_modal'>
-          <span>출고일</span><input id='dateInput' onChange={desHandler} name='out_date' type='date'></input><br />
-          <span>출고수량</span><input id='cntInput' onChange={desHandler} name='out_cnt' type='text'></input><br />
+      /> */}
+      <Modal
+        title="출고 등록"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <div id="out_modal">
+          <span>출고일</span>
+          <input
+            id="dateInput"
+            onChange={desHandler}
+            name="out_date"
+            type="date"
+          ></input>
+          <br />
+          <span>출고수량</span>
+          <input
+            id="cntInput"
+            onChange={desHandler}
+            name="out_cnt"
+            type="text"
+          ></input>
+          <br />
           <span>배송지</span>
-          <select id="out_filter"  onChange={handleInputPluse} onClick={desHandler2}>
+          <select
+            id="out_filter"
+            onChange={handleInputPluse}
+            onClick={desHandler2}
+          >
             {desList.map((item, idx) => (
               <option
-             
                 name="out_des_choice"
                 key={idx}
                 value={item.stock_shipping_des}
@@ -245,13 +279,18 @@ function Out_01() {
                 {item.stock_shipping_des}
               </option>
             ))}
-            <option  >직접입력</option>
+            <option>직접입력</option>
           </select>
           {showInput && (
-          <input type='text' id='desInput' placeholder='배송지입력' onChange={desHandler} name = 'out_des_self'/>
+            <input
+              type="text"
+              id="desInput"
+              placeholder="배송지입력"
+              onChange={desHandler}
+              name="out_des_self"
+            />
           )}
         </div>
-       
       </Modal>
     </div>
   );
