@@ -81,43 +81,43 @@ const Warehouse = () => {
           }
         })
 
-	// console.log("stock 가져오니라", stocks);
+				// console.log("stock 가져오니라", stocks);
 
-        setWarehouseData({
-          warehouseWidth: parseInt(warehouseRes.data.wh_width),
-          warehouseLength: parseInt(warehouseRes.data.wh_length),
-          racks,
-          stocks
-        });
+				setWarehouseData({
+					warehouseWidth: parseInt(warehouseRes.data.wh_width),
+					warehouseLength: parseInt(warehouseRes.data.wh_length),
+					racks,
+					stocks
+				});
 
-        console.log("stock 가져오니라", stocks);
+				console.log("stock 가져오니라", stocks);
 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [wh_seq]);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, [wh_seq]);
 
-  // useEffect -> warehouseData
-  useEffect(() => {
-    console.log("지금!");
-    if (Object.keys(warehouseData).length >= 1) {
-      console.log("지금!222222222");
-      console.log(warehouseData);
-      console.log(Object.keys(warehouseData));
-      console.log(`warehouseData ${JSON.stringify(warehouseData)}`)
+	// useEffect -> warehouseData
+	useEffect(() => {
+		console.log("지금!");
+		if (Object.keys(warehouseData).length >= 1) {
+			console.log("지금!222222222");
+			console.log(warehouseData);
+			console.log(Object.keys(warehouseData));
+			console.log(`warehouseData ${JSON.stringify(warehouseData)}`)
 
-      appInstance.current = new App(
-        warehouseData.warehouseWidth,
-        warehouseData.warehouseLength,
-        warehouseData.racks,
-        warehouseData.stocks,
-      );
-    }
-    else {
-      console.log("error");
-    }
-  }, [warehouseData]);
+			appInstance.current = new App(
+				warehouseData.warehouseWidth,
+				warehouseData.warehouseLength,
+				warehouseData.racks,
+				warehouseData.stocks,
+			);
+		}
+		else {
+			console.log("error");
+		}
+	}, [warehouseData]);
 
 	function addLoading() {
 		setCanAddItem((prevState) => {
@@ -158,13 +158,13 @@ const Warehouse = () => {
 		});
 	}
 
-  return (
-    <div className="warehouse1">
-      <div id="waredetail-container" onClick={()=>{
-          setSelectedName(localStorage.getItem("selectedMesh_name")==undefined ? "" : localStorage.getItem("selectedMesh_name"))
-          setSelectedPrice(localStorage.getItem("selectedMesh_price")==undefined ? "-" : localStorage.getItem("selectedMesh_price"))
-          setSelectedIndate(localStorage.getItem("selectedMesh_indate")==undefined ? "-" : localStorage.getItem("selectedMesh_indate"))
-        }} />
+	return (
+		<div className="warehouse1">
+			<div id="waredetail-container" onClick={() => {
+				setSelectedName(localStorage.getItem("selectedMesh_name") == undefined ? "" : localStorage.getItem("selectedMesh_name"))
+				setSelectedPrice(localStorage.getItem("selectedMesh_price") == undefined ? "-" : localStorage.getItem("selectedMesh_price"))
+				setSelectedIndate(localStorage.getItem("selectedMesh_indate") == undefined ? "-" : localStorage.getItem("selectedMesh_indate"))
+			}} />
 
       <div className="button-container">
         <button className='stock2'type="button" onClick={addLoading}>
@@ -183,7 +183,7 @@ const Warehouse = () => {
         
       </div>
 
-    </div>
-  );
+		</div>
+	);
 };
 export default Warehouse;

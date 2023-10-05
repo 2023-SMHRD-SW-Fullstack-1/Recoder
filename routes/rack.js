@@ -2,27 +2,44 @@ const express = require('express')
 const { Rack, Loading, Stock } = require('../models')
 const router = express.Router()
 
+/** 창고에  저장  */
 router.post('/', async (req, res, next) => {
-    let { rackName, rackWidth, rackLength, rackFloor, rackX, rackZ, rackRotateYN, wh_seq } = req.body
+    console.log(`선반 저장할`, req.body)
+    // let { rackName, rackWidth, rackLength, rackFloor, rackX, rackZ, rackRotateYN, wh_seq } = req.body    
     try {
-        const result = await Rack.create({
-            rack_id: rackName,
-            rack_position: '1234',
-            rack_width: rackWidth,
-            rack_length: rackLength,
-            rack_floor: rackFloor,
-            rack_x: rackX,
-            rack_z: rackZ,
-            rack_rotate_yn: rackRotateYN,
-            wh_seq: wh_seq
+        let arr = req.body.map(item => ({
+            rack_id: item.rackName,
+            rack_position: "",
+            rack_width: item.rackWidth,
+            rack_length: item.rackLength,
+            rack_floor: item.rackFloor,
+            rack_x: item.rackX,
+            rackZ: item.rackZ,
+            rack_rotate_yn: item.rackRotationYN,
+            wh_seq: item.wh_seq
+        }))
+        const result = await Rack.bulkCreate(arr);
+        // const result = await Rack.create({
+        //     rack_id: rackName,
+        //     rack_position: '????',
+        //     rack_width: rackWidth,
+        //     rack_length: rackLength,
+        //     rack_floor: rackFloor,
+        //     rack_x: rackX,
+        //     rack_z: rackZ,
+        //     rack_rotate_yn: rackRotateYN,
+        //     wh_seq: wh_seq
 
-        })
-        res.json(result.toJSON())
+        // })
+        // console.log(result)
+        res.send("창고 생성 성공")
+        // res.json(result.toJSON())
     } catch (error) {
         console.error(error);
     }
 })
 
+/** rackList 조회 */
 router.get('/:wh_seq', async (req, res) => {
     console.log("qwe");
     let wh_seq = req.params.wh_seq

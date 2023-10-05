@@ -5,21 +5,24 @@ import App from "../three/create_warehouse";
 // import '../three/02-geometry.css'
 import axios from "axios";
 import "../css/CreateWarehouse.css";
+import { useNavigate } from "react-router";
 
 // let meshArr = []
 // const initApp = new App( 1, 1, 1, 1, meshArr);
 
-const CreateWarehouse = ({ com_seq, newWareData }) => {
+const CreateWarehouse = ({ comSeq, newWareData }) => {
+	const nav = useNavigate();
+	
+	// 전역 변수
+	// let 메쉬배열 = []
+	// 테스트
+	let seq = 0;
 	const [modalOpen, setModalOpen] = useState(false);
 	const modalBackground = useRef();
 
 	const [wh_seq, setWh_seq] = useState(null);
 	const [warehouseWidth, setWarehouseWidth] = useState(null);
 	const [warehouseLength, setWarehouseLength] = useState(null);
-
-	// 전역 변수
-	// let 메쉬배열 = []
-	// 테스트
 	const [메쉬배열, setTest] = useState([]);
 	const [canAddLoading, setCanAddLoading] = useState(false)
 
@@ -147,9 +150,8 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	}
 
 	/** 선반 정보를 DB에 저장 */
-	const completeRack = (e) => {
+	const completeRack = async (e) => {
 		let result = []
-
 		// const rack_info = {
 		// 	rackName: rackName,
 		// 	rackWidth: rackWidth,
@@ -161,38 +163,61 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 		// 	wh_seq:wh_seq
 		// };
 
+		const warehouse_info = {
+			name: localStorage.getItem("ware_name")==null || localStorage.getItem("ware_name")==undefined ? "" : localStorage.getItem("ware_name"), 
+			width: localStorage.getItem("ware_width")==null || localStorage.getItem("ware_width")==undefined ? 1 : localStorage.getItem("ware_width"), 
+			length: localStorage.getItem("ware_length")==null || localStorage.getItem("ware_length")==undefined ? 1 : localStorage.getItem("ware_length") , 
+			comSeq: comSeq
+		};
+		let url = "http://localhost:8000/ware";
+		var response = await axios.post(url, warehouse_info)
+		seq = (await response).data.wh_seq;
+		console.log("seq생성? ", seq)
+
+		// .then((res) => {
+		// 	// localStorage.setItem('warehouse', Json.stringify(res.data));
+		// 	setNewWareData(res.data)
+		// })
+		// .catch((error) => {
+		// 	console.error(error);
+		// });
+
 		let _메쉬배열 = [...메쉬배열]
 		_메쉬배열.forEach(item => {
 			result.push({
-				rPos: {
-					x: item.position.x,
-					y: item.position.y,
-					z: item.position.z
-				},
+				rackName: item.name,
+				rackWidth: item.userData.rackWidth,
+				rackLength: item.userData.rackLength,
+				rackFloor: item.userData.rackFloor,
+				rackX: item.position.x,
+				rackZ: item.position.z,
+				rackRotateYN:rackRotateYN,
+				wh_seq: seq
 			})
 		})
 		console.log("몇층인가", 메쉬배열)
 
 		console.log("completeRack 함수 안", result)
+		url = "http://localhost:8000/rack";
+		axios
+		.post(url, result)
+		.then((res) => {
+			console.log("db에 선반 저장", res);
+			
+			// if (appInstance.current) {
+			// 	appInstance.current.setupMouseEvents(
+			// 		res.data.rack_width,
+			// 		res.data.rack_length,
+			// 		parseInt(localStorage.getItem('rackFloor')) // 로컬 스토리지에서 rackFloor값 불러오기!
+			// 	);
+			// }
+			nav('/ware/manage')
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 
-		// console.log("생성하기")
-		// let url = "http://localhost:8000/rack";
-		// axios
-		// .post(url, rack_info)
-		// .then((res) => {
-		// 	console.log(res);
-
-		// 	if (appInstance.current) {
-		// 		appInstance.current.setupMouseEvents(
-		// 			res.data.rack_width,
-		// 			res.data.rack_length,
-		// 			parseInt(localStorage.getItem('rackFloor')) // 로컬 스토리지에서 rackFloor값 불러오기!
-		// 			);
-		// 		}
-		// })
-		// .catch((error) => {
-		// 	console.error(error);
-		// });
+		// nav = http://localhost:3000/ware/manage
 	}
 
 	function get배열() {
@@ -205,6 +230,8 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	function sizeRack() {
 		localStorage.setItem("rack_width", rackWidth);
 		localStorage.setItem("rack_length", rackLength);
+		localStorage.setItem("rack_floor", rackFloor);
+		localStorage.setItem("rack_name", rackName);
 	}
 
 	// 모달 창 끄는 부분
@@ -254,8 +281,14 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 			{/* <button>선반 생성</button> */}
 			<div className={"btn-wrapper"}>
 				<span>
-					<input style={{ margin: 5 }} type="number" placeholder="선반의 가로 길이" value={rackWidth} onChange={(e) => {
-						if (e.target.value <= 0) {
+					<input type="text" placeholder="선반의 이름"  value={rackName} onChange={(e) => {setRackName(e.target.value)}}/>
+					<input type="number" placeholder="선반의 가로 길이"  value={rackWidth} onChange={(e) => {
+							if(e.target.value <= 0) {
+								e.target.value = 1
+							}
+							setRackWidth(e.target.value)}}/>
+					<input type="number" placeholder="선반의 세로 길이" value={rackLength} onChange={(e) => {
+						if(e.target.value <= 0) {
 							e.target.value = 1
 						}
 						setRackWidth(e.target.value)
@@ -288,19 +321,8 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 						className={"modal-open-btn"} onClick={sizeRack}>
 						선반 크기
 					</button>
-					<button
-						style={{
-							margin: 5,
-							color: "black",
-							backgroundColor: "white",
-							width: 80,
-							fontSize: 15,
-							height: 30,
-
-							borderRadius: 6,
-			
-						}}
-						type="button" className={"modal-open-btn"} onClick={completeRack}>창고 생성</button>
+					<button type="text" onClick={get배열}>배열 확인</button>
+					<button type="button" className={"modal-open-btn"} onClick={completeRack}>창고 생성</button>
 				</span>
 
 				{/* <button onClick={createLoading}> loading 추가 {canAddLoading?"O":"X"} </button>

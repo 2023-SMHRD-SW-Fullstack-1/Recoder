@@ -283,11 +283,11 @@ export default class App {
   /** 짐추가 2, 필요시 삭제 */
   addLoading(posX, posY, posZ) {
     console.log("addLoading 호출");
-    let aaa = new createLoadingClass();
-    let bbbb = aaa.createLoading();
-    bbbb.position.set(posX, posY, posZ);
+    let loaingClass = new createLoadingClass();
+    let mesh = loaingClass.createLoading();
+    mesh.position.set(posX, posY, posZ);
 
-    this.loading.add(bbbb);
+    this.loading.add(mesh);
   }
 
   /** 짐 추가 */
