@@ -39,13 +39,27 @@
     cursor: pointer;
     margin-left: auto;
 
-    background-color: #b791fd;
-    border: none;
+    /* background-color: #b791fd; */
+
+     border-style:solid;
+    border-radius: 10px;
+    border-color: rgb(139, 139, 139);
+    /* border: none; */
     /* Remove the border */
     border-radius: 5px;
-    color: whitesmoke;
+    background-color: whitesmoke;
     z-index: 1;
 }
+
+
+.modal-open-btn:hover {
+    background-color: rgba(61, 61, 61, 0.04);
+    box-shadow:
+      -7px -7px 20px 0px #fff9,
+      -4px -4px 5px 0px #fff9,
+      7px 7px 20px 0px #0002,
+      4px 4px 5px 0px #0001;
+  }
 
 .modal-close-btn {
     cursor: pointer;

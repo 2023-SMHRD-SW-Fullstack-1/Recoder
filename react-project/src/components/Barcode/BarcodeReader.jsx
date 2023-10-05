@@ -173,8 +173,28 @@ function BarcodeReader() {
               />
             </div>
             <div className='modal_row'>
-              <button onClick={()=>setModalView(false)}>입력취소</button>
-              <button onClick={insertStock}>입력완료</button>
+              <button  style={{
+            color: "black",
+            backgroundColor: "white",
+            width: 100,
+            fontSize: 15,
+            height: 32,
+            paddingRight: 14,
+            paddingLeft: 14,
+            borderRadius: 6,
+            borderColor: "darkgray",
+          }} onClick={()=>setModalView(false)}>입력취소</button>
+              <button  style={{
+            color: "black",
+            backgroundColor: "white",
+            width: 100,
+            fontSize: 15,
+            height: 32,
+            paddingRight: 14,
+            paddingLeft: 14,
+            borderRadius: 6,
+            borderColor: "darkgray",
+          }} onClick={insertStock}>입력완료</button>
             </div>
           </div>
         </div>

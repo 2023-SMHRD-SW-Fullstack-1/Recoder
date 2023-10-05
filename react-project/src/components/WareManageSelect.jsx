@@ -19,8 +19,8 @@ const WareManageSelect = ({ comSeq, selectWhSeq, setSelectWhSeq,wareName,setWare
   }, []);
 
   return (
-    <div id="ware-container">
-      <div id="ware-header">
+    <div id="ware-container" style={{margin:30}}>
+      <div id="ware-header"style={{marginBottom:30}}>
         <span>창고 선택</span>
       </div>
       <div id="ware-item-box">

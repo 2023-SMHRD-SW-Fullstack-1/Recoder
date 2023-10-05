@@ -5,19 +5,35 @@
     font-style: normal;
 }
 
-.ware_create_all {
-    padding: 5%;
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    /* height: 100%; */
+#toptop{
+    padding-top: 5%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.ware_create_all {
+    /* margin: 10%; */
+    padding-top: 5%;
+    /* padding-bottom: 50%; */
+    position: relative;
+    width: 500px;
+    height: 800px;
+    border-style:solid;
+    border-radius: 10px;
+    border-color: rgb(163, 163, 163)
+    /* height: 100%; */
+    /* display: flex; */
+
+
+
 }
 
 .ware_create_title {
+
     height: 200px;
     background: #FFFFFF;
+    
     /* background-color: #b791fd; */
     display: flex;
     /* flex-direction: column; */
@@ -34,16 +50,6 @@
     justify-content: center;
 }
 
-.ware_create_submit_button button {
-    background-color: #b791fd;
-    border: none; /* Remove the border */
-    border-radius: 5px;
-    color: whitesmoke;
-    padding: 10px 20px; /* Add some padding */
-    font-size: 16px; /* Increase font size */
-    font-weight: bold; /* Make the text bold */
-    cursor: pointer; /* Change cursor on hover */
-}
 
 .ware_create_submit_button button:hover {
     background-color: #b791fd;
@@ -55,21 +61,23 @@
 
 /* container 관련 css */
 .ware_create_container {
-    height: 100%;
+    height: 50%;
+    width: 100%;
 }
 
 
-.ware_create_all table{
+.ware_create_all table {
+    
     margin: auto;
-    width: 50%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
 }
 
 .ware_name_input_container input[type=text], input[type=number] {  
     width :100% ;  
     box-sizing:border-box ;  
-    margin-bottom :30px ;
-    margin-top :30px ;     
+    margin-bottom :10px ;
+    /* margin-top :30px ;      */
     padding-left :10px ;
 
     border-radius: 7px;

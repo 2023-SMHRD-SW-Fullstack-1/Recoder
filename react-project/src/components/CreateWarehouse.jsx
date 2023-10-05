@@ -72,21 +72,21 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 		// setWarehouseLength(parseInt(newWareData.wh_length));
 
 		setWarehouseWidth(parseInt(localStorage.getItem("ware_width")));
-		setWarehouseLength(parseInt(localStorage.getItem("ware_length")));			
+		setWarehouseLength(parseInt(localStorage.getItem("ware_length")));
 		// setWarehouseWidth(10); // 임시 데이터
 		// setWarehouseLength(10);
 	}, []);
 
 	/** useEffect -> [warehouseWidth, warehouseLength] */
-	useEffect(()=>{
+	useEffect(() => {
 		if (warehouseWidth !== null && warehouseLength !== null) {
 			console.log("지금!");
 			appInstance.current = new App(
-			warehouseWidth,
-			warehouseLength,
-			rackWidth,
-			rackLength,
-			메쉬배열
+				warehouseWidth,
+				warehouseLength,
+				rackWidth,
+				rackLength,
+				메쉬배열
 			);
 		}
 	}, [warehouseWidth, warehouseLength])
@@ -104,7 +104,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 			rackX: rackX,
 			rackZ: rackZ,
 			rackRotateYN: rackRotateYN,
-			wh_seq:wh_seq
+			wh_seq: wh_seq
 		};
 
 		// 로컬 스토리지에 rackFloor값 저장
@@ -139,9 +139,9 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 	const createLoading = (e) => {
 		setCanAddLoading(!canAddLoading)
 
-		if(appInstance.current) {
+		if (appInstance.current) {
 			appInstance.current.setupMouseEvents(
-				rackWidth, rackLength, canAddLoading? "loading" : "rack"
+				rackWidth, rackLength, canAddLoading ? "loading" : "rack"
 			)
 		}
 	}
@@ -181,7 +181,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 		// .post(url, rack_info)
 		// .then((res) => {
 		// 	console.log(res);
-			
+
 		// 	if (appInstance.current) {
 		// 		appInstance.current.setupMouseEvents(
 		// 			res.data.rack_width,
@@ -222,7 +222,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 			rackLength: rackLength,
 			rackFloor: rackFloor,
 			rackX: rackX,
-				rackZ: rackZ,
+			rackZ: rackZ,
 			rackRotateYN: rackRotateYN,
 			wh_seq: wh_seq,
 		};
@@ -233,20 +233,20 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 		axios
 			.post(url, rack_info)
 			.then((res) => {
-			console.log(res);
+				console.log(res);
 
-			if (appInstance.current) {
-				appInstance.current.setupMouseEvents(
-					res.data.rack_width,
-					res.data.rack_length,
-					parseInt(localStorage.getItem("rackFloor")) // 로컬 스토리지에서 rackFloor값 불러오기!
-				);
-			}
+				if (appInstance.current) {
+					appInstance.current.setupMouseEvents(
+						res.data.rack_width,
+						res.data.rack_length,
+						parseInt(localStorage.getItem("rackFloor")) // 로컬 스토리지에서 rackFloor값 불러오기!
+					);
+				}
 			})
 			.catch((error) => {
-			console.log(`axios에러`);
-			// console.error(error);
-		});
+				console.log(`axios에러`);
+				// console.error(error);
+			});
 	};
 
 	return (
@@ -254,28 +254,55 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 			{/* <button>선반 생성</button> */}
 			<div className={"btn-wrapper"}>
 				<span>
-					<input type="number" placeholder="선반의 가로 길이"  value={rackWidth} onChange={(e) => {
-							if(e.target.value <= 0) {
-								e.target.value = 1
-							}
-							setRackWidth(e.target.value)}}/>
-					<input type="number" placeholder="선반의 세로 길이" value={rackLength} onChange={(e) => {
-						if(e.target.value <= 0) {
+					<input style={{ margin: 5 }} type="number" placeholder="선반의 가로 길이" value={rackWidth} onChange={(e) => {
+						if (e.target.value <= 0) {
 							e.target.value = 1
 						}
-						setRackLength(e.target.value)}} />
-					<input type="number" placeholder="선반의 층수" value={rackFloor} onChange={(e) => {
-						if(e.target.value <= 0) {
+						setRackWidth(e.target.value)
+					}} />
+					<input style={{ margin: 5 }} type="number" placeholder="선반의 세로 길이" value={rackLength} onChange={(e) => {
+						if (e.target.value <= 0) {
+							e.target.value = 1
+						}
+						setRackLength(e.target.value)
+					}} />
+					<input style={{ margin: 5 }} type="number" placeholder="선반의 층수" value={rackFloor} onChange={(e) => {
+						if (e.target.value <= 0) {
 							e.target.value = 1
 						}
 						setRackFloor(e.target.value)
-					}}/>
-					<button className={"modal-open-btn"} onClick={sizeRack}>
+					}} />
+					<button
+						style={{
+
+							color: "black",
+							margin: 5,
+							backgroundColor: "white",
+							width: 80,
+							fontSize: 15,
+							height: 30,
+
+							borderRadius: 6,
+			
+						}}
+						className={"modal-open-btn"} onClick={sizeRack}>
 						선반 크기
 					</button>
-					<button type="button" className={"modal-open-btn"} onClick={completeRack}>창고 생성</button>
+					<button
+						style={{
+							margin: 5,
+							color: "black",
+							backgroundColor: "white",
+							width: 80,
+							fontSize: 15,
+							height: 30,
+
+							borderRadius: 6,
+			
+						}}
+						type="button" className={"modal-open-btn"} onClick={completeRack}>창고 생성</button>
 				</span>
-				
+
 				{/* <button onClick={createLoading}> loading 추가 {canAddLoading?"O":"X"} </button>
 				<button onClick={get배열}>배열 확인</button> */}
 			</div>
@@ -284,20 +311,20 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 			</div> {/* id="webgl-container" */}
 			{modalOpen && (
 				<div className={"modal-container"} ref={modalBackground}
-				onClick={(e)=> {
-					if (e.target === modalBackground.current) {
-						setModalOpen(false);
-					}
-				}} >
+					onClick={(e) => {
+						if (e.target === modalBackground.current) {
+							setModalOpen(false);
+						}
+					}} >
 					{/* 모달창 열었을때 나오는 부분 */}
 					<div className={"modal-content"}>
 						<div className="rack_create_all">
-						<div className="rack_create_title">
-								<h1 onClick={()=>{console.log("선반생ㄱ성")}}>선반생성</h1>
+							<div className="rack_create_title">
+								<h1 onClick={() => { console.log("선반생ㄱ성") }}>선반생성</h1>
 								<button
 									className={"modal-close-btn"}
-									>
-									<img onClick={()=>{setModalOpen(false)}}
+								>
+									<img onClick={() => { setModalOpen(false) }}
 										src='/img/X_icon.png'
 										// alt='side-button'
 										width='20px'
@@ -329,39 +356,51 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 														value={rackWidth}
 														onChange={(e) => setRackWidth(e.target.value)}
 													/>
-													</div>
+												</div>
 
-													{/* 세로 */}
-													<div className="rack_length_input_container">
+												{/* 세로 */}
+												<div className="rack_length_input_container">
 													<input
 														type="number"
 														placeholder="세로 길이를 입력해주세요."
 														value={rackLength}
 														onChange={(e) => setRackLength(e.target.value)}
 													/>
-													</div>
+												</div>
 
-													{/* 높이 */}
-													<div className="rack_floor_input_container">
+												{/* 높이 */}
+												<div className="rack_floor_input_container">
 													<input
 														type="number"
 														placeholder="층을 입력해주세요."
 														value={rackFloor}
 														onChange={(e) => setRackFloor(e.target.value)}
 													/>
-													</div>
+												</div>
 
-													{/* 생성완료 버튼 */}
-													<div className="rack_create_submit_button">
-													<button type="submit" className="create-button">
+												{/* 생성완료 버튼 */}
+												<div className="rack_create_submit_button">
+													<button
+														style={{
+															color: "black",
+															backgroundColor: "white",
+															width: 100,
+															fontSize: 15,
+															height: 40,
+															paddingRight: 14,
+															paddingLeft: 14,
+															borderRadius: 6,
+															borderColor: "darkgray",
+														}}
+														type="submit" className="create-button">
 														생성하기
 													</button>
 												</div>
 											</form>
 										</td>
 									</tr>
-							</tbody>
-						</table>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>

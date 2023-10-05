@@ -43,12 +43,15 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
 
 
     return (
-        <div className="ware_create_all">
+        <div id='toptop'>
+        <div
+         className="ware_create_all"
+         >
             <div className='ware_create_title'>
                 <h1>창고생성</h1>
             </div>
-            <table>
-                <tbody>
+            <table >
+                <tbody >
                     <tr>
                         <td className="ware_create_container">
                             <form onSubmit={handleSubmit}>
@@ -93,7 +96,20 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
 
                                 {/* 생성완료 버튼 */}
                                 <div className="ware_create_submit_button">
-                                    <button type="submit">
+                                    <button 
+                                    style={{
+                                        margin:30,
+                                        color: "black",
+                                        backgroundColor: "white",
+                                        width: 100,
+                                        fontSize: 15,
+                                        height: 40,
+                                        paddingRight: 14,
+                                        paddingLeft: 14,
+                                        borderRadius: 6,
+                                        borderColor: "darkgray",
+                                      }}
+                                    type="submit">
                                         생성하기
                                     </button>
                                 </div>
@@ -102,6 +118,7 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
                     </tr>
                 </tbody>
             </table>
+        </div>
         </div>
     );
 }
