@@ -29,7 +29,7 @@ const Warehouse = () => {
   const [selectedName, setSelectedName] = useState(""); // 이름
   const [selectedPrice, setSelectedPrice] = useState(0); // 가격
   const [selectedIndate, setSelectedIndate] = useState(0); // 입고일
-  
+
 
   const appInstance = useRef(null);
 
@@ -50,7 +50,7 @@ const Warehouse = () => {
           rackZ: parseInt(rack.rack_z),
           seq: rack.rack_seq
         }));
-        
+
 
         console.log("warehouse", warehouseRes.data.wh_width)
         console.log("racks 찍어보자", racks);
@@ -100,7 +100,10 @@ const Warehouse = () => {
   // useEffect -> warehouseData
   useEffect(() => {
     console.log("지금!");
+
+
     if (Object.keys(warehouseData).length >= 1) {
+
       console.log("지금!222222222");
       console.log(warehouseData);
       console.log(Object.keys(warehouseData));
@@ -114,7 +117,7 @@ const Warehouse = () => {
       );
     }
     else {
-      console.log("error");
+      console.log("error가 나왔어요");
     }
   }, [warehouseData]);
 
@@ -159,11 +162,11 @@ const Warehouse = () => {
 
   return (
     <div className="warehouse1">
-      <div id="waredetail-container" onClick={()=>{
-          setSelectedName(localStorage.getItem("selectedMesh_name")==undefined ? "" : localStorage.getItem("selectedMesh_name"))
-          setSelectedPrice(localStorage.getItem("selectedMesh_price")==undefined ? "-" : localStorage.getItem("selectedMesh_price"))
-          setSelectedIndate(localStorage.getItem("selectedMesh_indate")==undefined ? "-" : localStorage.getItem("selectedMesh_indate"))
-        }} />
+      <div id="waredetail-container" onClick={() => {
+        setSelectedName(localStorage.getItem("selectedMesh_name") == undefined ? "" : localStorage.getItem("selectedMesh_name"))
+        setSelectedPrice(localStorage.getItem("selectedMesh_price") == undefined ? "-" : localStorage.getItem("selectedMesh_price"))
+        setSelectedIndate(localStorage.getItem("selectedMesh_indate") == undefined ? "-" : localStorage.getItem("selectedMesh_indate"))
+      }} />
 
       <div className="button-container">
         <button type="button" onClick={addLoading}>
@@ -178,8 +181,8 @@ const Warehouse = () => {
       <div className="modal-top">
         <p>재고 이름 : {selectedName}</p>
         <p>가격 : {selectedPrice}</p>
-        <p>입고일 : {selectedIndate}</p>        
-        
+        <p>입고일 : {selectedIndate}</p>
+
       </div>
 
     </div>

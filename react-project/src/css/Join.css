@@ -5,14 +5,14 @@
   font-style: normal;
 }
 
-.join_main *{
+.join_main * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Pretendard-Regular", sans-serif;
 }
 
-.join_main body{
+.join_main body {
   background: url(../../public/img/warehouse_bg2.jpg);
   background-position: center;
   background-size: cover;
@@ -21,14 +21,14 @@
   width: 100%;
 }
 
-.join_container{
+.join_container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
 
-.join_form_box{
+.join_form_box {
   position: relative;
   width: 400px;
   height: 650px;
@@ -40,20 +40,20 @@
   align-items: center;
 }
 
-.join_form_box h2{
-  color: black;
+.join_form_box h2 {
+  color: white;
   text-align: center;
   font-size: 32px;
 }
 
-.join_form_box .input_box{
+.join_form_box .input_box {
   position: relative;
   margin: 32px 0;
   width: 310px;
   border-bottom: 2px solid #fff;
 }
 
-.join_form_box .input_box input{
+.join_form_box .input_box input {
   width: 100%;
   height: 45px;
   background: transparent;
@@ -68,6 +68,7 @@
   margin: 30px 0;
   width: 310px;
   border-bottom: 2px solid #fff;
+
 }
 
 .input_box label {
@@ -81,7 +82,7 @@
   transition: .5s;
 }
 
-.input_box input{  
+.input_box input {
   width: 100%;
   height: 50px;
   background: transparent;
@@ -93,13 +94,14 @@
 }
 
 .join_main {
-  & input:focus ~ label,
-  & input:valid ~ label{
+
+  & input:focus~label,
+  & input:valid~label {
     top: -5px;
   }
-} 
+}
 
-.id-check{
+.id-check {
   color: #fff;
   /* background: #b791fd; */
   background: transparent;
@@ -110,11 +112,11 @@
   border: #b791fd solid 2px;
   font-size: 17px;
   cursor: pointer;
-  box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
   transition-duration: 0.2s;
 }
 
-.id-check:active{
+.id-check:active {
   color: #fff;
   /* background: #b791fd; */
   background: transparent;
@@ -126,6 +128,11 @@
   font-size: 17px;
   cursor: pointer;
   box-shadow: none;
+}
+
+.duplicate-message {
+  /* color: rgb(255, 50, 50); */
+  color: red;
 }
 
 /* .join_button{
@@ -157,46 +164,57 @@
 
 @keyframes ring {
   0% {
-      width: 30px;
-      height: 30px;
-      opacity: 1;
+    width: 30px;
+    height: 30px;
+    opacity: 1;
   }
+
   100% {
-      width: 150px;
-      height: 150px;
-      opacity: 0;
+    width: 150px;
+    height: 150px;
+    opacity: 0;
   }
 }
 
-.join_button{
+.submit_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.join_button {
   display: inline-block;
   position: relative;
-    border: none;
-    min-width: 200px;
-    min-height: 50px;
-    background: linear-gradient(
-        90deg,
-        rgba(129, 230, 217, 1) 0%,
-        rgba(79, 209, 197, 1) 100%
-    );
-    border-radius: 1000px;
-    color: darkslategray;
-    cursor: pointer;
-    box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
-    font-weight: 700;
-    transition: 0.3s;
+  border: none;
+  min-width: 200px;
+  min-height: 50px;
+  /* background: linear-gradient(90deg,
+      rgba(129, 230, 217, 1) 0%,
+      rgba(79, 209, 197, 1) 100%); */
+  background: linear-gradient(90deg,
+      #b791fd 0%,
+      #b791fd 100%);
+  border-radius: 1000px;
+  /* color: darkslategray; */
+  color: white;
+  cursor: pointer;
+  /* box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64); */
+  /* box-shadow: 12px 12px 24px #b791fd; */
+  font-weight: 700;
+  transition: 0.3s;
 }
 
-.join_button:hover{
+.join_button:hover {
   transform: scale(1.2);
 }
 
-.join_button:hover::after{
+.join_button:hover::after {
   content: "";
   width: 30px;
   height: 30px;
   border-radius: 100%;
-  border: 6px solid #00ffcb;
+  /* border: 6px solid #00ffcb; */
+  border: 6px solid #a371ff;
   position: absolute;
   z-index: -1;
   top: 50%;
