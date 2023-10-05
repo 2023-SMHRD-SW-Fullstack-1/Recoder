@@ -23,6 +23,7 @@ import Notice  from './components/Notice';
 import axios from 'axios'
 import WareManageSelect from './components/WareManageSelect';
 import InWarehouse from './components/InWarehouse';
+import NotFound from './components/NotFound';
 
 const App = () => {
 
@@ -57,11 +58,7 @@ const App = () => {
       { uid ? (
         <div>
           <Routes>
-            {/* 개발 끝나면 지워주세요 */}
-            {/* <Route index element={ <Login /> } />
-            <Route path='/join' element={ <Join /> } />
-            <Route path='/register/company' element={ <RegisterCompany /> } /> */}
-            {/* 개발 끝나면 지워주세요 */}
+            <Route path='*' element={ <NotFound /> } />
             <Route element={ <Layout  wareName={wareName}comSeq={comSeq} selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } >
               {/* 대시보드 */}
               <Route path='/main' element={ <Dashboard selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={ comSeq } /> } />
