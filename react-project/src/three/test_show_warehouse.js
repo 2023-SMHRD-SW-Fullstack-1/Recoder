@@ -94,30 +94,30 @@ export default class App {
   _setupLight() {
     RectAreaLightUniformsLib.init(); // RectAreaLight를 사용하기 위한 코드
 
-    const light = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
-    light.position.set(0, 8, 0);
+    const light = new THREE.RectAreaLight(0xffffff, 5, 30, 30);
+    light.position.set(0, 30, 0);
     light.rotation.x = THREE.MathUtils.degToRad(-90);
 
-    const light2 = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
-    light2.position.set(-4, 8, 0);
-    light2.rotation.x = THREE.MathUtils.degToRad(-90);
+    // const light2 = new THREE.RectAreaLight(0xffffff, 5, 1, 30);
+    // light2.position.set(-4, 8, 0);
+    // light2.rotation.x = THREE.MathUtils.degToRad(-90);
 
-    const light3 = new THREE.RectAreaLight(0xffffff, 10, 1, 30);
-    light3.position.set(4, 8, 0);
-    light3.rotation.x = THREE.MathUtils.degToRad(-90);
+    // const light3 = new THREE.RectAreaLight(0xffffff, 5, 1, 30);
+    // light3.position.set(4, 8, 0);
+    // light3.rotation.x = THREE.MathUtils.degToRad(-90);
 
     const helper = new RectAreaLightHelper(light);
     light.add(helper);
 
-    const helper2 = new RectAreaLightHelper(light2);
-    light.add(helper2);
+    // const helper2 = new RectAreaLightHelper(light2);
+    // light.add(helper2);
 
-    const helper3 = new RectAreaLightHelper(light3);
-    light.add(helper3);
+    // const helper3 = new RectAreaLightHelper(light3);
+    // light.add(helper3);
 
     this._scene.add(light);
-    this._scene.add(light2);
-    this._scene.add(light3);
+    // this._scene.add(light2);
+    // this._scene.add(light3);
     this._light = light;
   }
 
