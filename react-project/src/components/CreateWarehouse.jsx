@@ -286,15 +286,10 @@ const CreateWarehouse = ({ comSeq, newWareData }) => {
 							if(e.target.value <= 0) {
 								e.target.value = 1
 							}
+							
 							setRackWidth(e.target.value)}}/>
 					<input type="number" placeholder="선반의 세로 길이" value={rackLength} onChange={(e) => {
 						if(e.target.value <= 0) {
-							e.target.value = 1
-						}
-						setRackWidth(e.target.value)
-					}} />
-					<input style={{ margin: 5 }} type="number" placeholder="선반의 세로 길이" value={rackLength} onChange={(e) => {
-						if (e.target.value <= 0) {
 							e.target.value = 1
 						}
 						setRackLength(e.target.value)
@@ -321,7 +316,7 @@ const CreateWarehouse = ({ comSeq, newWareData }) => {
 						className={"modal-open-btn"} onClick={sizeRack}>
 						선반 크기
 					</button>
-					<button type="text" onClick={get배열}>배열 확인</button>
+					{/* <button type="text" onClick={get배열}>배열 확인</button> */}
 					<button type="button" className={"modal-open-btn"} onClick={completeRack}>창고 생성</button>
 				</span>
 
