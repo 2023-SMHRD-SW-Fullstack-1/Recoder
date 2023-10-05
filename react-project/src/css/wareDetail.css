@@ -33,15 +33,46 @@
 
 .modal-top {
 	position: fixed;
-	width: 500px;
-	height: 500px;
-	/* background-color: aqua; */
+	margin-top: 50px;
+	margin-left: 10px;
+	width: 252px;
+	height: 140px;
+	background-color: rgb(255, 255, 255);
 	top: 0;
 	left: 0;
+	border-style: solid;
+	border-width:2.5px;
+	border-color: rgb(139, 139, 139);
+	border-radius: 10px;
 
+	padding: 12px;
 }
 
+.stock2{
+	margin: 5px;
+	color: black;
+	width: 80px;
+	font-size: 15px;
+	height: 30px;
+	border-radius: 6;
+	cursor: pointer;
+    margin-left: auto;
+    /* background-color: #b791fd; */
+    border-style:solid;
+    border-radius: 10px;
+    border-color: rgb(139, 139, 139);
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+}
 
+.stock2:hover {
+	background-color: rgba(0, 0, 0, 0.04);
+    box-shadow:
+      -7px -7px 10px 0px #fff9,
+      -4px -4px 5px 0px #fff9,
+      7px 7px 10px 0px #0002,
+      4px 4px 5px 0px #0001;
+  }
 .stock_btn{
 	margin: 5px;
 	color: black;

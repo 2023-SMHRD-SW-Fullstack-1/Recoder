@@ -167,17 +167,17 @@ const Warehouse = () => {
         }} />
 
       <div className="button-container">
-        <button type="button" onClick={addLoading}>
-          {canAddItem ? "짐 추가중" : "짐 추가하기"}
+        <button className='stock2'type="button" onClick={addLoading}>
+          {canAddItem ? "짐 추가중" : "짐 추가"}
         </button>
-        <button type="button"> 선반 추가 </button>
-        <button type="button" onClick={moveLoading}>
-          {canMoveItem ? "짐 이동중" : "짐 이동하기"}
+        <button className='stock2' type="button"> 선반 추가 </button>
+        <button className='stock2' type="button" onClick={moveLoading}>
+          {canMoveItem ? "짐 이동중" : "짐 이동"}
         </button>
       </div>
 
       <div className="modal-top">
-        <p>재고 이름 : {selectedName}</p>
+        <p>제품명 : {selectedName}</p>
         <p>가격 : {selectedPrice}</p>
         <p>입고일 : {selectedIndate}</p>        
         
