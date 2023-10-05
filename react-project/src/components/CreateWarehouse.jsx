@@ -74,11 +74,11 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 			 // setWarehouseWidth(parseInt(newWareData.wh_width));
 			 // setWarehouseLength(parseInt(newWareData.wh_length));
 
-			// setWarehouseWidth(parseInt(localStorage.getItem("ware_width")));
-			// setWarehouseLength(parseInt(localStorage.getItem("ware_length")));
+			setWarehouseWidth(parseInt(localStorage.getItem("ware_width")));
+			setWarehouseLength(parseInt(localStorage.getItem("ware_length")));
 			
-			setWarehouseWidth(10); // 임시 데이터
-			setWarehouseLength(10);
+			// setWarehouseWidth(10); // 임시 데이터
+			// setWarehouseLength(10);
 			console.log("dd")
 		}, []);
 
@@ -337,7 +337,7 @@ const CreateWarehouse = ({ com_seq, newWareData }) => {
 
 													{/* 생성완료 버튼 */}
 													<div className="rack_create_submit_button">
-													<button type="submit" className="create-button">
+													<button onClick={createRack} className="create-button">
 														생성하기
 													</button>
 												</div>
