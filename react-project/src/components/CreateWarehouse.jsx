@@ -66,7 +66,7 @@ const CreateWarehouse = ({ comSeq, newWareData }) => {
 		console.log(newWareData.wh_seq);
 		setWh_seq(newWareData.wh_seq);
 
-		// const warehouseData = newWareData;
+		const warehouseData = newWareData;
 		// const lastWarehouse = warehouseData[warehouseData.length - 1];
 		// console.log("가장 최근 창고 정보 :", lastWarehouse);
 

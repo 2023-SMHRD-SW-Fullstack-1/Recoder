@@ -11,7 +11,12 @@ const Warehouse = () => {
 
 	// const [warehouseInfo, setWarehouseInfo] = useState(null);
 
+
+
 	// 변수
+  const [selectedName, setSelectedName] = useState('')
+  const [selectedPrice, setSelectedPrice] = useState('')
+  const [selectedIndate, setSelectedIndate] = useState('')
 	const [warehouseWidth, setWarehouseWidth] = useState(null);
 	const [warehouseLength, setWarehouseLength] = useState(null);
 	const [rackWidth, setRackWidth] = useState(null);
@@ -45,6 +50,7 @@ const Warehouse = () => {
 					rackLength: parseInt(rack.rack_length),
 					rackX: parseInt(rack.rack_x),
 					rackZ: parseInt(rack.rack_z),
+          seq: rack.rack_seq,
 				}));
 
 				console.log("warehouse", warehouseRes.data.wh_width)
@@ -52,24 +58,28 @@ const Warehouse = () => {
 
 				console.log("상품 데이터 배열", stockRes);
 
-				console.log("stockRes", stockRes.data[0]);
-				// const stocks = stockRes.data.map(stock => ({
-
-				// }))
-				console.log("뭘가져오는지 보자", stockRes.data[0].Racks[0].Loadings);
+        console.log("stockRes", stockRes.data[0]);
+        console.log("뭘가져오는지 보자", stockRes.data[0].Racks[0].Loadings);
+        console.log("뭘가져오는지 보자", stockRes.data[0].Racks[0].Loadings[0].Stock);
 
 				console.log("true/false", Array.isArray(stockRes.data[0].Racks[0].Loadings));
 
 
-				const stocks = stockRes.data[0].Racks[0].Loadings.map(stock => {
-					// const [pos1, pos2] = stock.loading_position.split(',').map(Number);
-					const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
-					return {
-						loadingFloor: stock.loading_floor,
-						loadingPosition1: pos1,
-						loadingPosition2: pos2
-					}
-				})
+        const stocks = stockRes.data[0].Racks[0].Loadings.map(stock => {
+          // const [pos1, pos2] = stock.loading_position.split(',').map(Number);
+          const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
+          const stockName = stock.Stock.stock_name
+          const stockPrice = stock.Stock.stock_price
+          const stockIndate = stock.created_at
+          return {
+            loadingFloor: stock.loading_floor,
+            loadingPosition1: pos1,
+            loadingPosition2: pos2,
+            stockName: stockName,
+            stockPrice: stockPrice,
+            stockIndate: stockIndate
+          }
+        })
 
 				// console.log("stock 가져오니라", stocks);
 
@@ -101,7 +111,7 @@ const Warehouse = () => {
 				warehouseData.warehouseWidth,
 				warehouseData.warehouseLength,
 				warehouseData.racks,
-				warehouseData.stocks
+				warehouseData.stocks,
 			);
 		}
 		else {
@@ -150,7 +160,11 @@ const Warehouse = () => {
 
 	return (
 		<div className="warehouse1">
-			<div id="waredetail-container" />
+			<div id="waredetail-container" onClick={() => {
+				setSelectedName(localStorage.getItem("selectedMesh_name") == undefined ? "" : localStorage.getItem("selectedMesh_name"))
+				setSelectedPrice(localStorage.getItem("selectedMesh_price") == undefined ? "-" : localStorage.getItem("selectedMesh_price"))
+				setSelectedIndate(localStorage.getItem("selectedMesh_indate") == undefined ? "-" : localStorage.getItem("selectedMesh_indate"))
+			}} />
 
 			<div className="button-container">
 				<button type="button" onClick={addLoading}>
@@ -163,8 +177,11 @@ const Warehouse = () => {
 			</div>
 
 			<div className="modal-top">
-
+				<p>재고 이름 : {selectedName}</p>
+				<p>가격 : {selectedPrice}</p>
+				<p>입고일 : {selectedIndate}</p>
 			</div>
+
 		</div>
 	);
 };

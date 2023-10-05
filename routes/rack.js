@@ -57,7 +57,7 @@ router.get('/:wh_seq', async (req, res) => {
                 }]
             }]
         })
-        console.log('rackList 가져오기', rackList);
+        // console.log('rackList 가져오기', rackList);
         res.json(rackList)
     } catch (error) {
         console.error(error);

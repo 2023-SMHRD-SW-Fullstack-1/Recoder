@@ -78,7 +78,7 @@ router.post('/create', async (req, res) => {
                 attributes:[fn('DISTINCT',col('stock_shipping_des')),'stock_shipping_des'],
                 where:{
                     com_seq:req.body.com_seq,
-                    loading_type:'I'
+                    loading_type:'O'
                 }
             })
     

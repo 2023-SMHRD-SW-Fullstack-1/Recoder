@@ -6,7 +6,7 @@ import * as THREE from 'three';
  * rackFloor => 선반의 층수
  * rackPos => 선반 위치
 */
-export default function createItem(sizeX, sizeZ, itemFloor, itemPos) {   
+export default function createItem(sizeX, sizeZ, itemFloor, itemPos, itemName, stockPrice, stockIndate) {   
 
    // 상품들 기본 사이즈 조정하는 부분
    const item = new THREE.BoxGeometry(sizeX, 0.8, sizeZ, 1, 1, 1);
@@ -40,6 +40,14 @@ export default function createItem(sizeX, sizeZ, itemFloor, itemPos) {
    // 상품들 위치 조정하는 부분
    itemMesh.position.set(itemPos.x, 0.6+itemFloor, itemPos.z);
 
+   itemMesh.name = itemName
+   if(stockPrice) {
+    itemMesh.userData.stockPrice = stockPrice;
+   }
+   if(stockIndate) {
+    itemMesh.userData.stockIndate = stockIndate;
+   }
+   
    // const boardBox = new THREE.Box3().setFromObject(boardMesh);
    // const pilarBox = new THREE.Box3().setFromObject(pilar1);
    // const pilarYLen = pilarBox.max.y - pilarBox.min.y;

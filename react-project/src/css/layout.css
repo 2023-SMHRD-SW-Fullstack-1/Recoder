@@ -72,6 +72,13 @@ body {
   border-radius: 8px;
   padding: 12px;
   width: 200px;
+  margin-bottom: 100px;
+}
+
+#current-container {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
 }
 
 #current-header {

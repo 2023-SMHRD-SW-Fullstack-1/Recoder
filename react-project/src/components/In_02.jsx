@@ -6,9 +6,29 @@ import { useNavigate } from "react-router";
 import "../css/in01.css";
 import { Modal } from "antd";
 import { uploadFile } from "../api/fileAPI";
+import io from 'socket.io-client'
 
 function In_02({ selectWhSeq, setSelectWhSeq }) {
-
+  const inSocket = io.connect('http://localhost:8000/in', {
+    path: '/socket.io'
+  });
+  inSocket.on('updateIn', (data) => {
+    if (data === '입고등록완료') {
+      if (updateIn) {
+        setUpdateIn(false)
+      } else {
+        setUpdateIn(true)
+      }
+    } else if (data === '입고취소완료') {
+      if (updateInCancle) {
+        setUpdateInCancle(false)
+      } else {
+        setUpdateInCancle(true)
+      }
+    }
+  });
+  const [updateIn, setUpdateIn] = useState(true)
+  const [updateInCancle, setUpdateInCancle] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOk = () => {
@@ -244,7 +264,7 @@ function In_02({ selectWhSeq, setSelectWhSeq }) {
 
   useEffect(() => {
     getList();
-  }, []);
+  }, [updateIn, updateInCancle]);
 
   return (
     <div id="in-container">

@@ -11,7 +11,6 @@ router.post('/', async (req, res, next) => {
             wh_length: length,
             com_seq: comSeq
         })
-        console.log("처음에 넘겨줄 데이터", result.toJSON());
         res.json(result.toJSON())
     } catch (error) {
         console.error(error);
@@ -19,7 +18,6 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/manage/:com_seq', async (req, res) => {
-    console.log("asd");
     let com_seq = req.params.com_seq
     try {
         const warehouseList = await Warehouse.findAll({
@@ -37,7 +35,6 @@ router.get('/manage/:com_seq', async (req, res) => {
                 }]
             }]
         });
-        console.log('warehouseList 가져오기',warehouseList);
         res.json(warehouseList);
     } catch (error) {
         console.error(error);
@@ -71,6 +68,32 @@ router.get('/wh_name/:com_seq', async (req, res) => {
         res.json(nameList)
     } catch (error) {
         console.error(error);
+    }
+})
+
+router.get('/shortList/:com_seq', async (req, res) => {
+    let com_seq = req.params.com_seq
+    try {
+        const warehouseList = await Warehouse.findAll({
+            attributes: ['wh_name', 'createdAt', 'wh_seq'],
+            where: {
+                com_seq : com_seq
+            },
+            include: [{
+                model: Rack,
+                include: [{
+                    model: Loading,
+                    include: [{
+                        model: Stock
+                    }]
+                }]
+            }],
+            limit: 3
+        });
+        res.json(warehouseList);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 })
 

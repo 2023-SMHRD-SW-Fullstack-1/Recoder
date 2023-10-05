@@ -125,7 +125,7 @@ const Out_02 = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
         stock_name: loading.Stock.stock_name,
         loading_cnt: loading.loading_cnt,
         rack_seq: `${rack.rack_seq}번 rack ${loading.loading_floor}층 ${loading.loading_position}`,
-        stock_ex: loading.out_created_at.substring(0, 10),
+        stock_ex: loading.out_created_at?.substring(0, 10),
         stock_des: loading.stock_shipping_des,
         loading_manager: loading.loading_manager,
         description: loading.Stock.stock_name,
@@ -145,7 +145,7 @@ const Out_02 = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
       <div className='out-filter'>
         {/* <DatePicker /> */}
         {/* <OutDropDown value={ value } setValue={ setValue } /> */}
-        <StockDropDown value={ value } setValue={ setValue } />
+        {/* <StockDropDown value={ value } setValue={ setValue } /> */}
       </div>
       <Table_HJ columns={columns} data={data} />
       {/* <div id="in_comtainer">

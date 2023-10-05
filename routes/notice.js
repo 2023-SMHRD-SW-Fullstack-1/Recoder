@@ -96,7 +96,7 @@ router.post('/list', async (req, res) => {
         const result = await sequelize.query(`
               SELECT DISTINCT s.stock_name FROM stock AS s
             JOIN loading AS l ON l.stock_seq = s.stock_seq
-              WHERE l.loading_type = 'I' AND l.com_seq = ${com_seq}
+              WHERE l.loading_type = 'I'  AND l.com_seq = ${com_seq}
             `);
 
 
@@ -156,7 +156,7 @@ router.post('/create', async (req, res) => {
                 com_seq: com_seq,
                 [Op.or]: [
                     { loading_type: 'I' },
-                    { loading_type: 'O' }
+                    // { loading_type: 'O' }
                   ]
                 
             },

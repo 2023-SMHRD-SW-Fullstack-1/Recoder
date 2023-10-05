@@ -29,6 +29,7 @@ const App = () => {
   const [uid, setUid] = useState('')
   const [comSeq, setComSeq] = useState(0);
   const [newWareData, setNewWareData] = useState({})
+  const [wareName,setWareName] = useState([])
 
   const [selectWhSeq,setSelectWhSeq] = useState([])
   //혜주 추가 - 바코드 값 관리
@@ -61,7 +62,7 @@ const App = () => {
             <Route path='/join' element={ <Join /> } />
             <Route path='/register/company' element={ <RegisterCompany /> } /> */}
             {/* 개발 끝나면 지워주세요 */}
-            <Route element={ <Layout comSeq={comSeq} selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } >
+            <Route element={ <Layout  wareName={wareName}comSeq={comSeq} selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}/> } >
               {/* 대시보드 */}
               <Route path='/main' element={ <Dashboard selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={ comSeq } /> } />
               {/* 재고 */}
@@ -89,7 +90,7 @@ const App = () => {
               {/* 입고에서 적재 클릭하면 이동 */}
               <Route path='/in/ware/:wh_seq/:stock_seq' element={ <InWarehouse /> } />
               {/* 창고 선택*/}
-              <Route path='/ware/select' element={ <WareManageSelect selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={comSeq}/> } />
+              <Route path='/ware/select' element={ <WareManageSelect selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq} comSeq={comSeq} wareName={wareName}setWareName={setWareName}/> } />
           </Routes> 
         </div>
       ) : ( 

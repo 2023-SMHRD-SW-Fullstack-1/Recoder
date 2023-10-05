@@ -98,35 +98,53 @@ router.get('/cnt/:com_seq/:loading_type', async (req, res, next) => {
 // 바코드...
 router.post('/barcode', async (req, res) => {
     console.log('바코드', req.body);
-    let barCodes = req.body.barcode;
-    let com_seq = req.body.com_seq // 입력 데이터의 바코드 배열
+    let barcode = req.body.barcode;
+    let com_seq = req.body.com_seq
 
     try {
         const result = await Stock.findAll({
             where: {
-                stock_barcode: {
-                    [Op.in]: barCodes // $in 연산자 사용      
-                },
-                update_at: null
-                
+                stock_barcode: barcode
             }
-        });
-        console.log('stock바코드 조회', result);
-
-        // Loading 데이터를 bulk로 생성
-        const loadingData = await result.map((stock) => ({
-            stock_seq: stock.stock_seq,
+        })
+        let { stock_seq, stock_balance_cnt } = result[0]
+        await Loading.create({
+            loading_type: null,
+            loading_cnt: stock_balance_cnt,
             com_seq: com_seq,
-            loading_type: null
-        }));
-
-        const loadingResult = await Loading.bulkCreate(loadingData);
-
-        res.json({ stockData: result, loadingData: loadingResult });
+            stock_seq: stock_seq
+        })
+        res.send('ok')
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
     }
+
+    // try {
+    //     const result = await Stock.findAll({
+    //         where: {
+    //             stock_barcode: {
+    //                 [Op.in]: barCodes // $in 연산자 사용      
+    //             },
+    //             update_at: null
+                
+    //         }
+    //     });
+    //     console.log('stock바코드 조회', result);
+
+    //     // Loading 데이터를 bulk로 생성
+    //     const loadingData = await result.map((stock) => ({
+    //         stock_seq: stock.stock_seq,
+    //         com_seq: com_seq,
+    //         loading_type: null
+    //     }));
+
+    //     const loadingResult = await Loading.bulkCreate(loadingData);
+
+    //     res.json({ stockData: result, loadingData: loadingResult });
+    // } catch (error) {
+    //     console.error(error);
+    //     res.status(500).json({ error: 'Internal Server Error' });
+    // }
 });
 
 
@@ -168,6 +186,8 @@ router.post('/send/loading', async (req, res, next) => {
                 } // 업데이트할 조건
             }
         );
+        const io = req.app.get('io');
+        io.of('/in').emit('updateIn', '입고등록완료');
         res.json(result2);
     } catch (error) {
         console.log(error);
@@ -220,6 +240,8 @@ router.post('/del/loaing', async (req, res) => {
                 ],
             }
         );
+        const io = req.app.get('io');
+        io.of('/in').emit('updateIn', '입고취소완료');
         res.json(result)
     } catch (error) {
         console.log('입고취소 에러', error);
@@ -274,15 +296,20 @@ router.post('/loading', async (req, res) => {
 })
 
 router.patch('/position', async (req, res) => {
-    console.log(req.body);
-    let { position, stock_seq } = req.body
-
+    let { stock_seq, x, z, y, rack_seq } = req.body;
+    let loading_floor = parseInt(y);
+    let loading_position = [x, z].join(',')
     try {
         await Loading.update({
-            loading_position: position
+            loading_type: 'I',
+            loading_floor: loading_floor,
+            loading_position: loading_position,
+            rack_seq: rack_seq,
         }, {
             where: { stock_seq: stock_seq }  
         })
+        const io = req.app.get('io');
+        io.of('/in').emit('updateIn', '입고완료');
         res.send('ok')
     } catch (error) {
         console.error(error);

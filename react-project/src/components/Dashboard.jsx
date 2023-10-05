@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from "react";
-import ShortInList from "./ShortInList";
-import ShortStockList from "./ShortStockList";
-import ShortOutList from "./ShortOutList";
+import ShortInList from "./Dashboard/ShortInList";
+import ShortStockList from "./Dashboard/ShortStockList";
+import ShortOutList from "./Dashboard/ShortOutList";
 import CachedIcon from "@mui/icons-material/Cached";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import WareList from "./WareList";
+import WareList from "./Dashboard/WareList";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
-import io from 'socket.io-client'
-import BarcodeReader from "../Barcode/BarcodeReader";
 
-const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
+const Dashboard = ({ comSeq,selectWhSeq,setSelectWhSeq}) => {
   const [inList, setInList] = useState([]);
   const [stockList, setStockList] = useState([]);
   const [outList, setOutList] = useState([]);
-
   const [isInClick, setIsInClick] = useState(true);
   const [isStockClick, setIsStockClick] = useState(true);
   const [isOutClick, setIsOutClick] = useState(true);
-
-  const [inListCnt, setInListCnt] = useState(0);
-  const [outListCnt, setOutListCnt] = useState(0);
-  const [stockListCnt, setStockListCnt] = useState(0);
 
   const getInData = () => {
     return axios.get(`http://localhost:8000/in/${comSeq}/B`);
@@ -33,29 +30,17 @@ const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
   const getOutData = () => {
     return axios.get(`http://localhost:8000/in/${comSeq}/O`);
   };
-  const getInDataCnt = () => {
-    return axios.get(`http://localhost:8000/in/cnt/${comSeq}/B`);
-  };
-  const getStockDataCnt = () => {
-    return axios.get(`http://localhost:8000/in/cnt/${comSeq}/I`);
-  };
-  const getOutDataCnt = () => {
-    return axios.get(`http://localhost:8000/in/cnt/${comSeq}/O`);
-  };
 
   useEffect(() => {
-    Promise.all([getInData(), getStockData(), getOutData(), getInDataCnt(), getStockDataCnt(), getOutDataCnt()])
-    .then((res) => {
-      setInList(res[0].data);
-      setStockList(res[1].data);
-      setOutList(res[2].data);
-      setInListCnt(res[3].data);
-      setOutListCnt(res[4].data);
-      setStockListCnt(res[5].data);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    Promise.all([getInData(), getStockData(), getOutData()])
+      .then((res) => {
+        setInList(res[0].data);
+        setStockList(res[1].data);
+        setOutList(res[2].data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   const inClick = () => {
@@ -119,33 +104,44 @@ const Dashboard = ({ comSeq, selectWhSeq, setSelectWhSeq }) => {
 
   return (
     <div id="dashboard">
-      <div id="dashboard-header"></div>
+      <div id="dashboard-header">
+        {/* <Stack
+          direction="row"
+          spacing={1}
+          sx={{ position: "relative", marginLeft: "24px" }}
+        >
+          <Avatar
+            alt="Travis Howard"
+            src="/static/images/avatar/2.jpg"
+            sx={{ width: 35, height: 35 }}
+          />
+        </Stack>
+        <MailOutlineIcon sx={{ fontSize: 30, marginLeft: "24px" }} />
+        <NotificationsNoneIcon sx={{ fontSize: 30 }} /> */}
+      </div>
       <div>
         <div id="dashboard-body1">
       
           <div id="dashboard-item1">
-          
-            <div id="current-container">
-              <div id="current">
-                <div id="current-header">
-                  <span>전체 물류현황</span>
-                </div>
-                <div className="current-item">
-                  <span>입고예정</span>
-                  <Link to="/in/create">{inListCnt}개</Link>
-                </div>
-                <div className="current-item">
-                  <span>재고</span>
-                  <Link to="/stock/select">{stockListCnt}개</Link>
-                </div>
-                <div className="current-item">
-                  <span>출고완료</span>
-                  <Link to="/out/controll">{outListCnt}개</Link>
-                </div>
+        
+            <div id="current">
+              <div id="current-header">
+                <span>물류현황</span>
               </div>
-              <BarcodeReader />
+              <div className="current-item">
+                <span>입고예정</span>
+                <Link to="/in/create">28개</Link>
+              </div>
+              <div className="current-item">
+                <span>재고</span>
+                <Link to="/stock/select">367개</Link>
+              </div>
+              <div className="current-item">
+                <span>출고완료</span>
+                <Link to="/out/select">30개</Link>
+              </div>
             </div>
-            <WareList comSeq={ comSeq } />
+            <WareList />
           </div>
           <div id="dashboard-item2">
             <div className="dashboard-item-header">

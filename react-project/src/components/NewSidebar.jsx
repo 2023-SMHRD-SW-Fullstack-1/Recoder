@@ -3,45 +3,68 @@ import {
   SettingOutlined,
   InboxOutlined,
   HomeOutlined,
+  ImportOutlined,
+  ExportOutlined,
   UserOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/layout.css";
-import axios from 'axios';
 
 function getItem(label, key, icon, children, type) {
-  return { key, icon, children, label, type };
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  };
 }
 
 const items = [
   getItem("홈", "sub1", <HomeOutlined />),
-  getItem("재고", "sub2", <AppstoreOutlined />, [
-    getItem("재고조회", "2"),
-    getItem("재고 수량 관리", "3"),
+  getItem("재고", "sub2", <AppstoreOutlined />,[
+  getItem("재고조회", "2"),
+  getItem("재고 수량 관리", "3"),
   ]),
+  // getItem("재고", "sub2", <AppstoreOutlined />, [
+  //   getItem("재고 조회", "2"),
+  //   getItem("재고 관리", "3"),
+  // ]),
   getItem("입고", "sub3", <InboxOutlined />, [
     getItem("입고 예정", "4"),
     getItem("입고 등록", "5"),
+    // getItem("입고 관리", "6"),
   ]),
   getItem("출고", "sub4", <InboxOutlined />, [
     getItem("출고 등록", "7"),
     getItem("출고 이력", "8"),
     getItem("출고품 관리", "9"),
   ]),
-  getItem("창고", "10", <SettingOutlined />, [
-    getItem("관리", "13"),
-    getItem("창고 이동", "14"),
+  getItem("창고", "10", <SettingOutlined />,[
+    getItem("관리","13"),
+    getItem("창고 이동","14")
   ]),
+  // 기존 코드-----
+  // getItem('창고', 'sub5', <SettingOutlined />, [
+  //   getItem('창고관리', '10'),
+  // ]),
+  // --------------
   getItem("MyPage", "11", <UserOutlined />),
   getItem("Logout", "12", <LogoutOutlined />),
+  // 기존 코드------------
+  // getItem('MyPage', 'sub6', <SettingOutlined />, [
+  //   getItem('MyPage', '11'),
+  //   getItem('Logout', '12'),
+  // ])
+  // ---------------------
 ];
 
 // submenu keys of first level
 const rootSubmenuKeys = ["sub1", "sub2", "sub3", "sub4", "sub5", "sub6"];
-const App = ({ comSeq, selectWhSeq, setSelectWgSeq }) => {
+const App = ({selectWhSeq,setSelectWgSeq, wareName}) => {
   const [openKeys, setOpenKeys] = useState(["sub1"]);
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -78,35 +101,19 @@ const App = ({ comSeq, selectWhSeq, setSelectWgSeq }) => {
       nav("/ware/manage");
     } else if (key === "14") {
       nav("/ware/select");
-    } else if (key === "11") {
+    }else if (key === "11") {
       nav("/mypage");
     } else if (key === "12") {
       nav("/logout");
     }
   };
 
-  // 사이드바 상단 유저 닉네임--------------------
-  const [userNick, setUserNick] = useState('');
-  const [comName, setComName] = useState('');
-
-  useEffect(() => {
-    axios.get('http://localhost:8000/user/info')
-    .then((res) => {
-      setUserNick(res.data.userNick[0].user_nick);
-      setComName(res.data.userNick[0].Company?.com_name);
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-  }, [])
-  // -------------------------------------------
-
   return (
     <div id="menu_div">
-      <div id="sidebar-top">{comName} {userNick}님 안녕하세요</div>
-      <div id="sidebar-wh">
-        <span>현재 창고번호 {selectWhSeq}</span>
-      </div>
+      <div id="sidebar-top">스마트 윤영현님 안녕하세요</div>
+      <div id ="sidebar-wh">
+          <span>접속창고 {wareName}</span>
+          </div>
       <Menu
         mode="inline"
         openKeys={openKeys}
@@ -119,6 +126,13 @@ const App = ({ comSeq, selectWhSeq, setSelectWgSeq }) => {
         }}
         items={items}
       ></Menu>
+      {/* <Menu
+        mode="inline"
+        defaultSelectedKeys={['1']}
+        defaultOpenKeys={['sub1']}
+        style={{ height: '100%', borderRight: 0 }}
+        items={items}
+      /> */}
     </div>
   );
 };

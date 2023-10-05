@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import App from "../../three/previewWarehouse";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 const WareCardItem2 = ({
   index,
@@ -9,6 +9,7 @@ const WareCardItem2 = ({
   wh_seq,
   selectWhSeq,
   setSelectWhSeq,
+  wareName,setWareName, 
   racks,
 }) => {
   const [stockName, setStockName] = useState(
@@ -31,6 +32,7 @@ const WareCardItem2 = ({
   const selectWh = () => {
     console.log("창고선택클릭", wh_seq);
     setSelectWhSeq(wh_seq);
+    setWareName(wh_name)
     nav("/main");
   };
 

@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/warehouse.css";
 import axios from "axios";
 import WareCardItem2 from "./Warehouse/WareCardItem2";
-import { Link } from "react-router-dom";
+import AddIcon from '@mui/icons-material/Add';
 
-const WareManageSelect = ({ comSeq, selectWhSeq, setSelectWhSeq,wareName,setWareName}) => {
+const WareManageSelect = ({ comSeq ,selectWhSeq,setSelectWhSeq}) => {
+  const nav = useNavigate();
   const [warehouseList, setWarehouseList] = useState([]);
+  const [testlist, setTestlist] = useState([]);
 
   useEffect(() => {
     axios
       .get(`http://localhost:8000/ware/manage/${comSeq}`)
       .then((res) => {
+        console.log(res.data);
         setWarehouseList(res.data);
       })
       .catch((error) => {
@@ -23,27 +27,23 @@ const WareManageSelect = ({ comSeq, selectWhSeq, setSelectWhSeq,wareName,setWare
       <div id="ware-header">
         <span>창고 선택</span>
       </div>
+      <div id="ware-create-button">
+        <Link to={'/ware/create'}>
+          <AddIcon />
+          <button>창고 생성</button>
+        </Link>
+      </div>
       <div id="ware-item-box">
-        {warehouseList.length > 0 ? (
-          warehouseList.map((item, index) => (
-            <WareCardItem2
-              selectWhSeq={selectWhSeq}
-              setSelectWhSeq={setSelectWhSeq}
-              wareName={wareName}setWareName={setWareName}
-              key={index}
-              wh_name={item.wh_name}
-              wh_seq={item.wh_seq}
-              index={index}
-              racks={item.Racks}
-            ></WareCardItem2>
-          ))
-        ) : (
-          <div>
-            창고가 없습니다 <br />
-            <Link to={"/main"}>메인으로 이동</Link> <br />
-            { !comSeq && <div>기업을 아직 등록하지 않으셨습니다.<br /><Link to={"/mypage"}>기업 등록하기</Link></div> }
-          </div>
-        )}
+        {warehouseList.length > 0
+          ? warehouseList.map((item, index) => (
+              <WareCardItem2 selectWhSeq={selectWhSeq} setSelectWhSeq={setSelectWhSeq}
+                key={index}
+                wh_name={item.wh_name}
+                wh_seq={item.wh_seq}
+                index={index}
+              ></WareCardItem2>
+            ))
+          : "창고가 없습니다"}
       </div>
     </div>
   );
