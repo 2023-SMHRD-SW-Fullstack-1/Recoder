@@ -71,43 +71,43 @@ const Warehouse = () => {
 					}
 				})
 
-	// console.log("stock 가져오니라", stocks);
+				// console.log("stock 가져오니라", stocks);
 
-        setWarehouseData({
-          warehouseWidth: parseInt(warehouseRes.data.wh_width),
-          warehouseLength: parseInt(warehouseRes.data.wh_length),
-          racks,
-          stocks
-        });
+				setWarehouseData({
+					warehouseWidth: parseInt(warehouseRes.data.wh_width),
+					warehouseLength: parseInt(warehouseRes.data.wh_length),
+					racks,
+					stocks
+				});
 
-        console.log("stock 가져오니라", stocks);
-        
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [wh_seq]);
+				console.log("stock 가져오니라", stocks);
 
-  // useEffect -> warehouseData
-  useEffect(() => {
-    console.log("지금!");
-    if (Object.keys(warehouseData).length >= 1) {
-      console.log("지금!222222222");
-      console.log(warehouseData);
-      console.log(Object.keys(warehouseData));
-      console.log(`warehouseData ${JSON.stringify(warehouseData)}`)
-      
-      appInstance.current = new App(
-        warehouseData.warehouseWidth,
-        warehouseData.warehouseLength,
-        warehouseData.racks,
-        warehouseData.stocks
-      );
-    }
-    else {
-      console.log("error");
-    }
-  }, [warehouseData]);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, [wh_seq]);
+
+	// useEffect -> warehouseData
+	useEffect(() => {
+		console.log("지금!");
+		if (Object.keys(warehouseData).length >= 1) {
+			console.log("지금!222222222");
+			console.log(warehouseData);
+			console.log(Object.keys(warehouseData));
+			console.log(`warehouseData ${JSON.stringify(warehouseData)}`)
+
+			appInstance.current = new App(
+				warehouseData.warehouseWidth,
+				warehouseData.warehouseLength,
+				warehouseData.racks,
+				warehouseData.stocks
+			);
+		}
+		else {
+			console.log("error");
+		}
+	}, [warehouseData]);
 
 	function addLoading() {
 		setCanAddItem((prevState) => {
@@ -152,20 +152,20 @@ const Warehouse = () => {
 		<div className="warehouse1">
 			<div id="waredetail-container" />
 
-      <div className="button-container">
-        <button type="button" onClick={addLoading}>
-          {canAddItem ? "짐 추가중" : "짐 추가하기"}
-        </button>
-        <button type="button"> 선반 추가 </button>
-        <button type="button" onClick={moveLoading}>
-          {canMoveItem ? "짐 이동중" : "짐 이동하기"}
-        </button>
-      </div>
+			<div className="button-container">
+				<button type="button" onClick={addLoading}>
+					{canAddItem ? "짐 추가중" : "짐 추가하기"}
+				</button>
+				{/* <button type="button"> 선반 추가 </button> */}
+				<button type="button" onClick={moveLoading}>
+					{canMoveItem ? "짐 이동중" : "짐 이동하기"}
+				</button>
+			</div>
 
-      <div className="modal-top">
+			<div className="modal-top">
 
-      </div>
-    </div>
-  );
+			</div>
+		</div>
+	);
 };
 export default Warehouse;

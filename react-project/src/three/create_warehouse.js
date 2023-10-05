@@ -431,7 +431,10 @@ export default class App {
 			// let rackGroup = createRack(this.rectangleWidth, this.rectangleHeight, this.rackFloor, rackPos)
 			console.log(`랙탱글 크기 ${rackWidth}, ${rackLength}`)
 			let rackGroup = createRack(rackWidth, rackLength, rackFloor, rackPos)
-
+			rackGroup.name = localStorage.getItem("rack_name") == undefined || localStorage.getItem("rack_name") == null ? "" : localStorage.getItem("rack_name");
+			rackGroup.userData.rackWidth = rackWidth;
+			rackGroup.userData.rackLength = rackLength;
+			rackGroup.userData.rackFloor = rackFloor;
 
 			let mesh = new THREE.Box3().setFromObject(rackGroup)
 
@@ -466,7 +469,6 @@ export default class App {
 			// 	rackpos: rackPos,
 			// });
 			this.meshes.push(rackGroup);
-			rackGroup.name = ""
 			this._scene.add(rackGroup);
 			// console.log(rackGroup.position)
 			// console.log("addShelf", this.meshes)

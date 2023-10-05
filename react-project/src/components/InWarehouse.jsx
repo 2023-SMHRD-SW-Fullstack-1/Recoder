@@ -160,7 +160,6 @@ const Warehouse = () => {
   return (
     <div className="warehouse1">
       <div id="waredetail-container" />
-
       <div className="button-container">
         <button type="button" onClick={addLoading}>
           {canAddItem ? "짐 추가중" : "짐 추가하기"}

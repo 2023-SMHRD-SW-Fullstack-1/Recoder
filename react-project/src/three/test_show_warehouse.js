@@ -213,8 +213,6 @@ export default class App {
 	/** 선반 추가 */
 	addShelf(rack) {
 		// 선반 만들기
-		// console.log(this.rackX);
-		// console.log(this.rackZ);
 	
 		let rackPos = {
 			// x: this.rackX.position.x,
