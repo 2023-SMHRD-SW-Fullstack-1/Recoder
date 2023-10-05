@@ -226,7 +226,7 @@ const Warehouse = () => {
           <strong>입고할 상품 정보</strong> <br />
           <span>상품 ID | {stock_seq}</span> <br />
           <span>상품명 | {stockName}</span> <br />
-          <button style={{width:100,backgroundColor:"white"}} className='stock_btn' onClick={inPositionClick}>위치 선택 완료</button>
+          <button style={{width:100,backgroundColor:"white"}} className='stock_btn' onClick={inPositionClick}>입고</button>
         </div>
       </div>
     </div>

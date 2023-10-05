@@ -4,9 +4,37 @@ import { useParams } from "react-router-dom";
 import App from "../three/test_show_warehouse";
 import axios from "axios";
 import "../css/wareDetail.css";
+import io from 'socket.io-client'
 
 const Warehouse = () => {
 	let { wh_seq } = useParams();
+
+	const inSocket = io.connect('http://localhost:8000/in', {
+    path: '/socket.io'
+  });
+  inSocket.on('updateIn', (data) => {
+    if (data === '입고완료') {
+      if (updateIn) {
+        setUpdateIn(false)
+      } else {
+        setUpdateIn(true)
+      }
+    }
+  });
+  const outSocket = io.connect('http://localhost:8000/out', {
+    path: '/socket.io'
+  });
+  outSocket.on('updateOut', (data) => {
+    if (data === '출고완료') {
+      if (updateOut) {
+        setUpdateOut(false)
+      } else {
+        setUpdateOut(true)
+      }
+    }
+  });
+	const [updateIn, setUpdateIn] = useState(true)
+  const [updateOut, setUpdateOut] = useState(true)
 	//console.log("wh_seq 값", wh_seq);
 
 	// const [warehouseInfo, setWarehouseInfo] = useState(null);
@@ -69,7 +97,7 @@ const Warehouse = () => {
 				console.log("true/false", Array.isArray(stockRes.data[0].Racks[0].Loadings));
 
 
-        const stocks = stockRes.data[0].Racks[0].Loadings.map(stock => {
+        const stocks = stockRes.data[0].Racks[19].Loadings.map(stock => {
           // const [pos1, pos2] = stock.loading_position.split(',').map(Number);
           const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
           const stockName = stock.Stock.stock_name
@@ -100,7 +128,7 @@ const Warehouse = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [wh_seq]);
+	}, [wh_seq, updateIn, updateOut]);
 
 	// useEffect -> warehouseData
 	useEffect(() => {
