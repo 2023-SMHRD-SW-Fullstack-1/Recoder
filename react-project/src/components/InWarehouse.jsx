@@ -216,18 +216,18 @@ const Warehouse = () => {
       <div id="waredetail-container" />
 
       <div className="button-container">
-        <button type="button" onClick={addLoading}>
-          {canAddItem ? "짐 추가중" : "짐 추가하기"}
+        <button className='stock_btn'type="button" onClick={addLoading}>
+          {canAddItem ? "짐 추가중" : "짐 추가"}
         </button>
-        <button type="button"> 선반 추가 </button>
-        <button type="button" onClick={moveLoading}>
-          {canMoveItem ? "짐 이동중" : "짐 이동하기"}
+        <button className='stock_btn' type="button"> 선반 추가 </button>
+        <button className='stock_btn' type="button" onClick={moveLoading}>
+          {canMoveItem ? "짐 이동중" : "짐 이동"}
         </button>
         <div id="info">
           <strong>입고할 상품 정보</strong> <br />
           <span>상품 ID | {stock_seq}</span> <br />
           <span>상품명 | {stockName}</span> <br />
-          <button onClick={inPositionClick}>위치 선택 완료</button>
+          <button style={{width:100,backgroundColor:"white"}} className='stock_btn' onClick={inPositionClick}>위치 선택 완료</button>
         </div>
       </div>
     </div>

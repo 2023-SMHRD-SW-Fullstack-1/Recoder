@@ -10,22 +10,26 @@
 
 	& .button-container {
 		position: absolute;
-		background-color: pink;
+		/* background-color: pink; */
 		top: 10px;
 		left: 10px;
 	}
 }
 #info {
-	background-color: aliceblue;
+	background-color: rgb(255, 255, 255);
 	position: absolute;
 	top: 30px;
-	width: 240px;
-	height: 150px;
+	width: 250px;
+	height: 140px;
 	border: 1px solid;
+	border-color: rgb(139, 139, 139);
 	border-radius: 4px;
 	margin-top: 12px;
 	padding: 12px;
+	
 }
+
+
 
 .modal-top {
 	position: fixed;
@@ -38,6 +42,30 @@
 }
 
 
+.stock_btn{
+	margin: 5px;
+	color: black;
+	width: 80px;
+	font-size: 15px;
+	height: 30px;
+	border-radius: 6;
+	cursor: pointer;
+    margin-left: auto;
+    /* background-color: #b791fd; */
+    border-style:solid;
+    border-radius: 10px;
+    border-color: rgb(139, 139, 139);
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    /* z-index: 1; */
+}
 
 
-
+.stock_btn:hover {
+	background-color: rgba(0, 0, 0, 0.04);
+    box-shadow:
+      -7px -7px 10px 0px #fff9,
+      -4px -4px 5px 0px #fff9,
+      7px 7px 10px 0px #0002,
+      4px 4px 5px 0px #0001;
+  }
