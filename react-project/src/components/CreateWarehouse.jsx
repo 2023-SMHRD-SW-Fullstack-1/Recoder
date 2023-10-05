@@ -278,56 +278,51 @@ const CreateWarehouse = ({ comSeq, newWareData }) => {
 
 	return (
 		<div className="create-warehouse-container">
-			{/* <button>선반 생성</button> */}
-			<div className={"btn-wrapper"}>
-				<span>
-					<input type="text" placeholder="선반의 이름"  value={rackName} onChange={(e) => {setRackName(e.target.value)}}/>
-					<input type="number" placeholder="선반의 가로 길이"  value={rackWidth} onChange={(e) => {
-							if(e.target.value <= 0) {
-								e.target.value = 1
-							}
-							setRackWidth(e.target.value)}}/>
-					<input type="number" placeholder="선반의 세로 길이" value={rackLength} onChange={(e) => {
-						if(e.target.value <= 0) {
-							e.target.value = 1
-						}
-						setRackWidth(e.target.value)
-					}} />
-					<input style={{ margin: 5 }} type="number" placeholder="선반의 세로 길이" value={rackLength} onChange={(e) => {
-						if (e.target.value <= 0) {
-							e.target.value = 1
-						}
-						setRackLength(e.target.value)
-					}} />
-					<input style={{ margin: 5 }} type="number" placeholder="선반의 층수" value={rackFloor} onChange={(e) => {
-						if (e.target.value <= 0) {
-							e.target.value = 1
-						}
-						setRackFloor(e.target.value)
-					}} />
-					<button
-						style={{
-
-							color: "black",
-							margin: 5,
-							backgroundColor: "white",
-							width: 80,
-							fontSize: 15,
-							height: 30,
-
-							borderRadius: 6,
-			
-						}}
-						className={"modal-open-btn"} onClick={sizeRack}>
-						선반 크기
-					</button>
-					<button type="text" onClick={get배열}>배열 확인</button>
-					<button type="button" className={"modal-open-btn"} onClick={completeRack}>창고 생성</button>
-				</span>
-
-				{/* <button onClick={createLoading}> loading 추가 {canAddLoading?"O":"X"} </button>
-				<button onClick={get배열}>배열 확인</button> */}
-			</div>
+		   {/* <button>선반 생성</button> */}
+		   <div className={"btn-wrapper"}>
+			  <span>
+				 <input type="text" style={{margin:5}} placeholder="선반의 이름"  value={rackName} onChange={(e) => {setRackName(e.target.value)}}/>
+				 <input type="number" placeholder="선반의 가로 길이"  value={rackWidth} onChange={(e) => {
+					   if(e.target.value <= 0) {
+						  e.target.value = 1
+					   }
+					   
+					   setRackWidth(e.target.value)}}/>
+				 <input style={{margin:5}} type="number" placeholder="선반의 세로 길이" value={rackLength} onChange={(e) => {
+					if(e.target.value <= 0) {
+					   e.target.value = 1
+					}
+					setRackLength(e.target.value)
+				 }} />
+				 <input  type="number" placeholder="선반의 층수" value={rackFloor} onChange={(e) => {
+					if (e.target.value <= 0) {
+					   e.target.value = 1
+					}
+					setRackFloor(e.target.value)
+				 }} />
+				 <button
+					style={{
+  
+					   color: "black",
+					   margin: 5,
+					   backgroundColor: "white",
+					   width: 80,
+					   fontSize: 15,
+					   height: 30,
+  
+					   borderRadius: 6,
+		   
+					}}
+					className={"modal-open-btn"} onClick={sizeRack}>
+					선반 크기
+				 </button>
+				 {/* <button type="text" onClick={get배열}>배열 확인</button> */}
+				 <button type="button" className={"modal-open-btn"} onClick={completeRack}>창고 생성</button>
+			  </span>
+  
+			  {/* <button onClick={createLoading}> loading 추가 {canAddLoading?"O":"X"} </button>
+			  <button onClick={get배열}>배열 확인</button> */}
+		   </div>
 
 			<div id="webgl-container" >
 			</div> {/* id="webgl-container" */}

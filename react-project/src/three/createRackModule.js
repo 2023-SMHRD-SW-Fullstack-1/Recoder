@@ -22,7 +22,7 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 	// MeshBasicMaterial을 MeshPhysicalMaterial로 바꿔볼거에ㅐ용
 	const material = new THREE.MeshPhysicalMaterial({
 		// color:0xf1c2ff
-		color: "#3333ff",
+		color: "#2E2E2E",
 		emissive: 0x000000,
 		roughness: 0.5,
 		metalness: 0,
@@ -33,7 +33,7 @@ export default function createRack(sizeX, sizeZ, rackFloor, rackPos) {
 	})
 
 	const board_material = new THREE.MeshPhysicalMaterial({
-		color: "#ff4400",
+		color: "#BDBDBD",
 		emissive: 0x000000,
 		roughness: 0.5,
 		metalness: 0,

@@ -29,7 +29,7 @@ const App = () => {
   const [uid, setUid] = useState('')
   const [comSeq, setComSeq] = useState(0);
   const [newWareData, setNewWareData] = useState({})
-  const [wareName,setWareName] = useState([])
+  const [wareName,setWareName] = useState(['광주_광산구_01A'])
 
   const [selectWhSeq,setSelectWhSeq] = useState([])
   //혜주 추가 - 바코드 값 관리

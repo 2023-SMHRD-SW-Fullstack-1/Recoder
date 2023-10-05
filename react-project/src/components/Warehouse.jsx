@@ -69,7 +69,7 @@ const Warehouse = () => {
 				console.log("true/false", Array.isArray(stockRes.data[0].Racks[0].Loadings));
 
 
-        const stocks = stockRes.data[0].Racks[0].Loadings.map(stock => {
+        const stocks = stockRes.data[0].Racks[27].Loadings.map(stock => {
           // const [pos1, pos2] = stock.loading_position.split(',').map(Number);
           const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
           const stockName = stock.Stock.stock_name

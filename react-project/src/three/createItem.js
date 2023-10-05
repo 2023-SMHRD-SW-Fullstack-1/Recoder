@@ -22,7 +22,7 @@ export default function createItem(sizeX, sizeZ, itemFloor, itemPos, itemName, s
 
    //MeshBasicMaterial을 MeshPhysicalMaterial로 바꿨읍니다
    const material = new THREE.MeshPhysicalMaterial({
-    color: '#996633',
+    color: '#886A08',
     emissive: 0x000000,
     roughness: 0.7,
     metalness: 0.7,

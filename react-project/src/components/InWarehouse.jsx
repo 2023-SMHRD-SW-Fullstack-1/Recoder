@@ -93,7 +93,7 @@ const Warehouse = () => {
 
         console.log("스톡 응답", stockRes);
 
-        const stocks = stockRes.data[0].Racks[19].Loadings.map((stock) => {
+        const stocks = stockRes.data[0].Racks[27].Loadings.map((stock) => {
           const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
           return {
             loadingFloor: stock.loading_floor,
