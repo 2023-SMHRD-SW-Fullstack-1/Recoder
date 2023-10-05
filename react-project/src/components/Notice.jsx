@@ -125,7 +125,7 @@ function Notice({ selectWhSeq, setSelectWhSeq }) {
                 {matchingItem.notice_content} (부족)
               </span>
             );
-          } else {
+          } else if(noticeContent <= currentStock) {
             return (
               <span style={{ color: "darkgreen" }}>
                 {matchingItem.notice_content} (적정)
