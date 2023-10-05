@@ -27,7 +27,7 @@ const WareCreate = ({ comSeq, setNewWareData }) => {
 		localStorage.setItem("ware_length",length)
 		nav('/ware/createwarehouse')
 		
-		// const warehouse_info = { name: name, width: width, length: length , comSeq: comSeq};
+		// const warehouse_info = { name: name, width: width, length: length, comSeq: comSeq};
 		// let url = "http://localhost:8000/ware";
 		// axios.post(url, warehouse_info)
 		// .then((res) => {

@@ -135,7 +135,7 @@ const Join = () => {
                             <span className="duplicate-message">{duplicateMessage}</span>
 
                             <div className='input_box'>
-                                <input type='text' name='user_nick' value={formData.user_nick} onChange={onChange} required />
+                                <input type='text' name='user_nick' value={formData.user_nick} onChange={onChange} className='nick' required />
                                 <label htmlFor=''>Nick Name</label>
                             </div>
 
@@ -170,11 +170,6 @@ const Join = () => {
                             </div>
                         </form>
                     </div>
-                    {/* <div className='popup' id='popup'>
-                        <h2>Thank you!</h2>
-                        <p>회원가입이 완료되었습니다</p>
-                        <button>확인</button>
-                    </div> */}
                 </div>
             </body>
         </div>

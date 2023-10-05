@@ -14,9 +14,9 @@ const Warehouse = () => {
 
 
 	// 변수
-  const [selectedName, setSelectedName] = useState('')
-  const [selectedPrice, setSelectedPrice] = useState('')
-  const [selectedIndate, setSelectedIndate] = useState('')
+  // const [selectedName, setSelectedName] = useState('')
+  // const [selectedPrice, setSelectedPrice] = useState('')
+  // const [selectedIndate, setSelectedIndate] = useState('')
 	const [warehouseWidth, setWarehouseWidth] = useState(null);
 	const [warehouseLength, setWarehouseLength] = useState(null);
 	const [rackWidth, setRackWidth] = useState(null);
@@ -26,6 +26,10 @@ const Warehouse = () => {
 	const [rackZ, setRackZ] = useState(null);
 
 	const [warehouseData, setWarehouseData] = useState({});
+  const [selectedName, setSelectedName] = useState(""); // 이름
+  const [selectedPrice, setSelectedPrice] = useState(0); // 가격
+  const [selectedIndate, setSelectedIndate] = useState(0); // 입고일
+
 
 	const [canAddItem, setCanAddItem] = useState(false); // 짐 추가 가능 여부
 	const [canAddRack, setCanAddRack] = useState(false); // 선반 추가 가능 여부
@@ -158,13 +162,13 @@ const Warehouse = () => {
 		});
 	}
 
-	return (
-		<div className="warehouse1">
-			<div id="waredetail-container" onClick={() => {
-				setSelectedName(localStorage.getItem("selectedMesh_name") == undefined ? "" : localStorage.getItem("selectedMesh_name"))
-				setSelectedPrice(localStorage.getItem("selectedMesh_price") == undefined ? "-" : localStorage.getItem("selectedMesh_price"))
-				setSelectedIndate(localStorage.getItem("selectedMesh_indate") == undefined ? "-" : localStorage.getItem("selectedMesh_indate"))
-			}} />
+  return (
+    <div className="warehouse1">
+      <div id="waredetail-container" onClick={() => {
+        setSelectedName(localStorage.getItem("selectedMesh_name") == undefined ? "" : localStorage.getItem("selectedMesh_name"))
+        setSelectedPrice(localStorage.getItem("selectedMesh_price") == undefined ? "-" : localStorage.getItem("selectedMesh_price"))
+        setSelectedIndate(localStorage.getItem("selectedMesh_indate") == undefined ? "-" : localStorage.getItem("selectedMesh_indate"))
+      }} />
 
       <div className="button-container">
         <button className='stock2'type="button" onClick={addLoading}>
@@ -179,8 +183,8 @@ const Warehouse = () => {
       <div className="modal-top">
         <p>제품명 : {selectedName}</p>
         <p>가격 : {selectedPrice}</p>
-        <p>입고일 : {selectedIndate}</p>        
-        
+        <p>입고일 : {selectedIndate}</p>
+
       </div>
 
 		</div>
