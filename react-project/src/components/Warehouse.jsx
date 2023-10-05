@@ -69,21 +69,39 @@ const Warehouse = () => {
 				console.log("true/false", Array.isArray(stockRes.data[0].Racks[0].Loadings));
 
 
-        const stocks = stockRes.data[0].Racks[27].Loadings.map(stock => {
-          // const [pos1, pos2] = stock.loading_position.split(',').map(Number);
-          const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
-          const stockName = stock.Stock.stock_name
-          const stockPrice = stock.Stock.stock_price
-          const stockIndate = stock.created_at
-          return {
-            loadingFloor: stock.loading_floor,
-            loadingPosition1: pos1,
-            loadingPosition2: pos2,
-            stockName: stockName,
-            stockPrice: stockPrice,
-            stockIndate: stockIndate
-          }
-        })
+        // const stocks = stockRes.data[0].Racks[27].Loadings.map(stock => {
+        //   // const [pos1, pos2] = stock.loading_position.split(',').map(Number);
+        //   const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
+        //   const stockName = stock.Stock.stock_name
+        //   const stockPrice = stock.Stock.stock_price
+        //   const stockIndate = stock.created_at
+        //   return {
+        //     loadingFloor: stock.loading_floor,
+        //     loadingPosition1: pos1,
+        //     loadingPosition2: pos2,
+        //     stockName: stockName,
+        //     stockPrice: stockPrice,
+        //     stockIndate: stockIndate
+        //   }
+        // })
+
+        // 1006수정
+        const stocks = stockRes.data[0].Racks.flatMap(rack => {
+          return rack.Loadings.map(stock => {
+            const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
+            const stockName = stock.Stock.stock_name;
+            const stockPrice = stock.Stock.stock_price;
+            const stockIndate = stock.created_at;
+            return {
+              loadingFloor: rack.rack_floor-1,
+              loadingPosition1: pos1,
+              loadingPosition2: pos2,
+              stockName: stockName,
+              stockPrice: stockPrice,
+              stockIndate: stockIndate
+            };
+          });
+        });
 
 				// console.log("stock 가져오니라", stocks);
 

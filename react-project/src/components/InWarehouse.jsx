@@ -93,15 +93,34 @@ const Warehouse = () => {
 
         console.log("스톡 응답", stockRes);
 
-        const stocks = stockRes.data[0].Racks[27].Loadings.map((stock) => {
-          const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
-          return {
-            loadingFloor: stock.loading_floor,
-            loadingPosition1: pos1,
-            loadingPosition2: pos2,
-          };
-        });
-        console.log("스톡스", stocks);
+        // const stocks = stockRes.data[0].Racks[27].Loadings.map((stock) => {
+        //   const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
+        //   return {
+        //     loadingFloor: stock.loading_floor,
+        //     loadingPosition1: pos1,
+        //     loadingPosition2: pos2,
+        //   };
+        // });
+        // console.log("스톡스", stocks);
+
+
+  // 1006수정
+  const stocks = stockRes.data[0].Racks.flatMap(rack => {
+    return rack.Loadings.map(stock => {
+      const [pos1, pos2] = stock.loading_position ? stock.loading_position.split(',').map(Number) : [0, 0];
+      // const stockName = stock.Stock.stock_name;
+      // const stockPrice = stock.Stock.stock_price;
+      // const stockIndate = stock.created_at;
+      return {
+        loadingFloor: rack.rack_floor-1,
+        loadingPosition1: pos1,
+        loadingPosition2: pos2,
+        // stockName: stockName,
+        // stockPrice: stockPrice,
+        // stockIndate: stockIndate
+      };
+    });
+  });
 
         setWarehouseData({
           warehouseWidth: parseInt(warehouseRes.data.wh_width),
