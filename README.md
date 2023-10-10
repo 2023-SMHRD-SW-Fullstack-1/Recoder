@@ -156,7 +156,9 @@
 
 
 ### 시연 영상
-https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/526514b6-2f2c-4970-bb0f-84b0a5b3b172
+https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/4d9305b2-f1f8-477c-b859-0a3fc584f062
+
+
 
 
 
