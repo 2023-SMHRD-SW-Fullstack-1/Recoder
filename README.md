@@ -243,7 +243,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/4d9305b2-f
     <td align="center"><a href="https://github.com/jihoon0127" target='_blank'>github</a></td>
     <td align="center"><a href="https://github.com/songhak1226" target='_blank'>github</a></td>
     <td align="center"><a href="https://github.com/songhak1226" target='_blank'>github</a></td>
-    <td align="center"><a href="https://github.com/songhak1226" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/lim-mil" target='_blank'>github</a></td>
     <td align="center"><a href="https://github.com/자신의username작성해주세요" target='_blank'>github</a></td>
   </tr>
 </table>
