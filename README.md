@@ -156,7 +156,9 @@
 
 
 ### 시연 영상
-https://www.dropbox.com/s/g70y5nosr07sf7y/%EC%8B%9C%EC%97%B0%EC%98%81%EC%83%81.mp4?dl=0
+https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/c91b9508-f12b-44d8-a968-ad037587f041
+
+
 <br><br>
 
 ## 👨‍👩‍👦‍👦 팀원 역할
