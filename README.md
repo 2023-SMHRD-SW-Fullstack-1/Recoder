@@ -169,3 +169,68 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/4d9305b2-f
 
 ## 👨‍👩‍👦‍👦 팀원 역할
 ![팀원소개](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/57e418bb-eca9-4ef3-9851-bdb87487e53a)
+## 👨‍👩‍👦‍👦 팀원 역할
+<table>
+ <tr>
+    <td align="center"><strong>이지희(팀장)</strong></td>
+    <td align="center"><strong>신지훈</strong></td>
+    <td align="center"><strong>윤영현</strong></td>
+    <td align="center"><strong>김다운</strong></td>
+  </tr>
+  <tr>
+    <td align="center"><b>기획총괄/Frontend</b></td>
+    <td align="center"><b>기획/Frontend</b></td>
+    <td align="center"><b>DB/Backend</b></td>
+    <td align="center"><b>Frontend/Backend</b></td>
+  </tr>
+  <tr>
+    <td align="center">
+        <b>[프론트엔드]</b><br/>
+        * 커뮤니티, 술창고, 전통주 정보 디자인 및 기능 구현<br/>
+        * 전통주 추천 기능 구현<br/>
+        * 페이징 기능 구현<br/>
+        * 반응형 웹 구현<br/>
+        <br/>
+         <b>[기획 총괄]</b><br/>
+        * 산출문서 총괄<br/>
+        * PPT 제작<br/>
+        * 프로젝트 최종 발표 담당<br/>
+    </td>
+    <td align="center">
+        * 데이터 크롤링<br/>
+        <br/>
+        <b>[프론트엔드]</b><br/>
+        * 로그인 , 회원가입 , 회원정보 수정, 전통주 정보 디자인 및 기능 구현<br/>
+        * 다크모드 구현<br/>
+        * 전통주 추천 기능 구현<br/>
+        * 반응형 웹 구현<br/>
+        <br/>
+        <b>[기획]</b><br/>
+        * 산출문서 작성 <br/>
+        * PPT 제작<br/>
+    </td>
+    <td align="center">
+     <b>[DB]</b><br/>
+        * DB 구축<br/>
+        * DB 데이터 전처리 및 데이터 삽입<br/>
+     <br/>
+     <b>[BackEnd]</b><br/>
+        * 커뮤니티, 술창고 게시판 기술 구현<br/>
+    </td>
+    <td align="center">
+        * 세션, 쿠키를 활용한 로그인, 로그아웃 구현<br/>
+        * 회원가입 구현 <br/>
+        * 술 리스트, 술 상세 정보 페이지 구현 <br/>
+        * 댓글 기능 구현<br/>
+        * API를 활용한 전통주 추천 시스템 구현 <br/>
+        * 커뮤니티 및 아카이브 상세 페이지 구현 참여<br/>
+        * 메인 페이지 디자인 참여<br/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/jihilli" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/jihoon0127" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/songhak1226" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/자신의username작성해주세요" target='_blank'>github</a></td>
+  </tr>
+</table>
