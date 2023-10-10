@@ -127,23 +127,33 @@
 
 ### 창고생성
 
-![image](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/3fb8f91a-6f39-4d16-a380-83b3a716b970)
+![image](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/3170ab20-0509-4aab-9377-fc37b5bdece7)
+
+
+
+<br>
+
+### 선반생성
+![image](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/3945d62a-291b-4591-8131-e69f48a0617c)
 
 
 <br>
 
-### 마이페이지 : 작성한 게시물 조회
-![마이페이지](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/af9ee7b8-c547-4518-8ef0-d0fa06ae7ca2)
+### 적재
+![제목_없는_디자인](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/20e47e01-bd26-4aa4-8f23-35e4056a503f)
 
 <br>
 
-### 관리자 페이지 : 전체 회원 및 게시물 관리
-![image](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/1f1f81ac-0c70-47d4-a311-1e7ef7bd24ed)
+### 재고 수량 관리
+![image](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/762912a4-179e-44b0-8337-9bd0ad42d1ce)
+
 
 <br>
 
-### 게시물 업로드 : 사진 업로드 및 제품 태그 좌표 설정 
-![image](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/53d81c2f-e971-4dbf-8de6-9871210a3b34)
+### 출고 통계
+![image](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/7ef03852-03c2-4797-86bf-7841c82b3b9c)
+
+
 
 ### 시연 영상
 https://www.dropbox.com/s/g70y5nosr07sf7y/%EC%8B%9C%EC%97%B0%EC%98%81%EC%83%81.mp4?dl=0
