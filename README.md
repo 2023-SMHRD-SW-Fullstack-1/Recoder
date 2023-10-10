@@ -101,7 +101,7 @@
 ![사용언어](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/016786e8-1145-4e72-a44d-8046c3cd50a7)
 <br><br>
 
-## ⚙ 시스템 아키텍처(구조) 예시 
+## ⚙ 시스템 아키텍처
 ![image](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/93cc57d2-5d92-40b6-8324-c3f2647f1b16)
 
 
@@ -113,7 +113,8 @@
 <br>
 
 ## 📌 ER다이어그램
-![image](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/a65d44e0-d7d0-48f8-88c9-f9419c90f941)
+![image](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/2438f481-d756-4c58-a95e-4c3ee367c74e)
+
 
 <br>
 
@@ -150,14 +151,3 @@ https://www.dropbox.com/s/g70y5nosr07sf7y/%EC%8B%9C%EC%97%B0%EC%98%81%EC%83%81.m
 
 ## 👨‍👩‍👦‍👦 팀원 역할
 ![팀원소개](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/57e418bb-eca9-4ef3-9851-bdb87487e53a)
-
-## 💥 트러블슈팅
-  
-* <h4>문제1 : SNS 로그인 (KAKAO API) </h4>
-
-![image](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/e74a2dd7-a4c6-44d7-9b86-0c7f05c2db60)
-
- 
-* <h4>문제2 : 댓글 수정 오류 </h4>
-
-![image](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/46b0fc24-52c2-40b0-b5a3-e7666d94600a)
