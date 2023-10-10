@@ -98,7 +98,6 @@
     </tr>
 </table>
 
-![사용언어](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/016786e8-1145-4e72-a44d-8046c3cd50a7)
 <br><br>
 
 ## ⚙ 시스템 아키텍처
@@ -123,12 +122,13 @@
 ### 메인화면
 <br>
 
-![image](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/89340712-81f5-4770-bd28-0f656a4e4d06)
+![image](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/3ce99f4c-ab2d-40c3-8a56-74db5f8c3542)
 
-### 로그인 / 회원가입 / 회원정보수정 / 회원탈퇴
 
-![image](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/bdf6d239-1675-46aa-b540-d4ecfa6d10d5)
-![image](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/bac88175-20aa-4713-a3f9-38033f2237e1)
+### 창고생성
+
+![image](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/3fb8f91a-6f39-4d16-a380-83b3a716b970)
+
 
 <br>
 
