@@ -228,7 +228,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/4d9305b2-f
         * 메인 페이지 디자인 참여<br/>
     </td>
     <td align="center">
-       <b>[프론트엔드 / 백엔드]</b><br/>
+       <b>[프론트엔드/백엔드]</b><br/>
         * 입고<br/>
         * 출고<br/>
         * 재고 수량 관리<br/>
