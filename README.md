@@ -108,12 +108,12 @@
 <br>
 
 ## 📌 서비스 흐름도
-![수정유스케이스 drawio (3)](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/b0c46314-1076-4f20-943b-65c01ce3393a)
+![image](https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/b0c46314-1076-4f20-943b-65c01ce3393a)
 
 <br>
 
 ## 📌 ER다이어그램
-![ERD](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/a65d44e0-d7d0-48f8-88c9-f9419c90f941)
+![image](https://github.com/2023-SMHRD-SW-Fullstack-1/hacksim_camping/assets/128361686/a65d44e0-d7d0-48f8-88c9-f9419c90f941)
 
 <br>
 
