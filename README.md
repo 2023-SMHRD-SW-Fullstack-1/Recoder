@@ -173,7 +173,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/4d9305b2-f
    <td align="center"><strong>임혜주</strong></td>
   </tr>
   <tr>
-    <td align="center"><b>기획총괄/Frontend</b></td>
+    <td align="center"><b>기획 총괄/백엔드</b></td>
     <td align="center"><b>기획/Frontend</b></td>
     <td align="center"><b>DB/Backend</b></td>
     <td align="center"><b>Frontend/Backend</b></td>
@@ -181,15 +181,12 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/4d9305b2-f
   </tr>
   <tr>
     <td align="center">
-        <b>[프론트엔드]</b><br/>
-        * 커뮤니티, 술창고, 전통주 정보 디자인 및 기능 구현<br/>
-        * 전통주 추천 기능 구현<br/>
-        * 페이징 기능 구현<br/>
+        <b>[백엔드]</b><br/>
+        * Express 활용해서 서버 구축, 라우터, 미들웨어, 컨트롤러 구조로 코드를 분리<br/>
+        * Passport 라이브러리로 로그인, 회원가입 구현, Bcrypt로 패스워드 단방향 암호화<br/>
+        * Sequelize로 데이터베이스 모델링, 관계 설정, 쿼리 수행 함수 설계 담당<br/>
         * 반응형 웹 구현<br/>
         <br/>
-         <b>[기획 총괄]</b><br/>
-        * 산출문서 총괄<br/>
-        * PPT 제작<br/>
         * 프로젝트 최종 발표 담당<br/>
     </td>
     <td align="center">
