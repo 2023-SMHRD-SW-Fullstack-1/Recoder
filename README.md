@@ -185,10 +185,10 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/4d9305b2-f
         * Express 활용해서 서버 구축, 라우터, 미들웨어, 컨트롤러 구조로 코드를 분리<br/>
         * Passport 라이브러리로 로그인, 회원가입 구현, Bcrypt로 패스워드 단방향 암호화<br/>
         * Sequelize로 데이터베이스 모델링, 관계 설정, 쿼리 수행 함수 설계 담당<br/>
-        * Socket.io로 실시간 양방향 통신 구현, 입, 출고시 실시간 데이터 변화 감지<br/>
+        * Socket.io로 양방향 통신 구현, 입, 출고시 데이터 변경사항 프론트에 실시간 반영<br/>
         <br/>
         <b>[Frontend]</b><br/>
-        * 대시보드, 재고 페이지 담당
+        * 대시보드, 재고 페이지<br/>
         <br/>
         * 프로젝트 최종 발표 담당<br/>
     </td>
@@ -234,7 +234,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/4d9305b2-f
     </td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/" target='_blank'>github</a></td>
+    <td align="center"><a href="https://github.com/shinyoungkim30" target='_blank'>github</a></td>
     <td align="center"><a href="https://github.com/" target='_blank'>github</a></td>
     <td align="center"><a href="" target='_blank'>github</a></td>
     <td align="center"><a href="https://github.com/songhak1226" target='_blank'>github</a></td>
