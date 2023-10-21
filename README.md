@@ -193,17 +193,7 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/4d9305b2-f
         * 프로젝트 최종 발표 담당<br/>
     </td>
     <td align="center">
-        * 데이터 크롤링<br/>
-        <br/>
-        <b>[프론트엔드]</b><br/>
-        * 로그인 , 회원가입 , 회원정보 수정, 전통주 정보 디자인 및 기능 구현<br/>
-        * 다크모드 구현<br/>
-        * 전통주 추천 기능 구현<br/>
-        * 반응형 웹 구현<br/>
-        <br/>
-        <b>[기획]</b><br/>
-        * 산출문서 작성 <br/>
-        * PPT 제작<br/>
+        * 각자 본인 역할 기재
     </td>
     <td align="center">
      <b>[DB]</b><br/>
