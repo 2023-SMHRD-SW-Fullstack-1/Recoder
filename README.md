@@ -193,24 +193,13 @@ https://github.com/2023-SMHRD-SW-Fullstack-1/Recoder/assets/130376882/4d9305b2-f
         * 프로젝트 최종 발표 담당<br/>
     </td>
     <td align="center">
-        * 각자 본인 역할 기재
+        * 각자 본인 역할 작성
     </td>
     <td align="center">
-     <b>[DB]</b><br/>
-        * DB 구축<br/>
-        * DB 데이터 전처리 및 데이터 삽입<br/>
-     <br/>
-     <b>[BackEnd]</b><br/>
-        * 커뮤니티, 술창고 게시판 기술 구현<br/>
+     * 각자 본인 역할 작성
     </td>
     <td align="center">
-        * 세션, 쿠키를 활용한 로그인, 로그아웃 구현<br/>
-        * 회원가입 구현 <br/>
-        * 술 리스트, 술 상세 정보 페이지 구현 <br/>
-        * 댓글 기능 구현<br/>
-        * API를 활용한 전통주 추천 시스템 구현 <br/>
-        * 커뮤니티 및 아카이브 상세 페이지 구현 참여<br/>
-        * 메인 페이지 디자인 참여<br/>
+        * 각자 본인 역할 작성
     </td>
     <td align="center">
        <b>[프론트엔드/백엔드]</b><br/>
